@@ -1,0 +1,430 @@
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  Grid,
+  TextField,
+  Autocomplete,
+  InputAdornment,
+  IconButton,
+} from "@mui/material";
+import InputBase from "@mui/material/InputBase";
+import { styled, useTheme, alpha } from "@mui/system";
+import SearchIcon from "@mui/icons-material/Search";
+import { useForm, Controller } from "react-hook-form";
+import FormDate from "../../../../components/FormDate/FormDate";
+import PeopleCounter from "../../../../components/PeopleCounter/PeopleCounter";
+import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
+
+const cities = [
+  { id: 1, name: "تهران" },
+  { id: 2, name: "مشهد" },
+  { id: 3, name: "اصفهان" },
+];
+
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
+  cursor: "pointer",
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: theme.palette.common.white, // Set to white
+  "&:hover": {
+    backgroundColor: alpha(theme.palette.common.white, 0.85), // Slight darkening on hover
+  },
+  marginLeft: 0,
+  width: "100%",
+  [theme.breakpoints.up("sm")]: {
+    marginLeft: theme.spacing(1),
+    width: "auto",
+  },
+}));
+
+const SearchIconWrapper = styled("div")(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: "100%",
+  position: "absolute",
+  left: 0, // Move the icon to the right
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  cursor: "pointer", // Ensures the cursor changes to a pointer
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: "inherit",
+  width: "100%",
+  border: "1px solid", // Adds a solid border
+  borderColor: "#ffff", // Corrected the color value
+  borderRadius: 5,
+  paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+  "& .MuiInputBase-input": {
+    padding: theme.spacing(1, 1, 1, 0),
+    paddingRight: theme.spacing(2), // Adjust right padding
+    transition: theme.transitions.create("width"),
+    [theme.breakpoints.up("sm")]: {
+      width: "24ch",
+      "&:focus": {
+        width: "30ch",
+      },
+    },
+  },
+  cursor: "pointer", // Ensures the cursor changes to a pointer
+}));
+
+const MainSearchForm = () => {
+  const [calendarAnchor, setCalendarAnchor] = useState(null); // Track calendar visibility
+  const [currentField, setCurrentField] = useState("");
+
+  const [peopleCountAnchor, setPeopleCountAnchor] = useState(null);
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm();
+
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
+  const handleDateClick = (event, field) => {
+    setCalendarAnchor(event.currentTarget);
+    setCurrentField(field);
+  };
+
+  const handleDateSelect = (selectedDate) => {
+    setValue(currentField, selectedDate?.completDate);
+    setCalendarAnchor(null); // Close calendar after selecting
+
+    if (currentField === "entryDate") {
+      console.log(currentField, "currentField");
+      const exitDateInput = document.querySelector('input[name="exitDate"]');
+      exitDateInput.click();
+    }
+  };
+
+  const inputStyles = {
+    backgroundColor: "#ffffff",
+    borderRadius: "8px",
+    "& .MuiFilledInput-root": {
+      backgroundColor: "transparent",
+      borderRadius: "8px",
+      height: "72px", // Input height
+    },
+  };
+
+  return (
+    <>
+      <Box
+        sx={{
+          display: { xs: "flex", md: "flex" },
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#fff",
+          borderRadius: "16px",
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          p: 0,
+          width: "100%",
+          maxWidth: "830px",
+          mx: "auto",
+        }}
+      >
+        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+          <Grid
+            container
+            spacing={0}
+            alignItems="center"
+            sx={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
+            {/* City Autocomplete */}
+            <Grid item xs={12} md={3} sx={{ position: "relative" }}>
+              <Controller
+                name="city"
+                control={control}
+                defaultValue={null}
+                rules={{ required: "شهر الزامی است" }}
+                render={({ field }) => (
+                  <Autocomplete
+                    {...field}
+                    options={cities}
+                    openOnFocus
+                    getOptionLabel={(option) =>
+                      option.name ? option.name : ""
+                    } // Customize as per your object structure
+                    isOptionEqualToValue={(option, value) =>
+                      option.id === value?.id
+                    } // Ensures proper comparison
+                    value={field.value || null}
+                    onChange={(event, newValue) => field.onChange(newValue)}
+                    clearIcon={field.value ? undefined : null} // Show only if value exists
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="جستجو شهر، استان یا اقامتگاه"
+                        variant="filled"
+                        fullWidth
+                        placeholder="انتخاب مقصد"
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.city}
+                        sx={inputStyles}
+                      />
+                    )}
+                  />
+                )}
+              />
+              {/* Border between inputs */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "15%",
+                  right: "0",
+                  height: "70%", // 70% of the input height
+                  width: "1px", // Thin border
+                  backgroundColor: "#d3d3d3", // Light gray color
+                }}
+              />
+            </Grid>
+
+            {/* Entry Date */}
+            <Grid item xs={12} md={3} sx={{ position: "relative" }}>
+              <Controller
+                name="entryDate"
+                control={control}
+                // defaultValue=""
+
+                rules={{
+                  required: false, // "تاریخ ورود الزامی است"
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="تاریخ ورود"
+                    onClick={(e) => handleDateClick(e, "entryDate")}
+                    variant="filled"
+                    fullWidth
+                    placeholder="وارد کنید"
+                    InputLabelProps={{ shrink: true }}
+                    sx={inputStyles}
+                    error={!!errors.entryDate}
+                    InputProps={{
+                      readOnly: true, // Prevent typing
+                      endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => {
+                              field.onChange("");
+                              setValue("exitDate", "");
+                            }} // Clear the value
+                            edge="end"
+                          >
+                            <ClearIcon sx={{ fontSize: 16, color: "gray" }} />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+              {/* Border between inputs */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "15%",
+                  right: "0",
+                  height: "70%", // 70% of the input height
+                  width: "1px", // Thin border
+                  backgroundColor: "#d3d3d3", // Light gray color
+                }}
+              />
+            </Grid>
+
+            {/* Exit Date */}
+            <Grid item xs={12} md={3} sx={{ position: "relative" }}>
+              <Controller
+                name="exitDate"
+                control={control}
+                defaultValue=""
+                rules={{
+                  required: false, // "تاریخ خروج الزامی است"
+                }}
+                render={({ field }) => (
+                  <TextField
+                    onClick={(e) => {
+                      const enterDateInput = document.querySelector(
+                        'input[name="entryDate"]'
+                      );
+                      console.log(enterDateInput.value, "enterDateInput");
+                      if (!watch("entryDate")) {
+                        enterDateInput.click();
+                      } else {
+                        handleDateClick(e, "exitDate");
+                      }
+                    }}
+                    {...field}
+                    label="تاریخ خروج"
+                    variant="filled"
+                    fullWidth
+                    placeholder="وارد کنید"
+                    InputLabelProps={{ shrink: true }}
+                    sx={inputStyles}
+                    error={!!errors.exitDate}
+                    InputProps={{
+                      readOnly: true, // Prevent typing
+                      endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => field.onChange("")} // Clear the value
+                            edge="end"
+                          >
+                            <ClearIcon sx={{ fontSize: 16, color: "gray" }} />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+              {/* Border between inputs */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "15%",
+                  right: "0",
+                  height: "70%", // 70% of the input height
+                  width: "1px", // Thin border
+                  backgroundColor: "#d3d3d3", // Light gray color
+                }}
+              />
+            </Grid>
+
+            {calendarAnchor && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top:
+                    calendarAnchor.getBoundingClientRect().bottom +
+                    window.scrollY +
+                    10,
+                  right: calendarAnchor.getBoundingClientRect().left,
+                  backgroundColor: "#fff",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "8px",
+                  zIndex: 1000,
+                }}
+              >
+                {currentField == "peopleCount" ? (
+                  <PeopleCounter
+                    onValueChange={(countNum) =>
+                      setValue("peopleCount", countNum || 0)
+                    }
+                    defaultCount={parseFloat(watch("peopleCount"))}
+                    closePopup={() => setCalendarAnchor(null)}
+                  />
+                ) : (
+                  <FormDate
+                    returnDate={handleDateSelect}
+                    closePopup={() => setCalendarAnchor(null)}
+                  />
+                )}
+              </Box>
+            )}
+
+            {/* Number of People */}
+            <Grid item xs={12} md={2}>
+              <Controller
+                name="peopleCount"
+                control={control}
+                defaultValue=""
+                placeholder="انتخاب کنید"
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="تعداد نفرات"
+                    variant="filled"
+                    onClick={(e) => handleDateClick(e, "peopleCount")}
+                    fullWidth
+                    InputLabelProps={{ shrink: true }}
+                    sx={inputStyles}
+                    value={field.value ? `${field.value} نفر` : ""} // Show value or empty string
+                    placeholder="انتخاب کنید" // Placeholder when value is empty or null
+                    InputProps={{
+                      readOnly: true, // Prevent typing
+                      endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => field.onChange("")} // Clear the value
+                            edge="end"
+                          >
+                            <ClearIcon sx={{ fontSize: 16, color: "gray" }} />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* Search Button */}
+            <Grid
+              item
+              xs={12}
+              md={1}
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                width: "100%", // Ensure it takes the full width
+                height: "100%", // Ensure it takes the full height
+                // backgroundColor: "#dc3545",
+              }}
+            >
+              <Box className=" h-100 w-100 px-2">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                  sx={{
+                    height: 40,
+                    // width: "20px", // Force exact width
+                    minWidth: 43, // Override default min-width
+                    // maxWidth: "20px", // Enforce max width
+                    padding: 0, // Remove padding for exact sizing
+                    borderRadius: "8px",
+                  }}
+                  size="small"
+                >
+                  <SearchIcon sx={{ color: "white", fontSize: 20 }} />
+                </Button>
+              </Box>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
+      <Box
+        sx={{
+          display: { xs: "flex", md: "none" },
+          justifyContent: "center", // Centers horizontally
+          alignItems: "center", // Centers vertically
+          height: "auto",
+        }}
+        className=" w-100 "
+      >
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase
+            placeholder="جستجو شهر، استان یا اقامتگاه "
+            inputProps={{ "aria-label": "search" }}
+            // onChange={handleSearchChange}
+          />
+        </Search>
+      </Box>
+    </>
+  );
+};
+
+export default MainSearchForm;

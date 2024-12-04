@@ -1,0 +1,74 @@
+
+@font-face {
+  font-family: 'YekanBakhFaNum';
+  src: url('./assest/fonts/lineawesome/YekanBakhFaNum-Medium.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'yakanBold';
+  src: url('./assest/fonts/lineawesome/YekanBakhFaNum-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+body {
+  font-family: 'YekanBakhFaNum';
+}
+.font-brands {
+  font-family: 'yakanBold';
+}
+
+.custom-swal-popup {
+  z-index: 2000; /* Higher than MUI modal default z-index (1300) */
+}
+
+
+/* create for city slide  */
+/* Custom Styling */
+.slider-container {
+  margin: 20px;
+  padding: 10px;
+  /* background-color: aqua; */
+}
+
+.slick-slide {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  /* background-color: red; */
+}
+
+.slick-prev:before, .slick-next:before {
+  color: #333;
+}
+
+ .city-card {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  /* text-align: center; */
+  /* margin: 0 20px; */
+  /* border-radius: 12px; */
+  transition: transform 0.3s ease;
+}
+
+/*.city-card img {
+  border-radius: 8px;
+}
+
+.city-card:hover {
+  transform: scale(1.05);
+} */
+/* end for city slider */
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
