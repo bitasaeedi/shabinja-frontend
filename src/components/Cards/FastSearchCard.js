@@ -11,14 +11,13 @@ const FastSearchCard = ({ myData }) => {
           alignItems: "center",
           justifyContent: "center",
           minWidth: { xs: 100, md: 100 },
-          height: 100,
+          height: { xs: 100, md: 100 },
           backgroundColor: "transparent",
           boxShadow: "none",
           color: "#37474f",
 
-          "&:hover": { backgroundColor: "rgba(0, 0, 0, 0.05)" },
+          "&:hover": { backgroundColor: { md: "rgba(0, 0, 0, 0.05)" } },
         }}
-        // className="border border-primary"
       >
         {myData.icon}
         <Typography

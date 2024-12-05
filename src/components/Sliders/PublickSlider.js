@@ -16,8 +16,8 @@ const NextArrow = ({ onClick }) => (
       transform: "translateY(-50%)",
       backgroundColor: "rgba(255, 255, 255, 0.7)",
       border: "1px solid #ccc",
-      borderRadius: "10px",
-      padding: "8px", // Reduce padding for smaller button
+      borderRadius: { xs: "5px", md: "10px" },
+      padding: { xs: "4px", md: "8px" }, // Reduce padding for smaller button
       "&:hover": { backgroundColor: "rgba(255, 255, 255, 1)" },
     }}
   >
@@ -35,8 +35,8 @@ const PrevArrow = ({ onClick }) => (
       transform: "translateY(-50%)",
       backgroundColor: "rgba(255, 255, 255, 0.7)",
       border: "1px solid #ccc",
-      borderRadius: "10px",
-      padding: "8px", // Reduce padding for smaller button
+      borderRadius: { xs: "5px", md: "10px" },
+      padding: { xs: "4px", md: "8px" }, // Reduce padding for smaller button
       "&:hover": { backgroundColor: "rgba(255, 255, 255, 1)" },
     }}
   >
@@ -58,7 +58,7 @@ const PublickSlider = ({ lists, children, title, customSettings = {} }) => {
 
   const defaultSettings = {
     dots: false,
-    infinite: false, // Ensures continuous looping
+    infinite: true, // Ensures continuous looping
     speed: 300, //
     // lazyLoad: true,
     cssEase: "ease-in-out", // "linear", //ease  // Linear easing for constant speed
@@ -68,12 +68,12 @@ const PublickSlider = ({ lists, children, title, customSettings = {} }) => {
     prevArrow: <NextArrow />,
     arrows: true,
     // rtl: true, // RTL alignment
-    centerMode: true,
+    // centerMode: true,
     // initialSlide: 4, // Start at the last slide
 
     draggable: true, // Enable dragging on desktop
     swipe: true, // Enable swipe on mobile
-    swipeToSlide: true,
+    // swipeToSlide: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -107,7 +107,10 @@ const PublickSlider = ({ lists, children, title, customSettings = {} }) => {
   return (
     <div className="slider-container">
       <Box sx={{ position: "relative", px: 3 }}>
-        <Typography variant="h5" sx={{ mb: 1, display: "inline-block" }}>
+        <Typography
+          variant="h5"
+          sx={{ mb: 1, display: "inline-block", fontSize: { xs: 18, md: 28 } }}
+        >
           {title}
         </Typography>
       </Box>

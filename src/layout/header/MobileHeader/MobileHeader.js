@@ -86,7 +86,7 @@ const MobileHeader = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsSticky(window.scrollY > window.innerHeight * 0.3);
+      setIsSticky(window.scrollY > window.innerHeight * 0.1);
     };
 
     window.addEventListener("scroll", handleScroll);

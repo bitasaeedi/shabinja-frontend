@@ -13,41 +13,39 @@ const cities = [
     image:
       "https://lh5.googleusercontent.com/p/AF1QipOX8P8cYlmxyaEG-ZdvJKLPmho4z9Yr1KFZCaTa=w675-h390-n-k-no",
   },
-
   {
-    name: "بندرعباس",
+    name: "رشت",
     image:
-      "https://lh5.googleusercontent.com/p/AF1QipOX8P8cYlmxyaEG-ZdvJKLPmho4z9Yr1KFZCaTa=w675-h390-n-k-no",
+      "https://lh5.googleusercontent.com/p/AF1QipPiezlLlkahFQ7I4Q4_TwAHHqvcHHs3IUbFBMZZ=w540-h312-n-k-no",
   },
-  // {
-  //   name: "رشت",
-  //   image:
-  //     "https://lh5.googleusercontent.com/p/AF1QipPiezlLlkahFQ7I4Q4_TwAHHqvcHHs3IUbFBMZZ=w540-h312-n-k-no",
-  // },
-  // {
-  //   name: "سلمان شهر",
-  //   image:
-  //     "https://lh5.googleusercontent.com/p/AF1QipOwHSRSqdE3mNl1B-xt3JTFCJgnDz2CT26XGapl=w675-h390-n-k-no",
-  // },
-  // {
-  //   name: "تهران",
-  //   image:
-  //     "https://lh5.googleusercontent.com/p/AF1QipOqJkbx8LZD2cGwjFw638GPrneyoVnkjDpt8UKq=w675-h390-n-k-no",
-  // },
+  {
+    name: "رامسر",
+    image:"https://lh5.googleusercontent.com/p/AF1QipMFT8Lbviuk0o3_T0ukMPKM6045kBDJ3MeNS-wY=w540-h312-n-k-no"
+  },
+  {
+    name: "تهران",
+    image:
+      "https://lh5.googleusercontent.com/p/AF1QipOqJkbx8LZD2cGwjFw638GPrneyoVnkjDpt8UKq=w675-h390-n-k-no",
+  },
   {
     name: "کیش",
     image:
       "https://cdn.jabama.com/original/jabama-images/0/8069ff5b-1e61-4650-b4e7-04c849ab3d8f.jpg",
   },
-  // {
-  //   name: "قم",
-  //   image:
-  //     "https://lh5.googleusercontent.com/p/AF1QipNhVA4beiXrk2E8CtR3T59nQcgivXO-asaj9z8=w540-h312-n-k-no",
-  // },
+  {
+    name: "قم",
+    image:
+      "https://lh5.googleusercontent.com/p/AF1QipNhVA4beiXrk2E8CtR3T59nQcgivXO-asaj9z8=w540-h312-n-k-no",
+  },
   {
     name: "یزد",
     image:
       "https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcRKjC8GlPbbEFzE6JbY9Jv6gvqjXF9Rl_n-mSEU2Ou7WBbKcgnzAagRzZ_vSukLCqT8UvbAnfxqjfey_VwenlKntvG-I4PbmVOSB89Byg",
+  },
+  {
+    name: "ماسال",
+    image:
+      "https://encrypted-tbn1.gstatic.com/licensed-image?q=tbn:ANd9GcTz_vlqNY1IeprK-JE69qGFTP3r2nJIoF3A9VhYhGqnwXTLui85KgbGcuMT7IVYiifW8rXJqBwe0EUOx1-wii9GSQC0mYQ9M2GWFJR0Fw",
   },
 ];
 
@@ -85,8 +83,7 @@ const Home = () => {
           lists={listFastes}
           title={"جستجو سریع"}
           customSettings={{
-            centerMode: true,
-            infinite: false,
+            infinite: true,
             responsive: [
               {
                 breakpoint: 1024,
@@ -122,7 +119,7 @@ const Home = () => {
               {
                 breakpoint: 360,
                 settings: {
-                  slidesToShow: 3,
+                  slidesToShow: 4,
                   slidesToScroll: 1,
                   // rows: 2,
                 },
