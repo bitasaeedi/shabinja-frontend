@@ -1,0 +1,12 @@
+/* Active dot with ellipse shape برای اسلایدر موبایل */
+.slick-dots li.slick-active div {
+    width: 12px;
+    height: 6px;
+    background-color: white;
+    border-radius: 4px;
+    padding: 0;
+    margin: 0 ; /* Ensure active dot also maintains the same spacing */
+  }
+
+
+ 

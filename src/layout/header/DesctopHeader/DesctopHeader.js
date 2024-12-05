@@ -9,7 +9,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
-
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/system";
@@ -87,6 +87,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const DesctopHeader = () => {
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [isLogin, setIsLogin] = React.useState(false);
   const [openModalLogin, setOpenModalLogin] = React.useState(false);
@@ -106,6 +107,12 @@ const DesctopHeader = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  React.useEffect(() => {
+    if (location.pathname != "/") {
+      setIsSticky(true);
+    }
+  }, [location.pathname]);
 
   React.useEffect(() => {
     // Check login status and user name when the component mounts
@@ -226,7 +233,16 @@ const DesctopHeader = () => {
             <Button
               sx={{
                 display: { xs: "none", md: "block" },
-                color: isSticky ? "primary.main" : "#ffffff",
+                color: isSticky ? "black" : "#ffffff",
+              }}
+              variant="text"
+              startIcon={<FavoriteBorderIcon />}
+              title="پسندیده‌ها"
+            ></Button>
+            <Button
+              sx={{
+                display: { xs: "none", md: "block" },
+                color: isSticky ? "black" : "#ffffff",
               }}
               variant="text"
               startIcon={<HeadsetMicIcon />}
@@ -237,7 +253,7 @@ const DesctopHeader = () => {
               sx={{
                 display: { xs: "none", md: "block" },
                 mx: 1,
-                color: isSticky ? "primary.main" : "white",
+                color: isSticky ? "black" : "white",
               }}
               variant="text"
             >
@@ -254,7 +270,7 @@ const DesctopHeader = () => {
                   variant="contained"
                   disableElevation
                   onClick={handleClick}
-                  startIcon={<AccountCircleIcon  />}
+                  startIcon={<AccountCircleIcon />}
                   endIcon={
                     <KeyboardArrowDownIcon
                       sx={{

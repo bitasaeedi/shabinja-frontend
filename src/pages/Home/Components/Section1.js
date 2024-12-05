@@ -37,7 +37,7 @@ const Section1 = () => {
           <Box
             sx={{
               position: "absolute",
-              bottom: "-50px", // Pull the box down 50px below the bottom of the hero
+              bottom: "-60px", // Pull the box down 50px below the bottom of the hero
               left: "50%",
               transform: "translateX(-50%)", // Center horizontally
               width: "80%", // Adjust as needed

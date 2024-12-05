@@ -43,24 +43,10 @@ body {
   color: #333;
 }
 
- .city-card {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  /* text-align: center; */
-  /* margin: 0 20px; */
-  /* border-radius: 12px; */
-  transition: transform 0.3s ease;
-}
 
-/*.city-card img {
-  border-radius: 8px;
-}
 
-.city-card:hover {
-  transform: scale(1.05);
-} */
+
+
 /* end for city slider */
 
 @keyframes App-logo-spin {
