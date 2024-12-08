@@ -135,7 +135,7 @@ const MobileHeader = () => {
 
   return (
     <>
-      {location.pathname === "/" ? (
+      {location.pathname === "/" || true ? (
         <Box className=" w-100 ">
           <CssBaseline />
           <AppBar
@@ -144,6 +144,7 @@ const MobileHeader = () => {
               backgroundColor: isSticky ? "white" : "white",
               color: theme.palette.text.primary,
               // boxShadow: isSticky ? "0px 4px 8px rgba(0, 0, 0, 0.2)" : "none",
+              boxShadow: "none",
               width: "100%", // Ensure it takes full width
             }}
             component="nav"
@@ -208,6 +209,7 @@ const MobileHeader = () => {
                           variant="title"
                           disableElevation
                           // onClick={handleClick}
+                          onClick={handleLogout}
                           startIcon={<AccountCircleIcon />}
                           // endIcon={
                           //   <KeyboardArrowDownIcon
@@ -224,10 +226,10 @@ const MobileHeader = () => {
                             px: { xs: 0, md: 0 },
                             fontSize: { xs: "0.8rem", md: "1rem" },
                             minWidth: "auto",
-                            color: "primary.main",
+                            color: "warning.main",
                           }}
                         >
-                          <Typography variant="body2">{userName}</Typography>
+                          <Typography variant="body2">خروج از حساب</Typography>
                         </Button>
                       </div>
                     ) : (

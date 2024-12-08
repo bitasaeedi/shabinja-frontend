@@ -29,14 +29,20 @@ body {
 .slider-container {
   margin: 20px;
   padding: 10px;
-  /* background-color: aqua; */
 }
 
+/* Slide styles */
 .slick-slide {
+  display: inline-block;  /* Use inline-block to let the slides flow left */
+  text-align: end;     /* Keep text centered within each slide */
+ 
+}
+
+/* Track styles */
+.slick-track {
   display: flex;
-  justify-content: center;
-  text-align: center;
-  /* background-color: red; */
+  justify-content: flex-end; /* Align slides to the left */     
+  width: 100%;                 /* Ensure the track takes up full width */
 }
 
 .slick-prev:before, .slick-next:before {

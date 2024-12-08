@@ -1,48 +1,112 @@
-import { Box, Typography } from '@mui/material'
-import React from 'react'
+import React, { useState } from "react";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Box,
+  Skeleton,
+} from "@mui/material";
 
-const FavoritCitiesCard = ({myData}) => {
+const HomeCard = ({ myData = {} }) => {
+  // List of image URLs
+  // State to manage image loading
+  const [isImageLoaded, setIsImageLoaded] = useState(true);
+
+  const images = [
+    "https://cdn.jabama.com/image/383x240/jabama-images/959393/da0cea0a-c9e5-4e37-aa9a-10a106133f86.jpg",
+    "https://cdn.jabama.com/image/890x492/jabama-images/2056939/6bd7c426-8583-47cd-b067-25948bf780e0.png",
+    "https://cdn.jabama.com/image/383x240/jabama-images/2056939/e6261ca3-ed5c-4f5e-8dff-6988c23d049a.jpg",
+    "https://cdn.jabama.com/image/890x492/jabama-images/1737810/be45c5c1-084b-4945-aae1-8ed16ed90e78.jpg",
+    "https://cdn.jabama.com/image/890x492/jabama-images/1494419/b27a2b5c-bc4a-4450-84a6-ded952b22ccb.jpeg",
+    "https://cdn.jabama.com/image/383x240/jabama-images/1494419/ba770497-03c7-4f86-b7c1-9871da849437.jpeg",
+  ];
+
+  // Function to randomly select an image
+  const randomImage = images[Math.floor(Math.random() * images.length)];
+
+  const handleImageLoad = () => {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        setIsImageLoaded(true);
+      }, 2000); // 3000ms = 3 seconds
+    });
+  };
+
   return (
-    <div  className=" px-1">
     <Box
       sx={{
-        width: "100%",
-        height: 0,
-        paddingBottom: "100%" /* Increased height, Aspect ratio 4:3 */,
-        position: "relative",
-        "@media (max-width: 1024px)": {
-          paddingBottom: "100%" /* Taller ratio for smaller screens */,
-        },
-        "@media (max-width: 768px)": {
-          paddingBottom: "100%" /* Taller ratio for smaller screens */,
-        },
+        display: "flex",
+        justifyContent: "center",
       }}
     >
-      <img
-        src={myData.image}
-        alt={myData.name}
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-          borderRadius: 5,
-          objectFit: "cover", // Ensure image covers the box fully
+      <Card
+        sx={{
+          width: { xs: 95, sm: 130, md: 140, lg: 170 },
+          // Remove border radius
+          boxShadow: "none", // Remove shadow
+          backgroundColor: "transparent", // Remove background color
+          overflow: "hidden",
+          // direction: "rtl",
+          pb: 0,
         }}
-      />
-    </Box>
-    <Typography
-      variant="h6"
-      className="mt-2 mb-2"
-      sx={{
-        fontSize: { xs: 14, sm: 16, md: 18 },
-      }}
-    >
-      {myData.name}
-    </Typography>
-  </div>
-  )
-}
+        // className="px-1"
+      >
+        {/* Image with Skeleton loader */}
+        {isImageLoaded != true && (
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            sx={{
+              height: { xs: 120, sm: 140, md: 200 },
+              borderRadius: 3,
+            }}
+          />
+        )}
 
-export default FavoritCitiesCard
+        <CardMedia
+          component="img"
+          sx={{
+            height: { xs: 120, sm: 150, md: 200 },
+            objectFit: "cover",
+            borderRadius: 3,
+          }}
+          image={myData?.image} // Use the randomly selected image
+          alt={myData?.title}
+          // onLoad={handleImageLoad}
+          style={{ display: isImageLoaded ? "block" : "none" }}
+        />
+
+        {/* Card Content */}
+        <CardContent>
+          {/* Title */}
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            gap={1}
+          >
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                maxWidth: "100%",
+                direction: "ltr", // Ensures proper direction for Farsi text
+                textAlign: "left", // Aligns text to the right for RTL
+              }}
+            >
+              {myData?.name}
+            </Typography>
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
+  );
+};
+
+export default HomeCard;

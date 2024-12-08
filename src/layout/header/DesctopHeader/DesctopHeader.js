@@ -101,7 +101,11 @@ const DesctopHeader = () => {
   React.useEffect(() => {
     const handleScroll = () => {
       // Set sticky when scrolled beyond 50% of the viewport height
-      setIsSticky(window.scrollY > window.innerHeight * 0.5);
+      if (location.pathname === "/") {
+        setIsSticky(window.scrollY > window.innerHeight * 0.5);
+      } else {
+        setIsSticky(true);
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -111,6 +115,8 @@ const DesctopHeader = () => {
   React.useEffect(() => {
     if (location.pathname != "/") {
       setIsSticky(true);
+    } else {
+      setIsSticky(false);
     }
   }, [location.pathname]);
 
@@ -161,8 +167,9 @@ const DesctopHeader = () => {
         sx={{
           backgroundColor: isSticky ? "white" : "transparent",
           color: theme.palette.text.primary,
-          // boxShadow: "none",
-          boxShadow: isSticky ? "0px 4px 8px rgba(0, 0, 0, 0.2)" : "none", // Added shadow here
+          boxShadow: "none",
+          height: 65,
+          // boxShadow: isSticky ? "0px 4px 8px rgba(0, 0, 0, 0.2)" : "none", // Added shadow here
         }}
         component="nav"
       >
