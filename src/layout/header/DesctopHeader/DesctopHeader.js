@@ -103,20 +103,26 @@ const DesctopHeader = () => {
       // Set sticky when scrolled beyond 50% of the viewport height
       if (location.pathname === "/") {
         setIsSticky(window.scrollY > window.innerHeight * 0.5);
-      } else {
-        setIsSticky(true);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [location.pathname]);
 
   React.useEffect(() => {
-    if (location.pathname != "/") {
+    if (location.pathname !== "/") {
+      setIsSticky(true); // Always set sticky to true when path is not "/"
+    } else {
+      // Optionally handle sticky behavior when on "/" path
+      setIsSticky(window.scrollY > window.innerHeight * 0.5); // Adjust sticky based on scroll position
+    }
+  }, [location.pathname]);
+
+  React.useEffect(() => {
+    if (location.pathname !== "/") {
       setIsSticky(true);
     } else {
-      setIsSticky(false);
     }
   }, [location.pathname]);
 

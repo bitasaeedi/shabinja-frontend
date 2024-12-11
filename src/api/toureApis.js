@@ -18,6 +18,7 @@ export const HostTourSearchApi = async (searchData) => {
         skip: searchData?.skip,
         take: searchData?.take || 20,
         sort: searchData?.sort,
+        type: searchData?.type,
       },
       headers: {
         token: token, // Add the token to the request header
@@ -26,7 +27,25 @@ export const HostTourSearchApi = async (searchData) => {
     // console.log(response, "response");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.error("Error searching for Userss:", error);
-    throw error; // Re-throw the error for further handling
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// مقاصد محبوب
+export const FavoritDestinationApi = async (searchData) => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${baseUrl}/ItemHomeShbinja/GetAll`, {
+      params: {},
+      headers: {
+        token: token, // Add the token to the request header
+      },
+    });
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
   }
 };

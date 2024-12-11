@@ -1,15 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import './temp.css';
-import App from './App';
-import 'react-multi-date-picker/styles/colors/purple.css';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import "./temp.css";
+import App from "./App";
+
+import "react-multi-date-picker/styles/colors/purple.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-// import reportWebVitals from './reportWebVitals';
+// map styles
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import "leaflet-draw/dist/leaflet.draw.css";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <App />

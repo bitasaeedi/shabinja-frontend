@@ -4,7 +4,8 @@ import Slider from "react-slick";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import "./Sliders.css";
-import FavoritCitiesCard from "../Cards/FavoritCitiesCard";
+import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
+import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
@@ -62,38 +63,33 @@ const PrevArrow = ({ onClick, disabled }) => (
   </IconButton>
 );
 
-const PublickSlider = ({ lists, children, title, customSettings = {} }) => {
+const PublickSlider = ({
+  lists,
+  children,
+  title,
+  customSettings = {},
+  loading,
+  skeletonComponent,
+}) => {
   const sliderRef = useRef(null);
-  const [isNextDisabled, setIsNextDisabled] = useState(false);
-  const [isPrevDisabled, setIsPrevDisabled] = useState(false);
 
-  const calculateInitialSlide = (listLength, slidesToShow) => {
-    return Math.max(0, listLength - slidesToShow);
-  };
-
-  const onSliderUpdate = (current, total) => {
-    setIsPrevDisabled(current === 0);
-    setIsNextDisabled(current === total - 1);
-  };
-
+  // const slidesToShow = lists.length < 2 ? lists.length : 8;
   const defaultSettings = {
     dots: false,
-    infinite: false, // Ensures continuous looping
+    infinite: lists.length > 1 ? true : false, // Ensures continuous looping
+    centerMode: true,
+    centerPadding: "33px",
     speed: 300, //
     // lazyLoad: true,
     cssEase: "linear", // "linear", //ease  // Linear easing for constant speed
-    slidesToShow: 8, // Adjust as needed
+    slidesToShow: 7, // Adjust as needed
     slidesToScroll: 1, // Moves one slide at a time
-    nextArrow: <PrevArrow disabled={isNextDisabled} />,
-    prevArrow: <NextArrow disabled={isPrevDisabled} />,
-    // beforeChange: (oldIndex, newIndex) => {
-    //   const totalSlides = Math.ceil(lists.length / 8); // Update for your logic
-    //   onSliderUpdate(newIndex, totalSlides);
-    // },
+    nextArrow: <PrevArrow />,
+    prevArrow: <NextArrow />,
     arrows: true,
     draggable: false, // Enable dragging on desktop
     swipe: true, // Enable swipe on mobile
-    // rtl: true,
+    rtl: true,
     initialSlide: 1,
     responsive: [
       {
@@ -122,26 +118,15 @@ const PublickSlider = ({ lists, children, title, customSettings = {} }) => {
     ],
   };
 
-  // Merge defaultSettings with customSettings
-  const mergedSettings = {
+  var mergedSettings = {
     ...defaultSettings,
     ...customSettings,
   };
-
-  // Dynamically set initialSlide for default and each breakpoint
-  mergedSettings.initialSlide = calculateInitialSlide(
-    lists.length,
-    mergedSettings.slidesToShow
-  );
 
   mergedSettings.responsive = mergedSettings.responsive.map((breakpoint) => ({
     ...breakpoint,
     settings: {
       ...breakpoint.settings,
-      initialSlide: calculateInitialSlide(
-        lists.length,
-        breakpoint.settings.slidesToShow
-      ),
     },
   }));
 
@@ -157,15 +142,21 @@ const PublickSlider = ({ lists, children, title, customSettings = {} }) => {
       </Box>
 
       <Slider ref={sliderRef} {...mergedSettings}>
-        {lists.map((city, index) => (
-          <div key={index}>
-            {React.Children.map(children, (child) =>
-              React.cloneElement(child, {
-                myData: city,
-              })
-            )}
-          </div>
-        ))}
+        {loading !== false
+          ? [1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+              <div key={index}>
+                {skeletonComponent ? skeletonComponent : <HomeCardSkeleton />}
+              </div>
+            ))
+          : lists.map((city, index) => (
+              <div key={index}>
+                {React.Children.map(children, (child) =>
+                  React.cloneElement(child, {
+                    myData: city,
+                  })
+                )}
+              </div>
+            ))}
       </Slider>
     </div>
   );

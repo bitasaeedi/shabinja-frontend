@@ -11,13 +11,55 @@ import FilterButton from "./FilterButton"; // Import the FilterButton component
 const FilterSection = () => {
   // Filter button data array
   const filterButtons = [
-    { filter: "filter", label: "فیلتر ها", icon: <FilterAltOutlinedIcon /> },
-    { filter: "accommodationType", label: "نوع اقامتگاه", icon: <HomeWorkOutlinedIcon /> },
-    { filter: "location", label: "منطقه اقامتگاه", icon: <LocationOnOutlinedIcon /> },
-    { filter: "rentalType", label: "نوع اجاره", icon: <FilterAltOutlinedIcon /> },
-    { filter: "rentalRange", label: "محدوده اجاره", icon: <PriceChangeOutlinedIcon /> },
-    { filter: "dateSelection", label: "انتخاب تاریخ", icon: <DateRangeOutlinedIcon /> },
-    { filter: "guestCount", label: "تعداد نفرات", icon: <PeopleOutlineOutlinedIcon /> },
+    {
+      id: 1,
+      filter: "filter",
+      label: "فیلتر ها",
+      icon: <FilterAltOutlinedIcon />,
+      popoverType: "allFilter",
+    },
+    {
+      id: 2,
+      filter: "accommodationType",
+      label: "نوع اقامتگاه",
+      icon: <HomeWorkOutlinedIcon />,
+      popoverType: "allFilter",
+    },
+    {
+      id: 3,
+      filter: "location",
+      label: "منطقه اقامتگاه",
+      icon: <LocationOnOutlinedIcon />,
+      popoverType: "allFilter",
+    },
+    {
+      id: 3,
+      filter: "rentalType",
+      label: "نوع اجاره",
+      icon: <FilterAltOutlinedIcon />,
+      popoverType: "allFilter",
+    },
+    {
+      id: 4,
+      filter: "rentalRange",
+      label: "محدوده اجاره",
+      icon: <PriceChangeOutlinedIcon />,
+      popoverType: "allFilter",
+    },
+    {
+      id: 5,
+      filter: "dateSelection",
+      label: "انتخاب تاریخ",
+      icon: <DateRangeOutlinedIcon />,
+      popoverType: "allFilter",
+    },
+    {
+      id: 6,
+      filter: "guestCount",
+      label: "تعداد نفرات",
+      icon: <PeopleOutlineOutlinedIcon />,
+      popoverType: "allFilter",
+    },
   ];
 
   return (
@@ -26,7 +68,7 @@ const FilterSection = () => {
       sx={{
         position: "sticky",
         top: 65,
-        zIndex: 1000,
+        zIndex: 200,
         backgroundColor: "white",
       }}
     >
@@ -42,9 +84,9 @@ const FilterSection = () => {
           },
         }}
       >
-        {filterButtons.map(({ filter, label, icon }) => (
+        {filterButtons.map(({ filter, label, icon, id }, index) => (
           <FilterButton
-            key={filter}
+            key={index}
             filter={filter}
             label={label}
             startIcon={icon}

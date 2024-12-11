@@ -9,10 +9,12 @@ import CurrencyExchangeIcon from "@mui/icons-material/CurrencyExchange";
 const ItemWrapper = styled(Box)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
+  cursor: "pointer",
   alignItems: "center",
   justifyContent: "center",
   padding: theme.spacing(2),
   textAlign: "center",
+  color: "#0d47a1",
   transition: "transform 0.3s ease, box-shadow 0.3s ease",
   "&:hover": {
     transform: "scale(1.05)",
@@ -26,7 +28,7 @@ const IconWrapper = styled(Box)(({ theme }) => ({
   marginBottom: theme.spacing(1.5),
   "& svg": {
     fontSize: 30,
-    color: theme.palette.primary.main,
+    color: "#0d47a1",
     transition: "color 0.3s ease",
   },
   [theme.breakpoints.down("sm")]: {
@@ -37,7 +39,7 @@ const IconWrapper = styled(Box)(({ theme }) => ({
 const Title = styled(Typography)(({ theme, isMobile }) => ({
   fontSize: isMobile ? "0.875rem" : "1.25rem", // Smaller font size for mobile
   fontWeight: "bold",
-  color: theme.palette.text.primary,
+  color: "#0d47a1",
   transition: "color 0.3s ease",
 }));
 
@@ -52,7 +54,7 @@ const ResponsiveFeatures = () => {
     },
     {
       title: "ضمانت بازگشت هزینه",
-      icon: <CurrencyExchangeIcon  />,
+      icon: <CurrencyExchangeIcon />,
     },
     {
       title: "اعتبار سنجی میزبان و مهمان",
@@ -69,7 +71,7 @@ const ResponsiveFeatures = () => {
       sx={{
         px: 4,
         py: 6,
-        background: `linear-gradient(135deg, ${theme.palette.background.default}, ${theme.palette.grey[200]})`,
+        backgroundColor: `#f9f9f9`,
       }}
     >
       <Box

@@ -17,8 +17,8 @@ export const searchUsersApi = async (searchData) => {
     );
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.error("Error searching for Userss:", error);
-    throw error; // Re-throw the error for further handling
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
   }
 };
 
@@ -36,8 +36,8 @@ export const searchOneUsersApi = async (id) => {
     );
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.error("Error searching for users:", error);
-    throw error; // Re-throw the error for further handling
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
   }
 };
 
@@ -55,7 +55,7 @@ export const updateOneUsersApi = async (id, newData) => {
     );
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.error("Error searching for products:", error);
-    throw error; // Re-throw the error for further handling
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
   }
 };

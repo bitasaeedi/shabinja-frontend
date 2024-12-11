@@ -5,7 +5,7 @@ const HomeCardSkeleton = () => (
   <Box className="d-flex justify-content-center w-100 pb-0 mb-0">
     <Card
       sx={{
-        width: { xs: 250, sm: 250, md: 360 },
+        width: { xs: 200, sm: 250, md: 250, lg: 300, xl: 320 },
         borderRadius: 3,
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         overflow: "hidden",
@@ -15,10 +15,23 @@ const HomeCardSkeleton = () => (
       }}
     >
       {/* Skeleton for Image */}
-      <Skeleton variant="rectangular" height={{ xs: 160, sm: 160, md: 180 }} />
+      <Skeleton
+        variant="rectangular"
+        width="100%"
+        sx={{
+          height: { xs: 160, sm: 160, md: 180 },
+        }}
+      />
 
       {/* Skeleton for Content */}
-      <CardContent>
+      <CardContent
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "end",
+        }}
+      >
         {/* Title */}
         <Skeleton variant="text" width="70%" sx={{ mb: 1 }} />
         {/* Location */}

@@ -3,6 +3,7 @@ import API_URL from "../config/apiConfig";
 import SUB_API_URL from "../config/apiConfig";
 const baseUrl = API_URL;
 
+// استان ها
 export const getProvinceList = async (searchData) => {
   try {
     const token = localStorage.getItem("token");
@@ -15,11 +16,12 @@ export const getProvinceList = async (searchData) => {
     console.log(response, "response");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.error("Error searching for Userss:", error);
-    throw error; // Re-throw the error for further handling
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
   }
 };
 
+// شهرهای براساس ای دی استان
 export const getCityListByProvinceId = async (searchData) => {
   try {
     const token = localStorage.getItem("token");
@@ -32,7 +34,7 @@ export const getCityListByProvinceId = async (searchData) => {
     console.log(response, "response");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.error("Error searching for Userss:", error);
-    throw error; // Re-throw the error for further handling
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
   }
 };

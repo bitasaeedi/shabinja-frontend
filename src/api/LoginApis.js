@@ -2,6 +2,8 @@ import axios from "axios";
 import API_URL from "../config/apiConfig";
 const baseUrl = API_URL;
 const subUrl = "";
+
+// دریافت پیامک
 export const ApiCheckAndSms = async (searchData) => {
   try {
     // const token = localStorage.getItem("token");
@@ -17,7 +19,7 @@ export const ApiCheckAndSms = async (searchData) => {
     throw error; // Re-throw the error for further handling
   }
 };
-
+// دریافت توکن
 export const ApiGetTokenShabinja = async (searchData) => {
   try {
     console.log(searchData, "searchData");

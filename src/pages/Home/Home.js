@@ -1,7 +1,7 @@
 import { Box, Container, TextField, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
-import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard";
+import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import ResponsiveCards from "../../components/Cards/ResponsiveCards";
 import ResponsiveFeatures from "../../components/Cards/ResponsiveFeatures";
@@ -11,7 +11,10 @@ import ItemsFastSearch from "../../myDatas/ItemsFastSearch";
 import Section1 from "./Components/Section1";
 import { InView } from "react-intersection-observer";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
-import { HostTourSearchApi } from "../../api/toureApis";
+import { FavoritDestinationApi, HostTourSearchApi } from "../../api/toureApis";
+import SwipSlider from "../../components/Sliders/SwipSlider";
+import SkeletonFavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
+import HomeCardSkeleton from "../../components/Cards/HomeCards/HomeCardSkeleton";
 const cities = [
   {
     name: "رشت",
@@ -76,22 +79,101 @@ const cities = [
   },
 ];
 
+const customSettings = {
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  centerMode: true,
+  centerPadding: "30px", // Default center padding for large screens
+  speed: 600,
+  responsive: [
+    {
+      breakpoint: 1400, // For slightly larger desktops
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        centerPadding: "50px",
+      },
+    },
+    {
+      breakpoint: 1024, // For tablets in landscape mode
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        centerPadding: "80px",
+      },
+    },
+    {
+      breakpoint: 768, // For tablets and small devices
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        arrows: false, // Disable arrows for smaller devices
+        centerPadding: "20px",
+      },
+    },
+    {
+      breakpoint: 600, // For larger smartphones
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        arrows: false,
+        centerPadding: "20px",
+      },
+    },
+    {
+      breakpoint: 480, // For small smartphones
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        centerPadding: "60px",
+      },
+    },
+    {
+      breakpoint: 420, // For very small devices
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        centerPadding: "50px",
+      },
+    },
+    {
+      breakpoint: 360, // For very small devices
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        centerPadding: "25px",
+      },
+    },
+    {
+      breakpoint: 290, // For very small devices
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: false,
+        centerPadding: "5px",
+      },
+    },
+  ],
+};
+
 const Home = () => {
   const listFastes = ItemsFastSearch;
 
   // فراخوانی api برای دریافت اطلاهات
   const getListData = async (dataToFilter) => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve(cities);
-      }, 1000); // 3000ms = 3 seconds
-    });
+    const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
+    var list = resultGetFavorit?.data;
+    // console.log(resultGetFavorit?.data, "FavoritDestinationApi list");
+    return list;
   };
 
-  const callApiForGetList = async () => {
-    const resultGetTours = await HostTourSearchApi();
+  const callApiForGetList = async (dataToFilter) => {
+    const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data?.items;
-    console.log(list, "resultGetTours list");
+    // console.log(list, "resultGetTours list");
     return list;
   };
   return (
@@ -123,19 +205,19 @@ const Home = () => {
       >
         <InViewComponents
           getListData={() => {
-            return ItemsFastSearch;
+            return listFastes;
           }}
         >
           <PublickSlider
             // lists={listFastes}
             title={"جستجو سریع"}
             customSettings={{
-              // infinite: true,
-              // arrows: false,
-              slidesToShow: 5,
+              slidesToShow: 7,
               slidesToScroll: 1,
+              centerMode: false,
               responsive: [
                 {
+                  centerMode: false,
                   breakpoint: 600,
                   settings: {
                     slidesToShow: 5,
@@ -145,20 +227,24 @@ const Home = () => {
                   },
                 },
                 {
+                  centerMode: false,
                   breakpoint: 500,
                   settings: {
                     slidesToShow: 4,
                     slidesToScroll: 1,
                     initialSlide: 1,
+                    arrows: false,
                     // rows: 2,
                   },
                 },
                 {
+                  centerMode: false,
                   breakpoint: 360,
                   settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     initialSlide: 1,
+                    arrows: false,
                     // rows: 2,
                   },
                 },
@@ -170,47 +256,55 @@ const Home = () => {
         </InViewComponents>
       </Box>
       {/* ================================================== */}
+      {/* بعدا اختمالا جایگزین اسلایدر فعلی */}
+      {/* <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
+        <SwipSlider />
+      </Box> */}
+
       {/* title={"مقاصد محبوب"} */}
       <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
         <InViewComponents getListData={() => getListData({})}>
           <PublickSlider
             title={"مقاصد محبوب"}
+            skeletonComponent={<SkeletonFavoritCitiesCard />}
             customSettings={{
-              // centerMode: true,
-              infinite: false,
-              slidesToShow: 8,
+              slidesToShow: 7,
               slidesToScroll: 1,
-              initialSlide: 1,
+              // initialSlide: 1,
+              centerMode: true,
               responsive: [
                 {
                   breakpoint: 1490,
                   settings: {
-                    slidesToShow: 7,
+                    slidesToShow: 6,
                     slidesToScroll: 1,
-                    initialSlide: 1,
+                    // initialSlide: 1,
+                    centerMode: true,
                   },
                 },
                 {
                   breakpoint: 1024,
                   settings: {
-                    slidesToShow: 6,
+                    slidesToShow: 7,
                     slidesToScroll: 1,
-                    initialSlide: 1,
+                    // initialSlide: 1,
+                    centerMode: true,
                   },
                 },
                 {
                   breakpoint: 1000,
                   settings: {
-                    slidesToShow: 5,
+                    slidesToShow: 4,
                     slidesToScroll: 1,
                   },
                 },
                 {
                   breakpoint: 800,
                   settings: {
-                    slidesToShow: 4,
+                    slidesToShow: 3,
                     slidesToScroll: 1,
                     rows: 2,
+                    arrows: false,
                   },
                 },
                 {
@@ -219,6 +313,8 @@ const Home = () => {
                     slidesToShow: 3,
                     slidesToScroll: 1,
                     rows: 2,
+                    arrows: false,
+                    centerMode: true,
                   },
                 },
                 {
@@ -227,14 +323,18 @@ const Home = () => {
                     slidesToShow: 2,
                     slidesToScroll: 1,
                     rows: 2,
+                    arrows: false,
+                    centerPadding: "30px",
                   },
                 },
                 {
-                  breakpoint: 260,
+                  breakpoint: 290,
                   settings: {
                     slidesToShow: 1,
                     slidesToScroll: 1,
                     rows: 2,
+                    arrows: false,
+                    centerPadding: "5px",
                   },
                 },
               ],
@@ -247,37 +347,12 @@ const Home = () => {
 
       {/* اقامتگاه های ممتاز */}
       <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
+        <InViewComponents getListData={() => callApiForGetList({ type: 1 })}>
           <PublickSlider
             // lists={cities}
             title={"اقامتگاه‌های ممتاز"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              autoplay: true,
-              speed: 600,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -289,31 +364,8 @@ const Home = () => {
           <PublickSlider
             // lists={cities}
             title={"اقامتگاه‌های اقتصادی"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -334,31 +386,8 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={"تخفیفات لحظه آخری"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -376,31 +405,8 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={"اقامتگاه‌های شمال"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -412,31 +418,7 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={"آپارتمان‌ روزانه در تهران"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
           >
             <HomeCards />
           </PublickSlider>
@@ -454,31 +436,8 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={" اقامتگاه‌های جنوب"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -497,31 +456,8 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={" رزرو‌های فوری"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -533,31 +469,8 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={" اقامتگاه‌های بومگردی"}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>
@@ -569,31 +482,8 @@ const Home = () => {
           <PublickSlider
             lists={cities}
             title={"ویلاهای اطراف تهران "}
-            customSettings={{
-              centerMode: false,
-              centerPadding: "0px",
-              infinite: false,
-              slidesToShow: 4,
-              slidesToScroll: 1,
-              responsive: [
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 700,
-                  settings: {
-                    centerMode: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    // rows: 2,
-                  },
-                },
-              ],
-            }}
+            customSettings={customSettings}
+            skeletonComponent={<HomeCardSkeleton />}
           >
             <HomeCards />
           </PublickSlider>

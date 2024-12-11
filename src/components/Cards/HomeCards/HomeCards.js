@@ -11,6 +11,7 @@ import {
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import API_URL from "../../../config/apiConfig";
 import ToRial from "../../ToRial/ToRial";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
 const baseUrl = API_URL;
 const HomeCard = ({ myData = {} }) => {
@@ -38,7 +39,7 @@ const HomeCard = ({ myData = {} }) => {
     <Box className="d-flex justify-content-center w-100 pb-0 mb-0">
       <Card
         sx={{
-          width: { xs: 250, sm: 250, md: 250, lg: 320, xl: 360 },
+          width: { xs: 200, sm: 250, md: 250, lg: 300, xl: 320 },
           borderRadius: 3,
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           overflow: "hidden",
@@ -65,16 +66,17 @@ const HomeCard = ({ myData = {} }) => {
             objectFit: "cover",
           }}
           // `${baseUrl}${myData?.image}`
-          image={`https://file.shabinja.com/api/v1/file/Download?path=${myData?.image}`} // Use the randomly selected image
+          image={myData?.image ? DownloadImageApi(myData?.image) : randomImage} // Use the randomly selected image
           alt={myData?.title}
           onLoad={handleImageLoad}
+          // loading="lazy"
           style={{ display: isImageLoaded ? "block" : "none" }}
         />
 
         {/* Card Content */}
         <CardContent>
           {/* Title */}
-          <Box display="flex" justifyContent="end" alignItems="center" gap={1}>
+          <Box display="flex" justifyContent="flex-end" alignItems="center" gap={1}>
             <Typography
               variant="h6"
               fontWeight="bold"
