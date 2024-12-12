@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { Typography, Box, IconButton } from "@mui/material";
 import Slider from "react-slick";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import "./Sliders.css";
 import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
-import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
@@ -16,14 +15,14 @@ const NextArrow = ({ onClick, disabled }) => (
       right: 10,
       transform: "translateY(-50%)",
       backgroundColor: disabled
-        ? "rgba(200, 200, 200, 0.7)" // Disabled color
+        ? "rgba(200, 200, 200, 0.7)"
         : "rgba(255, 255, 255, 0.7)",
       border: "1px solid #ccc",
       borderRadius: { xs: "5px", md: "10px" },
       padding: { xs: "4px", md: "8px" },
       "&:hover": {
         backgroundColor: disabled
-          ? "rgba(200, 200, 200, 0.7)" // Prevent hover effect when disabled
+          ? "rgba(200, 200, 200, 0.7)"
           : "rgba(255, 255, 255, 1)",
       },
     }}
@@ -44,14 +43,14 @@ const PrevArrow = ({ onClick, disabled }) => (
       right: "50px",
       transform: "translateY(-50%)",
       backgroundColor: disabled
-        ? "rgba(200, 200, 200, 0.7)" // Disabled color
+        ? "rgba(200, 200, 200, 0.7)"
         : "rgba(255, 255, 255, 0.7)",
       border: "1px solid #ccc",
       borderRadius: { xs: "5px", md: "10px" },
       padding: { xs: "4px", md: "8px" },
       "&:hover": {
         backgroundColor: disabled
-          ? "rgba(200, 200, 200, 0.7)" // Prevent hover effect when disabled
+          ? "rgba(200, 200, 200, 0.7)"
           : "rgba(255, 255, 255, 1)",
       },
     }}
@@ -70,27 +69,29 @@ const PublickSlider = ({
   customSettings = {},
   loading,
   skeletonComponent,
+  customStyle,
 }) => {
   const sliderRef = useRef(null);
 
-  // const slidesToShow = lists.length < 2 ? lists.length : 8;
+  useEffect(() => {
+    if (sliderRef.current) {
+      slideToEnd();
+    }
+  }, [lists?.length, customSettings, sliderRef.current]);
+
   const defaultSettings = {
     dots: false,
-    infinite: lists.length > 1 ? true : false, // Ensures continuous looping
+    infinite: lists?.length > 1 ? true : false,
     centerMode: true,
-    centerPadding: "33px",
-    speed: 300, //
-    // lazyLoad: true,
-    cssEase: "linear", // "linear", //ease  // Linear easing for constant speed
-    slidesToShow: 7, // Adjust as needed
-    slidesToScroll: 1, // Moves one slide at a time
-    nextArrow: <PrevArrow />,
-    prevArrow: <NextArrow />,
+    speed: 300,
+    cssEase: "linear",
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
     arrows: true,
-    draggable: false, // Enable dragging on desktop
-    swipe: true, // Enable swipe on mobile
-    rtl: true,
-    initialSlide: 1,
+    draggable: false,
+    swipe: true,
+    // rtl: true,
+    // centerPadding: "5px",
     responsive: [
       {
         breakpoint: 1024,
@@ -104,7 +105,6 @@ const PublickSlider = ({
         settings: {
           slidesToShow: 4,
           slidesToScroll: 2,
-          // rows: 2,
         },
       },
       {
@@ -112,26 +112,34 @@ const PublickSlider = ({
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          // rows: 2,
         },
       },
     ],
   };
 
-  var mergedSettings = {
+  const mergedSettings = {
     ...defaultSettings,
     ...customSettings,
   };
 
-  mergedSettings.responsive = mergedSettings.responsive.map((breakpoint) => ({
-    ...breakpoint,
-    settings: {
-      ...breakpoint.settings,
-    },
-  }));
+  const slideToEnd = () => {
+    const totalSlides = lists.length;
+    const slidesToShow =
+      customSettings.slidesToShow || defaultSettings.slidesToShow;
+    // const lastSlideIndex =
+    //   totalSlides - slidesToShow >= 0 ? totalSlides - slidesToShow : 0;
+
+    // Make sure the sliderRef exists and the total slides count is enough
+    if (sliderRef.current && totalSlides > slidesToShow) {
+      sliderRef.current.slickGoTo(totalSlides - slidesToShow, true); // Jump to the last visible index with no animation
+    }
+  };
 
   return (
-    <div className="slider-container">
+    <div
+      className={`${customStyle === false ? "" : " custom-style"}
+           slider-container `}
+    >
       <Box sx={{ position: "relative", px: 3 }}>
         <Typography
           variant="h5"

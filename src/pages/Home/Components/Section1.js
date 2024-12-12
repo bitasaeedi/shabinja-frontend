@@ -1,20 +1,44 @@
-import React, { useState } from "react";
-import { Box, Grid } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { Box, Grid, Typography } from "@mui/material";
 
 import MainSearchForm from "./MainSearchForm/MainSearchForm";
 import SubSliderHeader from "./SubSliderHeader";
 
 // سرچ دسکتاپ
 const Section1 = () => {
+  const texts = ["اقامتگاه‌ها", "کلبه‌ها", "ویلاها"]; // Dynamic texts
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setAnimate(true); // Trigger animation
+      setTimeout(() => {
+        setAnimate(false); // Reset animation
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length); // Change text
+      }, 500); // Match the animation duration in CSS
+    }, 3000); // Change text every 3 seconds
+
+    return () => clearInterval(interval);
+  }, [texts.length]);
+
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
       <Box className="hero-box hero-bg">
         <Box className="hero-content pb-5 ">
           {/* Title */}
-          <Box className="section-heading text-center mt-5 ">
-            <h2 className="sec__title cd-headline zoom">
-              شگفت انگيزترین اقامتگاه‌ها در انتظارته!
-            </h2>
+          <Box className="section-heading text-center mt-5">
+            <Typography
+              variant="h2"
+              className="text-white"
+              sx={{ fontSize: 40 }}
+            >
+              شگفت‌انگیزترین{" "}
+              <span className={`dynamic-text ${animate ? "slideIn" : ""}`}>
+                {texts[currentIndex]}
+              </span>{" "}
+              در انتظارته!
+            </Typography>
           </Box>
 
           <Grid container justifyContent="center" className="mt-5">

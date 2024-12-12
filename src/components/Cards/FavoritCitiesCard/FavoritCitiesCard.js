@@ -39,7 +39,8 @@ const FavoritCitiesCard = ({ myData = {} }) => {
     >
       <Card
         sx={{
-          width: { xs: 80, sm: 130, md: 140, lg: 170 },
+          // width: "auto",
+          width: { xs: 75, sm: 130, md: 140, lg: 170 },
           // Remove border radius
           boxShadow: "none", // Remove shadow
           backgroundColor: "transparent", // Remove background color

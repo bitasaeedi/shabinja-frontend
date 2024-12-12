@@ -70,6 +70,7 @@ const ResponsiveCards = () => {
                   color="textSecondary"
                   sx={{
                     fontSize: "15px",
+                    textAlign: "justify", // Justifies the description text
                   }}
                 >
                   {feature.description}

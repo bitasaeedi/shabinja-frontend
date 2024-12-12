@@ -11,3 +11,55 @@
 
   
 
+/* Default slider container styles */
+.slider-container {
+  margin: 20px;
+  
+}
+
+/* Default styles for slides */
+.slick-slide {
+  display: inline-block;
+  text-align: end; /* Keep text centered within each slide */
+  /* Add padding inside the slide */
+
+}
+
+/* Default styles for track */
+.slick-track {
+  display: flex;
+  justify-content: flex-start; /* Align slides to the left */
+  width: 100%; /* Ensure the track takes up full width */
+}
+
+/* Customize specific slider */
+.slider-container.custom-style {
+  margin: 0; /* Example: remove margin for this slider */
+  /* padding: 10px 10px 10px 10px;  */
+/* background-color: beige; */
+ 
+}
+
+/* Custom slide styles for the specific slider */
+.slider-container.custom-style .slick-slide {
+  text-align: start; /* Different text alignment */
+  /* background-color: aqua; */
+  /* border: 2px solid black; */
+   /* display: flex; */
+  /* justify-content: flex-start; */
+  /* padding: 0px 410px;  */
+  overflow-x: visible;
+}
+
+/* Custom track styles for the specific slider */
+.slider-container.custom-style .slick-track {
+  min-width: auto;
+  display: flex;
+  justify-content: end; /* Center slides */
+  /* border: 2px solid red; */
+  margin-left: 50px;
+  /* overflow-x: visible; */
+}
+.slick-prev:before, .slick-next:before {
+  color: #333;
+}

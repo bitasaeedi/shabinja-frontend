@@ -25,7 +25,7 @@ const FastSearchCard = ({ myData = {} }) => {
         >
           {myData.icon}
           <Typography
-            variant="h6"
+            variant="body2"
             sx={{ marginTop: 1, fontSize: { xs: 14, md: 18 } }}
           >
             {myData.label}

@@ -82,16 +82,14 @@ const cities = [
 const customSettings = {
   slidesToShow: 4,
   slidesToScroll: 1,
-  centerMode: true,
-  centerPadding: "30px", // Default center padding for large screens
   speed: 600,
+  centerMode: true,
   responsive: [
     {
       breakpoint: 1400, // For slightly larger desktops
       settings: {
         slidesToShow: 3,
         slidesToScroll: 1,
-        centerPadding: "50px",
       },
     },
     {
@@ -99,7 +97,6 @@ const customSettings = {
       settings: {
         slidesToShow: 2,
         slidesToScroll: 1,
-        centerPadding: "80px",
       },
     },
     {
@@ -107,8 +104,7 @@ const customSettings = {
       settings: {
         slidesToShow: 2,
         slidesToScroll: 1,
-        arrows: false, // Disable arrows for smaller devices
-        centerPadding: "20px",
+        arrows: false,
       },
     },
     {
@@ -117,7 +113,6 @@ const customSettings = {
         slidesToShow: 2,
         slidesToScroll: 1,
         arrows: false,
-        centerPadding: "20px",
       },
     },
     {
@@ -126,7 +121,6 @@ const customSettings = {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        centerPadding: "60px",
       },
     },
     {
@@ -135,7 +129,7 @@ const customSettings = {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        centerPadding: "50px",
+        //centerPadding: "50px",
       },
     },
     {
@@ -144,7 +138,7 @@ const customSettings = {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        centerPadding: "25px",
+        //centerPadding: "25px",
       },
     },
     {
@@ -153,7 +147,72 @@ const customSettings = {
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: false,
-        centerPadding: "5px",
+        //centerPadding: "5px",
+      },
+    },
+  ],
+};
+
+const customSettingsFavoritCities = {
+  slidesToShow: 7,
+  slidesToScroll: 1,
+  infinit: true,
+  responsive: [
+    {
+      breakpoint: 1490,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 1000,
+      settings: {
+        slidesToShow: 5,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 800,
+      settings: {
+        slidesToShow: 4,
+        slidesToScroll: 1,
+        rows: 2,
+        arrows: false,
+      },
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        rows: 2,
+        arrows: false,
+      },
+    },
+    {
+      breakpoint: 450,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+        rows: 2,
+        arrows: false,
+      },
+    },
+    {
+      breakpoint: 290,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        rows: 2,
+        arrows: false,
       },
     },
   ],
@@ -209,43 +268,36 @@ const Home = () => {
           }}
         >
           <PublickSlider
-            // lists={listFastes}
             title={"جستجو سریع"}
+            customStyle={false}
             customSettings={{
               slidesToShow: 7,
               slidesToScroll: 1,
+              infinite: true,
               centerMode: false,
               responsive: [
                 {
-                  centerMode: false,
                   breakpoint: 600,
                   settings: {
                     slidesToShow: 5,
                     slidesToScroll: 1,
-                    initialSlide: 1,
-                    // rows: 2,
+                    arrows: false,
                   },
                 },
                 {
-                  centerMode: false,
                   breakpoint: 500,
                   settings: {
                     slidesToShow: 4,
                     slidesToScroll: 1,
-                    initialSlide: 1,
                     arrows: false,
-                    // rows: 2,
                   },
                 },
                 {
-                  centerMode: false,
                   breakpoint: 360,
                   settings: {
                     slidesToShow: 3,
                     slidesToScroll: 1,
-                    initialSlide: 1,
                     arrows: false,
-                    // rows: 2,
                   },
                 },
               ],
@@ -256,238 +308,171 @@ const Home = () => {
         </InViewComponents>
       </Box>
       {/* ================================================== */}
-      {/* بعدا اختمالا جایگزین اسلایدر فعلی */}
-      {/* <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
-        <SwipSlider />
-      </Box> */}
+      <Box className="mx-4">
+        {/* title={"مقاصد محبوب"} */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
+          <InViewComponents getListData={() => getListData({})}>
+            <PublickSlider
+              title={"مقاصد محبوب"}
+              skeletonComponent={<SkeletonFavoritCitiesCard />}
+              customSettings={customSettingsFavoritCities}
+            >
+              <FavoritCitiesCard />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
 
-      {/* title={"مقاصد محبوب"} */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
-        <InViewComponents getListData={() => getListData({})}>
-          <PublickSlider
-            title={"مقاصد محبوب"}
-            skeletonComponent={<SkeletonFavoritCitiesCard />}
-            customSettings={{
-              slidesToShow: 7,
-              slidesToScroll: 1,
-              // initialSlide: 1,
-              centerMode: true,
-              responsive: [
-                {
-                  breakpoint: 1490,
-                  settings: {
-                    slidesToShow: 6,
-                    slidesToScroll: 1,
-                    // initialSlide: 1,
-                    centerMode: true,
-                  },
-                },
-                {
-                  breakpoint: 1024,
-                  settings: {
-                    slidesToShow: 7,
-                    slidesToScroll: 1,
-                    // initialSlide: 1,
-                    centerMode: true,
-                  },
-                },
-                {
-                  breakpoint: 1000,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                  },
-                },
-                {
-                  breakpoint: 800,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    rows: 2,
-                    arrows: false,
-                  },
-                },
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    rows: 2,
-                    arrows: false,
-                    centerMode: true,
-                  },
-                },
-                {
-                  breakpoint: 450,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                    rows: 2,
-                    arrows: false,
-                    centerPadding: "30px",
-                  },
-                },
-                {
-                  breakpoint: 290,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    rows: 2,
-                    arrows: false,
-                    centerPadding: "5px",
-                  },
-                },
-              ],
-            }}
+        {/* اقامتگاه های ممتاز */}
+        <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents
+            getListData={() =>
+              callApiForGetList({
+                // type: 1
+              })
+            }
           >
-            <FavoritCitiesCard />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
+            <PublickSlider
+              // lists={cities}
+              title={"اقامتگاه‌های ممتاز"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* اقامتگاه های اقتصادی */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              // lists={cities}
+              title={"اقامتگاه‌های اقتصادی"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
 
-      {/* اقامتگاه های ممتاز */}
-      <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({ type: 1 })}>
-          <PublickSlider
-            // lists={cities}
-            title={"اقامتگاه‌های ممتاز"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* اقامتگاه های اقتصادی */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            // lists={cities}
-            title={"اقامتگاه‌های اقتصادی"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
+        {/* تخفیفات لحظه اخری */}
+        <Box
+          className=" "
+          sx={{
+            // height: 2000,
+            py: 1,
+            marginTop: { xs: 4, md: 5 },
+            background: "linear-gradient(180deg, #e0f7fa 0%, #b3e5fc 100%)", // Light blue gradient
+          }}
+        >
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={"تخفیفات لحظه آخری"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* کارتهای تبلیغاتی */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InView triggerOnce>
+            <ResponsiveFeatures />
+          </InView>
+        </Box>
+        {/* اقامتگاه  های شمال */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={"اقامتگاه‌های شمال"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* "اپارتمان‌های روزانه در تهران" */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={"آپارتمان‌ روزانه در تهران"}
+              customSettings={customSettings}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* کارتهای تبلیغاتی */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InView>
+            <ResponsiveCards />
+          </InView>
+        </Box>
 
-      {/* تخفیفات لحظه اخری */}
-      <Box
-        className=" "
-        sx={{
-          // height: 2000,
-          py: 1,
-          marginTop: { xs: 4, md: 5 },
-          background: "linear-gradient(180deg, #e0f7fa 0%, #b3e5fc 100%)", // Light blue gradient
-        }}
-      >
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={"تخفیفات لحظه آخری"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* کارتهای تبلیغاتی */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InView>
-          <ResponsiveCards />
-        </InView>
-      </Box>
-      {/* اقامتگاه  های شمال */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={"اقامتگاه‌های شمال"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* "اپارتمان‌های روزانه در تهران" */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={"آپارتمان‌ روزانه در تهران"}
-            customSettings={customSettings}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* کارتهای تبلیغاتی */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InView triggerOnce>
-          <ResponsiveFeatures />
-        </InView>
-      </Box>
-      {/* اقامتگاه‌های جنوب */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={" اقامتگاه‌های جنوب"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* رزرو‌های فوری */}
-      <Box
-        className=""
-        sx={{
-          py: 1,
-          marginTop: { xs: 4, md: 5 },
-          background: "linear-gradient(180deg, #FFF8E1 0%, #FFECB3 100%)", // Light yellow gradient
-        }}
-      >
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={" رزرو‌های فوری"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* اقامتگاه‌های بومگردی */}
-      <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={" اقامتگاه‌های بومگردی"}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
-      </Box>
-      {/* ویلاهای اطراف تهران */}
-      <Box className="mb-5 " sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
-          <PublickSlider
-            lists={cities}
-            title={"ویلاهای اطراف تهران "}
-            customSettings={customSettings}
-            skeletonComponent={<HomeCardSkeleton />}
-          >
-            <HomeCards />
-          </PublickSlider>
-        </InViewComponents>
+        {/* اقامتگاه‌های جنوب */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={" اقامتگاه‌های جنوب"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* رزرو‌های فوری */}
+        <Box
+          className=""
+          sx={{
+            py: 1,
+            marginTop: { xs: 4, md: 5 },
+            background: "linear-gradient(180deg, #FFF8E1 0%, #FFECB3 100%)", // Light yellow gradient
+          }}
+        >
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={" رزرو‌های فوری"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* اقامتگاه‌های بومگردی */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={" اقامتگاه‌های بومگردی"}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
+        {/* ویلاهای اطراف تهران */}
+        <Box className="mb-5 " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <PublickSlider
+              lists={cities}
+              title={"ویلاهای اطراف تهران "}
+              customSettings={customSettings}
+              skeletonComponent={<HomeCardSkeleton />}
+            >
+              <HomeCards />
+            </PublickSlider>
+          </InViewComponents>
+        </Box>
       </Box>
     </Box>
   );

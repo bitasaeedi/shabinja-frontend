@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
@@ -12,6 +12,7 @@ import LocationOnIcon from "@mui/icons-material/LocationOn";
 import API_URL from "../../../config/apiConfig";
 import ToRial from "../../ToRial/ToRial";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import StarIcon from "@mui/icons-material/Star";
 
 const baseUrl = API_URL;
 const HomeCard = ({ myData = {} }) => {
@@ -35,11 +36,15 @@ const HomeCard = ({ myData = {} }) => {
     setIsImageLoaded(true);
   };
 
+  useEffect(() => {
+    console.log(myData, "myData");
+  }, []);
+
   return (
     <Box className="d-flex justify-content-center w-100 pb-0 mb-0">
       <Card
         sx={{
-          width: { xs: 200, sm: 250, md: 250, lg: 300, xl: 320 },
+          width: { xs: 155, sm: 250, md: 250, lg: 300, xl: 320 },
           borderRadius: 3,
           boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           overflow: "hidden",
@@ -54,7 +59,7 @@ const HomeCard = ({ myData = {} }) => {
             variant="rectangular"
             width="100%"
             sx={{
-              height: { xs: 160, sm: 160, md: 180 },
+              height: { xs: 100, sm: 160, md: 180 },
             }}
           />
         )}
@@ -62,7 +67,7 @@ const HomeCard = ({ myData = {} }) => {
         <CardMedia
           component="img"
           sx={{
-            height: { xs: 160, sm: 160, md: 180 },
+            height: { xs: 100, sm: 160, md: 180 },
             objectFit: "cover",
           }}
           // `${baseUrl}${myData?.image}`
@@ -74,9 +79,15 @@ const HomeCard = ({ myData = {} }) => {
         />
 
         {/* Card Content */}
-        <CardContent>
+        <CardContent className=" px-0">
           {/* Title */}
-          <Box display="flex" justifyContent="flex-end" alignItems="center" gap={1}>
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="start"
+            gap={1}
+            className="px-2"
+          >
             <Typography
               variant="h6"
               fontWeight="bold"
@@ -96,14 +107,20 @@ const HomeCard = ({ myData = {} }) => {
           </Box>
 
           {/* Location */}
-          <Box display="flex" justifyContent="end" alignItems="start">
+          <Box
+            display="flex"
+            justifyContent="end"
+            alignItems="start"
+            className=" px-0"
+          >
             <Typography
               variant="body2"
               color="textSecondary"
               sx={{
-                fontSize: { xs: "12px", sm: "14px", md: "14px" },
+                fontSize: { xs: "10px", sm: "11px", md: "12px" },
                 overflow: "hidden",
                 maxWidth: "100%",
+
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
                 direction: "ltr", // Set to RTL for Farsi text
@@ -127,6 +144,7 @@ const HomeCard = ({ myData = {} }) => {
             alignItems="center"
             gap={0.5}
             mt={1}
+            className="mx-2"
           >
             <Typography
               variant="body2"
@@ -158,19 +176,53 @@ const HomeCard = ({ myData = {} }) => {
           {/* Rating */}
           <Box
             display="flex"
-            justifyContent="flex-start"
+            justifyContent="flex-end"
             alignItems="center"
             gap={1}
             sx={{ direction: "ltr" }}
+            className="mx-2"
           >
-            <Rating
+            <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
+              <StarIcon
+                sx={{
+                  color: "#FFD700",
+                  // fontSize: 20
+                  fontSize: 14,
+                }}
+                className="mb-1 "
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "bold",
+                  // marginRight: 1,
+                  fontSize: 14,
+                  // fontSize: 18,
+                }}
+                className="px-1"
+              >
+                {myData?.rate}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                  fontWeight: "bold",
+                  // marginRight: 1,
+                  fontSize: 12,
+                }}
+              >
+                ({myData?.countRate} نظر)
+              </Typography>
+            </Box>
+            {/* <Rating
               name="half-rating-read"
               defaultValue={myData?.rate || 1}
               precision={0.5}
               readOnly
               size="small"
               sx={{ color: "#FFD700" }}
-            />
+            /> */}
           </Box>
         </CardContent>
       </Card>

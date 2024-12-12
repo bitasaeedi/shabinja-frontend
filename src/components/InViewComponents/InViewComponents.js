@@ -21,7 +21,7 @@ const InViewComponents = ({ getListData, children, skeletonComponent }) => {
             lists: listData || [],
             loading: loading,
             skeletonComponent: skeletonComponent,
-            // customSettings: customSettings,
+           
           })}{" "}
         </Box>
       ) : (

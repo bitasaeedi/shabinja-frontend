@@ -8,7 +8,7 @@ import StarIcon from "@mui/icons-material/Star";
 
 const ItemsFastSearch = [
   {
-    icon: <VillaIcon sx={{ fontSize: { xs: 25, md: 35 } }} />,
+    icon: <VillaIcon sx={{ fontSize: { xs: 30, md: 45 } }} />,
     label: "ویلا",
     linkAddres: "/all/villas",
     description: "اجاره ویلا",
