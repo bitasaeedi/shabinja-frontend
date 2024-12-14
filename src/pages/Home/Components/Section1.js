@@ -12,12 +12,12 @@ const Section1 = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setAnimate(true); // Trigger animation
+      setAnimate(false); // Reset animation
       setTimeout(() => {
-        setAnimate(false); // Reset animation
-        setCurrentIndex((prevIndex) => (prevIndex + 1) % texts.length); // Change text
-      }, 500); // Match the animation duration in CSS
-    }, 3000); // Change text every 3 seconds
+        setCurrentIndex((prev) => (prev + 1) % texts.length); // Update text index
+        setAnimate(true); // Trigger animation
+      }, 100); // Small delay to reset animation
+    }, 2000); // Change text every 2 seconds
 
     return () => clearInterval(interval);
   }, [texts.length]);
@@ -25,7 +25,12 @@ const Section1 = () => {
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
       <Box className="hero-box hero-bg">
-        <Box className="hero-content pb-5 ">
+        <Box
+          className="hero-content "
+          sx={{
+            paddingBottom: "90px",
+          }}
+        >
           {/* Title */}
           <Box className="section-heading text-center mt-5">
             <Typography
@@ -34,7 +39,7 @@ const Section1 = () => {
               sx={{ fontSize: 40 }}
             >
               شگفت‌انگیزترین{" "}
-              <span className={`dynamic-text ${animate ? "slideIn" : ""}`}>
+              <span className={`dynamic-text ${animate ? "appear" : ""}`}>
                 {texts[currentIndex]}
               </span>{" "}
               در انتظارته!

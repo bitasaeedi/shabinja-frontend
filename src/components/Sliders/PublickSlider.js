@@ -5,6 +5,7 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import "./Sliders.css";
 import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
+import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
@@ -70,18 +71,19 @@ const PublickSlider = ({
   loading,
   skeletonComponent,
   customStyle,
+  favoritSkeleton,
 }) => {
   const sliderRef = useRef(null);
 
   useEffect(() => {
-    if (sliderRef.current) {
+    if (sliderRef.current && loading === false) {
       slideToEnd();
     }
-  }, [lists?.length, customSettings, sliderRef.current]);
+  }, [lists?.length, customSettings, sliderRef.current, loading]);
 
   const defaultSettings = {
     dots: false,
-    infinite: lists?.length > 1 ? true : false,
+    infinite: lists?.length > 1 || loading ? true : false,
     centerMode: true,
     speed: 300,
     cssEase: "linear",
@@ -130,7 +132,7 @@ const PublickSlider = ({
     //   totalSlides - slidesToShow >= 0 ? totalSlides - slidesToShow : 0;
 
     // Make sure the sliderRef exists and the total slides count is enough
-    if (sliderRef.current && totalSlides > slidesToShow) {
+    if (sliderRef.current && totalSlides > slidesToShow && !loading) {
       sliderRef.current.slickGoTo(totalSlides - slidesToShow, true); // Jump to the last visible index with no animation
     }
   };
@@ -151,9 +153,15 @@ const PublickSlider = ({
 
       <Slider ref={sliderRef} {...mergedSettings}>
         {loading !== false
-          ? [1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+          ? [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
               <div key={index}>
-                {skeletonComponent ? skeletonComponent : <HomeCardSkeleton />}
+                {skeletonComponent ? (
+                  skeletonComponent
+                ) : favoritSkeleton ? (
+                  <SkeletonFavoritCitiesCard />
+                ) : (
+                  <HomeCardSkeleton />
+                )}
               </div>
             ))
           : lists.map((city, index) => (

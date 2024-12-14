@@ -14,8 +14,8 @@ const FastSearchCard = ({ myData = {} }) => {
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            minWidth: { xs: 100, md: 100 },
-            height: { xs: 100, md: 100 },
+            minWidth: { xs: 80, md: 100 },
+            height: { xs: 80, md: 100 },
             backgroundColor: "transparent",
             boxShadow: "none",
             color: "#37474f",
@@ -26,7 +26,7 @@ const FastSearchCard = ({ myData = {} }) => {
           {myData.icon}
           <Typography
             variant="body2"
-            sx={{ marginTop: 1, fontSize: { xs: 14, md: 18 } }}
+            sx={{ marginTop: 1, fontSize: { xs: 13, md: 17 } }}
           >
             {myData.label}
           </Typography>

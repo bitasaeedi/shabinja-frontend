@@ -24,26 +24,35 @@ body {
 }
 
 
+.react-router-link {
+  text-decoration: none;
+  color: inherit;
+}
 
 
+@keyframes zoom-out {
+  0% {
+    opacity: 0;
+    transform: scale(1.8); /* Start slightly larger */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1); /* Settle to normal size */
+  }
+}
 
-/* DynamicText.css */
 .dynamic-text {
   display: inline-block; /* Keep inline with the text */
   position: relative;
   overflow: hidden;
-  vertical-align: middle; /* Aligns text vertically with other inline elements */
-  height: 1.2em; /* Matches line height of the surrounding text */
-  opacity: 1;
-  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+  vertical-align: middle; /* Align text vertically with other inline elements */
+  opacity: 0; /* Initially hidden */
 }
 
-/* Animation effect for sliding in and fading out */
-.slideIn {
-  transform: translateY(-100%); /* Slide from top */
-  opacity: 0; /* Fade out */
+.appear {
+  animation: zoom-out 0.8s ease-out; /* Apply the zoom-out animation */
+  opacity: 1; /* Fully visible after animation */
 }
-
 
 /* end for city slider */
 

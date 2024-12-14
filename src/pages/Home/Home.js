@@ -1,20 +1,21 @@
 import { Box, Container, TextField, Toolbar, Typography } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import ResponsiveCards from "../../components/Cards/ResponsiveCards";
 import ResponsiveFeatures from "../../components/Cards/ResponsiveFeatures";
 import MobileMainSlider from "../../components/Sliders/MobileMainSlider";
-import PublickSlider from "../../components/Sliders/PublickSlider";
 import ItemsFastSearch from "../../myDatas/ItemsFastSearch";
 import Section1 from "./Components/Section1";
 import { InView } from "react-intersection-observer";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
 import { FavoritDestinationApi, HostTourSearchApi } from "../../api/toureApis";
-import SwipSlider from "../../components/Sliders/SwipSlider";
 import SkeletonFavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
 import HomeCardSkeleton from "../../components/Cards/HomeCards/HomeCardSkeleton";
+import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
+import FastSearchcomponentMobile from "./Components/FastSearchcomponentMobile/FastSearchcomponentMobile";
+import CardComment from "../../components/Cards/CardComment/CardComment";
 const cities = [
   {
     name: "رشت",
@@ -79,148 +80,12 @@ const cities = [
   },
 ];
 
-const customSettings = {
-  slidesToShow: 4,
-  slidesToScroll: 1,
-  speed: 600,
-  centerMode: true,
-  responsive: [
-    {
-      breakpoint: 1400, // For slightly larger desktops
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1024, // For tablets in landscape mode
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 768, // For tablets and small devices
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 600, // For larger smartphones
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 480, // For small smartphones
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 420, // For very small devices
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        //centerPadding: "50px",
-      },
-    },
-    {
-      breakpoint: 360, // For very small devices
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        //centerPadding: "25px",
-      },
-    },
-    {
-      breakpoint: 290, // For very small devices
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        arrows: false,
-        //centerPadding: "5px",
-      },
-    },
-  ],
-};
-
-const customSettingsFavoritCities = {
-  slidesToShow: 7,
-  slidesToScroll: 1,
-  infinit: true,
-  responsive: [
-    {
-      breakpoint: 1490,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1024,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 1000,
-      settings: {
-        slidesToShow: 5,
-        slidesToScroll: 1,
-      },
-    },
-    {
-      breakpoint: 800,
-      settings: {
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        rows: 2,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 600,
-      settings: {
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        rows: 2,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 450,
-      settings: {
-        slidesToShow: 2,
-        slidesToScroll: 1,
-        rows: 2,
-        arrows: false,
-      },
-    },
-    {
-      breakpoint: 290,
-      settings: {
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        rows: 2,
-        arrows: false,
-      },
-    },
-  ],
-};
-
 const Home = () => {
   const listFastes = ItemsFastSearch;
 
+  useEffect(() => {
+    window.scroll(0, 0);
+  }, []);
   // فراخوانی api برای دریافت اطلاهات
   const getListData = async (dataToFilter) => {
     const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
@@ -267,91 +132,77 @@ const Home = () => {
             return listFastes;
           }}
         >
-          <PublickSlider
-            title={"جستجو سریع"}
-            customStyle={false}
-            customSettings={{
-              slidesToShow: 7,
-              slidesToScroll: 1,
-              infinite: true,
-              centerMode: false,
-              responsive: [
-                {
-                  breakpoint: 600,
-                  settings: {
-                    slidesToShow: 5,
-                    slidesToScroll: 1,
-                    arrows: false,
-                  },
-                },
-                {
-                  breakpoint: 500,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                    arrows: false,
-                  },
-                },
-                {
-                  breakpoint: 360,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 1,
-                    arrows: false,
-                  },
-                },
-              ],
-            }}
-          >
+          <FastSearchcomponentMobile title={"جستجو سریع"}>
             <FastSearchCard />
-          </PublickSlider>
+          </FastSearchcomponentMobile>
         </InViewComponents>
       </Box>
+
       {/* ================================================== */}
-      <Box className="mx-4">
+      <Box className="px-0 mx-0">
         {/* title={"مقاصد محبوب"} */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
-          <InViewComponents getListData={() => getListData({})}>
-            <PublickSlider
+          <InViewComponents
+            getListData={() => getListData({})}
+            favoritSkeleton={true}
+          >
+            <SwipperSliderPublick
               title={"مقاصد محبوب"}
               skeletonComponent={<SkeletonFavoritCitiesCard />}
-              customSettings={customSettingsFavoritCities}
+              slidesPerView={7}
+              breakpoints={{
+                0: {
+                  slidesPerView: 2,
+                },
+                330: {
+                  slidesPerView: 2,
+                },
+                480: {
+                  slidesPerView: 3,
+                },
+                768: {
+                  slidesPerView: 4,
+                },
+                1024: {
+                  slidesPerView: 6,
+                },
+              }}
             >
               <FavoritCitiesCard />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
-
+        {/* <Box sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <CardComment />
+        </Box> */}
         {/* اقامتگاه های ممتاز */}
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
               callApiForGetList({
-                // type: 1
+                type: 1,
               })
             }
           >
-            <PublickSlider
+            <SwipperSliderPublick
               // lists={cities}
               title={"اقامتگاه‌های ممتاز"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* اقامتگاه های اقتصادی */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               // lists={cities}
               title={"اقامتگاه‌های اقتصادی"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
 
@@ -360,24 +211,23 @@ const Home = () => {
           className=" "
           sx={{
             // height: 2000,
-            py: 1,
+            py: 4,
             marginTop: { xs: 4, md: 5 },
             background: "linear-gradient(180deg, #e0f7fa 0%, #b3e5fc 100%)", // Light blue gradient
           }}
         >
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={"تخفیفات لحظه آخری"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* کارتهای تبلیغاتی */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
@@ -385,92 +235,89 @@ const Home = () => {
         {/* اقامتگاه  های شمال */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={"اقامتگاه‌های شمال"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* "اپارتمان‌های روزانه در تهران" */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={"آپارتمان‌ روزانه در تهران"}
-              customSettings={customSettings}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* کارتهای تبلیغاتی */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+        <Box
+          className=" "
+          sx={{ marginTop: { xs: 2, md: 1 }, mx: { xs: 2, md: 8 } }}
+        >
           <InView>
             <ResponsiveCards />
           </InView>
         </Box>
 
         {/* اقامتگاه‌های جنوب */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 1 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={" اقامتگاه‌های جنوب"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* رزرو‌های فوری */}
         <Box
           className=""
           sx={{
-            py: 1,
+            py: 4,
             marginTop: { xs: 4, md: 5 },
             background: "linear-gradient(180deg, #FFF8E1 0%, #FFECB3 100%)", // Light yellow gradient
           }}
         >
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={" رزرو‌های فوری"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* اقامتگاه‌های بومگردی */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={" اقامتگاه‌های بومگردی"}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* ویلاهای اطراف تهران */}
         <Box className="mb-5 " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <PublickSlider
+            <SwipperSliderPublick
               lists={cities}
               title={"ویلاهای اطراف تهران "}
-              customSettings={customSettings}
               skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
-            </PublickSlider>
+            </SwipperSliderPublick>
           </InViewComponents>
         </Box>
       </Box>

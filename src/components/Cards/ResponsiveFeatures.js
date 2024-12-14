@@ -71,7 +71,7 @@ const ResponsiveFeatures = () => {
       sx={{
         px: 4,
         py: 6,
-        backgroundColor: `#f9f9f9`,
+        // backgroundColor: `#f9f9f9`,
       }}
     >
       <Box

@@ -2,10 +2,10 @@ import React from "react";
 import { Box, Card, CardContent, Skeleton } from "@mui/material";
 
 const HomeCardSkeleton = () => (
-  <Box className="d-flex justify-content-center w-100 pb-0 mb-0">
+  <Box className="d-flex justify-content-center w-auto pb-0 mb-0">
     <Card
       sx={{
-        width: { xs: 200, sm: 250, md: 250, lg: 300, xl: 320 },
+        width: { xs: 230, sm: 260, md: 300, lg: 300, xl: 320 },
         borderRadius: 3,
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         overflow: "hidden",
@@ -19,7 +19,7 @@ const HomeCardSkeleton = () => (
         variant="rectangular"
         width="100%"
         sx={{
-          height: { xs: 160, sm: 160, md: 180 },
+          height: { xs: 140, sm: 140, md: 180 },
         }}
       />
 
@@ -31,15 +31,21 @@ const HomeCardSkeleton = () => (
           justifyContent: "center",
           alignItems: "end",
         }}
+        className="my-0 py-0"
       >
         {/* Title */}
-        <Skeleton variant="text" width="70%" sx={{ mb: 1 }} />
+        <Skeleton
+          variant="text"
+          width="30%"
+          sx={{ mb: 1, mt: 2 }}
+          height={20}
+        />
         {/* Location */}
-        <Skeleton variant="text" width="50%" sx={{ mb: 1 }} />
+        <Skeleton variant="text" width="70%" sx={{ mb: 1 }} height={15} />
         {/* Price */}
-        <Skeleton variant="text" width="40%" sx={{ mb: 1 }} />
+        <Skeleton variant="text" width="50%" sx={{ mb: 1 }} height={15} />
         {/* Rating */}
-        <Skeleton variant="circular" width={20} height={20} />
+        {/* <Skeleton variant="circular" width={20} height={20} /> */}
       </CardContent>
     </Card>
   </Box>

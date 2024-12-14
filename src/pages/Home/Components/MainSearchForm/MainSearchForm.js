@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   Button,
@@ -7,14 +7,17 @@ import {
   Autocomplete,
   InputAdornment,
   IconButton,
+  Typography,
 } from "@mui/material";
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/system";
 import SearchIcon from "@mui/icons-material/Search";
 import { useForm, Controller } from "react-hook-form";
 import FormDate from "../../../../components/FormDate/FormDate";
-import PeopleCounter from "../../../../components/PeopleCounter/PeopleCounter";
+import PeopleCounter from "../../../../components/popups/PeopleCounter/PeopleCounter";
 import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
+import SelectCity from "../../../../components/popups/SelectCity/SelectCity";
+import { HostTourSearchTitleApi } from "../../../../api/toureApis";
 
 const cities = [
   { id: 1, name: "تهران" },
@@ -73,8 +76,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const MainSearchForm = () => {
   const [calendarAnchor, setCalendarAnchor] = useState(null); // Track calendar visibility
   const [currentField, setCurrentField] = useState("");
-
+  const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
   const [peopleCountAnchor, setPeopleCountAnchor] = useState(null);
+  const [listCitis, setListCitis] = useState([]);
   const {
     control,
     handleSubmit,
@@ -83,6 +87,9 @@ const MainSearchForm = () => {
     watch,
   } = useForm();
 
+  useEffect(() => {
+    handleSearchCities("");
+  }, []);
   const onSubmit = (data) => {
     console.log(data);
   };
@@ -103,14 +110,42 @@ const MainSearchForm = () => {
     }
   };
 
+  const handleSearchCities = async (textToSearch) => {
+    if (textToSearch.length >= 3 || textToSearch.length == 0) {
+      setLoadingSearchCitis(true);
+      const resultGetTours = await HostTourSearchTitleApi({
+        title: textToSearch,
+      });
+      var list = resultGetTours?.data?.items;
+      console.log(list, "resultGetTours list");
+      setListCitis(list);
+      setLoadingSearchCitis(false);
+    }
+  };
   const inputStyles = {
     backgroundColor: "#ffffff",
     borderRadius: "8px",
+
     "& .MuiFilledInput-root": {
       backgroundColor: "transparent",
       borderRadius: "8px",
-      height: "72px", // Input height
+      height: "70px", // Input height
+      paddingLeft: "10px",
     },
+    "& .MuiInputLabel-root": {
+      top: "8px", // Move label closer to input from the top
+      right: "16px", // Add margin from the right
+      fontSize: "16px", // Optional: Adjust label font size
+      paddingLeft: "10px",
+    },
+    "& .MuiFilledInput-input": {
+      paddingTop: "20px", // Move the input value or placeholder slightly upwards
+      paddingLeft: "10px",
+    },
+    // "& .MuiFormLabel-filled": {
+    //   // To ensure the label stays in place when focused or with value
+    //   transform: "translate(12px, -10px) scale(0.75)",
+    // },
   };
 
   return (
@@ -146,32 +181,60 @@ const MainSearchForm = () => {
                 defaultValue={null}
                 rules={{ required: "شهر الزامی است" }}
                 render={({ field }) => (
-                  <Autocomplete
+                  <TextField
                     {...field}
-                    options={cities}
-                    openOnFocus
-                    getOptionLabel={(option) =>
-                      option.name ? option.name : ""
-                    } // Customize as per your object structure
-                    isOptionEqualToValue={(option, value) =>
-                      option.id === value?.id
-                    } // Ensures proper comparison
-                    value={field.value || null}
-                    onChange={(event, newValue) => field.onChange(newValue)}
-                    clearIcon={field.value ? undefined : null} // Show only if value exists
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="جستجو شهر، استان یا اقامتگاه"
-                        variant="filled"
-                        fullWidth
-                        placeholder="انتخاب مقصد"
-                        InputLabelProps={{ shrink: true }}
-                        error={!!errors.city}
-                        sx={inputStyles}
-                      />
-                    )}
+                    label="جستجو شهر، استان یا اقامتگاه"
+                    onClick={(e) => handleDateClick(e, "city")}
+                    variant="filled"
+                    fullWidth
+                    placeholder="انتخاب مقصد"
+                    InputLabelProps={{ shrink: true }}
+                    sx={inputStyles}
+                    error={!!errors.entryDate}
+                    InputProps={{
+                      autoComplete: "off",
+                      // readOnly: false, // Prevent typing
+                      onChange: (e) => handleSearchCities(e.target.value),
+                      endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => {
+                              field.onChange("");
+                            }}
+                            edge="end"
+                          >
+                            <ClearIcon sx={{ fontSize: 16, color: "gray" }} />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
                   />
+                  // <Autocomplete
+                  //   {...field}
+                  //   options={cities}
+                  //   openOnFocus
+                  //   getOptionLabel={(option) =>
+                  //     option.name ? option.name : ""
+                  //   } // Customize as per your object structure
+                  //   isOptionEqualToValue={(option, value) =>
+                  //     option.id === value?.id
+                  //   } // Ensures proper comparison
+                  //   value={field.value || null}
+                  //   onChange={(event, newValue) => field.onChange(newValue)}
+                  //   clearIcon={field.value ? undefined : null} // Show only if value exists
+                  //   renderInput={(params) => (
+                  //     <TextField
+                  //       {...params}
+                  //       label="جستجو شهر، استان یا اقامتگاه"
+                  //       variant="filled"
+                  //       fullWidth
+                  //       placeholder="انتخاب مقصد"
+                  //       InputLabelProps={{ shrink: true }}
+                  //       error={!!errors.city}
+                  //       sx={inputStyles}
+                  //     />
+                  //   )}
+                  // />
                 )}
               />
               {/* Border between inputs */}
@@ -322,12 +385,20 @@ const MainSearchForm = () => {
                     defaultCount={parseFloat(watch("peopleCount"))}
                     closePopup={() => setCalendarAnchor(null)}
                   />
+                ) : currentField == "city" ? (
+                  <SelectCity
+                    closePopup={() => setCalendarAnchor(null)}
+                    selectedCity={(title) => setValue("city", title)}
+                    listCitis={listCitis}
+                    loading={loadingSearchCitis}
+                  />
                 ) : (
                   <FormDate
                     returnDate={handleDateSelect}
                     closePopup={() => setCalendarAnchor(null)}
                   />
                 )}
+                {/*  */}
               </Box>
             )}
 

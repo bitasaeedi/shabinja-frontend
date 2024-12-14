@@ -2,7 +2,12 @@ import { Box } from "@mui/material";
 import React, { useState } from "react";
 import { InView } from "react-intersection-observer";
 
-const InViewComponents = ({ getListData, children, skeletonComponent }) => {
+const InViewComponents = ({
+  getListData,
+  children,
+  skeletonComponent,
+  favoritSkeleton,
+}) => {
   const [listData, setListData] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -21,7 +26,7 @@ const InViewComponents = ({ getListData, children, skeletonComponent }) => {
             lists: listData || [],
             loading: loading,
             skeletonComponent: skeletonComponent,
-           
+            favoritSkeleton: favoritSkeleton,
           })}{" "}
         </Box>
       ) : (
@@ -31,6 +36,7 @@ const InViewComponents = ({ getListData, children, skeletonComponent }) => {
               lists: listData || [],
               // customSettings: customSettings,
               loading: loading,
+              favoritSkeleton: favoritSkeleton,
             })}{" "}
         </Box>
       )}

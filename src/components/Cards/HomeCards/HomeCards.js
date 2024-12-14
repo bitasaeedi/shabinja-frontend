@@ -41,17 +41,20 @@ const HomeCard = ({ myData = {} }) => {
   }, []);
 
   return (
-    <Box className="d-flex justify-content-center w-100 pb-0 mb-0">
+    <Box className="d-flex justify-content-center w-auto pb-0 mb-0">
       <Card
         sx={{
-          width: { xs: 155, sm: 250, md: 250, lg: 300, xl: 320 },
+          width: { xs: 230, sm: 260, md: 300, lg: 300, xl: 320 },
           borderRadius: 3,
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          boxShadow: "none !important",
           overflow: "hidden",
           direction: "rtl",
           pb: 0,
           mb: 1,
+          backgroundColor: "transparent",
         }}
+        // className="border"
       >
         {/* Image with Skeleton loader */}
         {isImageLoaded != true && (
@@ -59,7 +62,7 @@ const HomeCard = ({ myData = {} }) => {
             variant="rectangular"
             width="100%"
             sx={{
-              height: { xs: 100, sm: 160, md: 180 },
+              height: { xs: 140, sm: 140, md: 180 },
             }}
           />
         )}
@@ -67,8 +70,9 @@ const HomeCard = ({ myData = {} }) => {
         <CardMedia
           component="img"
           sx={{
-            height: { xs: 100, sm: 160, md: 180 },
+            height: { xs: 140, sm: 140, md: 180 },
             objectFit: "cover",
+            borderRadius: "0px 0px 10px 10px",
           }}
           // `${baseUrl}${myData?.image}`
           image={myData?.image ? DownloadImageApi(myData?.image) : randomImage} // Use the randomly selected image
@@ -79,7 +83,7 @@ const HomeCard = ({ myData = {} }) => {
         />
 
         {/* Card Content */}
-        <CardContent className=" px-0">
+        <CardContent className=" px-0 py-2 my-">
           {/* Title */}
           <Box
             display="flex"

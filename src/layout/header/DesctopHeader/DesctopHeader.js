@@ -102,7 +102,7 @@ const DesctopHeader = () => {
     const handleScroll = () => {
       // Set sticky when scrolled beyond 50% of the viewport height
       if (location.pathname === "/") {
-        setIsSticky(window.scrollY > window.innerHeight * 0.5);
+        setIsSticky(window.scrollY > window.innerHeight * 0.7);
       }
     };
 
@@ -294,15 +294,18 @@ const DesctopHeader = () => {
                   }
                   sx={{
                     ml: { xs: 2, md: 0 },
-                    px: { xs: 1, md: 3 },
-                    fontSize: { xs: "0.8rem", md: "1rem" },
+
                     minWidth: "auto",
                   }}
                   size="large"
                 >
                   <Typography
                     variant="body2"
-                    sx={{ display: { xs: "none", sm: "inline" } }}
+                    sx={{
+                      display: { xs: "none", sm: "inline" },
+                      fontSize: { xs: "16px", md: "17px" },
+                    }}
+                    className="py-0 px-2 my-0"
                   >
                     {userName}
                   </Typography>
@@ -317,7 +320,7 @@ const DesctopHeader = () => {
                     paper: {
                       elevation: 0,
                       sx: {
-                        fontSize: 12,
+                        fontSize: 16,
                         overflow: "visible",
                         filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                         mt: 1.5,
@@ -339,7 +342,6 @@ const DesctopHeader = () => {
                           bgcolor: "background.paper",
                           transform: "translateY(-50%) rotate(45deg)",
                           zIndex: 0,
-                          fontSize: 12,
                         },
                       },
                     },
@@ -352,10 +354,16 @@ const DesctopHeader = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "start",
+                      fontSize: 14,
                     }}
                     onClick={handleClose}
                   >
-                    <GridViewIcon className="mx-1 text-muted " />
+                    <GridViewIcon
+                      sx={{
+                        fontSize: 20,
+                      }}
+                      className="mx-1 text-muted "
+                    />
                     داشبورد
                   </MenuItem>
                   <Divider />
@@ -363,10 +371,16 @@ const DesctopHeader = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "start",
+                      fontSize: 14,
                     }}
                     onClick={handleClose}
                   >
-                    <QuestionMarkIcon className="mx-1 text-muted " />
+                    <QuestionMarkIcon
+                      sx={{
+                        fontSize: 20,
+                      }}
+                      className="mx-1 text-muted "
+                    />
                     سوالات متداول
                   </MenuItem>
                   <Divider />
@@ -374,10 +388,16 @@ const DesctopHeader = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "start",
+                      fontSize: 16,
                     }}
                     onClick={handleClose}
                   >
-                    <PersonAddIcon className="mx-1 text-muted " />
+                    <PersonAddIcon
+                      sx={{
+                        fontSize: 20,
+                      }}
+                      className="mx-1 text-muted "
+                    />
                     دعوت از دوستان
                   </MenuItem>
                   <Divider />
@@ -385,10 +405,16 @@ const DesctopHeader = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "start",
+                      fontSize: 16,
                     }}
                     onClick={handleClose}
                   >
-                    <SettingsIcon className="mx-1 text-muted " />
+                    <SettingsIcon
+                      sx={{
+                        fontSize: 20,
+                      }}
+                      className="mx-1 text-muted "
+                    />
                     تنظیمات
                   </MenuItem>
                   <Divider />
@@ -396,6 +422,7 @@ const DesctopHeader = () => {
                     sx={{
                       display: "flex",
                       justifyContent: "start",
+                      fontSize: 16,
                     }}
                     className="text-danger"
                     onClick={() => {
@@ -403,7 +430,12 @@ const DesctopHeader = () => {
                       handleClose();
                     }}
                   >
-                    <LogoutIcon className="mx-1  " />
+                    <LogoutIcon
+                      sx={{
+                        fontSize: 20,
+                      }}
+                      className="mx-1  "
+                    />
                     خروج از حساب کاربری
                   </MenuItem>
                 </Menu>
@@ -416,14 +448,13 @@ const DesctopHeader = () => {
                     // fontSize="small"
                     sx={{
                       transform: "rotate(180deg)",
+                      fontSize: 16,
                     }}
                   />
                 }
                 onClick={() => setOpenModalLogin(true)}
                 sx={{
                   ml: { xs: 2, md: 0 },
-                  px: { xs: 1, md: 3 },
-                  fontSize: { xs: "0.8rem", md: "1rem" },
                   minWidth: "auto",
                 }}
                 title=" ورود یا ثبت‌نام"
@@ -433,7 +464,9 @@ const DesctopHeader = () => {
                   variant="body2"
                   sx={{
                     display: { xs: "none", sm: "inline" },
+                    fontSize: { xs: "16px", md: "17px" },
                   }}
+                  className="py-0 px-2 my-0"
                 >
                   ورود یا ثبت‌نام
                 </Typography>

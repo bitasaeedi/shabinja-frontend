@@ -34,7 +34,7 @@ const features = [
 
 const ResponsiveCards = () => {
   return (
-    <Box sx={{ backgroundColor: "white", py: 8, textAlign: "center" }}>
+    <Box sx={{ backgroundColor: "white", py: 1, textAlign: "center" }}>
       <Grid container spacing={4} justifyContent="center">
         {features.map((feature, index) => (
           <Grid
