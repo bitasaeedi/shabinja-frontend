@@ -143,8 +143,12 @@ const MobileHeader = () => {
               position: isSticky ? "fixed" : "static", // 'relative' keeps it inside the flow
               backgroundColor: isSticky ? "white" : "white",
               color: theme.palette.text.primary,
-              // boxShadow: isSticky ? "0px 4px 8px rgba(0, 0, 0, 0.2)" : "none",
-              boxShadow: "none",
+              boxShadow:
+                location.pathname !== "/" ||
+                (!isSticky && location.pathname == "/")
+                  ? "none"
+                  : "0px 4px 8px rgba(0, 0, 0, 0.2)",
+              // boxShadow: "none",
               width: "100%", // Ensure it takes full width
             }}
             component="nav"

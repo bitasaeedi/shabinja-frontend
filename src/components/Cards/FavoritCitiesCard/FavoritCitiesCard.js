@@ -40,7 +40,7 @@ const FavoritCitiesCard = ({ myData = {} }) => {
       <Card
         sx={{
           // width: "auto",
-          width: { xs: 100, sm: 130, md: 140, lg: 170 },
+          width: { xs: 118, sm: 130, md: 140, lg: 170 },
           // Remove border radius
           boxShadow: "none", // Remove shadow
           backgroundColor: "transparent", // Remove background color
@@ -56,7 +56,7 @@ const FavoritCitiesCard = ({ myData = {} }) => {
             variant="rectangular"
             width="100%"
             sx={{
-              height: { xs: 115, sm: 140, md: 200 },
+              height: { xs: 130, sm: 140, md: 200 },
               borderRadius: 3,
             }}
           />
@@ -65,7 +65,7 @@ const FavoritCitiesCard = ({ myData = {} }) => {
         <CardMedia
           component="img"
           sx={{
-            height: { xs: 115, sm: 150, md: 200 },
+            height: { xs: 130, sm: 150, md: 200 },
             objectFit: "cover",
             borderRadius: 3,
           }}

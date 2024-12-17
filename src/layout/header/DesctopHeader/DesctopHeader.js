@@ -173,7 +173,10 @@ const DesctopHeader = () => {
         sx={{
           backgroundColor: isSticky ? "white" : "transparent",
           color: theme.palette.text.primary,
-          boxShadow: "none",
+          boxShadow:
+            location.pathname !== "/" || (!isSticky && location.pathname == "/")
+              ? "none"
+              : "0px 4px 8px rgba(0, 0, 0, 0.2)",
           height: 65,
           // boxShadow: isSticky ? "0px 4px 8px rgba(0, 0, 0, 0.2)" : "none", // Added shadow here
         }}
@@ -305,7 +308,7 @@ const DesctopHeader = () => {
                       display: { xs: "none", sm: "inline" },
                       fontSize: { xs: "16px", md: "17px" },
                     }}
-                    className="py-0 px-2 my-0"
+                    className="py-0 px-0 my-0"
                   >
                     {userName}
                   </Typography>
@@ -466,7 +469,7 @@ const DesctopHeader = () => {
                     display: { xs: "none", sm: "inline" },
                     fontSize: { xs: "16px", md: "17px" },
                   }}
-                  className="py-0 px-2 my-0"
+                  className="py-0 px-0 my-0"
                 >
                   ورود یا ثبت‌نام
                 </Typography>

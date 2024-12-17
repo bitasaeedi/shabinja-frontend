@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./layout/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
-import AllProperty from "./pages/AllProperty/AllProperty";
+import SearchPage from "./pages/SearchPage/SearchPage";
 // Create Context
 export const AppContext = createContext(); // <-- Ensure this is exported
 
@@ -65,7 +65,7 @@ function App() {
             <Header />
             <Routes>
               <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
-              <Route path="/all/:type" element={<AllProperty />} />
+              <Route path="/:seachtype" element={<SearchPage />} />
               <Route path="*" element={<Home />} />
             </Routes>
             <Footer />

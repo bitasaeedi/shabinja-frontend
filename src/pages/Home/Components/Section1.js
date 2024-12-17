@@ -6,21 +6,7 @@ import SubSliderHeader from "./SubSliderHeader";
 
 // سرچ دسکتاپ
 const Section1 = () => {
-  const texts = ["اقامتگاه‌ها", "کلبه‌ها", "ویلاها"]; // Dynamic texts
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [animate, setAnimate] = useState(false);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setAnimate(false); // Reset animation
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % texts.length); // Update text index
-        setAnimate(true); // Trigger animation
-      }, 100); // Small delay to reset animation
-    }, 2000); // Change text every 2 seconds
-
-    return () => clearInterval(interval);
-  }, [texts.length]);
 
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
@@ -32,21 +18,9 @@ const Section1 = () => {
           }}
         >
           {/* Title */}
-          <Box className="section-heading text-center mt-5">
-            <Typography
-              variant="h2"
-              className="text-white"
-              sx={{ fontSize: 40 }}
-            >
-              شگفت‌انگیزترین{" "}
-              <span className={`dynamic-text ${animate ? "appear" : ""}`}>
-                {texts[currentIndex]}
-              </span>{" "}
-              در انتظارته!
-            </Typography>
-          </Box>
+         
 
-          <Grid container justifyContent="center" className="mt-5">
+          <Grid container justifyContent="center" className="mt-4 mb-4">
             <Grid item xs={11} sm={8}>
               <Grid
                 container

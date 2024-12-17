@@ -37,14 +37,14 @@ const HomeCard = ({ myData = {} }) => {
   };
 
   useEffect(() => {
-    console.log(myData, "myData");
+    // console.log(myData, "myData");
   }, []);
 
   return (
-    <Box className="d-flex justify-content-center w-auto pb-0 mb-0">
+    <Box className=" w-auto pb-0 mb-0">
       <Card
         sx={{
-          width: { xs: 230, sm: 260, md: 300, lg: 300, xl: 320 },
+          width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330   },
           borderRadius: 3,
           // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           boxShadow: "none !important",
@@ -62,7 +62,7 @@ const HomeCard = ({ myData = {} }) => {
             variant="rectangular"
             width="100%"
             sx={{
-              height: { xs: 140, sm: 140, md: 180 },
+              height: { xs: 145, sm: 145, md: 185 },
             }}
           />
         )}
@@ -70,7 +70,7 @@ const HomeCard = ({ myData = {} }) => {
         <CardMedia
           component="img"
           sx={{
-            height: { xs: 140, sm: 140, md: 180 },
+            height: { xs: 145, sm: 145, md: 185 },
             objectFit: "cover",
             borderRadius: "0px 0px 10px 10px",
           }}

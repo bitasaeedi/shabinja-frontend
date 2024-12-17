@@ -5,7 +5,7 @@ const HomeCardSkeleton = () => (
   <Box className="d-flex justify-content-center w-auto pb-0 mb-0">
     <Card
       sx={{
-        width: { xs: 230, sm: 260, md: 300, lg: 300, xl: 320 },
+        width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330   },
         borderRadius: 3,
         boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         overflow: "hidden",

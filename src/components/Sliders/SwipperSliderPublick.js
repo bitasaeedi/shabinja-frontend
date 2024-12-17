@@ -8,22 +8,19 @@ import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavori
 import { Box, IconButton, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import CardSkeletonComment from "../Cards/CardComment/CardSkeletonComment";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
     onClick={disabled ? null : onClick}
     sx={{
       // transform: "translateY(-50%)",
-      backgroundColor: disabled
-        ? "rgba(200, 200, 200, 0.7)"
-        : "rgba(255, 255, 255, 0.7)",
+      backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent", //rgba(255, 255, 255, 0.7)
       border: "1px solid #ccc",
       borderRadius: { xs: "5px", md: "10px" },
       // padding: { xs: "4px", md: "8px" },
       "&:hover": {
-        backgroundColor: disabled
-          ? "rgba(200, 200, 200, 0.7)"
-          : "rgba(255, 255, 255, 1)",
+        backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       },
     }}
     disabled={disabled}
@@ -39,16 +36,12 @@ const PrevArrow = ({ onClick, disabled }) => (
     onClick={disabled ? null : onClick}
     sx={{
       // transform: "translateY(-50%)",
-      backgroundColor: disabled
-        ? "rgba(200, 200, 200, 0.7)"
-        : "rgba(255, 255, 255, 0.7)",
+      backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       border: "1px solid #ccc",
       borderRadius: { xs: "5px", md: "10px" },
       // padding: { xs: "4px", md: "8px" },
       "&:hover": {
-        backgroundColor: disabled
-          ? "rgba(200, 200, 200, 0.7)"
-          : "rgba(255, 255, 255, 1)",
+        backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       },
     }}
     disabled={disabled}
@@ -64,8 +57,7 @@ const SwipperSliderPublick = ({
   children,
   title,
   loading,
-  skeletonComponent,
-  favoritSkeleton,
+  deafultSkeleton,
   slidesPerView = 3,
   breakpoints,
 }) => {
@@ -94,7 +86,13 @@ const SwipperSliderPublick = ({
   };
 
   return (
-    <div style={{ width: "90%", margin: "auto", padding: "10px 0" }}>
+    <Box
+      sx={{
+        width: { xs: "90%", md: "80%" },
+        margin: "auto",
+        padding: "10px 0",
+      }}
+    >
       <Box
         sx={{ position: "relative", px: 0 }}
         className="d-flex justify-content-between align-items-start mb-3"
@@ -124,8 +122,8 @@ const SwipperSliderPublick = ({
       <Swiper
         ref={swiperRef}
         centeredSlides={false}
-        slidesPerView={slidesPerView || 4}
-        spaceBetween={5}
+        // slidesPerView={slidesPerView}
+        spaceBetween={10}
         loop={false}
         grabCursor={true}
         onSlideChange={handleSlideChange}
@@ -142,26 +140,26 @@ const SwipperSliderPublick = ({
                 720: {
                   slidesPerView: 2,
                 },
-                1024: {
+                1300: {
                   slidesPerView: 3,
                 },
               }
         }
         style={{
           paddingBottom: "5px",
-          paddingLeft: "80px",
+          paddingLeft: deafultSkeleton === "favorit" ? "12%" : "17%",
         }}
       >
         {loading !== false
           ? [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
               <SwiperSlide
                 key={index}
-                className=" d-flex justify-content-start"
+                className=" d-flex justify-content-start "
               >
-                {skeletonComponent ? (
-                  skeletonComponent
-                ) : favoritSkeleton ? (
+                {deafultSkeleton === "favorit" ? (
                   <SkeletonFavoritCitiesCard />
+                ) : deafultSkeleton === "comment" ? (
+                  <CardSkeletonComment />
                 ) : (
                   <HomeCardSkeleton />
                 )}
@@ -170,7 +168,7 @@ const SwipperSliderPublick = ({
           : lists.map((item, index) => (
               <SwiperSlide
                 key={index}
-                className=" d-flex justify-content-start"
+                className=" d-flex justify-content-start "
               >
                 {React.Children.map(children, (child) =>
                   React.cloneElement(child, {
@@ -180,7 +178,7 @@ const SwipperSliderPublick = ({
               </SwiperSlide>
             ))}
       </Swiper>
-    </div>
+    </Box>
   );
 };
 

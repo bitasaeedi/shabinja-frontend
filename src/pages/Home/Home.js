@@ -1,4 +1,12 @@
-import { Box, Container, TextField, Toolbar, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  TextField,
+  Toolbar,
+  Typography,
+  Button,
+} from "@mui/material";
 import React, { useEffect } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
@@ -11,11 +19,10 @@ import Section1 from "./Components/Section1";
 import { InView } from "react-intersection-observer";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
 import { FavoritDestinationApi, HostTourSearchApi } from "../../api/toureApis";
-import SkeletonFavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
-import HomeCardSkeleton from "../../components/Cards/HomeCards/HomeCardSkeleton";
 import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
 import FastSearchcomponentMobile from "./Components/FastSearchcomponentMobile/FastSearchcomponentMobile";
 import CardComment from "../../components/Cards/CardComment/CardComment";
+import Begust from "./Components/Begust/Begust";
 const cities = [
   {
     name: "رشت",
@@ -142,14 +149,11 @@ const Home = () => {
       <Box className="px-0 mx-0">
         {/* title={"مقاصد محبوب"} */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
-          <InViewComponents
-            getListData={() => getListData({})}
-            favoritSkeleton={true}
-          >
+          <InViewComponents getListData={() => getListData({})}>
             <SwipperSliderPublick
+              deafultSkeleton={"favorit"}
               title={"مقاصد محبوب"}
-              skeletonComponent={<SkeletonFavoritCitiesCard />}
-              slidesPerView={7}
+              // slidesPerView={7}
               breakpoints={{
                 0: {
                   slidesPerView: 2,
@@ -164,7 +168,7 @@ const Home = () => {
                   slidesPerView: 4,
                 },
                 1024: {
-                  slidesPerView: 6,
+                  slidesPerView: 5,
                 },
               }}
             >
@@ -172,9 +176,7 @@ const Home = () => {
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
-        {/* <Box sx={{ marginTop: { xs: 4, md: 5 } }}>
-          <CardComment />
-        </Box> */}
+
         {/* اقامتگاه های ممتاز */}
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
@@ -187,7 +189,6 @@ const Home = () => {
             <SwipperSliderPublick
               // lists={cities}
               title={"اقامتگاه‌های ممتاز"}
-              skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -199,7 +200,7 @@ const Home = () => {
             <SwipperSliderPublick
               // lists={cities}
               title={"اقامتگاه‌های اقتصادی"}
-              skeletonComponent={<HomeCardSkeleton />}
+              slidesPerView={4}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -217,29 +218,21 @@ const Home = () => {
           }}
         >
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick
-              lists={cities}
-              title={"تخفیفات لحظه آخری"}
-              skeletonComponent={<HomeCardSkeleton />}
-            >
+            <SwipperSliderPublick lists={cities} title={"تخفیفات لحظه آخری"}>
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
         {/* کارتهای تبلیغاتی */}
-        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
+        {/* <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
-        </Box>
+        </Box> */}
         {/* اقامتگاه  های شمال */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick
-              lists={cities}
-              title={"اقامتگاه‌های شمال"}
-              skeletonComponent={<HomeCardSkeleton />}
-            >
+            <SwipperSliderPublick lists={cities} title={"اقامتگاه‌های شمال"}>
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
@@ -255,24 +248,27 @@ const Home = () => {
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
+
         {/* کارتهای تبلیغاتی */}
-        <Box
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 },  }}>
+          <InView triggerOnce>
+            <ResponsiveFeatures />
+          </InView>
+        </Box>
+        {/* کارتهای تبلیغاتی */}
+        {/* <Box
           className=" "
           sx={{ marginTop: { xs: 2, md: 1 }, mx: { xs: 2, md: 8 } }}
         >
           <InView>
             <ResponsiveCards />
           </InView>
-        </Box>
+        </Box> */}
 
         {/* اقامتگاه‌های جنوب */}
         <Box className=" " sx={{ marginTop: { xs: 2, md: 1 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick
-              lists={cities}
-              title={" اقامتگاه‌های جنوب"}
-              skeletonComponent={<HomeCardSkeleton />}
-            >
+            <SwipperSliderPublick lists={cities} title={" اقامتگاه‌های جنوب"}>
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
@@ -287,22 +283,31 @@ const Home = () => {
           }}
         >
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick
-              lists={cities}
-              title={" رزرو‌های فوری"}
-              skeletonComponent={<HomeCardSkeleton />}
-            >
+            <SwipperSliderPublick lists={cities} title={" رزرو‌های فوری"}>
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
+
+        {/* === نظرات کاربران */}
+        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents getListData={() => callApiForGetList({})}>
+            <SwipperSliderPublick
+              lists={cities}
+              title={"نظرات کاربران"}
+              deafultSkeleton={"comment"}
+            >
+              <CardComment />
+            </SwipperSliderPublick>
+          </InViewComponents>
+        </Box>
+
         {/* اقامتگاه‌های بومگردی */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
             <SwipperSliderPublick
               lists={cities}
               title={" اقامتگاه‌های بومگردی"}
-              skeletonComponent={<HomeCardSkeleton />}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -311,15 +316,15 @@ const Home = () => {
         {/* ویلاهای اطراف تهران */}
         <Box className="mb-5 " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick
-              lists={cities}
-              title={"ویلاهای اطراف تهران "}
-              skeletonComponent={<HomeCardSkeleton />}
-            >
+            <SwipperSliderPublick lists={cities} title={"ویلاهای اطراف تهران "}>
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
+
+        {/* میزبان شوید */}
+        <Begust />
+        {/* ========= */}
       </Box>
     </Box>
   );
