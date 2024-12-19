@@ -10,7 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
 import SearchPage from "./pages/SearchPage/SearchPage";
 // Create Context
-export const AppContext = createContext(); // <-- Ensure this is exported
+export const AppContext = createContext(); 
 
 // RTL cache mui
 const cacheRtl = createCache({

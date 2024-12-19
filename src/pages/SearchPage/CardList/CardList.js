@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Box, Pagination } from "@mui/material";
-import HomeCard from "../../../components/Cards/HomeCards/HomeCards";
+
 import MapToggleButton from "../components/MapToggleButton";
 import CardHouseDetails from "../../../components/Cards/CardHouseDetails/CardHouseDetails";
+import HomeCardSkeleton from "../../../components/Cards/HomeCards/HomeCardSkeleton";
 
-const CardList = ({ data, showMap, toggleMap }) => {
+const CardList = ({ data = [], showMap, toggleMap, loading }) => {
   // State for pagination
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
@@ -43,21 +44,37 @@ const CardList = ({ data, showMap, toggleMap }) => {
           padding: 2,
         }}
       >
-        {currentData.map((item, index) => (
-          <Box
-            key={index}
-            sx={{
-              flex: "1 1 calc(33.333% - 16px)", // 3 cards per row with a gap of 16px
-              maxWidth: "calc(33.333% - 16px)", // Ensure cards stay within their space
-              minWidth: "250px", // Minimum width for cards
-              display: "flex",
-              justifyContent: "center",
-              my: 1,
-            }}
-          >
-            <CardHouseDetails myData={item} />
-          </Box>
-        ))}
+        {loading
+          ? [1, 2, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6].map((item, index) => (
+              <Box
+                key={index}
+                sx={{
+                  flex: "1 1 calc(33.333% - 16px)", // 3 cards per row with a gap of 16px
+                  maxWidth: "calc(33.333% - 16px)", // Ensure cards stay within their space
+                  minWidth: "250px", // Minimum width for cards
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 1,
+                }}
+              >
+                <HomeCardSkeleton />
+              </Box>
+            ))
+          : currentData.map((item, index) => (
+              <Box
+                key={index}
+                sx={{
+                  flex: "1 1 calc(33.333% - 16px)", // 3 cards per row with a gap of 16px
+                  maxWidth: "calc(33.333% - 16px)", // Ensure cards stay within their space
+                  minWidth: "250px", // Minimum width for cards
+                  display: "flex",
+                  justifyContent: "center",
+                  my: 1,
+                }}
+              >
+                <CardHouseDetails myData={item} />
+              </Box>
+            ))}
       </Box>
 
       {/* Pagination */}

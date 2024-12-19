@@ -1,31 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Button, Popover, Box, Typography, TextField } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SearchPageContext } from "../SearchPage";
 
 const FilterButton = ({ filter, label, startIcon, popoverContent }) => {
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const location = useLocation();
-
-  
+  const searchPageContext = useContext(SearchPageContext);
+  const [valueOfFilter, setValueOfFilters] = useState(null);
 
   const isFilterActive = () => {
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter = params.get(filter);
-    // console.log(valueOfFilter, "valueOfFilter", filter);
     if (valueOfFilter) {
       setActive(true);
+      setValueOfFilters(valueOfFilter);
     } else {
       setActive(false);
+      setValueOfFilters(null);
     }
   };
 
   // Update active state whenever location.search changes
   useEffect(() => {
     isFilterActive();
-    // console.log(window.location.search, "window.location.search");
-  }, [filter, window.location.search]);
+  }, [filter]);
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
@@ -42,13 +43,10 @@ const FilterButton = ({ filter, label, startIcon, popoverContent }) => {
   const handleSetSearch = (filter, value) => {
     const params = new URLSearchParams(window.location.search);
 
-    // Update the filter with the new value
     if (value) {
-      params.set(filter, value); // Add or update the filter
-      // setActive(true);
+      params.set(filter, value);
     } else {
-      params.delete(filter); // Remove the filter if value is empty
-      // setActive(false);
+      params.delete(filter);
     }
 
     // Update the URL with the new search parameters
@@ -56,8 +54,9 @@ const FilterButton = ({ filter, label, startIcon, popoverContent }) => {
     window.history.replaceState(null, "", `?${newSearch}`);
     isFilterActive();
     handleClosePopover();
+    searchPageContext.handleSearch();
   };
-
+ 
   return (
     <>
       <Button
@@ -81,7 +80,7 @@ const FilterButton = ({ filter, label, startIcon, popoverContent }) => {
           )
         }
       >
-        {label}
+        {valueOfFilter ? valueOfFilter : label}
       </Button>
 
       {/* Popover */}

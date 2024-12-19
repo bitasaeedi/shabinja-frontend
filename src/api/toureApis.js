@@ -1,4 +1,5 @@
 import axios from "axios";
+import { ConvertShamsiToMiladi } from "../components/DateFunctions/DateFunctions";
 import API_URL from "../config/apiConfig";
 import SUB_API_URL from "../config/apiConfig";
 const baseUrl = API_URL;
@@ -10,8 +11,10 @@ export const HostTourSearchApi = async (searchData) => {
     const response = await axios.get(`${baseUrl}/HostTour/Search`, {
       params: {
         title: searchData?.title,
-        start: searchData?.start,
-        end: searchData?.end,
+        start: searchData?.start
+          ? ConvertShamsiToMiladi(searchData?.start)
+          : "",
+        end: searchData?.end ? ConvertShamsiToMiladi(searchData?.end) : "",
         count: searchData?.count,
         Room: searchData?.Room,
         minprice: searchData?.minprice,

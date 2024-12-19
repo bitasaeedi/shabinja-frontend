@@ -113,13 +113,15 @@ const MainSearchForm = () => {
     console.log(data, "data onSubmit");
     const myData = {
       city: "tehran", // Example city
-      dateSelection: "1403-01-02",
+      dateSelection: "1403/01/02",
+      dateSelection2: "1403/01/05",
     };
 
     // Build the query string
     const queryString = new URLSearchParams({
-      dateSelection: myData.dateSelection,
-      guestCount: 2, // Example count, replace with dynamic value if necessary
+      start: myData.dateSelection,
+      end: myData.dateSelection2,
+      count: 2, // Example count, replace with dynamic value if necessary
     }).toString();
 
     // Construct the URL
