@@ -62,11 +62,10 @@ const SearchPage = () => {
     setLoadingSearch(true);
 
     const filters = handleFindeParams(); // Get the parsed params
-    console.log(filters, "Parsed Filters");
 
     // ارتباط با api
     const filtersParams = {
-      title: filters?.title,
+      // title: seachtype,
       start: filters?.start, // شمسی
       end: filters?.end, // شمسی
       count: filters?.count,
@@ -78,6 +77,7 @@ const SearchPage = () => {
       sort: filters?.sort,
       type: filters?.type,
     };
+    console.log(filtersParams, "Parsed Filters", filters);
     const result = await HostTourSearchApi(filtersParams);
     console.log(result, "result");
     setListCards(result?.data?.items);
@@ -97,7 +97,7 @@ const SearchPage = () => {
 
   return (
     <SearchPageContext.Provider value={{ handleSearch: handleSearch }}>
-      <Box sx={{ position: "relative" }}>
+      <Box sx={{ position: "relative" }} className=" ">
         {/* Filter Section */}
         <FilterSection />
 
@@ -109,17 +109,26 @@ const SearchPage = () => {
             padding: "16px",
             marginTop: { xs: "9px", md: "65px" },
           }}
+          className=" "
         >
           {/* Card List Section */}
-          <Grid item xs={showMap && !isMobile ? 6 : 12} sx={{ pr: 2 }}>
+          <Grid
+            item
+            xs={showMap && !isMobile ? 6 : 12}
+            sx={{
+              // pr: 2,
+            }}
+            className=" p-0 m-0 "
+          >
             <Box
               ref={cardListRef}
               sx={{
                 overflowY: "auto",
-                paddingRight: "16px",
+                // paddingRight: "16px",
                 scrollbarWidth: "none",
                 "&::-webkit-scrollbar": { display: "none" },
               }}
+              className=" "
             >
               <Typography variant="h5" sx={{ marginBottom: 2 }}>
                 {typeHome?.label}

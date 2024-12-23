@@ -1,7 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography, Skeleton } from "@mui/material";
+import SelectCityOption from "./SelectCityOption";
 
-const SelectCity = ({ selectedCity, closePopup, listCitis, loading }) => {
+const SelectCity = ({
+  selectedCity,
+  closePopup,
+  objectOfLisDatas,
+  loading,
+}) => {
   const counterRef = useRef();
 
   useEffect(() => {
@@ -15,6 +21,8 @@ const SelectCity = ({ selectedCity, closePopup, listCitis, loading }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [closePopup]);
+
+
 
   return (
     <Box
@@ -34,33 +42,56 @@ const SelectCity = ({ selectedCity, closePopup, listCitis, loading }) => {
         {loading ? (
           // Skeleton loading effect
           <Box>
-            <Skeleton variant="text" width="100%" height={20} sx={{ marginBottom: "10px" }} />
-            <Skeleton variant="text" width="100%" height={20} sx={{ marginBottom: "10px" }} />
-            <Skeleton variant="text" width="100%" height={20} sx={{ marginBottom: "10px" }} />
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={20}
+              sx={{ marginBottom: "10px" }}
+            />
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={20}
+              sx={{ marginBottom: "10px" }}
+            />
+            <Skeleton
+              variant="text"
+              width="100%"
+              height={20}
+              sx={{ marginBottom: "10px" }}
+            />
           </Box>
         ) : (
-          listCitis?.map((item, index) => (
-            <Box
-              key={index}
-              onClick={() => {
-                selectedCity(item?.title);
-              }}
-              className="cursor-pointer"
-              sx={{
-                padding: "8px 0",
-                "&:hover": {
-                  backgroundColor: "#e0e0e0", // Hover effect for better UX
-                },
-              }}
-            >
-              <Typography
-                className="m-2"
-                sx={{ fontSize: "14px", color: "gray" }}
-              >
-                {item?.title}
-              </Typography>
-            </Box>
-          ))
+          <>
+            {objectOfLisDatas?.cities?.map((item, index) => (
+              <SelectCityOption
+                key={index}
+                item={item}
+                callBack={selectedCity}
+              />
+            ))}
+            {objectOfLisDatas?.provinces?.map((item, index) => (
+              <SelectCityOption
+                key={index}
+                item={item}
+                callBack={selectedCity}
+              />
+            ))}
+            {objectOfLisDatas?.otherConditions?.map((item, index) => (
+              <SelectCityOption
+                key={index}
+                item={item}
+                callBack={selectedCity}
+              />
+            ))}
+            {objectOfLisDatas?.hosts?.map((item, index) => (
+              <SelectCityOption
+                key={index}
+                item={item}
+                callBack={selectedCity}
+              />
+            ))}
+          </>
         )}
       </Box>
     </Box>

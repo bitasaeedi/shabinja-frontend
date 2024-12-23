@@ -7,13 +7,14 @@ import PopOverSelectDate from "./PopOverSelectDate";
 import { ShamsiToMoreShamsiDetails } from "../../../../../components/DateFunctions/DateFunctions";
 
 const filter = "start";
-const label = "انتخاب تاریخ";
+const label = "تاریخ رزرو";
 const startIcon = <DateRangeOutlinedIcon />;
 const DateFilterButton = ({}) => {
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
   const [valueOfFilter, setValueOfFilters] = useState(null);
+  const [listDateSelected, setListDateSelected] = useState([]);
   const isFilterActive = () => {
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter = params.get("start");
@@ -28,9 +29,11 @@ const DateFilterButton = ({}) => {
           : startShamsiObj?.monthName
       }  تا  ${endShamsiObj?.day}  ${endShamsiObj?.monthName}`;
       setValueOfFilters(lable);
+      setListDateSelected([valueOfFilter, valueOfFilter2]);
     } else {
       setActive(false);
       setValueOfFilters(null);
+      setListDateSelected([]);
     }
   };
 
@@ -41,9 +44,9 @@ const DateFilterButton = ({}) => {
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
-    if (!active) {
-      setAnchorEl(event.currentTarget); // Open popover only if not active
-    }
+    // if (!active) {
+    setAnchorEl(event.currentTarget); // Open popover only if not active
+    // }
   };
 
   // Function to handle popover close
@@ -93,7 +96,10 @@ const DateFilterButton = ({}) => {
           active && (
             <ClearIcon
               fontSize="small"
-              onClick={() => handleSetSearch([])}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSetSearch([]);
+              }}
               sx={{ cursor: "pointer" }}
             />
           )
@@ -103,28 +109,14 @@ const DateFilterButton = ({}) => {
       </Button>
 
       {/* Popover */}
-      {!active && (
-        <Popover
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          onClose={handleClosePopover}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          PaperProps={{
-            sx: {
-              mt: 3, // Adds margin top of 8px (1 unit of spacing)
-            },
-          }}
-        >
-          <PopOverSelectDate callBackFunc={handleSetSearch} />
-        </Popover>
-      )}
+      {/* {!active  && ( */}
+
+      <PopOverSelectDate
+        callBackFunc={handleSetSearch}
+        valueDefault={listDateSelected}
+        anchorEl={anchorEl}
+        handleClosePopover={handleClosePopover}
+      />
     </>
   );
 };

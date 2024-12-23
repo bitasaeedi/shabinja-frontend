@@ -43,6 +43,9 @@ export const GetShamsiDateDetails = (miladiDate) => {
 };
 
 export const ConvertShamsiToMiladi = (shamsiDate) => {
+  if (!/^\d{4}\/\d{1,2}\/\d{1,2}$/.test(shamsiDate)) {
+    return "";
+  }
   // Split the input date to extract year, month, and day
   const [jy, jm, jd] = shamsiDate.split("/").map(Number);
 

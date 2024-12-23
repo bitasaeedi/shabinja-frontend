@@ -1,66 +1,35 @@
 import React from "react";
 import { Box } from "@mui/material";
-import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
-import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
-import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
-import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
-import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
-import FilterButton from "./FilterButton"; // Import the FilterButton component
+
 import CountPeopleButton from "./Buttons/CountPeopleButton/CountPeopleButton";
 import DateFilterButton from "./Buttons/DateFilterButton/DateFilterButton";
 import RentalRange from "./Buttons/RentalRange/RentalRange";
+import AccommodationTypeButton from "./Buttons/AccommodationTypeButton/AccommodationTypeButton";
+import AllFilterButton from "./Buttons/AllFilterButton/AllFilterButton";
+import LocationFilterButton from "./Buttons/LocationFilterButton/LocationFilterButton";
+// import FeutersButtonFilter from "./Buttons/FeutersButtonFilter/FeutersButtonFilter";
+// import EmkanatFilterButtons from "./Buttons/EmkanatFilterButtons/EmkanatFilterButtons";
+// import RoomsFilterButton from "./Buttons/RoomsFilterButton/RoomsFilterButton";
+// import RullesButtonFilter from "./Buttons/RullesButtonFilter/RullesButtonFilter";
+// import TypeEjarehFilter from "./Buttons/TypeEjarehFilter/TypeEjarehFilter";
 
 const FilterSection = () => {
-  const filterButtons = [
-    {
-      id: 1,
-      filter: "filter",
-      label: "فیلتر ها",
-      icon: <FilterAltOutlinedIcon />,
-      popoverType: "allFilter",
-    },
-    {
-      id: 2,
-      filter: "accommodationType",
-      label: "نوع اقامتگاه",
-      icon: <HomeWorkOutlinedIcon />,
-      popoverType: "allFilter",
-    },
-    {
-      id: 3,
-      filter: "location",
-      label: "منطقه اقامتگاه",
-      icon: <LocationOnOutlinedIcon />,
-      popoverType: "allFilter",
-    },
-    {
-      id: 4,
-      filter: "rentalRange",
-      label: "محدوده اجاره",
-      icon: <PriceChangeOutlinedIcon />,
-      popoverType: "allFilter",
-    },
-    {
-      id: 5,
-      filter: "dateSelection",
-      label: "انتخاب تاریخ",
-      icon: <DateRangeOutlinedIcon />,
-      popoverType: "allFilter",
-    },
-    {
-      id: 6,
-      filter: "guestCount",
-      label: "تعداد نفرات",
-      icon: <PeopleOutlineOutlinedIcon />,
-      popoverType: "allFilter",
-    },
-  ];
+
 
   const buttonComponents = [
-    <CountPeopleButton />,
+    <AllFilterButton />,
     <DateFilterButton />,
+    <CountPeopleButton />,
     <RentalRange />,
+    <LocationFilterButton />,
+    <AccommodationTypeButton />,
+ 
+  
+    // <FeutersButtonFilter />,
+    // <EmkanatFilterButtons />,
+    // <RoomsFilterButton />,
+    // <RullesButtonFilter />,
+    // <TypeEjarehFilter />,
   ];
   return (
     <Box
@@ -86,16 +55,16 @@ const FilterSection = () => {
         }}
       >
         {buttonComponents.map((item, index) => (
-          <div key={index}>{item}</div>
-        ))}
-        {/* {filterButtons.map(({ filter, label, icon, id }, index) => (
-          <FilterButton
+          <Box
             key={index}
-            filter={filter}
-            label={label}
-            startIcon={icon}
-          />
-        ))} */}
+            sx={{
+              minWidth: "fit-content",
+            }}
+          >
+            {item}
+          </Box>
+        ))}
+  
       </Box>
     </Box>
   );

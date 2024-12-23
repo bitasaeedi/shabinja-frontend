@@ -78,7 +78,10 @@ const CountPeopleButton = ({}) => {
           active && (
             <ClearIcon
               fontSize="small"
-              onClick={() => handleSetSearch()}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSetSearch();
+              }}
               sx={{ cursor: "pointer" }}
             />
           )
@@ -90,29 +93,15 @@ const CountPeopleButton = ({}) => {
       {/* Popover */}
       {
         // !active  &&
-        <Popover
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          onClose={handleClosePopover}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          PaperProps={{
-            sx: {
-              mt: 3,
-            },
-          }}
-        >
+   
           <PopOverCount
             callBackFunc={handleSetSearch}
             defaultCount={parseFloat(valueOfFilter)}
+            anchorEl={anchorEl}
+            handleClosePopover={handleClosePopover}
           />
-        </Popover>
+  
+       
       }
     </>
   );

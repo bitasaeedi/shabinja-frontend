@@ -3,9 +3,10 @@ import { Button, Popover, Box, Typography, TextField } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import { SearchPageContext } from "../../../SearchPage";
 import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
+import PopVerFilter from "./PopVerFilter";
 
 const filter = "rentalRange";
-const label = "مبلغ اجاره";
+const label = "قیمت هر شب";
 const startIcon = <PriceChangeOutlinedIcon />;
 const RentalRange = ({}) => {
   const [active, setActive] = useState(false);
@@ -68,6 +69,7 @@ const RentalRange = ({}) => {
           color: active ? "white" : "black",
           borderColor: active ? "transparent" : "rgba(0, 0, 0, 0.12)",
           minWidth: "fit-content",
+          display: { xs: "none", md: "flex" },
         }}
         size="small"
         startIcon={startIcon}
@@ -86,45 +88,14 @@ const RentalRange = ({}) => {
       </Button>
 
       {/* Popover */}
-      {!active && (
-        <Popover
-          open={Boolean(anchorEl)}
-          anchorEl={anchorEl}
-          onClose={handleClosePopover}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "center",
-          }}
-          transformOrigin={{
-            vertical: "top",
-            horizontal: "center",
-          }}
-          PaperProps={{
-            sx: {
-              mt: 1, // Adds margin top of 8px (1 unit of spacing)
-            },
-          }}
-        >
-          <Box sx={{ padding: 2, minWidth: 200 }}>
-            <Typography variant="subtitle1">فرم تست </Typography>
-            <TextField
-              fullWidth
-              label="Enter value"
-              size="small"
-              sx={{ mt: 2 }}
-              // onChange={(e) => handleSetSearch(e.target.value, filter)}
-            />
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{ mt: 2 }}
-              onClick={() => handleSetSearch("12000000")}
-            >
-              ارسال فیلتر
-            </Button>
-          </Box>
-        </Popover>
-      )}
+      {/* {!active && ( */}
+       <PopVerFilter
+       callBackFunc={handleSetSearch}
+       defaultCount={parseFloat(valueOfFilter)}
+       anchorEl={anchorEl}
+       handleClosePopover={handleClosePopover}
+     />
+      {/* )} */}
     </>
   );
 };

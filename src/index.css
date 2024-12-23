@@ -54,6 +54,7 @@ body {
   opacity: 1; /* Fully visible after animation */
 }
 
+
 /* end for city slider */
 
 @keyframes App-logo-spin {
@@ -64,4 +65,8 @@ body {
     transform: rotate(360deg);
   }
 }
+
+
+
+
 

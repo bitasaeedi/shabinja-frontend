@@ -1,16 +1,25 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import weekends from "react-multi-date-picker/plugins/highlight_weekends";
 import transition from "react-element-popper/animations/transition";
+import {
+  GetMiladiStdFunc,
+  GetShamsiDateDetails,
+} from "../DateFunctions/DateFunctions";
 
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 
-function FormDate({ returnDate, closePopup }) {
+function FormDate({ returnDate, closePopup, valueDefault }) {
   const calendarRef = useRef();
-
+  const [values, setValues] = useState(valueDefault);
   // Handle click outside to close calendar
+
+  useEffect(() => {
+    setValues(valueDefault);
+  }, [valueDefault]);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
@@ -30,25 +39,22 @@ function FormDate({ returnDate, closePopup }) {
       const year = value.year; // Year
 
       // Return separate values
-      returnDate({ day, month, year, completDate: value.format() });
+      const miladi = GetMiladiStdFunc(new Date(value.toJSON()));
+      const valueObj = {
+        miladi,
+        shamsiObj: GetShamsiDateDetails(miladi),
+      };
+
+      returnDate(valueObj);
+      // { day, month, year, completDate: value.format() }
     }
   };
-
-  // const onChange = (value) => {
-  //   // Log the formatted value of each selected date
-  //   if (Array.isArray(value)) {
-  //     value.forEach((date) => {
-  //       console.log(date.format(), "calender list"); // Use the format() method to get the formatted date
-  //     });
-  //   } else {
-  //     console.log(value.format(), "calender normal"); // For single date selection
-  //     returnDate(value.format());
-  //   }
-  // };
 
   return (
     <div ref={calendarRef}>
       <Calendar
+        //  value={values}
+        className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar"
         format="YYYY/MM/DD" // Set the desired format directly
         calendar={persian}
         locale={persian_fa}
@@ -61,15 +67,25 @@ function FormDate({ returnDate, closePopup }) {
         plugins={[weekends()]}
         animations={[transition()]}
         weekDays={weekDays}
-        mapDays={({ date, today }) => {
-          //   let isWeekend = [0, 6].includes(date.weekDay.index);
-
-          if (date < today)
+        mapDays={({ date, today, selectedDate, currentMonth, isSameDate }) => {
+          let isWeekend = date.weekDay.index === 6;
+          if (isWeekend) {
+            return {
+              style: { color: "red" },
+            };
+          }
+          if (
+            GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON())
+          ) {
             return {
               disabled: true,
               style: { color: "#ccc" },
-              //   onClick: () => alert(" غیر فعال هستند"),
             };
+          } else {
+            return {
+              style: {},
+            };
+          }
         }}
       />
     </div>

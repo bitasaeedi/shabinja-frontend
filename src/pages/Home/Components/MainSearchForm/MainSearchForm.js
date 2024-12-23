@@ -19,6 +19,7 @@ import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
 import SelectCity from "../../../../components/popups/SelectCity/SelectCity";
 import { HostTourSearchTitleApi } from "../../../../api/toureApis";
 import { useNavigate } from "react-router-dom";
+import { getValue } from "@testing-library/user-event/dist/utils";
 const cities = [
   { id: 1, name: "تهران" },
   { id: 2, name: "مشهد" },
@@ -78,7 +79,8 @@ const MainSearchForm = () => {
   const [currentField, setCurrentField] = useState("");
   const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
   const [peopleCountAnchor, setPeopleCountAnchor] = useState(null);
-  const [listCitis, setListCitis] = useState([]);
+  const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
+  const [selectedCity, setSelectedCity] = useState({});
   // Use the `useNavigate` hook
   const navigate = useNavigate();
   const texts = ["اقامتگاه‌ها", "کلبه‌ها", "ویلاها"]; // Dynamic texts
@@ -91,6 +93,7 @@ const MainSearchForm = () => {
     formState: { errors },
     setValue,
     watch,
+    setFocus,
   } = useForm();
 
   useEffect(() => {
@@ -106,29 +109,44 @@ const MainSearchForm = () => {
   }, [texts.length]);
 
   useEffect(() => {
-    handleSearchCities("");
+    // handleSearchCities("");
   }, []);
 
   const onSubmit = (data) => {
-    console.log(data, "data onSubmit");
-    const myData = {
-      city: "tehran", // Example city
-      dateSelection: "1403/01/02",
-      dateSelection2: "1403/01/05",
-    };
+    if (selectedCity.titleEn) {
+      if (data.entryDate && !data.exitDate) {
+        const exitDateInput = document.querySelector('input[name="exitDate"]');
+        exitDateInput.click();
+        return;
+      }
+      if (!data.entryDate && data.exitDate) {
+        const entryDateInput = document.querySelector(
+          'input[name="entryDate"]'
+        );
+        entryDateInput.click();
+        return;
+      }
+      // Build the query string
+      const queryParams = Object.fromEntries(
+        Object.entries({
+          start: data.entryDate,
+          end: data.exitDate,
+          count: data.peopleCount,
+        }).filter(([_, value]) => value != null && value !== "")
+      );
 
-    // Build the query string
-    const queryString = new URLSearchParams({
-      start: myData.dateSelection,
-      end: myData.dateSelection2,
-      count: 2, // Example count, replace with dynamic value if necessary
-    }).toString();
+      // Convert to query string
+      const queryString = new URLSearchParams(queryParams).toString();
 
-    // Construct the URL
-    const url = `/city-${myData.city.toString()}?${queryString}`;
+      // Construct the URL
+      const url = `/${selectedCity.titleEn}?${queryString}`;
 
-    // Navigate to the constructed URL
-    navigate(url);
+      // Navigate to the constructed URL
+      navigate(url);
+    } else {
+      // const cityInput = document.querySelector('input[name="city"]');
+      // cityInput.click();
+    }
   };
 
   const handleDateClick = (event, field) => {
@@ -137,7 +155,7 @@ const MainSearchForm = () => {
   };
 
   const handleDateSelect = (selectedDate) => {
-    setValue(currentField, selectedDate?.completDate);
+    setValue(currentField, selectedDate?.shamsiObj.fullshamsi);
     setCalendarAnchor(null); // Close calendar after selecting
 
     if (currentField === "entryDate") {
@@ -148,14 +166,16 @@ const MainSearchForm = () => {
   };
 
   const handleSearchCities = async (textToSearch) => {
+    console.log(textToSearch, "textToSearch");
+    setSelectedCity({});
     if (textToSearch.length >= 3 || textToSearch.length == 0) {
       setLoadingSearchCitis(true);
       const resultGetTours = await HostTourSearchTitleApi({
         title: textToSearch,
       });
-      var list = resultGetTours?.data?.items;
-      console.log(list, "resultGetTours list");
-      setListCitis(list);
+      var objectList = resultGetTours?.data;
+      console.log(objectList, "resultGetTours list", textToSearch);
+      setObjectOfLisDatas(objectList);
       setLoadingSearchCitis(false);
     }
   };
@@ -226,7 +246,7 @@ const MainSearchForm = () => {
                   name="city"
                   control={control}
                   defaultValue={null}
-                  // rules={{ required: "شهر الزامی است" }}
+                  rules={{ required: true }}
                   render={({ field }) => (
                     <TextField
                       {...field}
@@ -237,11 +257,14 @@ const MainSearchForm = () => {
                       placeholder="انتخاب مقصد"
                       InputLabelProps={{ shrink: true }}
                       sx={inputStyles}
-                      error={!!errors.city}
+                      error={!selectedCity.title && !!errors.city}
                       InputProps={{
                         autoComplete: "off",
                         // readOnly: false, // Prevent typing
-                        onChange: (e) => handleSearchCities(e.target.value),
+                        onChange: (e) => {
+                          field.onChange(e); // Update the Controller's state
+                          handleSearchCities(e.target.value); // Perform your custom logic
+                        },
                         endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
                           <InputAdornment position="end">
                             <IconButton
@@ -409,14 +432,19 @@ const MainSearchForm = () => {
                   ) : currentField == "city" ? (
                     <SelectCity
                       closePopup={() => setCalendarAnchor(null)}
-                      selectedCity={(title) => setValue("city", title)}
-                      listCitis={listCitis}
+                      selectedCity={(item) => {
+                        setValue("city", item?.title);
+                        setSelectedCity(item);
+                        setCalendarAnchor(null);
+                      }}
+                      objectOfLisDatas={objectOfLisDatas}
                       loading={loadingSearchCitis}
                     />
                   ) : (
                     <FormDate
                       returnDate={handleDateSelect}
                       closePopup={() => setCalendarAnchor(null)}
+                  
                     />
                   )}
                   {/*  */}
