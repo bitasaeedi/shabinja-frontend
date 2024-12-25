@@ -14,8 +14,6 @@ import LocationFilterButton from "./Buttons/LocationFilterButton/LocationFilterB
 // import TypeEjarehFilter from "./Buttons/TypeEjarehFilter/TypeEjarehFilter";
 
 const FilterSection = () => {
-
-
   const buttonComponents = [
     <AllFilterButton />,
     <DateFilterButton />,
@@ -23,8 +21,7 @@ const FilterSection = () => {
     <RentalRange />,
     <LocationFilterButton />,
     <AccommodationTypeButton />,
- 
-  
+   
     // <FeutersButtonFilter />,
     // <EmkanatFilterButtons />,
     // <RoomsFilterButton />,
@@ -64,7 +61,6 @@ const FilterSection = () => {
             {item}
           </Box>
         ))}
-  
       </Box>
     </Box>
   );

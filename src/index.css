@@ -68,5 +68,67 @@ body {
 
 
 
+/* calender */
+
+
+.rmdp-wrapper.custom-calendar .rmdp-week-day {
+  margin: 3px;
+  padding: 15px;
+  border: 2px solid transparent; 
+  background-color: transparent ; 
+  box-shadow: none !important; 
+  transition: border 0.3s ease, background-color 0.3s ease;
+  color: gray;
+}
+
+.rmdp-wrapper.custom-calendar .rmdp-day span {
+  background-color: transparent !important ; 
+  color: inherit; 
+}
+
+.rmdp-wrapper.custom-calendar .rmdp-day span:hover {
+  color: #287dfa ; 
+}
+
+
+.rmdp-wrapper.custom-calendar .rmdp-day {
+  margin: 3px;
+  padding: 15px;
+  border: 2px solid transparent; 
+
+  box-shadow: none !important; 
+  transition: border 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+
+}
+
+
+.rmdp-wrapper.custom-calendar .rmdp-day:hover {
+  border: 2px solid #287dfa !important; 
+  background-color: transparent !important;
+  color: #287dfa !important;
+}
+
+
+
+.rmdp-wrapper.custom-calendar .rmdp-day.start {
+  background-color: #287dfa ; 
+  color: white ; 
+  border: 2px solid #287dfa ; 
+}
+
+
+.rmdp-wrapper.custom-calendar .rmdp-day.end {
+  background-color: #287dfa ; 
+  color: white ; 
+  border: 2px solid #287dfa ; 
+}
+
+
+.rmdp-wrapper.custom-calendar .rmdp-day.weekend {
+  color: red !important;
+}
+
+
 
 

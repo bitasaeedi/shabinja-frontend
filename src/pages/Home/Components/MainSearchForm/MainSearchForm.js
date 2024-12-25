@@ -419,6 +419,13 @@ const MainSearchForm = () => {
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
                     borderRadius: "8px",
                     zIndex: 1000,
+                    transform: `translate(${
+                      currentField == "city"
+                        ? "50px"
+                        : currentField == "peopleCount"
+                        ? "110px"
+                        : "100px"
+                    }, 0)`,
                   }}
                 >
                   {currentField == "peopleCount" ? (
@@ -444,7 +451,6 @@ const MainSearchForm = () => {
                     <FormDate
                       returnDate={handleDateSelect}
                       closePopup={() => setCalendarAnchor(null)}
-                  
                     />
                   )}
                   {/*  */}

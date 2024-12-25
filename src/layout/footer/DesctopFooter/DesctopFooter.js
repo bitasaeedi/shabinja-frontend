@@ -22,7 +22,7 @@ const DesctopFooter = () => {
         color: "#333",
         py: 6,
         borderTop: "1px solid #ddd",
-        zIndex: "200 !important",
+        zIndex: "100 !important",
         position: "relative", // برای موقعیت‌دهی بهتر
       }}
     >

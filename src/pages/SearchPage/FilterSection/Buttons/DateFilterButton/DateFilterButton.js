@@ -110,13 +110,14 @@ const DateFilterButton = ({}) => {
 
       {/* Popover */}
       {/* {!active  && ( */}
-
-      <PopOverSelectDate
-        callBackFunc={handleSetSearch}
-        valueDefault={listDateSelected}
-        anchorEl={anchorEl}
-        handleClosePopover={handleClosePopover}
-      />
+      {anchorEl && (
+        <PopOverSelectDate
+          callBackFunc={handleSetSearch}
+          valueDefault={listDateSelected}
+          anchorEl={anchorEl}
+          handleClosePopover={handleClosePopover}
+        />
+      )}
     </>
   );
 };

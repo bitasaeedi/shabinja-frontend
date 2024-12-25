@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Calendar, DateObject } from "react-multi-date-picker";
+import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import weekends from "react-multi-date-picker/plugins/highlight_weekends";
@@ -19,7 +19,8 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
-import "./calenderDate.css";
+import DesctopSelectDate from "./DesctopSelectDate";
+
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
 
 function PopOverSelectDate({
@@ -29,38 +30,32 @@ function PopOverSelectDate({
   handleClosePopover,
 }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [values, setValues] = useState(valueDefault);
   const calendarRef = useRef();
 
   useEffect(() => {
     setValues(valueDefault);
   }, [valueDefault]);
+
   const onChange = (value) => {
-    // Log the formatted value of each selected date
     if (Array.isArray(value)) {
-      var list = [];
-      value.forEach((date) => {
-        const day = date.day; // Day of the month
-        const month = date.month.name; // Month name
-        const year = date.year; // Year
+      const list = value.map((date) => {
         const miladi = GetMiladiStdFunc(new Date(date.toJSON()));
-        const valueObj = {
+        return {
           miladi,
           shamsiObj: GetShamsiDateDetails(miladi),
         };
-        console.log(GetShamsiDateDetails(miladi), "miladi");
-        list.push(valueObj);
       });
       callBackFunc(list);
     } else {
-      console.log(value.toObject(), "calender normal"); // For single date selection
-      // returnDate(value.format());
+      console.log(value.toObject(), "calendar normal");
     }
   };
 
-  return isMobile ? (
+ 
+
+  const DrawerContent = (
     <SwipeableDrawer
       anchor="bottom"
       open={Boolean(anchorEl)}
@@ -86,7 +81,7 @@ function PopOverSelectDate({
         }}
       >
         <Typography variant="h6" sx={{ fontSize: "16px" }}>
-          تاریخ شروع و پایان انتخاب کنید
+          تاریخ رزرو
         </Typography>
         <IconButton onClick={handleClosePopover}>
           <CloseIcon />
@@ -160,95 +155,24 @@ function PopOverSelectDate({
 
       {/* Fixed Footer */}
       <Box
-        sx={
-          {
-            // padding: "8px 16px",
-            // backgroundColor: "#f5f5f5",
-            // borderTop: "1px solid #ddd",
-          }
-        }
+        sx={{
+          mt: 2,
+        }}
       ></Box>
     </SwipeableDrawer>
+  );
+
+
+
+  return isMobile ? (
+    DrawerContent
   ) : (
-    <Popover
-      open={Boolean(anchorEl)}
+    <DesctopSelectDate
       anchorEl={anchorEl}
-      onClose={handleClosePopover}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "center",
-      }}
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "center",
-      }}
-      PaperProps={{
-        sx: {
-          mt: 3,
-        },
-      }}
-    >
-      <Box
-        ref={calendarRef}
-        sx={{
-          flex: 1, // Fills available space
-          overflowY: "auto", // Makes content scrollable
-          justifyContent: "center",
-        }}
-      >
-        <Calendar
-          inputClass="custom-input"
-          className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar"
-          value={values}
-          format="YYYY/MM/DD" // Set the desired format directly
-          calendar={persian}
-          locale={persian_fa}
-          calendarPosition="bottom-right"
-          onChange={onChange}
-          numberOfMonths={2}
-          disableYearPicker
-          disableMonthPicker
-          range
-          rangeHover
-          plugins={[weekends()]}
-          animations={[transition()]}
-          weekDays={weekDays}
-          mapDays={({
-            date,
-            today,
-            selectedDate,
-            currentMonth,
-            isSameDate,
-          }) => {
-            let isWeekend = date.weekDay.index === 6;
-            if (isWeekend) {
-              return {
-                style: { color: "red" },
-              };
-            }
-            if (
-              GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON())
-            ) {
-              return {
-                disabled: true,
-                style: { color: "#ccc" },
-              };
-            } else if (
-              isSameDate(date, selectedDate[0]) ||
-              isSameDate(date, selectedDate[1])
-            ) {
-              return {
-                // style: { backgroundColor: "black", color: "black" },
-              };
-            } else {
-              return {
-                style: {},
-              };
-            }
-          }}
-        />
-      </Box>
-    </Popover>
+      handleClosePopover={handleClosePopover}
+      onChange={onChange}
+      values={values}
+    />
   );
 }
 
