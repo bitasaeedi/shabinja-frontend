@@ -62,7 +62,7 @@ const HomeCard = ({ myData = {} }) => {
             variant="rectangular"
             width="100%"
             sx={{
-              height: { xs: 145, sm: 145, md: 185 },
+              height: { xs: 155, sm: 155, md: 195 },
             }}
           />
         )}
@@ -70,7 +70,7 @@ const HomeCard = ({ myData = {} }) => {
         <CardMedia
           component="img"
           sx={{
-            height: { xs: 145, sm: 145, md: 185 },
+            height: { xs: 155, sm: 155, md: 195 },
             objectFit: "cover",
             borderRadius: "0px 0px 10px 10px",
           }}

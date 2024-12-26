@@ -68,6 +68,8 @@ const SearchPage = () => {
       // title: seachtype,
       start: filters?.start, // شمسی
       end: filters?.end, // شمسی
+      min: filters?.min, // شمسی
+      max: filters?.max, // شمسی
       count: filters?.count,
       Room: filters?.Room,
       minprice: filters?.minprice,

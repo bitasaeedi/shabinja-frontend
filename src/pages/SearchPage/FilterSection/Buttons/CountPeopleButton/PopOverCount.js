@@ -233,7 +233,7 @@ const PopOverCount = ({
       <Box
         ref={counterRef}
         sx={{
-          backgroundColor: "#f5f5f5",
+          // backgroundColor: "#f5f5f5",
           borderRadius: "8px",
           padding: "18px 16px",
           width: "300px",

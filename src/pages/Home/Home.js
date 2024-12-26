@@ -23,6 +23,7 @@ import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick"
 import FastSearchcomponentMobile from "./Components/FastSearchcomponentMobile/FastSearchcomponentMobile";
 import CardComment from "../../components/Cards/CardComment/CardComment";
 import Begust from "./Components/Begust/Begust";
+import Commentswiper from "../../components/Sliders/Commentswiper";
 const cities = [
   {
     name: "رشت",
@@ -250,7 +251,7 @@ const Home = () => {
         </Box>
 
         {/* کارتهای تبلیغاتی */}
-        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 },  }}>
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
@@ -291,14 +292,11 @@ const Home = () => {
 
         {/* === نظرات کاربران */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-          <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick
-              lists={cities}
+          <InViewComponents getListData={() => [1, 2, 3, 4, 5]}>
+            <Commentswiper
               title={"نظرات کاربران"}
               deafultSkeleton={"comment"}
-            >
-              <CardComment />
-            </SwipperSliderPublick>
+            />
           </InViewComponents>
         </Box>
 

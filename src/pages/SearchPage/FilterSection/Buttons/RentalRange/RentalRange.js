@@ -13,29 +13,37 @@ const RentalRange = ({}) => {
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
   const [valueOfFilter, setValueOfFilters] = useState(null);
-
+  const [listRangePrice, setListRangePrice] = useState([]);
   const isFilterActive = () => {
     const params = new URLSearchParams(window.location.search);
-    const valueOfFilter = params.get(filter);
-    if (valueOfFilter) {
+    const valueOfFilter = params.get("min");
+    const valueOfFilter2 = params.get("max");
+    if (valueOfFilter && valueOfFilter2) {
       setActive(true);
-      setValueOfFilters(valueOfFilter);
+      const lable = `از ${Number(
+        valueOfFilter
+      )?.toLocaleString()}  تا  ${Number(
+        valueOfFilter2
+      )?.toLocaleString()} تومان`;
+      setValueOfFilters(lable);
+      setListRangePrice([valueOfFilter, valueOfFilter2]);
     } else {
       setActive(false);
       setValueOfFilters(null);
+      setListRangePrice([]);
     }
   };
 
   // Update active state whenever location.search changes
   useEffect(() => {
     isFilterActive();
-  }, [filter]);
+  }, []);
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
-    if (!active) {
+    // if (!active) {
       setAnchorEl(event.currentTarget); // Open popover only if not active
-    }
+    // }
   };
 
   // Function to handle popover close
@@ -43,21 +51,29 @@ const RentalRange = ({}) => {
     setAnchorEl(null);
   };
 
-  const handleSetSearch = (value) => {
+  const handleSetSearch = (list) => {
+    const listDate = list || [];
     const params = new URLSearchParams(window.location.search);
+    if (listDate.length === 2) {
+      params.set("min", listDate[0]);
+      params.set("max", listDate[1]);
 
-    if (value) {
-      params.set(filter, value);
+      // // Update the URL with the new search parameters
+      const newSearch = params.toString();
+      window.history.replaceState(null, "", `?${newSearch}`);
+      isFilterActive();
+      handleClosePopover();
+      searchPageContext.handleSearch();
+    } else if (listDate.length === 1) {
     } else {
-      params.delete(filter);
+      params.delete("min");
+      params.delete("max");
+      const newSearch = params.toString();
+      window.history.replaceState(null, "", `?${newSearch}`);
+      isFilterActive();
+      handleClosePopover();
+      searchPageContext.handleSearch();
     }
-
-    // Update the URL with the new search parameters
-    const newSearch = params.toString();
-    window.history.replaceState(null, "", `?${newSearch}`);
-    isFilterActive();
-    handleClosePopover();
-    searchPageContext.handleSearch();
   };
 
   return (
@@ -78,23 +94,26 @@ const RentalRange = ({}) => {
           active && (
             <ClearIcon
               fontSize="small"
-              onClick={() => handleSetSearch()}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleSetSearch(null);
+              }}
               sx={{ cursor: "pointer" }}
             />
           )
         }
       >
-        {valueOfFilter ? `${valueOfFilter} تومان` : label}
+        {valueOfFilter ? `${valueOfFilter} ` : label}
       </Button>
 
       {/* Popover */}
       {/* {!active && ( */}
-       <PopVerFilter
-       callBackFunc={handleSetSearch}
-       defaultCount={parseFloat(valueOfFilter)}
-       anchorEl={anchorEl}
-       handleClosePopover={handleClosePopover}
-     />
+      <PopVerFilter
+        callBackFunc={handleSetSearch}
+        defaultCount={parseFloat(valueOfFilter)}
+        anchorEl={anchorEl}
+        handleClosePopover={handleClosePopover}
+      />
       {/* )} */}
     </>
   );

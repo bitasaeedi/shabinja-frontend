@@ -1,94 +1,108 @@
 import React from "react";
-import {
-  Card,
-  CardContent,
-  Avatar,
-  Typography,
-  Box,
-  Paper,
-} from "@mui/material";
+import { Card, Avatar, Typography, Box } from "@mui/material";
 
-const CardComment = () => {
+const CardComment = ({ centerItem }) => {
+  const widthSize = 300;
+  const widthSizeMobile = 200;
+  const heightSize = 220;
+  const heightSizeMobile = 210;
   return (
-    <Box className="d-flex justify-content-center w-auto pb-0 mb-0 mx-1">
+    <Box
+      sx={{
+        transition: "all 0.3s ease-in-out",
+        position: "relative",
+        display: "inline-block",
+        width: { xs: widthSizeMobile, sm: widthSize },
+        // height: 250,
+        height: { xs: heightSizeMobile, sm: heightSize },
+        transform: centerItem ? "scale(1.2) translateY(-10px)" : "scale(1)",
+        mx: "auto",
+        overflow: "visible",
+      }}
+      className="d-flex justify-content-center align-items-center"
+    >
+      <Box
+        sx={{
+          position: "absolute",
+          left: 0,
+          width: "100%",
+          height: "100%", // Adjust height to match the card
+          backgroundColor: "primary.main", // Use primary theme color
+          opacity: centerItem ? "1" : ".7",
+          transform: "rotate(-13deg)", // Rotate 10 degrees to the left
+          zIndex: 0, // Behind the card
+          borderRadius: "15px",
+          transition: "all 0.3s ease-in-out",
+        }}
+      />
+
       <Card
         sx={{
-          maxWidth: 340,
-          // margin: "20px auto",
-          borderRadius: "10px",
-          // boxShadow: "none",
-          // backgroundColor: "#f9f9f9",
-          // padding: 2,
-          pb: 2,
-          // border: "1px solid #f7f7f7",
-          // borderColor: "primary.main", // Use the primary color from the theme
+          position: "relative",
+          height: { xs: heightSizeMobile, sm: heightSize },
+          width: "100%",
+          zIndex: 1,
+          borderRadius: "15px",
+          textAlign: "center",
+          boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
+          backgroundColor: "#fff",
+          opacity: centerItem ? "1" : ".85",
+          overflow: "visible",
+          px: 2,
+          transition: "all 0.3s ease-in-out",
         }}
+        className=" border border-muted"
       >
-        {/* Top Section */}
+        {/* Avatar Section */}
         <Box
           sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "flex-start",
-            padding: 2,
-            borderRadius: "8px",
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translate(-50%, -50%)", // Center avatar and place it above the card
+            zIndex: 100,
           }}
         >
           <Avatar
             src="https://via.placeholder.com/100"
             alt="User Avatar"
             sx={{
-              width: 60,
-              height: 60,
-              border: "2px solid #287dfa",
-              // boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+              width: 70,
+              height: 70,
+              border: "4px solid #fff", // Add border to make it blend with the card
+              boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Add shadow for emphasis
             }}
           />
-          <Box sx={{ textAlign: "left", mx: 2 }}>
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: "bold",
-                color: "#333",
-                marginBottom: 1,
-                fontSize: "20px",
-              }}
-            >
-              محمد
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{ color: "#666", fontSize: "12px" }}
-            >
-              تهران
-            </Typography>
-          </Box>
         </Box>
 
-        {/* Comment Section */}
-        <Paper
-          elevation={0}
+        {/* Name Section */}
+        <Typography
+          variant="h6"
           sx={{
-            // marginTop: 2,
-            px: 3,
-            borderRadius: "8px",
-            textAlign: "left",
-            // backgroundColor: "#f9f9f9",
+            fontWeight: "bold",
+            color: "#333",
+            mb: 1,
+            mt: 5,
+            fontSize: "18px",
           }}
         >
-          <Typography
-            variant="body1"
-            sx={{
-              color: "#555",
-              fontSize: { xs: ".7rem", md: "1rem" },
-              lineHeight: 1.8,
-              textAlign: "justify",
-            }}
-          >
-            من امسال یک مسافرت به شمال رفتم و از سایت شما استفاده کردم. همه
-            همراهام راضی بودند. من مشتاقم باز هم با شبینجا سفر کنم.
-          </Typography>
-        </Paper>
+          پدرام محمدی
+        </Typography>
+
+        {/* Comment Section */}
+        <Typography
+          variant="body1"
+          sx={{
+            color: "#555",
+            fontSize: "14px",
+            lineHeight: 1.8,
+            textAlign: "justify",
+            mt: 1,
+            fontWeight:"bold"
+          }}
+        >
+          یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام
+        </Typography>
       </Card>
     </Box>
   );

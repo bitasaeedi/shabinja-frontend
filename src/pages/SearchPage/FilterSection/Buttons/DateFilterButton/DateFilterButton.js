@@ -55,7 +55,7 @@ const DateFilterButton = ({}) => {
   };
 
   const handleSetSearch = (listDate) => {
-    console.log("handleSetSearch", listDate);
+    // console.log("handleSetSearch", listDate);
     const params = new URLSearchParams(window.location.search);
     if (listDate.length === 2) {
       params.set("start", listDate[0]?.shamsiObj?.fullshamsi);

@@ -30,7 +30,7 @@ function PopOverSelectDate({
   handleClosePopover,
 }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [values, setValues] = useState(valueDefault);
   const calendarRef = useRef();
 

@@ -10,7 +10,7 @@ export const HostTourSearchApi = async (searchData) => {
     const token = localStorage.getItem("token");
     const response = await axios.get(`${baseUrl}/HostTour/Search`, {
       params: {
-        title: searchData?.title,
+        // title: searchData?.title,
         start: searchData?.start
           ? ConvertShamsiToMiladi(searchData?.start)
           : "",
