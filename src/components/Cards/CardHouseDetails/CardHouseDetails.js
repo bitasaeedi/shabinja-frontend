@@ -13,7 +13,7 @@ import API_URL from "../../../config/apiConfig";
 import ToRial from "../../ToRial/ToRial";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import StarIcon from "@mui/icons-material/Star";
-
+import { Link } from "react-router-dom";
 const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   // List of image URLs
   // State to manage image loading
@@ -60,182 +60,187 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
       }}
       // className="border"
     >
-      {/* Image with Skeleton loader */}
-      {isImageLoaded != true && (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
+      {" "}
+      <Link
+        to={`/stay/${myData?.id}`}
+        style={{ textDecoration: "none", display: "block", width: "100%" }}
+      >
+        {/* Image with Skeleton loader */}
+        {isImageLoaded != true && (
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            sx={{
+              height: {
+                xs: 150,
+                sm: 180,
+                md: 180,
+                lg: isMapOpen ? 200 : 200,
+                xl: isMapOpen ? 200 : 200,
+              },
+            }}
+          />
+        )}
+
+        <CardMedia
+          component="img"
           sx={{
             height: {
-              xs: 150,
-              sm: 180,
-              md: 180,
+              xs: 180,
+              sm: 200,
+              md: 200,
               lg: isMapOpen ? 200 : 200,
               xl: isMapOpen ? 200 : 200,
             },
+            objectFit: "cover",
+            borderRadius: "0px 0px 10px 10px",
           }}
+          // `${baseUrl}${myData?.image}`
+          image={myData?.image ? DownloadImageApi(myData?.image) : randomImage} // Use the randomly selected image
+          alt={myData?.title}
+          onLoad={handleImageLoad}
+          // loading="lazy"
+          style={{ display: isImageLoaded ? "block" : "none" }}
         />
-      )}
 
-      <CardMedia
-        component="img"
-        sx={{
-          height: {
-            xs: 180,
-            sm: 200,
-            md: 200,
-            lg: isMapOpen ? 200 : 200,
-            xl: isMapOpen ? 200 : 200,
-          },
-          objectFit: "cover",
-          borderRadius: "0px 0px 10px 10px",
-        }}
-        // `${baseUrl}${myData?.image}`
-        image={myData?.image ? DownloadImageApi(myData?.image) : randomImage} // Use the randomly selected image
-        alt={myData?.title}
-        onLoad={handleImageLoad}
-        // loading="lazy"
-        style={{ display: isImageLoaded ? "block" : "none" }}
-      />
-
-      {/* Card Content */}
-      <CardContent className=" px-0 py-2 my-">
-        {/* Title */}
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          alignItems="start"
-          gap={1}
-          className="px-2"
-        >
-          <Typography
-            variant="h6"
-            fontWeight="bold"
-            gutterBottom
-            sx={{
-              fontSize: { xs: "14px", sm: "16px", md: "18px" },
-              overflow: "hidden",
-              maxWidth: "100%",
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              direction: "rtl", // Set to RTL for Farsi text
-              textAlign: "right", // Align text properly for Farsi
-            }}
+        {/* Card Content */}
+        <CardContent className=" px-0 py-2 my-">
+          {/* Title */}
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="start"
+            gap={1}
+            className="px-2"
           >
-            {myData?.title}
-          </Typography>
-        </Box>
-
-        {/* Location */}
-        <Box
-          display="flex"
-          justifyContent="end"
-          alignItems="start"
-          className=" px-0"
-        >
-          <Typography
-            variant="body2"
-            color="textSecondary"
-            sx={{
-              fontSize: { xs: "10px", sm: "11px", md: "12px" },
-              overflow: "hidden",
-              maxWidth: "100%",
-
-              textOverflow: "ellipsis",
-              whiteSpace: "nowrap",
-              direction: "ltr", // Set to RTL for Farsi text
-              textAlign: "right", // Align text properly for Farsi
-            }}
-          >
-            {myData?.address}
-          </Typography>
-          <LocationOnIcon
-            color="action"
-            sx={{
-              fontSize: { xs: "12px", sm: "14px", md: "16px" },
-            }}
-          />
-        </Box>
-
-        {/* Price */}
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          alignItems="center"
-          gap={0.5}
-          mt={1}
-          className="mx-2"
-        >
-          <Typography
-            variant="body2"
-            sx={{
-              background:
-                "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontSize: { xs: "8px", sm: "10px", md: "10px" },
-            }}
-          >
-            تومان / هر شب
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: "bold",
-              background:
-                "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              fontSize: { xs: "12px", sm: "14px", md: "20px" },
-            }}
-          >
-            {ToRial(myData?.minPrice)}
-          </Typography>
-        </Box>
-
-        {/* Rating */}
-        <Box
-          display="flex"
-          justifyContent="flex-end"
-          alignItems="center"
-          gap={1}
-          sx={{ direction: "ltr" }}
-          className="mx-2"
-        >
-          <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
-            <StarIcon
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
               sx={{
-                color: "#FFD700",
-                // fontSize: 20
-                fontSize: 14,
+                fontSize: { xs: "14px", sm: "16px", md: "18px" },
+                overflow: "hidden",
+                maxWidth: "100%",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                direction: "rtl", // Set to RTL for Farsi text
+                textAlign: "right", // Align text properly for Farsi
               }}
-              className="mb-1 "
+            >
+              {myData?.title}
+            </Typography>
+          </Box>
+
+          {/* Location */}
+          <Box
+            display="flex"
+            justifyContent="end"
+            alignItems="start"
+            className=" px-0"
+          >
+            <Typography
+              variant="body2"
+              color="textSecondary"
+              sx={{
+                fontSize: { xs: "10px", sm: "11px", md: "12px" },
+                overflow: "hidden",
+                maxWidth: "100%",
+
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                direction: "ltr", // Set to RTL for Farsi text
+                textAlign: "right", // Align text properly for Farsi
+              }}
+            >
+              {myData?.address}
+            </Typography>
+            <LocationOnIcon
+              color="action"
+              sx={{
+                fontSize: { xs: "12px", sm: "14px", md: "16px" },
+              }}
             />
+          </Box>
+
+          {/* Price */}
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            gap={0.5}
+            mt={1}
+            className="mx-2"
+          >
+            <Typography
+              variant="body2"
+              sx={{
+                background:
+                  "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontSize: { xs: "8px", sm: "10px", md: "10px" },
+              }}
+            >
+              تومان / هر شب
+            </Typography>
             <Typography
               variant="h6"
               sx={{
                 fontWeight: "bold",
-                // marginRight: 1,
-                fontSize: 14,
-                // fontSize: 18,
-              }}
-              className="px-1"
-            >
-              {myData?.rate}
-            </Typography>
-            <Typography
-              variant="body2"
-              sx={{
-                color: "text.secondary",
-                fontWeight: "bold",
-                // marginRight: 1,
-                fontSize: 12,
+                background:
+                  "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontSize: { xs: "12px", sm: "14px", md: "20px" },
               }}
             >
-              ({myData?.countRate} نظر)
+              {ToRial(myData?.minPrice)}
             </Typography>
           </Box>
-          {/* <Rating
+
+          {/* Rating */}
+          <Box
+            display="flex"
+            justifyContent="flex-end"
+            alignItems="center"
+            gap={1}
+            sx={{ direction: "ltr" }}
+            className="mx-2"
+          >
+            <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
+              <StarIcon
+                sx={{
+                  color: "#FFD700",
+                  // fontSize: 20
+                  fontSize: 14,
+                }}
+                className="mb-1 "
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: "bold",
+                  // marginRight: 1,
+                  fontSize: 14,
+                  // fontSize: 18,
+                }}
+                className="px-1"
+              >
+                {myData?.rate}
+              </Typography>
+              <Typography
+                variant="body2"
+                sx={{
+                  color: "text.secondary",
+                  fontWeight: "bold",
+                  // marginRight: 1,
+                  fontSize: 12,
+                }}
+              >
+                ({myData?.countRate} نظر)
+              </Typography>
+            </Box>
+            {/* <Rating
               name="half-rating-read"
               defaultValue={myData?.rate || 1}
               precision={0.5}
@@ -243,8 +248,9 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
               size="small"
               sx={{ color: "#FFD700" }}
             /> */}
-        </Box>
-      </CardContent>
+          </Box>
+        </CardContent>
+      </Link>
     </Card>
   );
 };

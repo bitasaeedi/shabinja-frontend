@@ -18,6 +18,7 @@ import ItemsFastSearch from "../../myDatas/ItemsFastSearch";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HostTourSearchApi } from "../../api/toureApis";
 
+const filterList = ["count", "min", "max", "city"];
 // Create Context
 export const SearchPageContext = createContext();
 
@@ -44,12 +45,14 @@ const SearchPage = () => {
   const location = useLocation();
   const [typeHome, setTypeHome] = useState({});
   const [showMap, setShowMap] = useState(false);
+  const [active, setActive] = useState(false);
+
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [listCards, setListCards] = useState([]);
   const isMobile = useMediaQuery("(max-width: 800px)");
   const [searchParams] = useSearchParams();
   const cardListRef = useRef(null);
-  const { seachtype } = useParams();
+  const { searchtype } = useParams();
   // window.scroll(0, 0);
   // Function to parse URL params
   const handleFindeParams = () => {
@@ -65,7 +68,7 @@ const SearchPage = () => {
 
     // ارتباط با api
     const filtersParams = {
-      // title: seachtype,
+      // title: searchtype,
       start: filters?.start, // شمسی
       end: filters?.end, // شمسی
       min: filters?.min, // شمسی
@@ -79,7 +82,6 @@ const SearchPage = () => {
       sort: filters?.sort,
       type: filters?.type,
     };
-    console.log(filtersParams, "Parsed Filters", filters);
     const result = await HostTourSearchApi(filtersParams);
     console.log(result, "result");
     setListCards(result?.data?.items);
@@ -90,15 +92,40 @@ const SearchPage = () => {
 
   useEffect(() => {
     handleSearch();
-  }, [seachtype, searchParams.toString()]);
+  }, [searchtype, searchParams.toString()]);
 
   const toggleMap = () => {
     setShowMap((prev) => !prev);
     window.scroll(0, 0);
   };
 
+  // بررسی اینکه ایا گزینه فیلتر فعال باشد یا خیر
+  const isFilterActive = () => {
+    var countFilterActive = 0;
+    filterList.forEach((filter) => {
+      const params = new URLSearchParams(window.location.search);
+      const valueOfFilterSeted = params.get(filter);
+      if (valueOfFilterSeted) {
+        countFilterActive += 1;
+      }
+    });
+    if (countFilterActive > 0) {
+      setActive(true);
+    } else {
+      setActive(false);
+    }
+  };
+
   return (
-    <SearchPageContext.Provider value={{ handleSearch: handleSearch }}>
+    <SearchPageContext.Provider
+      value={{
+        handleSearch: handleSearch,
+        isFilterActive: isFilterActive, //  مربوط به گزینه فیلترهمه یکجا
+        active: active, //  مربوط به گزینه فیلترهمه یکجا
+        setActive: setActive, //  مربوط به گزینه فیلترهمه یکجا
+        filterList: filterList, //  مربوط به گزینه فیلترهمه یکجا
+      }}
+    >
       <Box sx={{ position: "relative" }} className=" ">
         {/* Filter Section */}
         <FilterSection />
@@ -117,9 +144,11 @@ const SearchPage = () => {
           <Grid
             item
             xs={showMap && !isMobile ? 6 : 12}
-            sx={{
-              // pr: 2,
-            }}
+            sx={
+              {
+                // pr: 2,
+              }
+            }
             className=" p-0 m-0 "
           >
             <Box
@@ -134,7 +163,7 @@ const SearchPage = () => {
             >
               <Typography variant="h5" sx={{ marginBottom: 2 }}>
                 {typeHome?.label}
-                {/* {seachtype} */}
+                {/* {searchtype} */}
               </Typography>
               <CardList
                 data={listCards || []}

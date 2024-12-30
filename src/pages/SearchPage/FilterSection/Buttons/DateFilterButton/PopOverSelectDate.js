@@ -101,7 +101,7 @@ function PopOverSelectDate({
         ref={calendarRef}
       >
         <Calendar
-          className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar"
+          className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar custom-calendar-week-day custom-calendar-month-day"
           arrowClassName="custom-arrow"
           containerStyle={{}}
           value={values}

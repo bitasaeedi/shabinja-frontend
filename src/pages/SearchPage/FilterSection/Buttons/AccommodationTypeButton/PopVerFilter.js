@@ -7,10 +7,12 @@ import {
   SwipeableDrawer,
   Popover,
   Divider,
+  Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
-
+import ListCheckBox from "../AllFilterButton/Component/ListCheckBox";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 const PopVerFilter = ({
   callBackFunc,
   defaultCount,
@@ -22,71 +24,24 @@ const PopVerFilter = ({
 
   const counterRef = useRef();
 
+  const handleFinall = async () => {};
+  
   return isMobile ? (
     <SwipeableDrawer
-    anchor="bottom"
-    open={Boolean(anchorEl)}
-    onClose={handleClosePopover}
-    onOpen={() => {}} // Optional: Add logic if needed when opening
-    PaperProps={{
-      sx: {
-        maxHeight: "90vh", 
-        display: "flex",
-        flexDirection: "column",
-        borderRadius: "12px 12px 0 0", // Rounded top corners
-        backgroundColor: "#ffff",
-      },
-    }}
-  >
-    {/* Fixed Header */}
-    <Box
-      sx={{
-        padding: "8px 16px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        // backgroundColor: "#f5f5f5",
-        // borderBottom: "1px solid #ddd",
+      anchor="bottom"
+      open={Boolean(anchorEl)}
+      onClose={handleClosePopover}
+      onOpen={() => {}} // Optional: Add logic if needed when opening
+      PaperProps={{
+        sx: {
+          maxHeight: "90vh",
+          display: "flex",
+          flexDirection: "column",
+          borderRadius: "12px 12px 0 0", // Rounded top corners
+          backgroundColor: "#ffff",
+        },
       }}
-    >
-      <Typography variant="h6" sx={{ fontSize: "16px" }}>
-        فیلتر
-      </Typography>
-      <IconButton onClick={handleClosePopover}>
-        <CloseIcon />
-      </IconButton>
-    </Box>
-
-    <Divider />
-
-    {/* Scrollable Content */}
-    <Box
-      sx={{
-        flex: 1, // Fills available space
-        overflowY: "auto", // Makes content scrollable
-        padding: "16px",
-      }}
-    >
-      {/* Add your filter content here */}
-      <Typography variant="body1">به زودی تکمیل میشود</Typography>
-      {[...Array(20)].map((_, index) => (
-        <Typography key={index}>محتوای شماره {index + 1}</Typography>
-      ))}
-    </Box>
-
-    <Divider />
-
-    {/* Fixed Footer */}
-    <Box
-      sx={{
-        padding: "8px 16px",
-      }}
-    >
-      <Typography variant="body2" align="center">
-        محتوای فوتر مانند بستن
-      </Typography>
-    </Box>
-  </SwipeableDrawer>
+    ></SwipeableDrawer>
   ) : (
     <Popover
       open={Boolean(anchorEl)}
@@ -103,33 +58,60 @@ const PopVerFilter = ({
       PaperProps={{
         sx: {
           mt: 1,
-          width: "600px",
-          minHeight: "500px",
+          width: "300px",
+          // minHeight: "500px",
           backgroundColor: "#ffff",
+          py: 2,
         },
       }}
     >
-      <Box
-        sx={{
-          position: "absolute",
-          top: 8,
-          right: 8,
-          zIndex: 1,
-        }}
-      >
-        <IconButton onClick={handleClosePopover}>
-          <CloseIcon />
-        </IconButton>
+      <Box sx={{}}>
+        <ListCheckBox
+          list={[{ id: 1, title: "ویلایی" }]}
+          title="نوع اقامتگاه"
+          iconTitle={
+            <HomeOutlinedIcon
+              sx={{
+                fontSize: { xs: 17, md: 20 },
+                mr: 2,
+                // color: "gray",
+              }}
+            />
+          }
+        />
       </Box>
+      <hr />
       <Box
-        ref={counterRef}
         sx={{
-          padding: "16px",
+          mt: 0,
+          display: "flex",
+          justifyContent: "space-between",
           width: "100%",
-          height: "100%",
+          px: 1,
         }}
       >
-        {/* Add your filter content here */}
+        <Button
+          sx={{
+            color: "black",
+          }}
+          variant="text"
+          size="small"
+          // disabled={count < 1}
+          // onClick={() => handleFinall()}
+        >
+          حذف فیلتر
+        </Button>
+        <Button
+          sx={{
+            bgcolor: "black",
+          }}
+          variant="contained"
+          size="small"
+          // disabled={count < 1}
+          onClick={() => handleFinall()}
+        >
+          ثبت تغییرات
+        </Button>
       </Box>
     </Popover>
   );

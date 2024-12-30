@@ -43,7 +43,7 @@ const DesctopSelectDate = ({
 
   const CalendarComponent = (
     <Calendar
-      className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar"
+      className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar "
       value={values}
       format="YYYY/MM/DD"
       fixMainPosition={true}

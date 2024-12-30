@@ -139,7 +139,7 @@ const MainSearchForm = () => {
       const queryString = new URLSearchParams(queryParams).toString();
 
       // Construct the URL
-      const url = `/${selectedCity.titleEn}?${queryString}`;
+      const url = `/search/${selectedCity.titleEn}?${queryString}`;
 
       // Navigate to the constructed URL
       navigate(url);

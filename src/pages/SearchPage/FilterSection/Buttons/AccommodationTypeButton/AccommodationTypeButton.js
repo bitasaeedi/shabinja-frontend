@@ -87,7 +87,7 @@ const AccommodationTypeButton = ({}) => {
           )
         }
       >
-        {valueOfFilter ? `${valueOfFilter}  نفر` : label}
+        {valueOfFilter ? `${valueOfFilter} ` : label}
       </Button>
 
       {/* Popover */}

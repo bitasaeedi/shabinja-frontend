@@ -1,0 +1,106 @@
+/* .rmdp-wrapper.custom-calendar-stay .rmdp-calendar {
+
+}
+
+.rmdp-wrapper.custom-calendar-stay .rmdp-day-picker{} */
+
+
+
+.rmdp-wrapper.custom-calendar-stay .rmdp-week-day {
+  margin: 2px;
+  padding: clamp(10px, 2vw, 20px); /* Dynamically adjusts padding */
+    border: 2px solid transparent; 
+    background-color: transparent ; 
+    box-shadow: none !important; 
+    /* transition: border 0.3s ease, background-color 0.3s ease; */
+    color: gray;
+  }
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day span {
+    background-color: transparent !important ; 
+    color: inherit; 
+  }
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day span:hover {
+    color: inherit ; 
+  }
+  
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day {
+    margin: 2px;
+    padding: clamp(10px, 2vw, 20px); /* Dynamically adjusts padding */
+    border: 2px dashed #e9e9e9; 
+  
+    box-shadow: none !important; 
+    cursor: pointer;
+  
+  }
+  
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day:hover {
+    border: 2px solid black !important; 
+    background-color: transparent !important;
+    color: black !important;
+  }
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.rmdp-range {
+    background-color: #e9e9e9 ; 
+    color: black ; 
+    border: 2px solid black ; 
+  }
+
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.rmdp-range-hover {
+    background-color: #e9e9e9 ; 
+    color: black ; 
+    /* border: 2px solid black ;  */
+  }
+
+
+
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.start {
+    background-color: black ; 
+    color: white ; 
+    border: 2px solid black ; 
+  }
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.rmdp-range-hover.start {
+    background-color: black !important ; 
+    color: white !important ; 
+  }
+
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.end {
+    background-color: black ; 
+    color: white ; 
+    border: 2px solid black ; 
+  }
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.rmdp-range-hover.end {
+    background-color: black !important ; 
+    color: white !important ; 
+  }
+  
+  
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day.weekend {
+    color: red !important;
+  }
+
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day-hidden {
+    border: 2px solid transparent !important ; 
+  }
+
+  .rmdp-wrapper.custom-calendar-stay .rmdp-day-hidden:hover {
+    border: 2px solid transparent !important; 
+  }
+
+  .rmdp-wrapper.custom-calendar-stay .rmdp-disabled {
+    border: 2px solid transparent !important; 
+    color: #ccc 
+  }
+
+  .rmdp-wrapper.custom-calendar-stay .rmdp-disabled:hover {
+    border: 2px solid transparent !important; 
+    color: #ccc 
+  }
+  
+
+
+

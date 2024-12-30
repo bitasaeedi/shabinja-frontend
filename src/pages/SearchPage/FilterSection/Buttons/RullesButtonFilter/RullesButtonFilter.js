@@ -15,6 +15,7 @@ const RullesButtonFilter = ({}) => {
   const [valueOfFilter, setValueOfFilters] = useState(null);
 
   const isFilterActive = () => {
+    searchPageContext.isFilterActive();
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter = params.get(filter);
     if (valueOfFilter) {

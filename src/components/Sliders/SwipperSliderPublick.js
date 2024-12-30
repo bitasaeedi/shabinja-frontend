@@ -60,6 +60,7 @@ const SwipperSliderPublick = ({
   deafultSkeleton,
   slidesPerView = 3,
   breakpoints,
+  dontChangeWidth,
 }) => {
   const swiperRef = useRef(null);
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
@@ -88,7 +89,7 @@ const SwipperSliderPublick = ({
   return (
     <Box
       sx={{
-        width: { xs: "90%", md: "80%" },
+        width:  { xs: "90%", md: "80%" },
         margin: "auto",
         padding: "10px 0",
       }}

@@ -14,7 +14,10 @@ const RentalRange = ({}) => {
   const searchPageContext = useContext(SearchPageContext);
   const [valueOfFilter, setValueOfFilters] = useState(null);
   const [listRangePrice, setListRangePrice] = useState([]);
+
+  
   const isFilterActive = () => {
+    searchPageContext.isFilterActive();
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter = params.get("min");
     const valueOfFilter2 = params.get("max");

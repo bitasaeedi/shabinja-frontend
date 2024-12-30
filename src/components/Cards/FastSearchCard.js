@@ -5,7 +5,7 @@ const FastSearchCard = ({ myData = {} }) => {
   return (
     <Grid item>
       <Link
-        to={myData?.linkAddres}
+        to={`/search${myData?.linkAddres}`}
         style={{ textDecoration: "none", display: "block", width: "100%" }}
       >
         <Button

@@ -54,7 +54,7 @@ function FormDate({ returnDate, closePopup, valueDefault }) {
     <div ref={calendarRef}>
       <Calendar
         //  value={values}
-        className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar"
+        className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar custom-calendar-week-day custom-calendar-month-day"
         format="YYYY/MM/DD" // Set the desired format directly
         calendar={persian}
         locale={persian_fa}

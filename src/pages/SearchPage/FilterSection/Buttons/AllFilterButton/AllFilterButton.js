@@ -5,31 +5,17 @@ import { SearchPageContext } from "../../../SearchPage";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import PopVerFilter from "./PopVerFilter";
 
-const filter = "allfilter";
 const label = "فیلتر";
 const startIcon = <FilterAltOutlinedIcon />;
 const AllFilterButton = ({}) => {
-  const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
   const [valueOfFilter, setValueOfFilters] = useState(null);
 
-  const isFilterActive = () => {
-    const params = new URLSearchParams(window.location.search);
-    const valueOfFilter = params.get(filter);
-    if (valueOfFilter) {
-      setActive(true);
-      setValueOfFilters(valueOfFilter);
-    } else {
-      setActive(false);
-      setValueOfFilters(null);
-    }
-  };
-
   // Update active state whenever location.search changes
   useEffect(() => {
-    isFilterActive();
-  }, [filter]);
+    searchPageContext.isFilterActive();
+  }, []);
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
@@ -43,19 +29,26 @@ const AllFilterButton = ({}) => {
     setAnchorEl(null);
   };
 
-  const handleSetSearch = (value) => {
+  const handleSetSearch = (listValue = searchPageContext.filterList) => {
+    console.log(listValue, "listValue handleSetSearch AllFilterButton");
     const params = new URLSearchParams(window.location.search);
+    listValue.forEach((filter) => {
+      if (filter.value) {
+        // Check if the value is an array and join it with a comma
+        const value = Array.isArray(filter.value)
+          ? filter.value.join(",")
+          : filter.value;
 
-    if (value) {
-      params.set(filter, value);
-    } else {
-      params.delete(filter);
-    }
+        params.set(filter.label, value);
+      } else {
+        params.delete(filter.label);
+      }
+      // Update the URL with the new search parameters
+      const newSearch = params.toString();
+      window.history.replaceState(null, "", `?${newSearch}`);
+    });
 
-    // Update the URL with the new search parameters
-    const newSearch = params.toString();
-    window.history.replaceState(null, "", `?${newSearch}`);
-    isFilterActive();
+    searchPageContext.isFilterActive();
     handleClosePopover();
     searchPageContext.handleSearch();
   };
@@ -65,16 +58,18 @@ const AllFilterButton = ({}) => {
       <Button
         variant="outlined"
         sx={{
-          backgroundColor: active ? "primary.main" : "white",
-          color: active ? "white" : "black",
-          borderColor: active ? "transparent" : "rgba(0, 0, 0, 0.12)",
+          backgroundColor: searchPageContext.active ? "primary.main" : "white",
+          color: searchPageContext.active ? "white" : "black",
+          borderColor: searchPageContext.active
+            ? "transparent"
+            : "rgba(0, 0, 0, 0.12)",
           minWidth: "fit-content",
         }}
         size="small"
         startIcon={startIcon}
         onClick={handleButtonClick}
         endIcon={
-          active && (
+          searchPageContext.active && (
             <ClearIcon
               fontSize="small"
               onClick={(e) => {

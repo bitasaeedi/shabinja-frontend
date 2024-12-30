@@ -9,8 +9,10 @@ import Header from "./layout/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
 import SearchPage from "./pages/SearchPage/SearchPage";
+
+import StayPage from "./pages/StayPage/StayPage";
 // Create Context
-export const AppContext = createContext(); 
+export const AppContext = createContext();
 
 // RTL cache mui
 const cacheRtl = createCache({
@@ -50,6 +52,9 @@ const theme = createTheme({
       dark: "#106df6",
       contrastText: "#fff",
     },
+    dark:{
+      main: "#000000",
+    },
     textColor: {
       main: "#0d233e",
     },
@@ -65,8 +70,9 @@ function App() {
             <Header />
             <Routes>
               <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
-              <Route path="/:seachtype" element={<SearchPage />} />
-              <Route path="*" element={<Home />} />
+              <Route path="/stay/:staycode" element={<StayPage />} />
+              <Route path="/search/:searchtype" element={<SearchPage />} />
+              {/* <Route path="*" element={<Home />} /> */}
             </Routes>
             <Footer />
           </Router>
