@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Slider, Typography, useTheme } from "@mui/material";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
+import { PopVerFilterContext } from "../PopVerFilter";
 
 const PriceRange = () => {
   const theme = useTheme(); // Use Material-UI theme
-  const [value, setValue] = useState([150000, 10000000]);
+  const [value, setValue] = useState([100000, 20000000]);
+  const popVerFilterContext = useContext(PopVerFilterContext);
+  useEffect(() => {
+    if (popVerFilterContext?.selectedRangPriceList.length == 2) {
+      setValue(popVerFilterContext?.selectedRangPriceList);
+    }
+  }, [popVerFilterContext?.selectedRangPriceList]);
 
   const handleChange = (event, newValue) => {
+    popVerFilterContext?.setSelectedRangPriceList(newValue);
     setValue(newValue);
   };
 
@@ -83,9 +91,9 @@ const PriceRange = () => {
           <Slider
             value={value}
             onChange={handleChange}
-            min={150000}
-            max={10000000}
-            step={1000}
+            min={100000}
+            max={20000000}
+            step={100000}
             valueLabelDisplay="off"
             color="dark"
             sx={{

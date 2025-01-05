@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -11,27 +11,28 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import { PopVerFilterContext } from "../PopVerFilter";
 
-const CounterRoom = ({ callBackFunc, defaultCount }) => {
+const CounterRoom = ({}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
-
-  const [count, setCount] = useState(defaultCount || 0);
-  const counterRef = useRef();
+  const popVerFilterContext = useContext(PopVerFilterContext);
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    setCount(parseFloat(popVerFilterContext.countRoom));
+  }, [popVerFilterContext.countRoom]);
 
   const increment = () => {
     const newCount = count + 1;
-    setCount(newCount);
-    // onValueChange(newCount); // Send value to parent
+    handleChangeValue(newCount);
   };
   const decrement = () => {
     const newCount = Math.max(0, count - 1);
-    setCount(newCount);
-    // onValueChange(newCount); // Send value to parent
-  }; // Prevent going below 1
+    handleChangeValue(newCount);
+  };
 
-  const handleFinall = (value) => {
-    callBackFunc(value);
+  const handleChangeValue = (value) => {
+    popVerFilterContext.setCountRoom(value);
   };
 
   return (
@@ -59,7 +60,7 @@ const CounterRoom = ({ callBackFunc, defaultCount }) => {
             alignItems: "center",
           }}
         >
-          <MeetingRoomOutlinedIcon 
+          <MeetingRoomOutlinedIcon
             sx={{
               fontSize: { xs: 17, md: 20 },
               mr: 2,

@@ -13,7 +13,12 @@ import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import SelectRangePrice from "./SelectRangePrice";
 
-const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
+const PopVerFilter = ({
+  callBackFunc,
+  anchorEl,
+  handleClosePopover,
+  listRangePrice,
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
 
@@ -34,7 +39,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
         },
       }}
     >
-      <SelectRangePrice callBackValues={callBackFunc} />
+      {/* <SelectRangePrice callBackValues={callBackFunc} /> */}
     </SwipeableDrawer>
   ) : (
     <Popover
@@ -58,7 +63,10 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
         },
       }}
     >
-      <SelectRangePrice callBackValues={callBackFunc} />
+      <SelectRangePrice
+        callBackValues={callBackFunc}
+        listRangePrice={listRangePrice}
+      />
     </Popover>
   );
 };

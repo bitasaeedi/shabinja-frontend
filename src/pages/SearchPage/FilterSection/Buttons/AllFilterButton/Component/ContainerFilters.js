@@ -39,6 +39,7 @@ const ContainerFilters = () => {
         <PriceRange />
       </Box>
       <hr />
+      {/* /شهری */}
       <Box sx={{}}>
         <Typography
           variant="h6"
@@ -108,16 +109,26 @@ const ContainerFilters = () => {
         <RankFilter />
       </Box>
       <hr />
+      {/* نوع منطقه */}
       <Box sx={{}}>
         <ListCheckBox
-          list={[
-            { id: 1, title: "روستایی" },
-            { id: 2, title: "شهری" },
-            { id: 3, title: "جنگلی" },
-            { id: 4, title: "ساحلی" },
-            { id: 5, title: "کوهستانی" },
-            { id: 6, title: "کویری" },
-          ]}
+          list={popVerFilterContext?.listTypeHostLoc.map((item) => ({
+            id: item?.id,
+            title: item?.title,
+            searchtitle: item?.titleEn,
+          }))}
+          listSelected={popVerFilterContext?.selectedListTypeHostLoc}
+          handleChangeListSelected={
+            popVerFilterContext?.setSelectedListTypeHostLoc
+          }
+          // list={[
+          //   { id: 1, title: "روستایی" },
+          //   { id: 2, title: "شهری" },
+          //   { id: 3, title: "جنگلی" },
+          //   { id: 4, title: "ساحلی" },
+          //   { id: 5, title: "کوهستانی" },
+          //   { id: 6, title: "کویری" },
+          // ]}
           title="نوع منطقه"
           limit={10}
           iconTitle={
@@ -132,10 +143,19 @@ const ContainerFilters = () => {
         />
       </Box>
       <hr />
+      {/* نوع اقامتگاه */}
       <Box sx={{}}>
         <ListCheckBox
-          list={[{ id: 1, title: "ویلایی" }]}
           title="نوع اقامتگاه"
+          list={popVerFilterContext?.listTypeHost.map((item) => ({
+            id: item?.id,
+            title: item?.title,
+            searchtitle: item?.title,
+          }))}
+          listSelected={popVerFilterContext?.selectedListTypeHost}
+          handleChangeListSelected={
+            popVerFilterContext?.setSelectedListTypeHost
+          }
           limit={10}
           iconTitle={
             <HomeOutlinedIcon
@@ -151,7 +171,11 @@ const ContainerFilters = () => {
       <hr />
       <Box sx={{}}>
         <ListCheckBox
-          list={popVerFilterContext?.listRolles}
+          list={popVerFilterContext?.listRolles.map((item) => ({
+            id: item?.id,
+            title: item?.title,
+            searchtitle: item?.titleEn,
+          }))}
           listSelected={popVerFilterContext?.selectedListRolles}
           handleChangeListSelected={popVerFilterContext?.setSelectedListRolles}
           title="قوانین اقامتگاه"
@@ -170,11 +194,19 @@ const ContainerFilters = () => {
       <hr />
       <Box sx={{}}>
         <ListCheckBox
-          list={popVerFilterContext?.listOtherItem}
-          title="امکانات خاص"
-          limit={10}
+          list={popVerFilterContext?.listOtherItem.map((item) => ({
+            id: item?.id,
+            title: item?.title,
+            searchtitle: item?.titleEn,
+          }))}
+          listSelected={popVerFilterContext?.selectedListOtherItem}
+          handleChangeListSelected={
+            popVerFilterContext?.setSelectedListOtherItem
+          }
+          title="امکانات "
+          limit={5}
           iconTitle={
-            <WifiOutlinedIcon
+            <BathtubOutlinedIcon
               sx={{
                 fontSize: { xs: 17, md: 20 },
                 mr: 2,
@@ -184,7 +216,7 @@ const ContainerFilters = () => {
           }
         />
       </Box>
-      <hr />
+      {/* <hr />
       <Box sx={{}}>
         <ListCheckBox
           list={[
@@ -207,8 +239,8 @@ const ContainerFilters = () => {
             />
           }
         />
-      </Box>
-      <hr />
+      </Box> */}
+      {/* <hr />
       <Box sx={{}}>
         <ListCheckBox
           list={[
@@ -235,7 +267,7 @@ const ContainerFilters = () => {
             />
           }
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

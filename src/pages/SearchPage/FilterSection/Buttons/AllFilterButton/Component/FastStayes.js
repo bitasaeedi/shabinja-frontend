@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -12,16 +12,22 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
-import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
+import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
+import { PopVerFilterContext } from "../PopVerFilter";
 
 const FastStayes = ({ callBackFunc, defaultCount }) => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
 
+  const popVerFilterContext = useContext(PopVerFilterContext);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
+  useEffect(() => {
+    setIsSwitchOn(popVerFilterContext?.justGuarantees);
+  }, [popVerFilterContext?.justGuarantees]);
+  
   const handleSwitchChange = () => {
-    setIsSwitchOn((prev) => !prev);
+    // setIsSwitchOn((prev) => !prev);
+    popVerFilterContext?.setJustGuarantees((prev) => !prev);
   };
 
   return (

@@ -1,13 +1,22 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
+import { StayPageContext } from "../../../StayPage";
 const InfoSection = () => {
+  const stayPageContext = useContext(StayPageContext);
   return (
     <Box>
-      <Typography variant="h6">مشخصات</Typography>
+      <Typography
+        variant="h6"
+        sx={{
+          fontSize: { xs: 18, md: 20 },
+        }}
+      >
+        مشخصات
+      </Typography>
       <Box
         sx={{
           backgroundColor: "#e9e9e9",
@@ -23,7 +32,7 @@ const InfoSection = () => {
           <Box>
             <HomeOutlinedIcon
               sx={{
-                fontSize: 30,
+                fontSize: { xs: 20, md: 30 },
               }}
             />
           </Box>
@@ -31,10 +40,11 @@ const InfoSection = () => {
             <Typography
               variant="h6"
               sx={{
-                fontSize: 16,
+                fontSize: { xs: 14, md: 16 },
               }}
             >
-              دربست
+              {stayPageContext?.infoOfStay?.typeHostDbTitle}
+              {/* دربست */}
             </Typography>
           </Box>
         </Box>
@@ -43,7 +53,7 @@ const InfoSection = () => {
           <Box>
             <StraightenIcon
               sx={{
-                fontSize: 30,
+                fontSize: { xs: 20, md: 30 },
               }}
             />
           </Box>
@@ -51,10 +61,12 @@ const InfoSection = () => {
             <Typography
               variant="h6"
               sx={{
-                fontSize: 16,
+                fontSize: { xs: 14, md: 16 },
               }}
             >
-              100 متر
+              {stayPageContext?.infoOfStay?.sizeOfTheInfrastructure}
+              متر
+              {/* 100 متر */}
             </Typography>
           </Box>
         </Box>
@@ -62,7 +74,7 @@ const InfoSection = () => {
           <Box>
             <MeetingRoomOutlinedIcon
               sx={{
-                fontSize: 30,
+                fontSize: { xs: 20, md: 30 },
               }}
             />
           </Box>
@@ -70,10 +82,10 @@ const InfoSection = () => {
             <Typography
               variant="h6"
               sx={{
-                fontSize: 16,
+                fontSize: { xs: 14, md: 16 },
               }}
             >
-              2 اتاق
+              {stayPageContext?.infoOfStay?.room} اتاق
             </Typography>
           </Box>
         </Box>
@@ -81,7 +93,7 @@ const InfoSection = () => {
           <Box>
             <GroupOutlinedIcon
               sx={{
-                fontSize: 30,
+                fontSize: { xs: 20, md: 30 },
               }}
             />
           </Box>
@@ -89,10 +101,13 @@ const InfoSection = () => {
             <Typography
               variant="h6"
               sx={{
-                fontSize: 16,
+                fontSize: { xs: 14, md: 16 },
               }}
             >
-              تا 8 مهمان
+              تا{" "}
+              {stayPageContext?.infoOfStay?.minCapacity +
+                stayPageContext?.infoOfStay?.maxCapacity}{" "}
+              مهمان
             </Typography>
           </Box>
         </Box>

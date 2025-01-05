@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import "./myCalendar.css";
 import MyCalendarsWithprice from "../../../../components/MyCalendars/MyCalendarsWithprice";
 import { Box } from "@mui/material";
-
-
+import { StayPageContext } from "../../StayPage";
 
 const DesctopSelectDate = ({
   anchorEl,
@@ -13,6 +12,7 @@ const DesctopSelectDate = ({
   values,
 }) => {
   const calendarRef = useRef();
+  const stayPageContext = useContext(StayPageContext);
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
@@ -26,7 +26,11 @@ const DesctopSelectDate = ({
   }, [handleClosePopover]);
 
   const CalendarComponent = (
-    <MyCalendarsWithprice onChange={onChange} values={values} />
+    <MyCalendarsWithprice
+      onChange={onChange}
+      values={values}
+      listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
+    />
   );
 
   return (

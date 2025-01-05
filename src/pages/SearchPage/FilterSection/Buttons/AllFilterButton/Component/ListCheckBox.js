@@ -31,7 +31,7 @@ const ListCheckBox = ({
     } else {
       // Remove the item if it's unselected
       handleChangeListSelected((prev) =>
-        prev.filter((selected) => selected.id !== item.id)
+        prev.filter((selected) => selected !== item)
       );
     }
   };
@@ -71,7 +71,7 @@ const ListCheckBox = ({
               <CheckBoxSelect
                 item={item}
                 key={index}
-                handleSelect={handleChangeListSelected}
+                handleSelect={handleSelect}
                 listSelected={listSelected || []}
               />
             ))}

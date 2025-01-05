@@ -18,8 +18,7 @@ export const GetRollesList = async () => {
         },
       }
     );
-    // console.log(response, "response");
-    return response.data; // Assuming your API returns data in the response
+    return response.data; 
   } catch (error) {
     console.log("Error:", error?.response?.data);
     return error?.response?.data;

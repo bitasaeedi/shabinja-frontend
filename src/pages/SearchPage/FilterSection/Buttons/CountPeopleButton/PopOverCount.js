@@ -13,7 +13,7 @@ import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 const PopOverCount = ({
   callBackFunc,
-  defaultCount,
+  defaultCount = 0,
   anchorEl,
   handleClosePopover,
 }) => {
@@ -22,6 +22,10 @@ const PopOverCount = ({
 
   const [count, setCount] = useState(defaultCount || 0);
   const counterRef = useRef();
+
+  useEffect(() => {
+    setCount(defaultCount || 0);
+  }, [defaultCount]);
 
   const increment = () => {
     const newCount = count + 1;

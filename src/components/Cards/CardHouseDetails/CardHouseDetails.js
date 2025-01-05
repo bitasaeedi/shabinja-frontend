@@ -46,10 +46,11 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
           xs: "90%",
           sm: 360,
           md: 360,
-          lg: isMapOpen ? 330 : 360,
-          xl: isMapOpen ? 350 : 400,
+          lg: isMapOpen ? 330 : 340,
+          xl: isMapOpen ? 350 : 370,
         },
         borderRadius: 3,
+        mx: "1px",
         // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
         boxShadow: "none !important",
         overflow: "hidden",
@@ -118,6 +119,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
               fontWeight="bold"
               gutterBottom
               sx={{
+                color: "black",
                 fontSize: { xs: "14px", sm: "16px", md: "18px" },
                 overflow: "hidden",
                 maxWidth: "100%",

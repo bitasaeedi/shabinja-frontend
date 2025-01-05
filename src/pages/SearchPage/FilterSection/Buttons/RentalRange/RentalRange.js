@@ -15,7 +15,6 @@ const RentalRange = ({}) => {
   const [valueOfFilter, setValueOfFilters] = useState(null);
   const [listRangePrice, setListRangePrice] = useState([]);
 
-  
   const isFilterActive = () => {
     searchPageContext.isFilterActive();
     const params = new URLSearchParams(window.location.search);
@@ -40,12 +39,12 @@ const RentalRange = ({}) => {
   // Update active state whenever location.search changes
   useEffect(() => {
     isFilterActive();
-  }, []);
+  }, [searchPageContext.listFiltersInUrl]);
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
     // if (!active) {
-      setAnchorEl(event.currentTarget); // Open popover only if not active
+    setAnchorEl(event.currentTarget); // Open popover only if not active
     // }
   };
 
@@ -80,13 +79,17 @@ const RentalRange = ({}) => {
   };
 
   return (
-    <>
+    <Box
+      sx={{
+        display: { xs: "none", md: "flex" },
+      }}
+    >
       <Button
         variant="outlined"
         sx={{
-          backgroundColor: active ? "primary.main" : "white",
-          color: active ? "white" : "black",
-          borderColor: active ? "transparent" : "rgba(0, 0, 0, 0.12)",
+          backgroundColor: active ? "#eeeeee" : "white",
+          color: active ? "black" : "black",
+          borderColor: active ? "black" : "rgba(0, 0, 0, 0.12)",
           minWidth: "fit-content",
           display: { xs: "none", md: "flex" },
         }}
@@ -116,9 +119,10 @@ const RentalRange = ({}) => {
         defaultCount={parseFloat(valueOfFilter)}
         anchorEl={anchorEl}
         handleClosePopover={handleClosePopover}
+        listRangePrice={listRangePrice || []}
       />
       {/* )} */}
-    </>
+    </Box>
   );
 };
 

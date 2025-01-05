@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import ScrollableTabs from "./Components/ScrollableTabs/ScrollableTabs";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
 import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
-import { HostTourSearchApi } from "../../api/toureApis";
+import { HostTourSearchApi, HostTourSearchOneApi } from "../../api/toureApis";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import FormReserve from "./Components/FormReserve/FormReserve";
 import { useState } from "react";
@@ -14,10 +14,12 @@ export const StayPageContext = createContext();
 const StayPage = () => {
   const { staycode } = useParams();
   const [listDateSelected, setListDateSelected] = useState([]);
+  const [infoOfStay, setInfoOfStay] = useState({});
 
   useEffect(() => {
     window.scroll(0, 0);
-    console.log(staycode, "staycode");
+    handleSearchStayInfo();
+    setListDateSelected([]);
   }, [staycode]);
 
   // دریافت لیست اسلایدر
@@ -34,12 +36,22 @@ const StayPage = () => {
     setListDateSelected([valueOfFilter, valueOfFilter2]);
     // }
   };
+
+  // دریافت اطلاعات اقامتگاه
+  const handleSearchStayInfo = async () => {
+    const resultGetTour = await HostTourSearchOneApi(staycode);
+    var item = resultGetTour?.data;
+    console.log(item, "item handleSearchStayInfo");
+    setInfoOfStay(item);
+    return item;
+  };
   return (
     <StayPageContext.Provider
       value={{
         handleChangeDate: handleChangeDate,
         listDateSelected: listDateSelected,
         setListDateSelected: setListDateSelected,
+        infoOfStay,
       }}
     >
       <Box
@@ -70,14 +82,7 @@ const StayPage = () => {
           <Box sx={{ mt: 2 }}>
             <Grid container spacing={2}>
               {/* Main Content Section */}
-              <Grid
-                item
-                xs={12}
-                md={8}
-                sx={{
-                  
-                }}
-              >
+              <Grid item xs={12} md={8} sx={{}}>
                 <ScrollableTabs />
               </Grid>
 

@@ -2,10 +2,10 @@ import React from "react";
 import { Card, Avatar, Typography, Box } from "@mui/material";
 
 const CardComment = ({ centerItem }) => {
-  const widthSize = 300;
+  const widthSize = 250;
   const widthSizeMobile = 200;
-  const heightSize = 220;
-  const heightSizeMobile = 210;
+  const heightSize = 200;
+  const heightSizeMobile = 170;
   return (
     <Box
       sx={{
@@ -67,8 +67,8 @@ const CardComment = ({ centerItem }) => {
             src="https://via.placeholder.com/100"
             alt="User Avatar"
             sx={{
-              width: 70,
-              height: 70,
+              width: { xs: 55, md: 70 },
+              height: { xs: 55, md: 70 },
               border: "4px solid #fff", // Add border to make it blend with the card
               boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Add shadow for emphasis
             }}
@@ -94,14 +94,24 @@ const CardComment = ({ centerItem }) => {
           variant="body1"
           sx={{
             color: "#555",
-            fontSize: "14px",
-            lineHeight: 1.8,
+            fontSize: { xs: 10, md: "13px" },
             textAlign: "justify",
-            mt: 1,
-            fontWeight:"bold"
+            // mt: 1,
+            fontWeight: "bold",
+            display: "-webkit-box",
+            WebkitLineClamp: { xs: 4, md: 5 }, // Limit to 3 lines (adjust as needed)
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
-          یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام
+          یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از
+          بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از بهترین
+          پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها
+          رو در سایت شبینجا دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها رو در سایت
+          شبینجا دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا
+          دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت
+          کرده‌ام
         </Typography>
       </Card>
     </Box>

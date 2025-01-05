@@ -5,7 +5,7 @@ import { SearchPageContext } from "../../../SearchPage";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import PopVerFilter from "./PopVerFilter";
 
-const filter = "type";
+const filter = "typeHost";
 const label = "نوع اقامتگاه";
 const startIcon = <HomeWorkOutlinedIcon />;
 const AccommodationTypeButton = ({}) => {
@@ -29,7 +29,7 @@ const AccommodationTypeButton = ({}) => {
   // Update active state whenever location.search changes
   useEffect(() => {
     isFilterActive();
-  }, [filter]);
+  }, [filter, searchPageContext.listFiltersInUrl]);
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
@@ -43,31 +43,33 @@ const AccommodationTypeButton = ({}) => {
     setAnchorEl(null);
   };
 
-  const handleSetSearch = (value) => {
+  const handleSetSearch = (valueList) => {
     const params = new URLSearchParams(window.location.search);
-
-    if (value) {
+    if (valueList) {
+      const value = Array.isArray(valueList) ? valueList.join(",") : valueList;
       params.set(filter, value);
     } else {
       params.delete(filter);
     }
-
     // Update the URL with the new search parameters
     const newSearch = params.toString();
     window.history.replaceState(null, "", `?${newSearch}`);
+
     isFilterActive();
     handleClosePopover();
     searchPageContext.handleSearch();
   };
+
+
 
   return (
     <>
       <Button
         variant="outlined"
         sx={{
-          backgroundColor: active ? "primary.main" : "white",
-          color: active ? "white" : "black",
-          borderColor: active ? "transparent" : "rgba(0, 0, 0, 0.12)",
+          backgroundColor: active ? "#eeeeee" : "white",
+          color: active ? "black" : "black",
+          borderColor: active ? "black" : "rgba(0, 0, 0, 0.12)",
           minWidth: "fit-content",
           display: { xs: "none", md: "flex" },
         }}
@@ -93,12 +95,13 @@ const AccommodationTypeButton = ({}) => {
       {/* Popover */}
       {
         // !active  &&
-       
+
         <PopVerFilter
           callBackFunc={handleSetSearch}
           defaultCount={parseFloat(valueOfFilter)}
           anchorEl={anchorEl}
           handleClosePopover={handleClosePopover}
+          filter={filter}
         />
       }
     </>

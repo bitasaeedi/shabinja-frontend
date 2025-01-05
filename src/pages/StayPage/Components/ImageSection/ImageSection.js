@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Button, Grid, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
+import { StayPageContext } from "../../StayPage";
 
 const ImageSection = () => {
+  const [listImages, setListImages] = useState([]);
+  const stayPageContext = useContext(StayPageContext);
+
+  useEffect(() => {
+    setListImages(listImages);
+  }, [stayPageContext.infoOfStay]);
   return (
     <Box sx={{}}>
       {/* Title and Buttons */}
@@ -21,7 +28,8 @@ const ImageSection = () => {
           }}
         >
           <Typography variant="h5" fontWeight="bold">
-            اجاره بوم گردی میرزا - واحد دوتخته قشم
+            {stayPageContext?.infoOfStay?.title}
+            {/* اجاره بوم گردی میرزا - واحد دوتخته قشم */}
           </Typography>
           <Box sx={{ display: "flex", gap: 2 }}>
             <Button
@@ -50,7 +58,8 @@ const ImageSection = () => {
             color="text.secondary"
             sx={{ marginBottom: 2 }}
           >
-            استان هرمزگان، قشم - 4.04 (232 نظر ثبت شده)
+            {`${stayPageContext?.infoOfStay?.accerss}، ${stayPageContext?.infoOfStay?.room} اتاق، ${stayPageContext?.infoOfStay?.minCapacity}تا${stayPageContext?.infoOfStay?.maxCapacity} نفر`}
+            {/* استان هرمزگان، قشم - 4.04 (232 نظر ثبت شده) */}
           </Typography>
         </Box>
       </Box>

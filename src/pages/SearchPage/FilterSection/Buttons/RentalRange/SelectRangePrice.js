@@ -1,10 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Slider, Typography, useTheme } from "@mui/material";
 
-const SelectRangePrice = ({ callBackValues }) => {
+const SelectRangePrice = ({ callBackValues, listRangePrice }) => {
   const theme = useTheme(); // Use Material-UI theme
-  const [value, setValue] = useState([150000, 10000000]);
+  const [value, setValue] = useState([100000, 20000000]);
 
+  useEffect(() => {
+    console.log(listRangePrice, "listRangePrice");
+    if (listRangePrice.length > 0) {
+      setValue(listRangePrice);
+    }
+  }, []);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -74,9 +80,9 @@ const SelectRangePrice = ({ callBackValues }) => {
           <Slider
             value={value}
             onChange={handleChange}
-            min={150000}
-            max={10000000}
-            step={1000}
+            min={100000}
+            max={20000000}
+            step={100000}
             valueLabelDisplay="off"
             color="dark"
             sx={{
@@ -123,7 +129,7 @@ const SelectRangePrice = ({ callBackValues }) => {
           variant="text"
           size="small"
           onClick={() => {
-            setValue([150000, 10000000]);
+            setValue([100000, 20000000]);
             callBackValues(null);
           }} // Reset to default values
         >

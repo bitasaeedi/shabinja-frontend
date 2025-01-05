@@ -5,11 +5,12 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
 import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography, useMediaQuery } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CardSkeletonComment from "../Cards/CardComment/CardSkeletonComment";
 import CardComment from "../Cards/CardComment/CardComment";
+import { useTheme } from "@mui/material/styles";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
@@ -54,8 +55,10 @@ const PrevArrow = ({ onClick, disabled }) => (
 );
 
 const Commentswiper = ({ lists, title, loading = false }) => {
-  const [centerIndex, setCenterIndex] = useState(0);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const [centerIndex, setCenterIndex] = useState(0);
   const swiperRef = useRef(null);
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
@@ -144,7 +147,7 @@ const Commentswiper = ({ lists, title, loading = false }) => {
           },
         }}
         style={{
-        //   paddingLeft: "17%",
+          paddingLeft: isMobile ? "59px" : "0",
         }}
       >
         {loading !== false

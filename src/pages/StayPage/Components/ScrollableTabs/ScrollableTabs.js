@@ -5,6 +5,9 @@ import InfoSection from "./InfoSection/InfoSection";
 import { AboutStay } from "./AboutStay/AboutStay";
 import MyCalendarsWithprice from "../../../../components/MyCalendars/MyCalendarsWithprice";
 import { StayPageContext } from "../../StayPage";
+import OtherItems from "./OtherItems/OtherItems";
+import RulesStay from "./RulesStay/RulesStay";
+import CommentPeople from "./CommentPeople/CommentPeople";
 
 const ScrollableTabs = () => {
   const stayPageContext = useContext(StayPageContext);
@@ -23,7 +26,7 @@ const ScrollableTabs = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log('Entry:', entry.target, entry.isIntersecting);
+          console.log("Entry:", entry.target, entry.isIntersecting);
           if (entry.isIntersecting) {
             const sectionIndex = Object.keys(sectionRefs).findIndex(
               (key) => sectionRefs[key].current === entry.target
@@ -38,43 +41,43 @@ const ScrollableTabs = () => {
         threshold: 0.5,
       }
     );
-  
+
     Object.values(sectionRefs).forEach((ref) => {
       if (ref.current) observer.observe(ref.current);
     });
-  
+
     return () => observer.disconnect();
   }, [sectionRefs]);
-  
 
   const handleTabClick = (section) => {
     sectionRefs[section].current.scrollIntoView({
       behavior: "smooth",
       block: "start",
     });
-  
+
     // Update activeTab manually to ensure UI stays in sync
-    const sectionIndex = listSection.findIndex((item) => item.value === section);
+    const sectionIndex = listSection.findIndex(
+      (item) => item.value === section
+    );
     setActiveTab(sectionIndex);
   };
-  
 
   const listSection = [
     { title: "مشخصات", value: "section1" },
     { title: "توضیحات", value: "section2" },
     { title: "امکانات", value: "section3" },
-    { title: "تصاویر", value: "section4" },
+    { title: "قوانین", value: "section4" },
     { title: "تقویم", value: "section5" },
     { title: "نظرات", value: "section6" },
   ];
   return (
     <Box sx={{ width: "100%" }}>
       {/* Tabs Navigation */}
-      <Tabs
+      {/* <Tabs
         value={activeTab}
         variant="scrollable"
-        scrollButtons
-        allowScrollButtonsMobile
+        scrollButtons={false}
+        allowScrollButtonsMobile={false}
         aria-label="scrollable auto tabs"
         sx={{
           position: "sticky",
@@ -83,6 +86,7 @@ const ScrollableTabs = () => {
           color: "white",
           alignItems: "center",
           zIndex: "200 !important",
+          borderRadius: "5px",
         }}
         TabIndicatorProps={{
           style: {
@@ -96,13 +100,12 @@ const ScrollableTabs = () => {
             label={item?.title}
             onClick={() => handleTabClick(item?.value)}
             sx={{
-             
               minWidth: 0, // Remove extra minimum width
-              minHeight: 28, // Remove extra height
+              minHeight: { xs: 20, md: 25 }, // Remove extra height
               px: 2, // Remove horizontal padding
               py: 0, // Remove vertical padding
               mx: 1,
-              fontSize: "0.9rem", // Make the text slightly smaller
+              fontSize: { xs: 12, md: 12 }, // Make the text slightly smaller
               color: "white", // Default text color
               "&.Mui-selected": {
                 backgroundColor: "#ffb400", //(theme) => theme.palette.primary.main, //"#fca311",
@@ -115,13 +118,14 @@ const ScrollableTabs = () => {
             }}
           />
         ))}
-      </Tabs>
+      </Tabs> */}
 
       {/* Content Sections */}
       <Box
-      sx={{
-        zIndex: "100",
-      }}>
+        sx={{
+          zIndex: "100",
+        }}
+      >
         <Box
           ref={sectionRefs.section1}
           sx={{
@@ -150,16 +154,17 @@ const ScrollableTabs = () => {
             py: 4,
           }}
         >
-          <AboutStay />
+          <OtherItems />
         </Box>
-        {/* تصاویر */}
+        {/* قوانین */}
+
         <Box
           ref={sectionRefs.section4}
           sx={{
             py: 4,
           }}
         >
-          <AboutStay />
+          <RulesStay />
         </Box>
         {/* تقویم */}
         <Box
@@ -168,11 +173,25 @@ const ScrollableTabs = () => {
             py: 4,
           }}
         >
+          <Box>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: { xs: 18, md: 20 },
+              }}
+            >
+              تقویم/نرخ
+            </Typography>
+          </Box>
           <Box sx={{ display: { xs: "none", lg: "flex" } }}>
             <MyCalendarsWithprice
               numMonth={2}
               onChange={stayPageContext.handleChangeDate}
               values={stayPageContext.listDateSelected}
+              listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
+              // listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours?.filter(
+              //   (_, index) => index !== 8
+              // )}
             />
           </Box>
           <Box sx={{ display: { lg: "none" } }}>
@@ -180,6 +199,7 @@ const ScrollableTabs = () => {
               numMonth={1}
               onChange={stayPageContext.handleChangeDate}
               values={stayPageContext.listDateSelected}
+              listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
             />
           </Box>
         </Box>
@@ -191,7 +211,7 @@ const ScrollableTabs = () => {
             py: 4,
           }}
         >
-          <AboutStay />
+          <CommentPeople />
         </Box>
       </Box>
     </Box>

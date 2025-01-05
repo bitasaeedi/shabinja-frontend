@@ -12,11 +12,16 @@ const SelectCity = ({ list = [], showAllInitially = false }) => {
   };
 
   return (
-    <Box sx={{ mx: 2 , px: { xs: 0, md: 2 } }}>
+    <Box sx={{ mx: 2, px: { xs: 0, md: 2 } }}>
       <FormGroup>
         <Collapse in={isExpanded} timeout="auto" collapsedSize={120}>
           {list.map((item, index) => (
-            <CheckBoxSelect key={index} item={item} subList />
+            <CheckBoxSelect
+              key={index}
+              item={item}
+              subList
+              handleSelect={() => {}}
+            />
           ))}
         </Collapse>
       </FormGroup>

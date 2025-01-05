@@ -33,7 +33,7 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
               xs={showMap ? 12 : 12}
               sm={showMap ? 12 : 12}
               md={showMap ? 12 : 6}
-              lg={showMap ? 6 : 4}
+              lg={showMap ? 6 : 3}
               key={index}
               sx={{ display: "flex", justifyContent: "center", mb: 1 }}
             >

@@ -84,9 +84,9 @@ const DateFilterButton = ({}) => {
       <Button
         variant="outlined"
         sx={{
-          backgroundColor: active ? "primary.main" : "white",
-          color: active ? "white" : "black",
-          borderColor: active ? "transparent" : "rgba(0, 0, 0, 0.12)",
+          backgroundColor: active ? "#eeeeee" : "white",
+          color: active ? "black" : "black",
+          borderColor: active ? "black" : "rgba(0, 0, 0, 0.12)",
           minWidth: "fit-content",
         }}
         size="small"

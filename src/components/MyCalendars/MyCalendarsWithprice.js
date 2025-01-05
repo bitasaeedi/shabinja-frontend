@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import { Calendar } from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
@@ -8,8 +8,16 @@ import {
   GetMiladiStdFunc,
   GetShamsiDateDetails,
 } from "../DateFunctions/DateFunctions";
+
 const weekDays = ["ش", "ی", "د", "س", "چ", "پ", "ج"];
-const MyCalendarsWithprice = ({ onChange, values, numMonth = 2 }) => {
+
+const MyCalendarsWithPrice = ({
+  onChange,
+  values,
+  numMonth = 2,
+  listDayesWithPrice = [],
+}) => {
+  const [startDate, setStartDate] = useState(null); // Track the selected start date
 
   const onChangeList = (value) => {
     if (Array.isArray(value)) {
@@ -20,24 +28,29 @@ const MyCalendarsWithprice = ({ onChange, values, numMonth = 2 }) => {
           shamsiObj: GetShamsiDateDetails(miladi),
         };
       });
+
+      // Update startDate when a new range is started
+      if (value.length === 1) {
+        setStartDate(GetMiladiStdFunc(value[0].toJSON()));
+      }
+
       onChange(list);
-    } else {
-      console.log(value.toObject(), "calendar normal");
     }
-  }
+  };
+
+  // Create a lookup table for quick price checks
+  const priceLookup = listDayesWithPrice.reduce((acc, item) => {
+    acc[GetMiladiStdFunc(item.start)] = item.priceBase; // Map date to priceBase
+    return acc;
+  }, {});
+
   return (
     <Calendar
-      style={
-        {
-          // height: 600,
-        }
-      }
       className="d-flex justify-content-center w-100 mx-0 px-0 shadow-none custom-calendar-stay"
       value={values}
       format="YYYY/MM/DD"
       fixMainPosition={true}
       fixRelativePosition={true}
-      // offsetY={5}
       calendarPosition="bottom-right"
       calendar={persian}
       locale={persian_fa}
@@ -50,22 +63,26 @@ const MyCalendarsWithprice = ({ onChange, values, numMonth = 2 }) => {
       plugins={[weekends()]}
       animations={[transition()]}
       weekDays={weekDays}
-      mapDays={({ date, today, selectedDate, isSameDate }) => {
-        let isWeekend = date.weekDay.index === 6;
-        const additionalText = `1،450`; // مبلغی که هر روز خواهد گرفت
+      mapDays={({ date, today }) => {
+        const dateKey = GetMiladiStdFunc(date.toJSON());
+        const todayKey = GetMiladiStdFunc(today.toJSON());
+
+        const priceBase = priceLookup[dateKey];
+        const isWeekend = date.weekDay.index === 6;
+
+        // Combine disabled logic for single days and ranges
+        const isDisabled = !priceBase || dateKey < todayKey;
+
+        const additionalText = priceBase ? priceBase.toLocaleString() : "";
+
         return {
-          disabled:
-            GetMiladiStdFunc(date.toJSON()) <
-              GetMiladiStdFunc(today.toJSON()) 
-              ? true
-              : false,
+          disabled: isDisabled,
           children: (
             <div
               style={{
                 position: "relative",
                 color:
-                  GetMiladiStdFunc(date.toJSON()) <
-                    GetMiladiStdFunc(today.toJSON()) && isWeekend
+                  isDisabled && isWeekend
                     ? "rgba(255, 0, 0, 0.36)"
                     : isWeekend
                     ? "red"
@@ -100,7 +117,13 @@ const MyCalendarsWithprice = ({ onChange, values, numMonth = 2 }) => {
             /> */}
               <div className="">{date.day}</div>
               <div>
-                <small className="">{additionalText}</small>
+                <small
+                  style={{
+                    fontSize: "10px",
+                  }}
+                >
+                  {additionalText}
+                </small>
               </div>
             </div>
           ),
@@ -110,4 +133,4 @@ const MyCalendarsWithprice = ({ onChange, values, numMonth = 2 }) => {
   );
 };
 
-export default MyCalendarsWithprice;
+export default MyCalendarsWithPrice;

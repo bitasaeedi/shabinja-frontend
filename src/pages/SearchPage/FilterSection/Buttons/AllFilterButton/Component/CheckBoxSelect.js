@@ -15,11 +15,16 @@ const CheckBoxSelect = ({
   listSelected = [],
 }) => {
   // Determine if the item is currently selected
-  const isChecked = listSelected.some((selected) => selected.id === item.id);
+  const [checked, setChecked] = useState(false);
+  useEffect(() => {
+    const myList = listSelected || [];
+    const isChecked = myList?.some((selected) => selected === item.searchtitle);
+    setChecked(isChecked);
+  }, [listSelected]);
 
   const handleChange = (event) => {
     // Call the parent handler with the item and its new selection state
-    handleSelect(item, event.target.checked);
+    handleSelect(item.searchtitle, event.target.checked);
   };
   return (
     <Box
@@ -32,7 +37,7 @@ const CheckBoxSelect = ({
       <FormControlLabel
         control={
           <Checkbox
-            checked={isChecked}
+            checked={checked}
             onChange={handleChange} // Handle selection changes
             sx={{
               color: "#eeeeee",

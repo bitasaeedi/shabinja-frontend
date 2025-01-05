@@ -29,6 +29,7 @@ const AllFilterButton = ({}) => {
     setAnchorEl(null);
   };
 
+  // این تابع از داخل مودال فراخوانی میشود و لیتس یاز مقادیر فیلتر ارسال میشود تا در url ست شوند
   const handleSetSearch = (listValue = searchPageContext.filterList) => {
     console.log(listValue, "listValue handleSetSearch AllFilterButton");
     const params = new URLSearchParams(window.location.search);
@@ -38,7 +39,7 @@ const AllFilterButton = ({}) => {
         const value = Array.isArray(filter.value)
           ? filter.value.join(",")
           : filter.value;
-
+        console.log(filter.value, "filter.label");
         params.set(filter.label, value);
       } else {
         params.delete(filter.label);
@@ -58,10 +59,10 @@ const AllFilterButton = ({}) => {
       <Button
         variant="outlined"
         sx={{
-          backgroundColor: searchPageContext.active ? "primary.main" : "white",
-          color: searchPageContext.active ? "white" : "black",
+          backgroundColor: searchPageContext.active ? "#eeeeee" : "white",
+          color: searchPageContext.active ? "black" : "black",
           borderColor: searchPageContext.active
-            ? "transparent"
+            ? "black"
             : "rgba(0, 0, 0, 0.12)",
           minWidth: "fit-content",
         }}
@@ -85,16 +86,14 @@ const AllFilterButton = ({}) => {
       </Button>
 
       {/* Popover */}
-      {
-        // !active  &&
-
+      {/* {Boolean(anchorEl) && ( */}
         <PopVerFilter
           callBackFunc={handleSetSearch}
           defaultCount={parseFloat(valueOfFilter)}
           anchorEl={anchorEl}
           handleClosePopover={handleClosePopover}
         />
-      }
+      {/* )} */}
     </>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -13,19 +13,39 @@ import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import ListCheckBox from "../AllFilterButton/Component/ListCheckBox";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import { GetTypeHostListApi } from "../../../../../api/toureApis";
+
 const PopVerFilter = ({
   callBackFunc,
-  defaultCount,
   anchorEl,
   handleClosePopover,
+  filter,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
 
-  const counterRef = useRef();
+  const [listTypeHost, setListTypeHost] = useState([]);
+  const [selectedListTypeHost, setSelectedListTypeHost] = useState([]);
 
-  const handleFinall = async () => {};
-  
+  // دریافت لیست ها
+  useEffect(() => {
+    setSelectedListTypeHost([]);
+    const params = new URLSearchParams(window.location.search);
+    const valueOfFilter = params.get("typeHost");
+    console.log(valueOfFilter, "valueOfFilter");
+    var tyeHostList = valueOfFilter?.split(",") || [];
+    setSelectedListTypeHost(tyeHostList);
+
+    handleGetTypeHostList();
+  }, [anchorEl]);
+
+  // لیست نوع اقامتگاه
+  const handleGetTypeHostList = async () => {
+    const myList = await GetTypeHostListApi();
+    setListTypeHost(myList.data || []);
+    return myList;
+  };
+
   return isMobile ? (
     <SwipeableDrawer
       anchor="bottom"
@@ -67,7 +87,15 @@ const PopVerFilter = ({
     >
       <Box sx={{}}>
         <ListCheckBox
-          list={[{ id: 1, title: "ویلایی" }]}
+          list={listTypeHost.map((item) => ({
+            id: item?.id,
+            title: item?.title,
+            searchtitle: item?.title,
+          }))}
+          listSelected={selectedListTypeHost}
+          handleChangeListSelected={setSelectedListTypeHost}
+          // list={[{ id: 1, title: "ویلایی" }]}
+          limit={20}
           title="نوع اقامتگاه"
           iconTitle={
             <HomeOutlinedIcon
@@ -97,7 +125,7 @@ const PopVerFilter = ({
           variant="text"
           size="small"
           // disabled={count < 1}
-          // onClick={() => handleFinall()}
+          onClick={() => callBackFunc(null)}
         >
           حذف فیلتر
         </Button>
@@ -108,7 +136,7 @@ const PopVerFilter = ({
           variant="contained"
           size="small"
           // disabled={count < 1}
-          onClick={() => handleFinall()}
+          onClick={() => callBackFunc(selectedListTypeHost)}
         >
           ثبت تغییرات
         </Button>

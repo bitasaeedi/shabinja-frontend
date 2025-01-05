@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   Box,
   Typography,
@@ -16,43 +22,185 @@ import {
   GetOtherItemTourList,
   GetRollesList,
 } from "../../../../../api/PublicApis";
+import {
+  GetTypeHostListApi,
+  GetTypeHostLocListApi,
+} from "../../../../../api/toureApis";
+import { SearchPageContext } from "../../../SearchPage";
 export const PopVerFilterContext = createContext();
 
 const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
-
+  const searchPageContext = useContext(SearchPageContext);
+  // ---
+  const [justGuarantees, setJustGuarantees] = useState(false); //رزرو قطعی
+  // ---
+  const [countPeople, setCountPeople] = useState(0); //تعداد نفرات
+  // ---
+  const [countRoom, setCountRoom] = useState(0); //تعداد اتاق
+  // ----
   const [listRolles, setListRolles] = useState([]);
   const [selectedListRolles, setSelectedListRolles] = useState([]);
   // ----
   const [listOtherItem, setListOtherItem] = useState([]);
   const [selectedListOtherItem, setSelectedListOtherItem] = useState([]);
 
+  const [listTypeHost, setListTypeHost] = useState([]);
+  const [selectedListTypeHost, setSelectedListTypeHost] = useState([]);
+  // ---
+  const [listTypeHostLoc, setListTypeHostLoc] = useState([]);
+  const [selectedListTypeHostLoc, setSelectedListTypeHostLoc] = useState([]);
+  const [selectedRangPriceList, setSelectedRangPriceList] = useState([]);
+
+  useEffect(() => {
+    const listValues = searchPageContext.listFiltersInUrl;
+    // Define default values
+    var justGuarantees = false; // Replace with your desired default
+    var countPeopleNum = 0; // Replace with your desired default
+    var countRoomNum = 0;
+    var rollList = [];
+    var tyeHostList = [];
+    var featuresList = [];
+    var typeHostLocList = [];
+    listValues.forEach((element) => {
+      if (element.label === "justGuarantees") {
+        justGuarantees = element.value;
+      } else if (element.label === "count") {
+        countPeopleNum = parseFloat(element.value);
+      } else if (element.label === "room") {
+        countRoomNum = parseFloat(element.value);
+      } else if (element.label === "rules") {
+        var listRolees = element?.value?.split(",");
+        rollList = listRolees || [];
+      } else if (element.label === "typeHost") {
+        tyeHostList = element?.value?.split(",") || [];
+      } else if (element.label === "features") {
+        featuresList = element?.value?.split(",") || [];
+      } else if (element.label === "typeHostLoc") {
+        typeHostLocList = element?.value?.split(",") || [];
+      } else if (element.label === "min") {
+        setSelectedRangPriceList((prev) => [
+          parseFloat(element?.value),
+          ...prev.slice(1),
+        ]);
+      } else if (element.label === "max") {
+        setSelectedRangPriceList((prev) => [
+          ...prev.slice(0, 1),
+          parseFloat(element?.value),
+        ]);
+      }
+    });
+
+    // Update state with the resolved values
+    setJustGuarantees(justGuarantees);
+    setCountPeople(countPeopleNum);
+    setCountRoom(countRoomNum);
+    setSelectedListRolles(rollList);
+    setSelectedListTypeHost(tyeHostList);
+    setSelectedListTypeHostLoc(typeHostLocList);
+
+    setSelectedListOtherItem(featuresList);
+  }, [searchPageContext.listFiltersInUrl.length]);
+
+  // دریافت لیست ها
   useEffect(() => {
     handleGetRol();
     handleGetOtherItemTourList();
+    handleGetTypeHostList();
+    handleGetTypeHostLocList();
   }, []);
 
-  useEffect(() => {
-    console.log(selectedListRolles, "selectedListRolles" , selectedListOtherItem);
-  }, [selectedListOtherItem, selectedListRolles]);
   // دریافت لیست قوانین
   const handleGetRol = async () => {
-    const myList = await GetRollesList();
+    let myList = [];
+    myList = await GetRollesList();
     setListRolles(myList.data || []);
-    return myList;
+    return myList || [];
+  };
+  // لیست سایر امکانات
+  const handleGetOtherItemTourList = async () => {
+    let myList = [];
+    myList = (await GetOtherItemTourList()) || [];
+    setListOtherItem(myList.data || []);
+    return myList || [];
   };
 
-  const handleGetOtherItemTourList = async () => {
-    const myList = await GetOtherItemTourList();
-    setListOtherItem(myList.data || []);
-    return myList;
+  // لیست نوع اقامتگاه
+  const handleGetTypeHostList = async () => {
+    let myList = [];
+    myList = await GetTypeHostListApi();
+    setListTypeHost(myList.data || []);
+    return myList || [];
+  };
+
+  // لیست نوع منطقه
+  const handleGetTypeHostLocList = async () => {
+    let myList = [];
+    myList = await GetTypeHostLocListApi();
+    setListTypeHostLoc(myList.data || []);
+    return myList || [];
   };
 
   const counterRef = useRef();
 
-  const handleSubmitFilters = (listFilters) => {
-    
+  // ارسال فیلتر ها به url  و فراخوانی تابع سرچ
+  const handleSubmitFilters = () => {
+    const listFilters = [
+      {
+        value: justGuarantees,
+        label: "justGuarantees",
+      },
+      {
+        value: countPeople,
+        label: "count",
+      },
+      {
+        value: countRoom,
+        label: "room",
+      },
+      {
+        value:
+          selectedListRolles?.length > 0
+            ? selectedListRolles.map((item) => item)
+            : null,
+        label: "rules",
+      },
+      {
+        value:
+          selectedListTypeHost?.length > 0
+            ? selectedListTypeHost.map((item) => item)
+            : null,
+        label: "typeHost",
+      },
+      {
+        value:
+          selectedListTypeHostLoc?.length > 0
+            ? selectedListTypeHostLoc.map((item) => item)
+            : null,
+        label: "typeHostLoc",
+      },
+      {
+        value:
+          selectedListOtherItem?.length > 0
+            ? selectedListOtherItem.map((item) => item)
+            : null,
+        label: "features",
+      },
+      {
+        value: selectedRangPriceList[0],
+        label: "min",
+      },
+      {
+        value: selectedRangPriceList[1],
+        label: "max",
+      },
+      {
+        value: selectedRangPriceList[1],
+        label: "max",
+      },
+    ];
+    callBackFunc(listFilters);
   };
 
   return (
@@ -61,6 +209,18 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
         value={{
           handleSubmitFilters: handleSubmitFilters,
           // ---
+          justGuarantees: justGuarantees,
+          setJustGuarantees: setJustGuarantees,
+          // ---
+          countPeople,
+          setCountPeople,
+          // ----
+          countRoom,
+          setCountRoom,
+          // ---
+          selectedRangPriceList,
+          setSelectedRangPriceList,
+          // ---
           listRolles: listRolles,
           selectedListRolles: selectedListRolles,
           setSelectedListRolles: setSelectedListRolles,
@@ -68,6 +228,14 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
           listOtherItem: listOtherItem,
           selectedListOtherItem: selectedListOtherItem,
           setSelectedListOtherItem: setSelectedListOtherItem,
+          // ---
+          listTypeHost: listTypeHost,
+          selectedListTypeHost: selectedListTypeHost,
+          setSelectedListTypeHost: setSelectedListTypeHost,
+          // ---
+          listTypeHostLoc,
+          selectedListTypeHostLoc,
+          setSelectedListTypeHostLoc,
         }}
       >
         {isMobile ? (
@@ -137,7 +305,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
                 }}
                 variant="text"
                 size="small"
-                // onClick={() => handleSubmitFilters(null)}
+                onClick={() => callBackFunc()}
               >
                 حذف فیلتر
               </Button>
@@ -224,7 +392,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
                 }}
                 variant="text"
                 size="small"
-                // onClick={() => handleSubmitFilters(null)}
+                onClick={() => callBackFunc()}
               >
                 حذف فیلتر
               </Button>

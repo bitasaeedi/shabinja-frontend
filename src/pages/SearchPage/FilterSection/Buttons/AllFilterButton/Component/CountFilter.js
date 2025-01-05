@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Typography,
@@ -11,26 +11,28 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
-const CountFilter = ({ callBackFunc, defaultCount }) => {
+import { PopVerFilterContext } from "../PopVerFilter";
+const CountFilter = ({}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
+  const popVerFilterContext = useContext(PopVerFilterContext);
+  const [count, setCount] = useState(0);
 
-  const [count, setCount] = useState(defaultCount || 0);
-  const counterRef = useRef();
+  useEffect(() => {
+    setCount(parseFloat(popVerFilterContext.countPeople));
+  }, [popVerFilterContext.countPeople]);
 
   const increment = () => {
     const newCount = count + 1;
-    setCount(newCount);
-    // onValueChange(newCount); // Send value to parent
+    handleChangeValue(newCount);
   };
   const decrement = () => {
     const newCount = Math.max(0, count - 1);
-    setCount(newCount);
-    // onValueChange(newCount); // Send value to parent
-  }; // Prevent going below 1
+    handleChangeValue(newCount);
+  };
 
-  const handleFinall = (value) => {
-    callBackFunc(value);
+  const handleChangeValue = (value) => {
+    popVerFilterContext.setCountPeople(value);
   };
 
   return (

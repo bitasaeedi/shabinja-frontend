@@ -13,7 +13,7 @@ const MyMap = ({
   const [markers, setMarkers] = useState([]);
   const [standard, setStandard] = useState(true);
   const [activeMarkerId, setActiveMarkerId] = useState(null);
-  const [center, setCenter] = useState([36.022227982837855, 51.339111328125]);
+  const [center, setCenter] = useState([]); //
   const mapRef = useRef();
 
   // const center = [36.5972685, 51.3931284];
@@ -24,8 +24,38 @@ const MyMap = ({
   }, [centerInitial]);
 
   useEffect(() => {
-    console.log("Points:", points);
-    setMarkers(points);
+    // console.log("Points:", points);
+    const updatedPoints = points.map((item) => {
+      if (item.loc && typeof item.loc === "string") {
+        const [lat, lng] = item.loc.split(",").map(Number); // Safely split and convert to numbers
+        return {
+          ...item,
+          lat,
+          lng,
+        };
+      }
+      // Return the item as-is if loc is missing or invalid
+      return {
+        ...item,
+        lat: null, // Optional: Set defaults for missing lat/lng
+        lng: null,
+      };
+    });
+    // Find the first point with valid lat and lng
+    const firstValidPoint = updatedPoints.find(
+      (item) => item.lat !== null && item.lng !== null
+    );
+
+    if (!(markers.length > 0)) {
+      if (firstValidPoint) {
+        setCenter([firstValidPoint.lat, firstValidPoint.lng]);
+      } else {
+        setCenter([36.022227982837855, 51.339111328125]);
+        // console.warn("No valid points with lat and lng found!");
+      }
+    }
+
+    setMarkers(updatedPoints);
   }, [points]);
 
   const handlReturnNewPositionOnDrag = (lat, lng, id) => {
@@ -73,6 +103,7 @@ const MyMap = ({
   };
 
   const handleMarkerSelect = (id) => {
+    console.log(id , "id handleMarkerSelect")
     setActiveMarkerId(id);
   };
 
@@ -81,62 +112,68 @@ const MyMap = ({
   const standardMap = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 
   return (
-    <MapContainer
-      ref={mapRef}
-      center={center}
-      zoom={8}
-      style={{ height: "100%", width: "100%", margin: "0", padding: "0" }}
-      scrollWheelZoom={false}
-    >
-      <Button
-        variant="contained"
-        color="white"
-        onClick={handleSearchInArea}
-        sx={{
-          position: "absolute",
-          top: 30,
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: 1000,
-          backgroundColor: "white",
-        }}
-      >
-        <Typography>جستجو در این منطقه</Typography>
-      </Button>
-
-      <TileLayer url={standard ? standardMap : satelliteTileUrl} />
-
-      {markers?.length <= 2 ? (
-        markers?.map((marker, index) => (
-          <MarkerShow
-            key={index}
-            point={marker}
-            marker={{ lat: marker?.lat, lng: marker?.lng }}
-            draggableLimit={true}
-            returnNewPositionOnDrag={handlReturnNewPositionOnDrag}
-            activeMarkerId={activeMarkerId}
-            onMarkerSelect={handleMarkerSelect}
-          />
-        ))
-      ) : (
-        <MarkerClusterGroup
-          disableClusteringAtZoom={12}
-          maxClusterRadius={(zoom) => (zoom >= 16 ? 10 : 80)}
+    <>
+      {center.length == 2 ? (
+        <MapContainer
+          ref={mapRef}
+          center={center}
+          zoom={8}
+          style={{ height: "100%", width: "100%", margin: "0", padding: "0" }}
+          // scrollWheelZoom={false}
         >
-          {markers?.map((marker, index) => (
-            <MarkerShow
-              key={index}
-              point={marker}
-              marker={{ lat: marker?.lat, lng: marker?.lng }}
-              draggableLimit={false}
-              returnNewPositionOnDrag={handlReturnNewPositionOnDrag}
-              activeMarkerId={activeMarkerId}
-              onMarkerSelect={handleMarkerSelect}
-            />
-          ))}
-        </MarkerClusterGroup>
+          <Button
+            variant="contained"
+            color="white"
+            onClick={handleSearchInArea}
+            sx={{
+              position: "absolute",
+              top: 30,
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+              backgroundColor: "white",
+            }}
+          >
+            <Typography>جستجو در این منطقه</Typography>
+          </Button>
+
+          <TileLayer url={standard ? standardMap : satelliteTileUrl} />
+
+          {markers?.length <= 2 ? (
+            markers?.map((marker, index) => (
+              <MarkerShow
+                key={index}
+                point={marker}
+                marker={{ lat: marker?.lat, lng: marker?.lng }}
+                draggableLimit={true}
+                returnNewPositionOnDrag={handlReturnNewPositionOnDrag}
+                activeMarkerId={activeMarkerId}
+                onMarkerSelect={handleMarkerSelect}
+              />
+            ))
+          ) : (
+            <MarkerClusterGroup
+              disableClusteringAtZoom={12}
+              maxClusterRadius={(zoom) => (zoom >= 16 ? 10 : 80)}
+            >
+              {markers?.map((marker, index) => (
+                <MarkerShow
+                  key={index}
+                  point={marker}
+                  marker={{ lat: marker?.lat, lng: marker?.lng }}
+                  draggableLimit={false}
+                  returnNewPositionOnDrag={handlReturnNewPositionOnDrag}
+                  activeMarkerId={activeMarkerId}
+                  onMarkerSelect={handleMarkerSelect}
+                />
+              ))}
+            </MarkerClusterGroup>
+          )}
+        </MapContainer>
+      ) : (
+        <></>
       )}
-    </MapContainer>
+    </>
   );
 };
 
