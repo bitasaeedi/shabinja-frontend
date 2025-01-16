@@ -63,3 +63,18 @@
 .slick-prev:before, .slick-next:before {
   color: #333;
 }
+
+
+
+.swiper-pagination-bullet {
+  width:5px !important;
+  height:5px !important;
+  background-color: white !important;
+  opacity: .9 !important;
+}
+
+.swiper-pagination-bullet-active {
+  transform: scale(1.5); /* Grow the active bullet */
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+  opacity: 1 !important;
+}

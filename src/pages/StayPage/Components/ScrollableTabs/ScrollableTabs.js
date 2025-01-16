@@ -190,7 +190,7 @@ const ScrollableTabs = () => {
               values={stayPageContext.listDateSelected}
               listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
               // listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours?.filter(
-              //   (_, index) => index !== 8
+              //   (_, index) => index !== 8 && index !== 9 && index !== 20
               // )}
             />
           </Box>

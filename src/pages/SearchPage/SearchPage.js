@@ -16,6 +16,7 @@ import MyMap from "../../components/MyMap/MyMap";
 import MapSection from "./components/MapSection";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HostTourSearchApi } from "../../api/toureApis";
+import Header from "../../layout/header/Header";
 
 const filterList = [
   {
@@ -175,6 +176,7 @@ const SearchPage = () => {
     >
       <Box sx={{ position: "relative" }} className=" ">
         {/* Filter Section */}
+        <Header shadow={false} />
         <FilterSection />
 
         {/* Main Content */}

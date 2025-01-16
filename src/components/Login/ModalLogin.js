@@ -17,6 +17,7 @@ import LoginForm from "./LoginForm";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import logo_with_name from "../../images/shabinja_logo_with_name.png";
+import { useNavigate } from "react-router-dom";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -26,11 +27,12 @@ const ModalLogin = ({ open, handleClose }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [manageForms, setManageForms] = useState("stepMobile"); // stepMobile, stepCode, stepPass
+  const navigate = useNavigate();
 
   const handleCallBackFinall = (stepName) => {
-    console.log(stepName, "stepName");
     if (stepName === "finish") {
       handleClose();
+      navigate("/");
     }
     setManageForms(stepName);
   };
@@ -73,7 +75,7 @@ const ModalLogin = ({ open, handleClose }) => {
         <Box>
           <Box
             component="img"
-            src={ logo_with_name}
+            src={logo_with_name}
             alt="Shabinja Logo"
             sx={{
               maxWidth: 100, // Controls the max width of the image

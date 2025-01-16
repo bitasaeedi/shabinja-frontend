@@ -63,12 +63,15 @@ const DesctopSelectDate = ({
       weekDays={weekDays}
       mapDays={({ date, today, selectedDate, isSameDate }) => {
         let isWeekend = date.weekDay.index === 6;
+        var isDisabled =
+          GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON());
         if (isWeekend) {
-          return { style: { color: "red" } };
+          return {
+            disabled: isDisabled ? true : false,
+            style: { color: isDisabled ? "rgba(255, 0, 0, 0.36)" : "red" },
+          };
         }
-        if (
-          GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON())
-        ) {
+        if (isDisabled) {
           return { disabled: true, style: { color: "#ccc" } };
         }
         return isSameDate(date, selectedDate[0]) ||
@@ -83,7 +86,7 @@ const DesctopSelectDate = ({
     <Box
       sx={{
         position: "absolute",
-        top: anchorEl.getBoundingClientRect().bottom -40 ,
+        top: anchorEl.getBoundingClientRect().bottom - 40,
         right: anchorEl.getBoundingClientRect().left,
         backgroundColor: "#fff",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",

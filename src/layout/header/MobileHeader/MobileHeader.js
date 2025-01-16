@@ -33,6 +33,8 @@ import ModalLogin from "../../../components/Login/ModalLogin";
 import CheckTokenExpiration from "../../../components/checkTokenExpiration/CheckTokenExpiration";
 import RemoveStorageLogin from "../../../components/RemoveStorageLogin/RemoveStorageLogin";
 import { useLocation } from "react-router-dom";
+import { AppContext } from "../../../App";
+import { useContext } from "react";
 // Styled components for the search bar
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -74,6 +76,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const MobileHeader = () => {
+  const appContext = useContext(AppContext);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
@@ -82,7 +85,6 @@ const MobileHeader = () => {
   const [isSticky, setIsSticky] = useState(false);
   const location = useLocation();
   const theme = useTheme();
-  const open = Boolean(anchorEl);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -100,9 +102,11 @@ const MobileHeader = () => {
       const token = localStorage.getItem("access_token");
       if (token) {
         setIsLogin(true);
+        appContext.setIsLoginMain(true);
         setUserName(localStorage.getItem("name") || "کاربر شبینجا"); // Fallback name if not set
       } else {
         setIsLogin(false);
+        appContext.setIsLoginMain(false);
         setUserName("کاربر شبینجا");
       }
     };
@@ -111,26 +115,8 @@ const MobileHeader = () => {
     checkLoginStatus();
   }, [localStorage.getItem("access_token")]);
 
-  const handleDrawerToggle = () => {
-    setMobileOpen((prev) => !prev);
-  };
-
   const handleSearchChange = (event) => {
     console.log("Search:", event.target.value);
-  };
-
-  const handleLogout = () => {
-    setIsLogin(false);
-    setUserName("کاربر شبینجا");
-    RemoveStorageLogin();
-  };
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   return (
@@ -201,41 +187,7 @@ const MobileHeader = () => {
                   {/* User Section */}
                   <Grid item xs="auto">
                     {isLogin ? (
-                      <div>
-                        <Button
-                          size="small"
-                          id="demo-customized-button"
-                          aria-controls={
-                            open ? "demo-customized-menu" : undefined
-                          }
-                          aria-haspopup="true"
-                          aria-expanded={open ? "true" : undefined}
-                          variant="title"
-                          disableElevation
-                          // onClick={handleClick}
-                          onClick={handleLogout}
-                          startIcon={<AccountCircleIcon />}
-                          // endIcon={
-                          //   <KeyboardArrowDownIcon
-                          //     sx={{
-                          //       transform: open
-                          //         ? "rotate(180deg)"
-                          //         : "rotate(0deg)",
-                          //       transition: "transform 0.3s ease",
-                          //     }}
-                          //   />
-                          // }
-                          sx={{
-                            ml: { xs: 0, md: 0 },
-                            px: { xs: 0, md: 0 },
-                            fontSize: { xs: "0.8rem", md: "1rem" },
-                            minWidth: "auto",
-                            color: "warning.main",
-                          }}
-                        >
-                          <Typography variant="body2">خروج از حساب</Typography>
-                        </Button>
-                      </div>
+                      <div></div>
                     ) : (
                       <Button
                         size="small"

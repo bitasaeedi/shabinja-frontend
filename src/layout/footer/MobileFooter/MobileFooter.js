@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import { Home, AccountCircle, ShoppingBag } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import DrawerComponent from "../../../components/drawer/DrawerComponent";
+import { AppContext } from "../../../App";
 
 const MobileFooter = () => {
+  const appContext = useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
@@ -47,31 +49,31 @@ const MobileFooter = () => {
     {
       label: "پنل‌میزبان",
       icon: <ShoppingBag fontSize="small" />,
-      action: () => navigate("/pannel"),
+      action: () => navigate("/pannel/menu"),
       disabled: false,
       color: "primary.main",
     },
     {
-      label: "پروفایل",
+      label: appContext?.isLoginMain ? "پروفایل" : "ورود/ثبت‌نام",
       icon: <AccountCircle fontSize="small" />,
-      action: () => navigate("/profile"),
+      action: () => navigate("/account/menu"),
       disabled: false,
       color: "primary.main",
     },
   ];
 
   useEffect(() => {
-    switch (location.pathname) {
-      case "/support":
+    switch (true) {
+      case location.pathname === "/support":
         setValue(1);
         break;
-      case "/":
+      case location.pathname === "/":
         setValue(2);
         break;
-      case "/pannel":
+      case location.pathname.includes("/pannel"):
         setValue(3);
         break;
-      case "/profile":
+      case location.pathname.includes("/account"):
         setValue(4);
         break;
       default:
@@ -113,6 +115,11 @@ const MobileFooter = () => {
               sx={{
                 "&.Mui-selected": { color: item.color }, // Customize selected color
                 minWidth: 0, // Prevent stretching
+                ".MuiBottomNavigationAction-label": {
+                  whiteSpace: "nowrap", // Prevent label from wrapping
+                  overflow: "hidden", // Optional: Hide overflow if text exceeds space
+                  textOverflow: "ellipsis", // Optional: Add ellipsis for overflowing text
+                },
               }}
             />
           ))}

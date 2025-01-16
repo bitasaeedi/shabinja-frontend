@@ -10,7 +10,7 @@ const RulesStay = () => {
   const [ruleItemsList, setRuleItemsList] = useState([]);
   const stayPageContext = useContext(StayPageContext);
   useEffect(() => {
-    const textList = stayPageContext.infoOfStay?.otherItemTourIds || "";
+    const textList = stayPageContext.infoOfStay?.rolItemTourIds || "";
     var list = textList.split(",");
     setRuleItemsList(list);
   }, [stayPageContext.infoOfStay]);

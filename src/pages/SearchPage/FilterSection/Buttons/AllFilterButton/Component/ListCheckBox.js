@@ -8,6 +8,7 @@ import {
   Typography,
   Button,
   Collapse,
+  Grid,
 } from "@mui/material";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import CheckBoxSelect from "./CheckBoxSelect";
@@ -15,10 +16,11 @@ import CheckBoxSelect from "./CheckBoxSelect";
 const ListCheckBox = ({
   list,
   title,
-  limit = 5,
+  limit = 4,
   iconTitle,
   listSelected = [],
   handleChangeListSelected = () => {},
+  twoColumn = false, // Optional prop to enable two-column layout
 }) => {
   const [showAll, setShowAll] = useState(false);
 
@@ -54,27 +56,44 @@ const ListCheckBox = ({
         </Typography>
       </Box>
       <Box sx={{ mx: 2 }}>
+        {/* Render checkboxes in two columns if `twoColumn` is true */}
         <FormGroup>
-          {list.slice(0, limit).map((item, index) => (
-            <CheckBoxSelect
-              item={item}
-              key={index}
-              handleSelect={handleSelect}
-              listSelected={listSelected || []}
-            />
-          ))}
+          <Grid container spacing={twoColumn ? 0 : 0}>
+            {list.slice(0, limit).map((item, index) => (
+              <Grid
+                item
+                xs={12}
+                md={twoColumn ? 6 : 12} // Full width on small screens, half width on medium if `twoColumn` is true
+                key={index}
+              >
+                <CheckBoxSelect
+                  item={item}
+                  handleSelect={handleSelect}
+                  listSelected={listSelected || []}
+                />
+              </Grid>
+            ))}
+          </Grid>
         </FormGroup>
 
         <Collapse in={showAll} timeout="auto" unmountOnExit>
           <FormGroup>
-            {list.slice(limit).map((item, index) => (
-              <CheckBoxSelect
-                item={item}
-                key={index}
-                handleSelect={handleSelect}
-                listSelected={listSelected || []}
-              />
-            ))}
+            <Grid container spacing={twoColumn ? 0 : 0}>
+              {list.slice(limit).map((item, index) => (
+                <Grid
+                  item
+                  xs={12}
+                  md={twoColumn ? 6 : 12}
+                  key={index}
+                >
+                  <CheckBoxSelect
+                    item={item}
+                    handleSelect={handleSelect}
+                    listSelected={listSelected || []}
+                  />
+                </Grid>
+              ))}
+            </Grid>
           </FormGroup>
         </Collapse>
 

@@ -3,7 +3,7 @@ import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import Home from "./pages/Home/Home";
-import { createContext } from "react";
+import { createContext, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Header from "./layout/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -11,6 +11,9 @@ import Footer from "./layout/footer/Footer";
 import SearchPage from "./pages/SearchPage/SearchPage";
 
 import StayPage from "./pages/StayPage/StayPage";
+import AccountPage from "./pages/AccountPage/AccountPage";
+import PannelPage from "./pages/Pannel/PannelPage";
+import NewStaysPage from "./pages/NewStaysPage/NewStaysPage";
 // Create Context
 export const AppContext = createContext();
 
@@ -52,7 +55,7 @@ const theme = createTheme({
       dark: "#106df6",
       contrastText: "#fff",
     },
-    dark:{
+    dark: {
       main: "#000000",
     },
     textColor: {
@@ -62,16 +65,22 @@ const theme = createTheme({
 });
 
 function App() {
+  const [isLoginMain, setIsLoginMain] = useState(false);
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <AppContext.Provider value={{ tes: "test" }}>
+        <AppContext.Provider
+          value={{ tes: "test", isLoginMain, setIsLoginMain }}
+        >
           <Router>
-            <Header />
+            {/* <Header /> */}
             <Routes>
               <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
               <Route path="/stay/:staycode" element={<StayPage />} />
               <Route path="/search/:searchtype" element={<SearchPage />} />
+              <Route path="/account/:section" element={<AccountPage />} />
+              <Route path="/pannel/:section" element={<PannelPage />} />
+              <Route path="/new-stay/:step" element={<NewStaysPage />} />
               {/* <Route path="*" element={<Home />} /> */}
             </Routes>
             <Footer />

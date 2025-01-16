@@ -7,17 +7,21 @@ import {
   Grid,
   IconButton,
   InputAdornment,
+  useMediaQuery,
 } from "@mui/material"; // Using Grid from @mui/material
 import { useForm, Controller } from "react-hook-form";
 import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
 import SelectDatePopOver from "./SelectDatePopOver";
 import { useRef } from "react";
 import { StayPageContext } from "../../StayPage";
+import { useTheme } from "@mui/material/styles";
+import MobilePopOverDateSelect from "../MobileForm/components/MobilePopOverDateSelect";
 const FormReserve = () => {
+  const theme = useTheme();
   const stayPageContext = useContext(StayPageContext);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const [currentField, setCurrentField] = useState("");
-
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [count, setCount] = useState(0);
 
   const counterRef = useRef();
@@ -120,7 +124,7 @@ const FormReserve = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={0}>
               {/* 6 columns for تاریخ */}
-              <Grid item xs={12} md={6} sx={{ position: "relative" }}>
+              <Grid item xs={6} md={6} sx={{ position: "relative" }}>
                 <Controller
                   name="entryDate"
                   control={control}
@@ -164,7 +168,7 @@ const FormReserve = () => {
               </Grid>
 
               {/* Exit Date */}
-              <Grid item xs={12} md={6} sx={{ position: "relative" }}>
+              <Grid item xs={6} md={6} sx={{ position: "relative" }}>
                 <Controller
                   name="exitDate"
                   control={control}
@@ -216,7 +220,7 @@ const FormReserve = () => {
                   )}
                 />
               </Grid>
-              {anchorEl && (
+              {anchorEl && !isMobile && (
                 <SelectDatePopOver
                   callBackFunc={stayPageContext.handleChangeDate}
                   valueDefault={stayPageContext.listDateSelected}
@@ -349,6 +353,13 @@ const FormReserve = () => {
           </form>
         </Box>
       </Box>
+
+      {anchorEl && isMobile && (
+        <MobilePopOverDateSelect
+          anchorEl={anchorEl}
+          handleClosePopover={handleClosePopover}
+        />
+      )}
     </>
   );
 };

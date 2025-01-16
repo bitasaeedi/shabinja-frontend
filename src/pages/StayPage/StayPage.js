@@ -1,4 +1,4 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import React, { createContext, useEffect } from "react";
 import ImageSection from "./Components/ImageSection/ImageSection";
 import { useParams } from "react-router-dom";
@@ -9,6 +9,12 @@ import { HostTourSearchApi, HostTourSearchOneApi } from "../../api/toureApis";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import FormReserve from "./Components/FormReserve/FormReserve";
 import { useState } from "react";
+import MobileForm from "./Components/MobileForm/MobileForm";
+import { Button } from "bootstrap";
+
+import TitleStay from "./Components/TitleStay/TitleStay";
+import Header from "../../layout/header/Header";
+import Commentswiper from "../../components/Sliders/Commentswiper";
 
 export const StayPageContext = createContext();
 const StayPage = () => {
@@ -17,9 +23,9 @@ const StayPage = () => {
   const [infoOfStay, setInfoOfStay] = useState({});
 
   useEffect(() => {
-    window.scroll(0, 0);
     handleSearchStayInfo();
     setListDateSelected([]);
+    window.scroll(0, 0);
   }, [staycode]);
 
   // دریافت لیست اسلایدر
@@ -54,6 +60,7 @@ const StayPage = () => {
         infoOfStay,
       }}
     >
+      <Header showMobileHeader={false} />
       <Box
         sx={{
           width: { xs: "100%", md: "80%" }, // 100% for xs and sm, 80% for md and above
@@ -69,28 +76,53 @@ const StayPage = () => {
           {/* Empty space as header spacer */}
           <Box
             sx={{
-              height: { xs: 9, md: 65 }, // Adjust header space for xs and md screens
+              height: { xs: 9, md: 100 }, // Adjust header space for xs and md screens
             }}
           ></Box>
 
           {/* Image Section */}
           <Box>
+            <TitleStay />
             <ImageSection />
+            <Box
+              sx={{
+                display: { xs: "flex", md: "none" },
+                flexDirection: "column",
+                // justifyContent: "space-between",
+                alignItems: "start",
+                // marginBottom: 2,
+                mt: 2,
+              }}
+            >
+              <Typography variant="h5" fontWeight="bold">
+                {infoOfStay?.title || ""}
+              </Typography>
+              <Typography
+                variant="body1"
+                color="text.secondary"
+                sx={{ marginBottom: 2 }}
+              >
+                {`${infoOfStay?.accerss || ""}، ${
+                  infoOfStay?.room || ""
+                } اتاق، ${infoOfStay?.minCapacity || ""}تا${
+                  infoOfStay?.maxCapacity || ""
+                } نفر`}
+              </Typography>
+            </Box>
           </Box>
 
           {/* Content Section */}
           <Box sx={{ mt: 2 }}>
             <Grid container spacing={2}>
-              {/* Main Content Section */}
-              <Grid item xs={12} md={8} sx={{}}>
+              <Grid item xs={12} md={7} lg={8} sx={{}}>
                 <ScrollableTabs />
               </Grid>
 
-              {/* Sticky Sidebar */}
               <Grid
                 item
                 xs={12}
-                md={4}
+                md={5}
+                lg={4}
                 sx={{
                   position: "relative",
                   display: { xs: "none", md: "block" }, // Hide on xs screens
@@ -100,7 +132,7 @@ const StayPage = () => {
                 <Box
                   sx={{
                     position: "sticky",
-                    top: 65, // Sticky offset from the top
+                    top: 70, // Sticky offset from the top
                     height: 500,
                     width: "100%",
                     zIndex: "200 !important",
@@ -112,12 +144,17 @@ const StayPage = () => {
               </Grid>
             </Grid>
           </Box>
-
-          {/* اقامتگاه های مشابه */}
-
-          {/* === */}
         </Box>
       </Box>
+
+      {/* نظرات کاربران   */}
+      {/* <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>
+        <InViewComponents getListData={() => [1, 2, 3, 4, 5]}>
+          <Commentswiper title={"نظرات کاربران"} deafultSkeleton={"comment"} />
+        </InViewComponents>
+      </Box> */}
+
+      {/* اقامتگاه های مشابه */}
       <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>
         <InViewComponents getListData={() => callApiForGetList({})}>
           <SwipperSliderPublick
@@ -128,6 +165,24 @@ const StayPage = () => {
             <HomeCards />
           </SwipperSliderPublick>
         </InViewComponents>
+      </Box>
+
+      <Box
+        sx={{
+          position: "sticky",
+          bottom: 65,
+          backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent black
+          backdropFilter: "blur(5px)", // Blur effect
+          color: "white",
+          alignItems: "center",
+          zIndex: "200 !important",
+          borderRadius: "5px",
+          display: { md: "none" },
+          mx: 1,
+          height: "70px",
+        }}
+      >
+        <MobileForm />
       </Box>
     </StayPageContext.Provider>
   );

@@ -204,7 +204,8 @@ const ContainerFilters = () => {
             popVerFilterContext?.setSelectedListOtherItem
           }
           title="امکانات "
-          limit={5}
+          twoColumn={true}
+          limit={4}
           iconTitle={
             <BathtubOutlinedIcon
               sx={{

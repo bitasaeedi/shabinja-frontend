@@ -53,8 +53,6 @@ function PopOverSelectDate({
     }
   };
 
- 
-
   const DrawerContent = (
     <SwipeableDrawer
       anchor="bottom"
@@ -125,18 +123,17 @@ function PopOverSelectDate({
             isSameDate,
           }) => {
             let isWeekend = date.weekDay.index === 6;
+            var isDisabled =
+              GetMiladiStdFunc(date.toJSON()) <
+              GetMiladiStdFunc(today.toJSON());
             if (isWeekend) {
               return {
-                style: { color: "red" },
+                disabled: isDisabled ? true : false,
+                style: { color: isDisabled ? "rgba(255, 0, 0, 0.36)" : "red" },
               };
             }
-            if (
-              GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON())
-            ) {
-              return {
-                disabled: true,
-                style: { color: "#ccc" },
-              };
+            if (isDisabled) {
+              return { disabled: true, style: { color: "#ccc" } };
             } else if (
               isSameDate(date, selectedDate[0]) ||
               isSameDate(date, selectedDate[1])
@@ -161,8 +158,6 @@ function PopOverSelectDate({
       ></Box>
     </SwipeableDrawer>
   );
-
-
 
   return isMobile ? (
     DrawerContent

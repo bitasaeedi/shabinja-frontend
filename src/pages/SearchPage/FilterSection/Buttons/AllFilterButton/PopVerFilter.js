@@ -336,9 +336,9 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
             }}
             PaperProps={{
               sx: {
-                mt: 8,
+                // mt: 8,
                 width: "500px",
-                maxHeight: "500px",
+                maxHeight: "90vh",
                 backgroundColor: "#ffff",
                 px: 0,
                 overflowY: "auto", // Allow vertical scrolling

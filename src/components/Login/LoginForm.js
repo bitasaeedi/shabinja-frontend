@@ -32,13 +32,13 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
           },
         }}
       >
-        <Slide direction="left" in={manageForms === "stepMobile"} timeout={500}>
+        {/* <Slide direction="left" in={manageForms === "stepMobile"} timeout={500}> */}
           <div>
             {manageForms === "stepMobile" && (
               <FormGetMobileNumber callBack={handleGetResponseSendMobile} />
             )}
           </div>
-        </Slide>
+        {/* </Slide> */}
 
         <Slide direction="left" in={manageForms === "stepCode"} timeout={500}>
           <div>

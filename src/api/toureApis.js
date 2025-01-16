@@ -50,7 +50,7 @@ export const HostTourSearchApi = async (searchData) => {
 // سرچ استان شهر و اقاماتگاه براساس عنوان
 export const HostTourSearchTitleApi = async (searchData) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const response = await axios.get(`${baseUrl}/HostTour/SearchTitle`, {
       params: {
         title: searchData?.title,
@@ -70,7 +70,7 @@ export const HostTourSearchTitleApi = async (searchData) => {
 // مقاصد محبوب
 export const FavoritDestinationApi = async (searchData) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const response = await axios.get(`${baseUrl}/ItemHomeShbinja/GetAll`, {
       params: {},
       headers: {
@@ -88,7 +88,7 @@ export const FavoritDestinationApi = async (searchData) => {
 //  سرچ نوع اقامتگاه
 export const GetTypeHostListApi = async (searchData) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const response = await axios.get(`${baseUrl}/TypeHost/TypeHostList`, {
       params: {},
       headers: {
@@ -106,7 +106,7 @@ export const GetTypeHostListApi = async (searchData) => {
 // /    لیست نوع منطقه
 export const GetTypeHostLocListApi = async (searchData) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const response = await axios.get(`${baseUrl}/TypeHostLoc/GetAll`, {
       params: {},
       headers: {
@@ -124,7 +124,7 @@ export const GetTypeHostLocListApi = async (searchData) => {
 // سرچ یک اقامتگاه
 export const HostTourSearchOneApi = async (stayCode) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const response = await axios.get(
       `${baseUrl}/HostTour/GetTour/${stayCode}`,
       {},
