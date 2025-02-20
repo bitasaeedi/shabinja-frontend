@@ -15,6 +15,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { UserSearchOneApi } from "../../../../../../api/Users.api";
 import CreditCard from "./CreditCard";
 import FormAddCredit from "./FormAddCredit";
+import ContainerMain from "./TableTarakonesh/ContainerMain";
 
 const FormWallet = () => {
   const {
@@ -53,7 +54,14 @@ const FormWallet = () => {
         }}
         className="shadow borde rounded"
       >
-        <Grid container spacing={2} alignItems="stretch">
+        <Grid
+          container
+          spacing={2}
+          alignItems="start"
+          sx={{
+            my: 2,
+          }}
+        >
           {/* Credit Card Section */}
           <Grid
             item
@@ -64,7 +72,7 @@ const FormWallet = () => {
               alignItems: "center",
               justifyContent: "center",
               my: { xs: 0, md: 0 },
-              order: { xs: 1, md: 2 }, // Order on mobile (xs) is 1, on desktop (md) is 2
+              order: { xs: 2, md: 2 },
             }}
           >
             <CreditCard />
@@ -86,7 +94,7 @@ const FormWallet = () => {
               orientation="vertical"
               flexItem
               sx={{
-                height: "100%",
+                height: 350,
                 borderRightWidth: "1px",
               }}
             />
@@ -100,11 +108,16 @@ const FormWallet = () => {
             sx={{
               display: "flex",
               flexDirection: "column",
-              my: 2,
-              order: { xs: 2, md: 0 }, // Form appears last on mobile and first on desktop
+              my: { xs: 0, md: 0 },
+              order: { xs: 0, md: 0 }, // Form appears last on mobile and first on desktop
             }}
           >
             <FormAddCredit />
+          </Grid>
+        </Grid>
+        <Grid container>
+          <Grid item xs="12">
+            <ContainerMain />
           </Grid>
         </Grid>
       </Box>

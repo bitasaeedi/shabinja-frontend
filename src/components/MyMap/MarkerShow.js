@@ -20,6 +20,9 @@ function MarkerShow({
   point,
   activeMarkerId,
   onMarkerSelect,
+  dragable = false,
+  showArea = false,
+  showPopup = true,
 }) {
   const [draggable, setDraggable] = useState(false);
   const [position, setPosition] = useState(center);
@@ -72,15 +75,51 @@ function MarkerShow({
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            width: 35px; 
-            height: 35px; 
+            width:${showArea ? "50px" : " 35px"}; 
+            height: ${showArea ? "50px" : " 35px"}; 
             border-radius: 50%; 
-            background-color: ${isSelected ? "black" : "white"}; 
-            color: ${isSelected ? "white" : "black"}; 
-            font-size: 18px;
+            background-color: ${
+              dragable || showArea
+                ? "transparent"
+                : isSelected
+                ? "black"
+                : "white"
+            }; 
+            color: ${
+              dragable ? "rgb(204, 0, 1)" : isSelected ? "white" : "black"
+            }; 
+            font-size: ${dragable ? "40px" : "18px"};
+            position: relative;
+            border: ${showArea ? "3px solid blue" : "none"};
           "
         >
-          <i class="fas fa-home"></i>
+        ${
+          showArea
+            ? `
+              <div 
+                style="
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 50%;
+                  background-color: rgba(0, 0, 255, 0.4);
+                  z-index: 1;
+                "
+              ></div>
+            `
+            : ""
+        }
+        <i class="${
+          showArea ? "" : dragable ? "fas fa-map-marker-alt" : "fas fa-home"
+        }" 
+        style="
+        position: ${dragable ? "absolute" : "flex"}; 
+        top: 0; 
+        transform:${dragable ? "translateY(-40%)" : "0"} ; 
+      "
+      ></i>
         </div>
       `,
       iconSize: [40, 40],
@@ -91,28 +130,30 @@ function MarkerShow({
 
   return (
     <Marker
-      draggable={draggable}
+      draggable={dragable}
       eventHandlers={eventHandlers}
       position={position}
       ref={markerRef}
       icon={homeIcon}
     >
-      <Popup
-        minWidth={"300px"}
-        className="custom-popup"
-        closeButton={false}
-        onClose={() => setPopupOpen(false)} // Handle popup close
-      >
-        {isSelected && (
-          <MarkerPopUp
-            point={point}
-            draggableLimit={draggableLimit}
-            toggleDraggable={toggleDraggable}
-            position={position}
-            draggable={draggable}
-          />
-        )}
-      </Popup>
+      {showPopup && (
+        <Popup
+          minWidth={"300px"}
+          className="custom-popup"
+          closeButton={false}
+          onClose={() => setPopupOpen(false)} // Handle popup close
+        >
+          {isSelected && (
+            <MarkerPopUp
+              point={point}
+              draggableLimit={draggableLimit}
+              toggleDraggable={toggleDraggable}
+              position={position}
+              draggable={draggable}
+            />
+          )}
+        </Popup>
+      )}
     </Marker>
   );
 }

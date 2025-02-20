@@ -1,24 +1,23 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
 import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CardSkeletonComment from "../Cards/CardComment/CardSkeletonComment";
+import { Link } from "react-router-dom";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
     onClick={disabled ? null : onClick}
     sx={{
-      // transform: "translateY(-50%)",
-      backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent", //rgba(255, 255, 255, 0.7)
+      backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       border: "1px solid #ccc",
       borderRadius: { xs: "5px", md: "10px" },
-      // padding: { xs: "4px", md: "8px" },
       "&:hover": {
         backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       },
@@ -35,11 +34,9 @@ const PrevArrow = ({ onClick, disabled }) => (
   <IconButton
     onClick={disabled ? null : onClick}
     sx={{
-      // transform: "translateY(-50%)",
       backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       border: "1px solid #ccc",
       borderRadius: { xs: "5px", md: "10px" },
-      // padding: { xs: "4px", md: "8px" },
       "&:hover": {
         backgroundColor: disabled ? "rgba(200, 200, 200, 0.7)" : "transparent",
       },
@@ -62,10 +59,49 @@ const SwipperSliderPublick = ({
   breakpoints,
   dontChangeWidth,
   widthSize,
+  linkToSeeMore,
+  showTimer = false,
 }) => {
   const swiperRef = useRef(null);
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState({
+    stringTime: "00:00:00",
+    h: "00",
+    m: "00",
+    s: "00",
+  });
+
+  // تابع برای محاسبه زمان باقی‌مانده تا پایان روز
+  const calculateTimeRemaining = () => {
+    const now = new Date();
+    const endOfDay = new Date();
+    endOfDay.setHours(23, 59, 59, 999); // تنظیم زمان پایان روز
+
+    const difference = endOfDay - now; // تفاوت زمان به میلی‌ثانیه
+
+    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((difference / 1000 / 60) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+    const stringTime = `${String(hours).padStart(2, "0")}:${String(
+      minutes
+    ).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    return {
+      stringTime: stringTime,
+      h: String(hours).padStart(2, "0"),
+      m: String(minutes).padStart(2, "0"),
+      s: String(seconds).padStart(2, "0"),
+    };
+  };
+
+  // استفاده از useEffect برای به‌روزرسانی تایمر هر ثانیه
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeRemaining(calculateTimeRemaining());
+    }, 1000);
+
+    return () => clearInterval(timer); // پاک کردن تایمر هنگام unmount
+  }, []);
 
   const handleNextClick = () => {
     if (swiperRef.current) {
@@ -82,11 +118,42 @@ const SwipperSliderPublick = ({
   const handleSlideChange = () => {
     if (swiperRef.current) {
       const swiper = swiperRef.current.swiper;
-      setIsPrevDisabled(swiper.isBeginning); // Disable prev button if at the beginning
-      setIsNextDisabled(swiper.isEnd); // Disable next button if at the end
+      setIsPrevDisabled(swiper.isBeginning);
+      setIsNextDisabled(swiper.isEnd);
     }
   };
 
+  const TimerCounter = () => {
+    return (
+      <Box sx={{ mx: { xs: 0, md: 2 }, display: "flex", alignItems: "center" }}>
+        {["s", "m", "h"].map((unit, index) => (
+          <React.Fragment key={unit}>
+            <Box
+              sx={{
+                backgroundColor: "white",
+                width: 30,
+                height: 30,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: 1,
+                fontWeight: "bold",
+              }}
+            >
+              <Typography variant="h6" sx={{ fontSize: 16 }}>
+                {timeRemaining?.[unit] ?? "00"}
+              </Typography>
+            </Box>
+            {index < 2 && (
+              <Typography variant="h6" sx={{ mx: 0.5, fontWeight: "bold" }}>
+                :
+              </Typography>
+            )}
+          </React.Fragment>
+        ))}
+      </Box>
+    );
+  };
   return (
     <Box
       sx={{
@@ -99,23 +166,63 @@ const SwipperSliderPublick = ({
         sx={{ position: "relative", px: 0 }}
         className="d-flex justify-content-between align-items-start mb-3"
       >
-        <Box sx={{ alignItems: "center" }}>
+        <Box sx={{ alignItems: "start" }}>
           <Typography
             variant="h5"
             sx={{
-              // mb: 1,
-              // display: "inline-block",
               fontSize: { xs: 18, md: 28 },
             }}
           >
             {title}
           </Typography>
+          {showTimer && (
+            <Box sx={{ display: { md: "none" } }}>
+              <TimerCounter />
+            </Box>
+          )}
         </Box>
-        <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
-          <Box className="mx-1">
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          {/* نمایش تایمر معکوس */}
+          {showTimer && (
+            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <TimerCounter />
+            </Box>
+          )}
+
+          {linkToSeeMore && (
+            <Box>
+              <Button
+                variant="outlined"
+                component={Link}
+                to={`${linkToSeeMore}`}
+                sx={{
+                  backgroundColor: "transparent",
+                  border: `1px solid #ccc`,
+                  borderRadius: { xs: "5px", md: "10px" },
+                  fontSize: { xs: 12, md: 13 },
+                  color: "#000",
+                  "&:hover": {
+                    backgroundColor: "transparent",
+                  },
+                }}
+              >
+                مشاهده همه
+              </Button>
+            </Box>
+          )}
+          <Box
+            className="mx-1"
+            sx={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <NextArrow onClick={handlePrevClick} disabled={isPrevDisabled} />
           </Box>
-          <Box>
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+            }}
+          >
             <PrevArrow onClick={handleNextClick} disabled={isNextDisabled} />
           </Box>
         </Box>
@@ -124,7 +231,6 @@ const SwipperSliderPublick = ({
       <Swiper
         ref={swiperRef}
         centeredSlides={false}
-        // slidesPerView={slidesPerView}
         spaceBetween={10}
         loop={false}
         grabCursor={true}
@@ -154,10 +260,7 @@ const SwipperSliderPublick = ({
       >
         {loading !== false
           ? [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
-              <SwiperSlide
-                key={index}
-                className=" d-flex justify-content-start "
-              >
+              <SwiperSlide key={index} className="d-flex justify-content-start">
                 {deafultSkeleton === "favorit" ? (
                   <SkeletonFavoritCitiesCard />
                 ) : deafultSkeleton === "comment" ? (
@@ -168,10 +271,7 @@ const SwipperSliderPublick = ({
               </SwiperSlide>
             ))
           : lists.map((item, index) => (
-              <SwiperSlide
-                key={index}
-                className=" d-flex justify-content-start "
-              >
+              <SwiperSlide key={index} className="d-flex justify-content-start">
                 {React.Children.map(children, (child) =>
                   React.cloneElement(child, {
                     myData: item,

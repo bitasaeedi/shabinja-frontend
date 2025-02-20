@@ -7,14 +7,16 @@ import ToolBarComponent from "./ToolBarComponent/ToolBarComponent";
 import { Link, useLocation } from "react-router-dom";
 import { styled, useTheme, alpha } from "@mui/system";
 import { Box } from "@mui/material";
+import { AppContext } from "../../../App";
+import { useContext } from "react";
 
-const DesctopHeader = ({ shadow }) => {
+const DesctopHeader = ({  }) => {
+  const appContext = useContext(AppContext);
   const location = useLocation();
   const theme = useTheme();
   const [isSticky, setIsSticky] = React.useState(false);
   React.useEffect(() => {
     const handleScroll = () => {
-      // Set sticky when scrolled beyond 50% of the viewport height
       if (location.pathname === "/") {
         setIsSticky(window.scrollY > window.innerHeight * 0.7);
       }
@@ -26,7 +28,7 @@ const DesctopHeader = ({ shadow }) => {
 
   React.useEffect(() => {
     if (location.pathname !== "/") {
-      setIsSticky(true); // Always set sticky to true when path is not "/"
+      setIsSticky(true);
     } else {
       // Optionally handle sticky behavior when on "/" path
       setIsSticky(window.scrollY > window.innerHeight * 0.5); // Adjust sticky based on scroll position
@@ -49,7 +51,7 @@ const DesctopHeader = ({ shadow }) => {
           backgroundColor: isSticky ? "white" : "transparent",
           color: theme.palette.text.primary,
           boxShadow:
-            !isSticky || !shadow ? "none" : "0px 4px 5px rgba(0, 0, 0, 0.1)",
+            !isSticky || appContext?.settingHeader?.removeShadow ? "none" : "0px 4px 5px rgba(0, 0, 0, 0.1)",
           height: 65,
           // position: "fixed",
           // top: 0,

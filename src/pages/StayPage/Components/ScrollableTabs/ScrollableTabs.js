@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
-import { Box, Tabs, Tab, Typography } from "@mui/material";
+import { Box, Tabs, Tab, Typography, Divider } from "@mui/material";
 import { useState } from "react";
 import InfoSection from "./InfoSection/InfoSection";
 import { AboutStay } from "./AboutStay/AboutStay";
@@ -8,6 +8,11 @@ import { StayPageContext } from "../../StayPage";
 import OtherItems from "./OtherItems/OtherItems";
 import RulesStay from "./RulesStay/RulesStay";
 import CommentPeople from "./CommentPeople/CommentPeople";
+import { SpaceStay } from "./SpaceStay/SpaceStay";
+import { CancelRules } from "./CancelRules/CancelRules";
+import OffStay from "./OffStay/OffStay";
+import LocationStay from "./LocationStay/LocationStay";
+import UserStayInfo from "./UserStayInfo/UserStayInfo";
 
 const ScrollableTabs = () => {
   const stayPageContext = useContext(StayPageContext);
@@ -139,30 +144,60 @@ const ScrollableTabs = () => {
         {/* توضیحات */}
         <Box
           ref={sectionRefs.section2}
-          sx={{
-            minHeight: "20vh",
-            py: 4,
-          }}
+          sx={
+            {
+              // minHeight: "20vh",
+              // pt: 4,
+              // pb: 4,
+            }
+          }
         >
           <AboutStay />
         </Box>
+        {/* فضای اقامتگاه */}
+        <Box
+          // ref={sectionRefs.section2}
+          sx={
+            {
+              // minHeight: "20vh",
+              // pt: 4,
+              // pb: 4,
+            }
+          }
+        >
+          <SpaceStay />
+        </Box>
+
         {/* امکانات */}
         <Box
           ref={sectionRefs.section3}
-          sx={{
-            minHeight: "20vh",
-            py: 4,
-          }}
+          sx={
+            {
+              // minHeight: "20vh",
+              // py: 4,
+            }
+          }
         >
           <OtherItems />
         </Box>
-        {/* قوانین */}
-
+        {/* قوانین لغو رزرو */}
         <Box
           ref={sectionRefs.section4}
           sx={{
+            // minHeight: "20vh",
             py: 4,
           }}
+        >
+          <CancelRules />
+        </Box>
+        {/* قوانین */}
+        <Box
+          ref={sectionRefs.section4}
+          sx={
+            {
+              // py: 4,
+            }
+          }
         >
           <RulesStay />
         </Box>
@@ -174,6 +209,7 @@ const ScrollableTabs = () => {
           }}
         >
           <Box>
+            <Divider sx={{ my: 2, bgcolor: "#ddd" }} />
             <Typography
               variant="h6"
               sx={{
@@ -181,6 +217,15 @@ const ScrollableTabs = () => {
               }}
             >
               تقویم/نرخ
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: { xs: 13, md: 13 },
+              }}
+              color="textSecondary"
+            >
+              لطفا تاریخ ورود و خروج خود را انتخاب کنید
             </Typography>
           </Box>
           <Box sx={{ display: { xs: "none", lg: "flex" } }}>
@@ -202,6 +247,60 @@ const ScrollableTabs = () => {
               listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
             />
           </Box>
+          <Box sx={{ mt: 3, display: "flex" }}>
+            <Typography
+              variant="h6"
+              sx={{
+                fontSize: { xs: 14, md: 16 },
+              }}
+            >
+              نرخ هر نفر اضافه :
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                fontSize: { xs: 14, md: 16 },
+                ml: 1,
+              }}
+              color="textSecondary"
+            >
+              {`+${"400،000"} تومان / بیشتر از ${4} نفر`}
+            </Typography>
+          </Box>
+        </Box>
+
+        {/* تخفیف ها */}
+        <Box
+          // ref={sectionRefs.section4}
+          sx={
+            {
+              // py: 4,
+            }
+          }
+        >
+          <OffStay />
+        </Box>
+        {/*  نقشه */}
+        <Box
+          // ref={sectionRefs.section4}
+          sx={
+            {
+              // py: 4,
+            }
+          }
+        >
+          <LocationStay />
+        </Box>
+        {/*  پروفایل میزبان */}
+        <Box
+          // ref={sectionRefs.section4}
+          sx={
+            {
+              // py: 4,
+            }
+          }
+        >
+          <UserStayInfo />
         </Box>
 
         {/* نظرات */}

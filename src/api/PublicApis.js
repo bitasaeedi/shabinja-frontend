@@ -7,25 +7,22 @@ const baseUrl = API_URL;
 export const GetRollesList = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(
-      `${baseUrl}/RolItemTour/RolItemTourList`,
-      {
-        params: {
-          // title: searchData?.title,
-        },
-        headers: {
-          token: token,
-        },
-      }
-    );
-    return response.data; 
+    const response = await axios.get(`${baseUrl}/RolItemTour/RolItemTourList`, {
+      params: {
+        // title: searchData?.title,
+      },
+      headers: {
+        token: token,
+      },
+    });
+    return response.data;
   } catch (error) {
     console.log("Error:", error?.response?.data);
     return error?.response?.data;
   }
 };
 
-// سایر امکانات 
+// سایر امکانات
 export const GetOtherItemTourList = async () => {
   try {
     const token = localStorage.getItem("token");
@@ -48,18 +45,17 @@ export const GetOtherItemTourList = async () => {
   }
 };
 
-
 // استان ها
 export const getProvinceList = async (searchData) => {
   try {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("access_token");
     const response = await axios.get(`${baseUrl}/Province/ProvinceList`, {
       // params: searchData,
       // headers: {
       //   token: token, // Add the token to the request header
       // },
     });
-    console.log(response, "response");
+    // console.log(response, "response");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);
@@ -68,16 +64,18 @@ export const getProvinceList = async (searchData) => {
 };
 
 // شهرهای براساس ای دی استان
-export const getCityListByProvinceId = async (searchData) => {
+export const getCityListByProvinceId = async (provinceId) => {
   try {
-    const token = localStorage.getItem("token");
-    const response = await axios.get(`${baseUrl}/Province/ProvinceList`, {
-      // params: searchData,
-      // headers: {
-      //   token: token, // Add the token to the request header
-      // },
-    });
-    console.log(response, "response");
+    const token = localStorage.getItem("access_token");
+    const response = await axios.get(
+      `${baseUrl}/city/ListByProvinceId/${provinceId}`,
+      {
+        // headers: {
+        //   token: token, // Add the token to the request header
+        // },
+      }
+    );
+    // console.log(response, "response");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);

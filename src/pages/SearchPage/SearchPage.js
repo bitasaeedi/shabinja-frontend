@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, createContext } from "react";
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  createContext,
+  useContext,
+} from "react";
 import {
   Box,
   Button,
@@ -17,6 +23,7 @@ import MapSection from "./components/MapSection";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HostTourSearchApi } from "../../api/toureApis";
 import Header from "../../layout/header/Header";
+import { AppContext } from "../../App";
 
 const filterList = [
   {
@@ -55,6 +62,14 @@ const filterList = [
     // value: [],
     label: "features",
   },
+  {
+    value: [],
+    label: "scores",
+  },
+  {
+    // value: [],
+    label: "cities",
+  },
 ];
 // Create Context
 export const SearchPageContext = createContext();
@@ -85,11 +100,23 @@ const SearchPage = () => {
   const [listFiltersInUrl, setListFiltersInUrl] = useState([]);
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [listCards, setListCards] = useState([]);
+  const [resutSearchTours, setResultSearchTours] = useState({});
   const isMobile = useMediaQuery("(max-width: 800px)");
   const [searchParams] = useSearchParams();
   const cardListRef = useRef(null);
   const { searchtype } = useParams();
-  // window.scroll(0, 0);
+
+  const appContext = useContext(AppContext);
+
+  useEffect(() => {
+    appContext.setShowfooter(true);
+    appContext.setSettingHeader({
+      dontShowMobileHeader: false,
+      removeShadow: true,
+    });
+  }, []);
+
+  //     window.scroll(0, 0);
   // Function to parse URL params
   const handleFindeParams = () => {
     const params = new URLSearchParams(window.location.search);
@@ -118,13 +145,14 @@ const SearchPage = () => {
       typeHost: filters?.typeHost?.split(",") || [], // نوع اقامتگاه
       typeHostLoc: filters?.typeHostLoc?.split(",") || [], // نوع منطقه
       otherItemTour: filters?.features?.split(",") || [],
+      rate: filters?.scores?.split(",") || [],
       // province: searchData?.province ,
-      city: filters?.city?.split(",") || [],
+      city: filters?.cities?.split(",") || [],
     };
 
     const result = await HostTourSearchApi(filtersParams);
-    console.log(result?.data?.items, "HostTourSearchApi");
     setListCards(result?.data?.items);
+    setResultSearchTours(result?.data);
     // setTimeout(() => {
     setLoadingSearch(false);
     // }, 1000);
@@ -172,11 +200,12 @@ const SearchPage = () => {
         setActive: setActive, //  مربوط به گزینه فیلترهمه یکجا
         filterList: filterList, //  مربوط به گزینه فیلترهمه یکجا
         listFiltersInUrl: listFiltersInUrl, // لیست مقادیری که در url هستند
+        resutSearchTours, // نتیجه جستجو
       }}
     >
       <Box sx={{ position: "relative" }} className=" ">
         {/* Filter Section */}
-        <Header shadow={false} />
+        {/* <Header shadow={false} /> */}
         <FilterSection />
 
         {/* Main Content */}

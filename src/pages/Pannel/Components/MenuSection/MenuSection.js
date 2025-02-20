@@ -28,36 +28,37 @@ const MenuSection = () => {
     {
       label: "داشبورد میزبان", // Host Dashboard
       path: "dashboard",
+      pannel: true,
       icon: <DashboardOutlinedIcon />,
     },
     {
       label: "اقامتگاه‌ها", // Stays
       path: "stays",
+      pannel: true,
       icon: <HomeOutlinedIcon />,
     },
     {
       label: "درخواست‌ها", // Requests
       path: "requests",
+      pannel: true,
       icon: <MailOutlineOutlinedIcon />,
-    },
-    {
-      label: "تقویم میزبانی", // Hosting Calendar
-      path: "hosting-calendar",
-      icon: <CalendarTodayOutlinedIcon />,
     },
     {
       label: "کیف پول", // Wallet
       path: "wallet",
+      pannel: true,
       icon: <AccountBalanceWalletOutlinedIcon />,
     },
     {
-      label: "راهنما", // Help
+      label: "سوالات متداول", // Help
       path: "help",
+      pannel: false,
       icon: <HelpOutlineOutlinedIcon />,
     },
     {
       label: "پشتیبانی", // Support
       path: "support",
+      pannel: true,
       icon: <SupportAgentOutlinedIcon />,
     },
   ];
@@ -135,7 +136,7 @@ const MenuSection = () => {
             button
             key={item.path}
             component={Link}
-            to={`/pannel/${item.path}`}
+            to={item?.pannel ? `/pannel/${item.path}` : `/${item.path}`}
             sx={{
               py: 1.5,
               px: 3,

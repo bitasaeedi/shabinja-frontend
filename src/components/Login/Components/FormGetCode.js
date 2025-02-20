@@ -58,7 +58,7 @@ const FormGetCode = ({
       username: mobileGettingSms,
       password: parseFloat(code),
     });
-    console.log(resultGetToken, "resultGetToken");
+    // console.log(resultGetToken, "resultGetToken");
     handleMangeAlert(true, resultGetToken?.issuccess, resultGetToken?.message);
     if (resultGetToken?.issuccess === true) {
       // ذخیره اطلاهات در توکت برای استفاده در api ها
@@ -75,7 +75,6 @@ const FormGetCode = ({
       localStorage.setItem("guid", guid);
       localStorage.setItem("user_id", id);
       callBack(resultGetToken);
-    } else {
     }
     setLoading(false);
   };
@@ -176,6 +175,7 @@ const FormGetCode = ({
                     required: true,
                     pattern: /^[0-9]$/,
                   })}
+                  autoComplete="off"
                   inputRef={(el) => (inputsRef.current[index] = el)}
                   variant="outlined"
                   inputProps={{
@@ -217,16 +217,25 @@ const FormGetCode = ({
             ))}
           </Grid>
 
-          <Box sx={{ mt: 5 }}>
+          <Box sx={{ mt: 5, maxWidth: 400, minWidth: 300 }}>
             <Typography
               variant="body2"
-              color="dark"
+              color="textSecondary"
               className="d-flex w-100 text-center"
+              sx={{
+                textAlign: "center",
+              }}
             >
-              <Box>
-                <Typography component="span">
+              <Box sx={{}} className=" w-100">
+                <Typography
+                  component="body2"
+                  sx={{
+                    textAlign: "center",
+                  }}
+                >
                   ورود و ثبت‌نام در شبینجا به منزله‌ پذیرفتن
                 </Typography>{" "}
+                <br />
                 <Link
                   href="#"
                   color="primary.light"

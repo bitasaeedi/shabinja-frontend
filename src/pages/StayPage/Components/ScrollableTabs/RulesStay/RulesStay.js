@@ -1,10 +1,7 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import StraightenIcon from "@mui/icons-material/Straighten";
-import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
-import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import { StayPageContext } from "../../../StayPage";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const RulesStay = () => {
   const [ruleItemsList, setRuleItemsList] = useState([]);
@@ -17,6 +14,7 @@ const RulesStay = () => {
 
   return (
     <Box>
+      <Divider sx={{ my: 2, bgcolor: "#ddd" }} />
       <Typography
         variant="h6"
         sx={{
@@ -25,35 +23,66 @@ const RulesStay = () => {
       >
         قوانین اقامتگاه
       </Typography>
-      <Box
-        sx={{
-          //   backgroundColor: "#e9e9e9",
-          width: "100%",
-          //   display: "flex",
-          //   justifyContent: "space-around"
-          px: 2,
-          pt: 1,
-        }}
-        className="rounded"
-      >
-        <Grid container spacing={1}>
-          {ruleItemsList.map((item, index) => (
-            <Grid item xs={12} md={12} key={index}>
-              <Box>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontSize: { xs: 16, md: 18 },
-                    // my: 1,
-                  }}
-                >
-                  {item}
-                </Typography>
-              </Box>
-            </Grid>
-          ))}
+
+      <Grid container spacing={1} sx={{ mt: 1 }}>
+        <Grid item xs={"12"} sx={{ display: "flex" }}>
+          <Stack className="border rounded px-2 py-2 " sx={{ minWidth: 120 }}>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                variant="body2"
+                sx={{ fontSize: 14 }}
+                color="textSecondary"
+              >
+                <AccessTimeIcon sx={{ mr: 1, fontSize: 18 }} />
+                ساعت ورود از
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 15 }}
+              >{`${3} ${"عصر"}`}</Typography>
+            </Box>
+          </Stack>
+          <Stack
+            className="border rounded px-2 py-2 mx-1 "
+            sx={{ minWidth: 120 }}
+          >
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                variant="body2"
+                sx={{ fontSize: 14 }}
+                color="textSecondary"
+              >
+                <AccessTimeIcon sx={{ mr: 1, fontSize: 18 }} />
+                ساعت خروج تا
+              </Typography>
+            </Box>
+            <Box sx={{ textAlign: "center" }}>
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 15 }}
+              >{`${12} ${"ظهر"}`}</Typography>
+            </Box>
+          </Stack>
         </Grid>
-      </Box>
+
+        {ruleItemsList.map((item, index) => (
+          <Grid item xs={12} md={12} key={index}>
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{
+                  fontSize: { xs: 14, md: 16 },
+                  mt: 1,
+                }}
+              >
+                {item}
+              </Typography>
+            </Box>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };

@@ -5,7 +5,7 @@ import { SearchPageContext } from "../../../SearchPage";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import PopVerFilter from "./PopVerFilter";
 
-const filter = "location";
+const filter = "cities";
 const label = "انتخاب شهر";
 const startIcon = <LocationOnOutlinedIcon />;
 const LocationFilterButton = ({}) => {
@@ -17,10 +17,10 @@ const LocationFilterButton = ({}) => {
   const isFilterActive = () => {
     searchPageContext.isFilterActive();
     const params = new URLSearchParams(window.location.search);
-    const valueOfFilter = params.get(filter);
-    if (valueOfFilter) {
+    const valueOfFilter1 = params.get(filter);
+    if (valueOfFilter1) {
       setActive(true);
-      setValueOfFilters(valueOfFilter);
+      setValueOfFilters(valueOfFilter1);
     } else {
       setActive(false);
       setValueOfFilters(null);
@@ -30,7 +30,7 @@ const LocationFilterButton = ({}) => {
   // Update active state whenever location.search changes
   useEffect(() => {
     isFilterActive();
-  }, [filter]);
+  }, [filter, searchPageContext.listFiltersInUrl]);
 
   // Function to handle filter button click
   const handleButtonClick = (event) => {
@@ -96,7 +96,6 @@ const LocationFilterButton = ({}) => {
         // !active  &&
         <PopVerFilter
           callBackFunc={handleSetSearch}
-          defaultCount={parseFloat(valueOfFilter)}
           anchorEl={anchorEl}
           handleClosePopover={handleClosePopover}
         />

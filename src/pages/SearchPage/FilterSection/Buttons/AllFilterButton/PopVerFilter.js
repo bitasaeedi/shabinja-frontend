@@ -51,7 +51,20 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
   // ---
   const [listTypeHostLoc, setListTypeHostLoc] = useState([]);
   const [selectedListTypeHostLoc, setSelectedListTypeHostLoc] = useState([]);
+  //===
   const [selectedRangPriceList, setSelectedRangPriceList] = useState([]);
+  // ==
+  const [selectedListScore, setSelectedListScore] = useState([]);
+  // ===
+  const [selectedListCity, setSelectedListCity] = useState([]);
+  const [listProvince, setListProvince] = useState([]);
+
+  useEffect(() => {
+    setListProvince(searchPageContext?.resutSearchTours?.provinces || []); //استان ها
+    setListTypeHostLoc(searchPageContext?.resutSearchTours?.typeHostLocs || []); // نوع منطقه
+    setListTypeHost(searchPageContext?.resutSearchTours?.typeHosts || []); // نوع اقامتگاه
+    setListOtherItem(searchPageContext?.resutSearchTours?.otherItemTours || []); // امکانات
+  }, [searchPageContext?.resutSearchTours]);
 
   useEffect(() => {
     const listValues = searchPageContext.listFiltersInUrl;
@@ -63,6 +76,8 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
     var tyeHostList = [];
     var featuresList = [];
     var typeHostLocList = [];
+    var scoresList = [];
+    var cityList = [];
     listValues.forEach((element) => {
       if (element.label === "justGuarantees") {
         justGuarantees = element.value;
@@ -70,6 +85,9 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
         countPeopleNum = parseFloat(element.value);
       } else if (element.label === "room") {
         countRoomNum = parseFloat(element.value);
+      } else if (element.label === "scores") {
+        var listScores = element?.value?.split(",");
+        scoresList = listScores || [];
       } else if (element.label === "rules") {
         var listRolees = element?.value?.split(",");
         rollList = listRolees || [];
@@ -79,6 +97,8 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
         featuresList = element?.value?.split(",") || [];
       } else if (element.label === "typeHostLoc") {
         typeHostLocList = element?.value?.split(",") || [];
+      } else if (element.label === "cities") {
+        cityList = element?.value?.split(",") || [];
       } else if (element.label === "min") {
         setSelectedRangPriceList((prev) => [
           parseFloat(element?.value),
@@ -99,16 +119,17 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
     setSelectedListRolles(rollList);
     setSelectedListTypeHost(tyeHostList);
     setSelectedListTypeHostLoc(typeHostLocList);
-
+    setSelectedListScore(scoresList); // لیست امتیازات
     setSelectedListOtherItem(featuresList);
+    setSelectedListCity(cityList);
   }, [searchPageContext.listFiltersInUrl.length]);
 
   // دریافت لیست ها
   useEffect(() => {
     handleGetRol();
-    handleGetOtherItemTourList();
-    handleGetTypeHostList();
-    handleGetTypeHostLocList();
+    // handleGetOtherItemTourList();
+    // handleGetTypeHostList();
+    // handleGetTypeHostLocList();
   }, []);
 
   // دریافت لیست قوانین
@@ -199,8 +220,27 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
         value: selectedRangPriceList[1],
         label: "max",
       },
+      {
+        value:
+          selectedListScore?.length > 0
+            ? selectedListScore.map((item) => item)
+            : null,
+        label: "scores",
+      },
+      {
+        value:
+          selectedListCity?.length > 0
+            ? selectedListCity.map((item) => item)
+            : null,
+        label: "cities",
+      },
     ];
     callBackFunc(listFilters);
+  };
+
+  const handleDeleteFilters = () => {
+    setSelectedRangPriceList([]);
+    callBackFunc();
   };
 
   return (
@@ -236,6 +276,13 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
           listTypeHostLoc,
           selectedListTypeHostLoc,
           setSelectedListTypeHostLoc,
+          // ---
+          selectedListScore,
+          setSelectedListScore,
+          // ==
+          selectedListCity,
+          setSelectedListCity,
+          listProvince,
         }}
       >
         {isMobile ? (
@@ -305,7 +352,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
                 }}
                 variant="text"
                 size="small"
-                onClick={() => callBackFunc()}
+                onClick={handleDeleteFilters}
               >
                 حذف فیلتر
               </Button>
@@ -392,7 +439,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
                 }}
                 variant="text"
                 size="small"
-                onClick={() => callBackFunc()}
+                onClick={handleDeleteFilters}
               >
                 حذف فیلتر
               </Button>

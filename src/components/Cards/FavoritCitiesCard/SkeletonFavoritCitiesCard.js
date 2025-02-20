@@ -11,7 +11,7 @@ import {
 const SkeletonFavoritCitiesCard = () => {
   return (
     <Box
-      clssName="w-auto"
+      className="w-auto"
       sx={{
         display: "flex",
         justifyContent: "start",

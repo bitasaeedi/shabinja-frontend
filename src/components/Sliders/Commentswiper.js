@@ -137,17 +137,20 @@ const Commentswiper = ({ lists, title, loading = false }) => {
             slidesPerView: 1,
           },
           600: {
-            slidesPerView: 1,
+            slidesPerView: 2,
           },
           720: {
             slidesPerView: 2,
           },
-          1300: {
+          800: {
             slidesPerView: 3,
+          },
+          1300: {
+            slidesPerView: 5,
           },
         }}
         style={{
-          paddingLeft: isMobile ? "59px" : "0",
+          paddingLeft: isMobile ? "90px" : "0",
         }}
       >
         {loading !== false

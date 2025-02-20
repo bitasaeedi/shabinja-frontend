@@ -86,13 +86,6 @@ const ModalLogin = ({ open, handleClose }) => {
             }}
           />
 
-          {/* <Typography
-            variant="h6"
-            color="primary"
-            sx={{ fontWeight: 600, mt: 3 }}
-          >
-            شبینجا لوگو
-          </Typography> */}
         </Box>
         <IconButton
           onClick={handleClose}

@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Typography, Skeleton } from "@mui/material";
+import { Box, Button, Typography, Skeleton, IconButton } from "@mui/material";
 import SelectCityOption from "./SelectCityOption";
-
+import CloseIcon from "@mui/icons-material/Close";
 const SelectCity = ({
   selectedCity,
   closePopup,
   objectOfLisDatas,
   loading,
+  widthSize,
+  disableOnoutClose = false,
 }) => {
   const counterRef = useRef();
 
   useEffect(() => {
+    // if (!disableOnoutClose) {
     const handleClickOutside = (event) => {
       if (counterRef.current && !counterRef.current.contains(event.target)) {
         closePopup(); // Close the popup if clicked outside
@@ -20,9 +23,8 @@ const SelectCity = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // }
   }, [closePopup]);
-
-
 
   return (
     <Box
@@ -31,13 +33,25 @@ const SelectCity = ({
         backgroundColor: "#f5f5f5",
         borderRadius: "8px",
         padding: "18px 16px",
-        width: "250px",
+        width: widthSize ? widthSize : "250px",
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add subtle shadow
       }}
     >
-      <Typography className="m-2" sx={{ fontSize: "12px", color: "gray" }}>
-        لیست اقامتگاه‌ها
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography className="m-2" sx={{ fontSize: "12px", color: "gray" }}>
+          لیست اقامتگاه‌ها
+        </Typography>
+
+        <IconButton onClick={closePopup}>
+          <CloseIcon />
+        </IconButton>
+      </Box>
+
       <Box>
         {loading ? (
           // Skeleton loading effect

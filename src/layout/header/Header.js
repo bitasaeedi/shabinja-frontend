@@ -1,8 +1,11 @@
 import { Box } from "@mui/material";
+import { useContext } from "react";
+import { AppContext } from "../../App";
 import DesctopHeader from "./DesctopHeader/DesctopHeader";
 import MobileHeader from "./MobileHeader/MobileHeader";
 
-function Header({ showMobileHeader = true, shadow = true }) {
+function Header({}) {
+  const appContext = useContext(AppContext);
   return (
     <Box sx={{ display: "flex" }}>
       <Box
@@ -12,9 +15,9 @@ function Header({ showMobileHeader = true, shadow = true }) {
         }}
         className="w-100"
       >
-        <DesctopHeader shadow={shadow} />
+        <DesctopHeader />
       </Box>
-      {showMobileHeader && (
+      {!appContext?.settingHeader?.dontShowMobileHeader && (
         <Box
           sx={{
             display: { xs: "flex", md: "none" },

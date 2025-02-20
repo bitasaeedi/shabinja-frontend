@@ -9,6 +9,7 @@ import {
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useParams } from "react-router-dom";
+import ContainerMain from "./ContainerMain";
 const Reservations = ({ anchor, isMobile }) => {
   const [openDrawer, setOpenDrawer] = useState(anchor); // Manage drawer state
   const navigate = useNavigate();
@@ -55,10 +56,10 @@ const Reservations = ({ anchor, isMobile }) => {
         </Box>
       </Box>
 
-      <h1>Reservations</h1>
+      <ContainerMain />
     </SwipeableDrawer>
   ) : (
-    <h1>Reservations</h1>
+    <ContainerMain />
   );
 };
 

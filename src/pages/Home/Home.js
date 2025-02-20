@@ -7,7 +7,7 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
@@ -25,6 +25,7 @@ import CardComment from "../../components/Cards/CardComment/CardComment";
 import Begust from "./Components/Begust/Begust";
 import Commentswiper from "../../components/Sliders/Commentswiper";
 import Header from "../../layout/header/Header";
+import { AppContext } from "../../App";
 const cities = [
   {
     name: "رشت",
@@ -90,10 +91,16 @@ const cities = [
 ];
 
 const Home = () => {
+  const appContext = useContext(AppContext);
   const listFastes = ItemsFastSearch;
 
   useEffect(() => {
+    appContext.setShowfooter(true);
     window.scroll(0, 0);
+    appContext.setSettingHeader({
+      dontShowMobileHeader: false,
+      removeShadow: false,
+    });
   }, []);
   // فراخوانی api برای دریافت اطلاهات
   const getListData = async (dataToFilter) => {
@@ -111,7 +118,6 @@ const Home = () => {
   };
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
-      <Header />
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
       <Box
         className=" "
@@ -185,13 +191,14 @@ const Home = () => {
           <InViewComponents
             getListData={() =>
               callApiForGetList({
-                type: 1,
+                // type: 1,
               })
             }
           >
             <SwipperSliderPublick
               // lists={cities}
               title={"اقامتگاه‌های ممتاز"}
+              linkToSeeMore={`/search/city-paveh`}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -204,6 +211,7 @@ const Home = () => {
               // lists={cities}
               title={"اقامتگاه‌های اقتصادی"}
               slidesPerView={4}
+              linkToSeeMore={`/search/city-paveh`}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -221,7 +229,12 @@ const Home = () => {
           }}
         >
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick lists={cities} title={"تخفیفات لحظه آخری"}>
+            <SwipperSliderPublick
+              lists={cities}
+              title={"تخفیفات لحظه آخری"}
+              linkToSeeMore={`/search/city-paveh`}
+              showTimer={true}
+            >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
@@ -235,7 +248,11 @@ const Home = () => {
         {/* اقامتگاه  های شمال */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick lists={cities} title={"اقامتگاه‌های شمال"}>
+            <SwipperSliderPublick
+              lists={cities}
+              title={"اقامتگاه‌های شمال"}
+              linkToSeeMore={`/search/city-paveh`}
+            >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
@@ -246,6 +263,7 @@ const Home = () => {
             <SwipperSliderPublick
               lists={cities}
               title={"آپارتمان‌ روزانه در تهران"}
+              linkToSeeMore={`/search/city-paveh`}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -271,7 +289,11 @@ const Home = () => {
         {/* اقامتگاه‌های جنوب */}
         <Box className=" " sx={{ marginTop: { xs: 2, md: 1 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick lists={cities} title={" اقامتگاه‌های جنوب"}>
+            <SwipperSliderPublick
+              lists={cities}
+              title={" اقامتگاه‌های جنوب"}
+              linkToSeeMore={`/search/city-paveh`}
+            >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
@@ -286,7 +308,11 @@ const Home = () => {
           }}
         >
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick lists={cities} title={" رزرو‌های فوری"}>
+            <SwipperSliderPublick
+              lists={cities}
+              title={" رزرو‌های فوری"}
+              linkToSeeMore={`/search/city-paveh`}
+            >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
@@ -294,7 +320,9 @@ const Home = () => {
 
         {/* === نظرات کاربران */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-          <InViewComponents getListData={() => [1, 2, 3, 4, 5]}>
+          <InViewComponents
+            getListData={() => [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]}
+          >
             <Commentswiper
               title={"نظرات کاربران"}
               deafultSkeleton={"comment"}
@@ -308,6 +336,7 @@ const Home = () => {
             <SwipperSliderPublick
               lists={cities}
               title={" اقامتگاه‌های بومگردی"}
+              linkToSeeMore={`/search/city-paveh`}
             >
               <HomeCards />
             </SwipperSliderPublick>
@@ -316,7 +345,11 @@ const Home = () => {
         {/* ویلاهای اطراف تهران */}
         <Box className="mb-5 " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents getListData={() => callApiForGetList({})}>
-            <SwipperSliderPublick lists={cities} title={"ویلاهای اطراف تهران "}>
+            <SwipperSliderPublick
+              lists={cities}
+              title={"ویلاهای اطراف تهران "}
+              linkToSeeMore={`/search/city-paveh`}
+            >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>

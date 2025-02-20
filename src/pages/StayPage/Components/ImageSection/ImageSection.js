@@ -28,7 +28,7 @@ const ImageSection = () => {
           item
           xs={12}
           md={6}
-          sx={{ height: { xs: 220, sm: 300, md: "300px", lg: "380px" } }}
+          sx={{ height: { xs: 220, sm: 300, md: "300px", lg: "380px" }, pb: 1 }}
         >
           <SliderDetailsPage lists={[...listImages]} />
         </Grid>
@@ -38,11 +38,16 @@ const ImageSection = () => {
           xs={12}
           md={6}
           sx={{
-            height: { xs: 250, md: "300px", lg: "380px" },
+            height: { xs: 220, sm: 300, md: "300px", lg: "380px" },
             display: { xs: "none", md: "inherit" },
+            p: 0, // حذف padding
           }}
         >
-          <Grid container spacing={1} sx={{ height: "100%" }}>
+          <Grid
+            container
+            spacing={1} // حذف فاصله بین Grid itemها
+            sx={{ height: "100%" }}
+          >
             {listImages.slice(1, 5).map((item, index) => (
               <Grid
                 item
@@ -50,7 +55,7 @@ const ImageSection = () => {
                 key={index + 1}
                 sx={{
                   height: "50%",
-                  // border: "1px solid #eeeeee",
+                  p: 0, // حذف padding داخلی
                 }}
               >
                 <CardImage myData={item} />

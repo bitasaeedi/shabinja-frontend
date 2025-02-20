@@ -7,7 +7,8 @@ const baseUrl = API_URL;
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
   try {
-    const token = localStorage.getItem("token");
+    console.log(searchData , "searchData HostTourSearchApi")
+    const token = localStorage.getItem("access_token");
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
       {
@@ -24,8 +25,11 @@ export const HostTourSearchApi = async (searchData) => {
         take: searchData?.take || 10,
         sort: searchData?.sort || 0, //ترتیب مرتب کردن
         type: searchData?.type || 0,
-        // RolItemTourId: searchData?.rolItemTourId || , // آیدی قوانین
-        // OtherItemTourId: searchData?.otherItemTourId || [], // آیدی سایر امکانات
+        RolItemTourId: [],
+        OtherItemTourId: [],
+        AccommodationSpace: [],
+
+        Rate: searchData?.rate || [],
         TypeHost: searchData?.typeHost || [], // نوع اقامتگاه
         TypeHostLoc: searchData?.typeHostLoc || [],
         RolItemTour: searchData?.rolItemTour || [],
@@ -35,7 +39,7 @@ export const HostTourSearchApi = async (searchData) => {
       },
       {
         headers: {
-          token: token, // Add the token to the request header
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -127,10 +131,9 @@ export const HostTourSearchOneApi = async (stayCode) => {
     const token = localStorage.getItem("access_token");
     const response = await axios.get(
       `${baseUrl}/HostTour/GetTour/${stayCode}`,
-      {},
       {
         headers: {
-          token: token, // Add the token to the request header
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -138,6 +141,287 @@ export const HostTourSearchOneApi = async (stayCode) => {
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// سرچ نظرات برای یک اقامتگاه
+export const HostTourSearchCommentApi = async (stayCode) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.get(
+      `${baseUrl}/HostTour/ListCommentsTourForHome/${stayCode}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// سرچ یک اقامتگاه برای ویرایش
+export const HostTourSearchOneApiForEdit = async (guid) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.get(`${baseUrl}/HostTour/${guid}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+//  ایجاد یک اقامتگاه جدید
+export const HostTourCreateApi = async (createData) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.post(
+      `${baseUrl}/HostTour`,
+      {
+        Title: createData?.title, // "اسم میزبان",
+        TypeHostId: createData?.typeHostId, // 1, //نوع اقامت برحسب آی دی
+        TypeHostLocId: createData?.typeHostLocId, //1, //منطقه اقامت برحسب آی دی
+        ProvinceId: createData?.provinceId, //1, //استان برحسب آی دی
+        CityId: createData?.cityId, //1, // شهر برحسب استان
+        Start: createData?.start, //"12:00", // ساعت ورود برحسب رشته
+        End: createData?.end, //"17:00", //ساعت خروج بر حسب رشته
+        SizeOfTheInfrastructure: createData?.sizeOfTheInfrastructure, //120, // متراژ زیربنا
+        AllSizeOfTheInfrastructure: createData?.allSizeOfTheInfrastructure, //120, // متراژ کل
+        MinCapacity: createData?.minCapacity, //1, // حداقل نفرات
+        MaxCapacity: createData?.maxCapacity, //1, /// حداکثر نفرات
+        Room: createData?.room, //1, ///تعداد اتاف
+        Bed: createData?.bed, //1, /// تعداد تخت خواب یک نفره
+        BedTwo: createData?.bedTwo, //1, /// تعداد تخت خواب دونفره
+        BedOld: createData?.bedOld, //1, /// تعداد تخت خواب سنتی
+        BathRoom: createData?.bathRoom, //1, ///تعداد حمام
+        OtherItemTourIds: createData?.otherItemTourIds, //["1", "2"], ////سایر امکانات برحسب لیست ای دی
+        RolItemTourIds: createData?.rolItemTourIds, //["1", "2"], /// قوانین برحسب لیست آی دی
+        Dics: createData?.dics, //"توضیحات",
+        Loc: createData?.loc, //"لوکیشن",
+        Address: createData?.address, // آدرس متنی
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// به روز رسانی اقامتگاه
+export const HostTourUpdateApi = async (updateData, guid) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.post(
+      `${baseUrl}/HostTour/update`,
+      {
+        Id: updateData?.id,
+        Guid: guid,
+        Title: updateData?.title, // "اسم میزبان",
+        TypeHostId: updateData?.typeHostId, // 1, //نوع اقامت برحسب آی دی
+        TypeHostLocId: updateData?.typeHostLocId, //1, //منطقه اقامت برحسب آی دی
+        ProvinceId: updateData?.provinceId, //1, //استان برحسب آی دی
+        CityId: updateData?.cityId, //1, // شهر برحسب استان
+        Start: updateData?.start, //"12:00", // ساعت ورود برحسب رشته
+        End: updateData?.end, //"17:00", //ساعت خروج بر حسب رشته
+        SizeOfTheInfrastructure: updateData?.sizeOfTheInfrastructure, //120, // متراژ زیربنا
+        AllSizeOfTheInfrastructure: updateData?.allSizeOfTheInfrastructure, //120, // متراژ کل
+        MinCapacity: updateData?.minCapacity, //1, // حداقل نفرات
+        MaxCapacity: updateData?.maxCapacity, //1, /// حداکثر نفرات
+        Room: updateData?.room, //1, ///تعداد اتاف
+        Bed: updateData?.bed, //1, /// تعداد تخت خواب یک نفره
+        BedTwo: updateData?.bedTwo, //1, /// تعداد تخت خواب دونفره
+        BedOld: updateData?.bedOld, //1, /// تعداد تخت خواب سنتی
+        BathRoom: updateData?.bathRoom, //1, ///تعداد حمام
+        OtherItemTourIds: updateData?.otherItemTourIds, //["1", "2"], ////سایر امکانات برحسب لیست ای دی
+        RolItemTourIds: updateData?.rolItemTourIds, //["1", "2"], /// قوانین برحسب لیست آی دی
+        Dics: updateData?.dics, //"توضیحات",
+        Loc: updateData?.loc, //"لوکیشن",
+        Address: updateData?.address, //"لوکیشن",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// سرچ لیست اقامتگاههای من
+export const MyHostTourSearchApi = async (searchData) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.get(`${baseUrl}/HostTour/List`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// سرچ  تصاویر اقامتگاه
+export const HostTourSearchImagesApi = async (id) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.post(
+      `${baseUrl}/HostTour/ListImage/${id}`,
+      {
+        skip: 0,
+        take: 10,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// آپلود عکس برای اقامتگاه
+export const HostUploadImageApi = async (imageData, stayId, onProgress) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.post(
+      `${baseUrl}/HostTour/Images`,
+      {
+        HostTourId: stayId,
+        File: {
+          FileName: imageData.FileName,
+          Extension: imageData.Extension,
+          Size: imageData.Size,
+          Data: `${imageData.Data}`,
+        },
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        onUploadProgress: (progressEvent) => {
+          if (onProgress) {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            onProgress(progress); // Pass the progress to the callback
+          }
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
+    return error?.response?.data;
+  }
+};
+
+// حذف عکس برای اقامتگاه
+export const HostDeleteImageApi = async (guidImage) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.post(
+      `${baseUrl}/HostTour/DeleteImage/${guidImage}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
+    return error?.response?.data;
+  }
+};
+
+// حذف اقامتگاه
+export const HostDeleteOneApi = async (guid) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.post(
+      `${baseUrl}/HostTour/delete/${guid}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
+    return error?.response?.data;
+  }
+};
+
+// رزروهای من
+export const MyReservationsApi = async (data) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.get(
+      `${baseUrl}/HostTour/ListPriceiIsPayForuser`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
     return error?.response?.data;
   }
 };

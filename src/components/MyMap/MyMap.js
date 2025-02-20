@@ -2,13 +2,20 @@ import React, { useEffect, useState, useRef } from "react";
 import { MapContainer, TileLayer, useMap, Marker } from "react-leaflet";
 import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Button, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import SwitchMapButton from "./SwitchMapButton";
 
 const MyMap = ({
   points,
   returnNewPositionOnDrag,
   onPolygonDrawn,
   centerInitial,
+  dragable,
+  zoomDefault = 8,
+  showSearch = true,
+  showArea = false,
+  scrollWheelZoomBool = true,
+  showPopup = true,
 }) => {
   const [markers, setMarkers] = useState([]);
   const [standard, setStandard] = useState(true);
@@ -103,7 +110,7 @@ const MyMap = ({
   };
 
   const handleMarkerSelect = (id) => {
-    console.log(id , "id handleMarkerSelect")
+    console.log(id, "id handleMarkerSelect");
     setActiveMarkerId(id);
   };
 
@@ -117,25 +124,47 @@ const MyMap = ({
         <MapContainer
           ref={mapRef}
           center={center}
-          zoom={8}
+          zoom={zoomDefault}
           style={{ height: "100%", width: "100%", margin: "0", padding: "0" }}
-          // scrollWheelZoom={false}
+          scrollWheelZoom={scrollWheelZoomBool}
+          className="rounded"
         >
-          <Button
+          {!dragable && showSearch && (
+            <Button
+              variant="contained"
+              color="white"
+              onClick={handleSearchInArea}
+              sx={{
+                position: "absolute",
+                top: 30,
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                zIndex: 1000,
+                backgroundColor: "white",
+              }}
+            >
+              <Typography>جستجو در این منطقه</Typography>
+            </Button>
+          )}
+
+          <Box
             variant="contained"
             color="white"
             onClick={handleSearchInArea}
             sx={{
               position: "absolute",
-              top: 30,
-              left: "50%",
-              transform: "translate(-50%, -50%)",
+              bottom: 10,
+              right: 10,
+              // transform: "translate(-50%, -50%)",
               zIndex: 1000,
-              backgroundColor: "white",
+              // backgroundColor: "white",
             }}
           >
-            <Typography>جستجو در این منطقه</Typography>
-          </Button>
+            <SwitchMapButton
+              callBack={() => setStandard((prev) => !prev)}
+              mode={!!standard}
+            />
+          </Box>
 
           <TileLayer url={standard ? standardMap : satelliteTileUrl} />
 
@@ -149,6 +178,9 @@ const MyMap = ({
                 returnNewPositionOnDrag={handlReturnNewPositionOnDrag}
                 activeMarkerId={activeMarkerId}
                 onMarkerSelect={handleMarkerSelect}
+                dragable={dragable || false}
+                showArea={showArea}
+                showPopup={showPopup}
               />
             ))
           ) : (
@@ -165,6 +197,8 @@ const MyMap = ({
                   returnNewPositionOnDrag={handlReturnNewPositionOnDrag}
                   activeMarkerId={activeMarkerId}
                   onMarkerSelect={handleMarkerSelect}
+                  showArea={showArea}
+                  showPopup={showPopup}
                 />
               ))}
             </MarkerClusterGroup>

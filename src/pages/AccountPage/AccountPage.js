@@ -13,20 +13,26 @@ import { AppContext } from "../../App";
 import Reservations from "./Components/ContentSections/Reservations/Reservations";
 import { Wallet } from "@mui/icons-material";
 import WalletComponent from "./Components/ContentSections/WalletComponent/WalletComponent";
+import BackUpSection from "./Components/ContentSections/BackUpSection/BackUpSection";
 
 const AccountPage = () => {
   const appContext = useContext(AppContext);
   const { section } = useParams();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile view
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect mobile view
   const [loading, setLoading] = useState(false);
   useEffect(() => {
+    appContext.setShowfooter(false);
+    appContext.setSettingHeader({
+      dontShowMobileHeader: true,
+      removeShadow: false,
+    });
     window.scroll(0, 0);
   }, []);
 
   return (
     <>
-      <Header showMobileHeader={false}  />
+      {/* <Header showMobileHeader={false} /> */}
       {appContext?.isLoginMain ? (
         <Box
           sx={{
@@ -52,7 +58,18 @@ const AccountPage = () => {
                 <Reservations anchor isMobile={isMobile} />
               )}
               {section === "wallet" && (
-                <WalletComponent anchor isMobile={isMobile} />
+                <WalletComponent
+                  anchor
+                  isMobile={isMobile}
+                  nameSection="account"
+                />
+              )}
+              {section === "support" && (
+                <BackUpSection
+                  anchor
+                  isMobile={isMobile}
+                  nameSection="account"
+                />
               )}
             </Grid>
           </Grid>

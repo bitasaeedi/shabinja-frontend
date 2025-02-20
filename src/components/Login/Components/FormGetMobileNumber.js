@@ -99,7 +99,7 @@ const FormGetMobileNumber = ({ callBack }) => {
             variant="outlined"
             placeholder="09*********"
             {...register("phone", {
-              required: "لطفا شماره موبایل خود را وارد کنید",
+              required: true, //"لطفا شماره موبایل خود را وارد کنید",
               pattern: {
                 value: /^09\d{9}$/,
                 message: "شماره موبایل باید با 09 شروع شده و 11 رقم باشد",
@@ -123,16 +123,25 @@ const FormGetMobileNumber = ({ callBack }) => {
             }}
           />
 
-          <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 3, maxWidth: 400, minWidth: 300 }}>
             <Typography
-              variant="p"
-              color="dark"
+              variant="body2"
+              color="textSecondary"
               className="d-flex w-100 text-center"
+              sx={{
+                textAlign: "center",
+              }}
             >
-              <Box>
-                <Typography component="span">
+              <Box sx={{}} className=" w-100">
+                <Typography
+                  component="body2"
+                  sx={{
+                    textAlign: "center",
+                  }}
+                >
                   ورود و ثبت‌نام در شبینجا به منزله‌ پذیرفتن
                 </Typography>{" "}
+                <br />
                 <Link
                   href="#"
                   color="primary.light"

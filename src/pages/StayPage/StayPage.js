@@ -1,5 +1,5 @@
 import { Box, Container, Grid, Typography } from "@mui/material";
-import React, { createContext, useEffect } from "react";
+import React, { createContext, useContext, useEffect } from "react";
 import ImageSection from "./Components/ImageSection/ImageSection";
 import { useParams } from "react-router-dom";
 import ScrollableTabs from "./Components/ScrollableTabs/ScrollableTabs";
@@ -15,12 +15,24 @@ import { Button } from "bootstrap";
 import TitleStay from "./Components/TitleStay/TitleStay";
 import Header from "../../layout/header/Header";
 import Commentswiper from "../../components/Sliders/Commentswiper";
+import { AppContext } from "../../App";
 
 export const StayPageContext = createContext();
 const StayPage = () => {
   const { staycode } = useParams();
   const [listDateSelected, setListDateSelected] = useState([]);
   const [infoOfStay, setInfoOfStay] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const appContext = useContext(AppContext);
+
+  useEffect(() => {
+    appContext.setShowfooter(true);
+    appContext.setSettingHeader({
+      dontShowMobileHeader: true,
+      removeShadow: false,
+    });
+  }, []);
 
   useEffect(() => {
     handleSearchStayInfo();
@@ -45,10 +57,13 @@ const StayPage = () => {
 
   // دریافت اطلاعات اقامتگاه
   const handleSearchStayInfo = async () => {
+    setLoading(true);
+    setInfoOfStay({});
     const resultGetTour = await HostTourSearchOneApi(staycode);
     var item = resultGetTour?.data;
-    console.log(item, "item handleSearchStayInfo");
+    // console.log(item, "item handleSearchStayInfo");
     setInfoOfStay(item);
+    setLoading(false);
     return item;
   };
   return (
@@ -58,9 +73,10 @@ const StayPage = () => {
         listDateSelected: listDateSelected,
         setListDateSelected: setListDateSelected,
         infoOfStay,
+        loading,
       }}
     >
-      <Header showMobileHeader={false} />
+      {/* <Header showMobileHeader={false} /> */}
       <Box
         sx={{
           width: { xs: "100%", md: "80%" }, // 100% for xs and sm, 80% for md and above
@@ -146,13 +162,6 @@ const StayPage = () => {
           </Box>
         </Box>
       </Box>
-
-      {/* نظرات کاربران   */}
-      {/* <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => [1, 2, 3, 4, 5]}>
-          <Commentswiper title={"نظرات کاربران"} deafultSkeleton={"comment"} />
-        </InViewComponents>
-      </Box> */}
 
       {/* اقامتگاه های مشابه */}
       <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>

@@ -8,23 +8,29 @@ import Header from "../../layout/header/Header";
 import AskToLogin from "../../components/Login/AskToLogin/AskToLogin";
 import { AppContext } from "../../App";
 import Dashboard from "./Components/ContentSections/Dashboard/Dashboard";
-import WalletPannel from "./Components/ContentSections/WalletPannel/WalletPannel";
 import Stays from "./Components/ContentSections/Stays/Stays";
 import Requests from "./Components/ContentSections/Requests/Requests";
+import WalletComponent from "../AccountPage/Components/ContentSections/WalletComponent/WalletComponent";
+import BackUpSection from "../AccountPage/Components/ContentSections/BackUpSection/BackUpSection";
 
 const PannelPage = () => {
   const appContext = useContext(AppContext);
   const { section } = useParams();
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Detect mobile view
+  const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect mobile view
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
+    appContext.setShowfooter(false);
+    appContext.setSettingHeader({
+      dontShowMobileHeader: true,
+    });
     window.scroll(0, 0);
   }, []);
 
   return (
     <>
-      <Header showMobileHeader={false} />
+      {/* <Header showMobileHeader={false} /> */}
       {appContext?.isLoginMain ? (
         <Box
           sx={{
@@ -49,14 +55,23 @@ const PannelPage = () => {
               {section === "requests" && (
                 <Requests anchor isMobile={isMobile} />
               )}
-              {section === "hosting-calendar" && (
+              {/* {section === "hosting-calendar" && (
                 <Dashboard anchor isMobile={isMobile} />
+              )} */}
+              {section === "wallet" && (
+                <WalletComponent
+                  anchor
+                  isMobile={isMobile}
+                  nameSection="pannel"
+                />
               )}
-              {section === "wallet" && <WalletPannel anchor isMobile={isMobile} />}
-              {section === "help" && <Dashboard anchor isMobile={isMobile} />}
 
               {section === "support" && (
-                <Dashboard anchor isMobile={isMobile} />
+                <BackUpSection
+                  anchor
+                  isMobile={isMobile}
+                  nameSection="pannel"
+                />
               )}
             </Grid>
           </Grid>

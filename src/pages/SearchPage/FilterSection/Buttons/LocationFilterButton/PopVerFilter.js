@@ -12,18 +12,38 @@ import {
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import SelectCity from "../AllFilterButton/Component/SelectCity";
+import { useContext } from "react";
+import { SearchPageContext } from "../../../SearchPage";
+import { useEffect } from "react";
+import { useState } from "react";
 
-const PopVerFilter = ({
-  callBackFunc,
-  defaultCount,
-  anchorEl,
-  handleClosePopover,
-}) => {
+const PopVerFilter = ({ anchorEl, handleClosePopover, callBackFunc }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
+  const searchPageContext = useContext(SearchPageContext);
+  const [selectedListCity, setSelectedListCity] = useState([]);
+  const [listProvince, setListProvince] = useState([]);
+  useEffect(() => {
+    setListProvince(searchPageContext?.resutSearchTours?.provinces || []);
+  }, [searchPageContext?.resutSearchTours?.provinces]);
 
-  const counterRef = useRef();
+  useEffect(() => {
+    const listValues = searchPageContext.listFiltersInUrl;
+    var cityList = [];
+    listValues.forEach((element) => {
+      if (element.label === "cities") {
+        cityList = element?.value?.split(",") || [];
+      }
+    });
 
+    setSelectedListCity(cityList);
+  }, [searchPageContext.listFiltersInUrl.length]);
+
+  const handleFilter = (list = []) => {
+    const value =
+      list?.length > 0 ? selectedListCity.map((item) => item) : null;
+    callBackFunc(value);
+  };
   return isMobile ? (
     <SwipeableDrawer
       anchor="bottom"
@@ -88,7 +108,6 @@ const PopVerFilter = ({
         </IconButton>
       </Box>
       <Box
-        ref={counterRef}
         sx={{
           width: "100%",
         }}
@@ -107,68 +126,18 @@ const PopVerFilter = ({
             <SelectCity
               showAllInitially={true}
               title={"انتخاب شهر"}
-              list={[
-                {
-                  id: 1,
-                  title: "استان تهران",
-                  subList: [
-                    { id: 1, title: "تهران" },
-                    { id: 2, title: "فیروزکوه" },
-                    { id: 3, title: "شهر" },
-                    { id: 1, title: "تهران" },
-                    { id: 2, title: "فیروزکوه" },
-                    { id: 3, title: "شهر" },
-                    { id: 1, title: "تهران" },
-                    { id: 2, title: "فیروزکوه" },
-                    { id: 3, title: "شهر" },
-                    { id: 1, title: "تهران" },
-                    { id: 2, title: "فیروزکوه" },
-                    { id: 3, title: "شهر" },
-                  ],
-                },
-                {
-                  id: 2,
-                  title: "خراسان رضوی",
-                  subList: [
-                    { id: 1, title: "مشهد" },
-                    { id: 2, title: "نیشابور" },
-                    { id: 3, title: "قوچان" },
-                    { id: 1, title: "مشهد" },
-                    { id: 2, title: "نیشابور" },
-                    { id: 3, title: "قوچان" },
-                    { id: 1, title: "مشهد" },
-                    { id: 2, title: "نیشابور" },
-                    { id: 3, title: "قوچان" },
-                    { id: 1, title: "مشهد" },
-                    { id: 2, title: "نیشابور" },
-                    { id: 3, title: "قوچان" },
-                  ],
-                },
-                {
-                  id: 3,
-                  title: "مازندران",
-                  subList: [
-                    { id: 1, title: "ساری" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 1, title: "ساری" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 1, title: "ساری" },
-
-                    { id: 1, title: "ساری" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 1, title: "ساری" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 1, title: "ساری" },
-                    { id: 2, title: "سوادکوه" },
-                    { id: 1, title: "ساری" },
-
-                    { id: 1, title: "ساری" },
-                    { id: 2, title: "سوادکوه" },
-                  ],
-                },
-              ]}
+              list={listProvince.map((item) => ({
+                id: item?.id,
+                title: item?.title,
+                searchtitle: item?.title,
+                cities: item?.cities.map((city) => ({
+                  id: city?.id,
+                  title: city?.title,
+                  searchtitle: city?.title,
+                })),
+              }))}
+              listSelected={selectedListCity}
+              handleChangeListSelected={setSelectedListCity}
             />
           </Box>
           {/* <hr /> */}
@@ -176,7 +145,7 @@ const PopVerFilter = ({
             sx={{
               display: "flex",
               justifyContent: "space-between",
-              py:2
+              py: 2,
             }}
           >
             <Button
@@ -185,8 +154,8 @@ const PopVerFilter = ({
               }}
               variant="text"
               size="small"
-              // disabled={count < 1}
-              // onClick={() => handleFinall(null)}
+              disabled={selectedListCity < 1}
+              onClick={() => handleFilter([])}
             >
               حذف فیلتر
             </Button>
@@ -197,7 +166,7 @@ const PopVerFilter = ({
               variant="contained"
               size="small"
               // disabled={count < 1}
-              // onClick={() => handleFinall(count)}
+              onClick={() => handleFilter(selectedListCity)}
             >
               ثبت تغییرات
             </Button>

@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   Menu,
   MenuItem,
+  Tooltip,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -16,7 +17,7 @@ import GridViewIcon from "@mui/icons-material/GridView";
 import logo_with_name from "../../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../.././../images/shabinja_logo_with_name_white.png";
 import React, { useContext } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -35,6 +36,9 @@ import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/system";
 import RemoveStorageLogin from "../../../../components/RemoveStorageLogin/RemoveStorageLogin";
 import CheckTokenExpiration from "../../../../components/checkTokenExpiration/CheckTokenExpiration";
+import { HostTourSearchTitleApi } from "../../../../api/toureApis";
+import { useState } from "react";
+import SelectCity from "../../../../components/popups/SelectCity/SelectCity";
 
 // Styled components for the search bar
 const Search = styled("div")(({ theme }) => ({
@@ -85,30 +89,30 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   cursor: "pointer", // Ensures the cursor changes to a pointer
 }));
 
-const ToolBarComponent = ({isSticky}) => {
+const ToolBarComponent = ({ isSticky }) => {
   const appContext = useContext(AppContext);
-  const location = useLocation();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [isLogin, setIsLogin] = React.useState(false);
-  const [openModalLogin, setOpenModalLogin] = React.useState(false);
-  const [userName, setUserName] = React.useState("کاربر شبینجا");
-  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const [mobileOpen, setMobileOpen] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
+  const [openModalLogin, setOpenModalLogin] = useState(false);
+  const [userName, setUserName] = useState("");
+  const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+  const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
+  const [calendarAnchor, setCalendarAnchor] = useState(null);
+  const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
+
   const open = Boolean(anchorEl);
   const theme = useTheme();
 
   React.useEffect(() => {
-    // Check login status and user name when the component mounts
     const checkLoginStatus = () => {
       CheckTokenExpiration(); // بررسی عتبار توکن
       const token = localStorage.getItem("access_token");
       if (token) {
-        setIsLogin(true);
         appContext.setIsLoginMain(true);
-        setUserName(localStorage.getItem("name") || "کاربر شبینجا"); // Fallback name if not set
       } else {
-        setIsLogin(false);
         appContext.setIsLoginMain(false);
-        setUserName("کاربر شبینجا");
       }
     };
 
@@ -116,18 +120,13 @@ const ToolBarComponent = ({isSticky}) => {
     checkLoginStatus();
   }, [localStorage.getItem("access_token")]);
 
-  const handleSearchChange = (event) => {
-    console.log("Search:", event.target.value);
-  };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleLogout = () => {
-    setIsLogin(false);
     appContext.setIsLoginMain(false);
-    setUserName("کاربر شبینجا"); // Reset to default name
+    setUserName("");
     RemoveStorageLogin();
     // localStorage.clear();
   };
@@ -135,6 +134,29 @@ const ToolBarComponent = ({isSticky}) => {
     setAnchorEl(event.currentTarget);
   };
 
+  const handleSearchCities = async (textToSearch) => {
+    console.log(textToSearch, "textToSearch");
+    // setSelectedCity({});
+    if (textToSearch.length >= 3 || textToSearch.length == 0) {
+      setLoadingSearchCitis(true);
+      const resultGetTours = await HostTourSearchTitleApi({
+        title: textToSearch,
+      });
+      var objectList = resultGetTours?.data;
+      setObjectOfLisDatas(objectList);
+      setLoadingSearchCitis(false);
+    }
+  };
+
+  const handleDateClick = (event, field) => {
+    setCalendarAnchor(event.currentTarget);
+  };
+
+  const handleSelectCity = (selected) => {
+    setCalendarAnchor(null);
+    const url = `/search/${selected.titleEn}`;
+    navigate(url);
+  };
   return (
     <>
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -173,45 +195,90 @@ const ToolBarComponent = ({isSticky}) => {
             height: "auto",
           }}
         >
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="جستجو شهر، استان یا اقامتگاه "
-              inputProps={{ "aria-label": "search" }}
-              onChange={handleSearchChange}
-            />
-          </Search>
+          <Box>
+            <Search onClick={(e) => handleDateClick(e, "city")}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="جستجو شهر، استان یا اقامتگاه "
+                inputProps={{
+                  "aria-label": "search",
+                  onChange: (e) => handleSearchCities(e.target.value),
+                }}
+              />
+            </Search>
+            {calendarAnchor && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: calendarAnchor.getBoundingClientRect().bottom + 20,
+                  right: calendarAnchor.getBoundingClientRect().left,
+                  backgroundColor: "#fff",
+                  boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "8px",
+                  zIndex: 1000,
+                  // width: "100%",
+
+                  //   transform: `translate(${"50px"}, 0)`,
+                }}
+              >
+                <SelectCity
+                  closePopup={() => setCalendarAnchor(null)}
+                  selectedCity={(item) => {
+                    handleSelectCity(item);
+                  }}
+                  objectOfLisDatas={objectOfLisDatas}
+                  loading={loadingSearchCitis}
+                  disableOnoutClose={true}
+                  widthSize={"300px"}
+                />
+              </Box>
+            )}
+          </Box>
         </Box>
         {/* ------- */}
         <Box
           sx={{
             display: "flex",
+            alignItems: "center",
           }}
         >
-          <Button
-            sx={{
-              display: { xs: "none", md: "block" },
-              color: isSticky ? "black" : "#ffffff",
-            }}
-            variant="text"
-            startIcon={<FavoriteBorderIcon />}
-            title="پسندیده‌ها"
-          ></Button>
-          <Button
-            sx={{
-              display: { xs: "none", md: "block" },
-              color: isSticky ? "black" : "#ffffff",
-            }}
-            variant="text"
-            startIcon={<HeadsetMicIcon />}
-            title="پشتیبانی"
-          ></Button>
+          <Tooltip title="پسندیده‌ها">
+            <IconButton
+              sx={{
+                display: { xs: "none", md: "block" },
+                color: isSticky ? "black" : "#ffffff",
+              }}
+              component={Link}
+              to="/account/favorites"
+            >
+              <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
+
+          {/* دکمه پشتیبانی */}
+          <Tooltip title="پشتیبانی">
+            <IconButton
+              sx={{
+                display: { xs: "none", md: "block" },
+                color: isSticky ? "black" : "#ffffff",
+                mx: 1,
+              }}
+              component={Link}
+              to="/account/support"
+            >
+              <HeadsetMicIcon sx={{ fontSize: 20 }} />
+            </IconButton>
+          </Tooltip>
 
           <Button
             component={Link}
-            to="/pannel/dashboard"
+            to={
+              appContext?.userInfo?.userIsHost && appContext?.isLoginMain
+                ? "/pannel/dashboard"
+                : "/new-stay/start"
+            }
             sx={{
               display: { xs: "none", md: "block" },
               mx: 1,
@@ -219,10 +286,12 @@ const ToolBarComponent = ({isSticky}) => {
             }}
             variant="text"
           >
-            پنل میزبان
+            {appContext?.userInfo?.userIsHost && appContext?.isLoginMain
+              ? " پنل میزبان"
+              : "میزبان شو"}
           </Button>
 
-          {isLogin ? (
+          {appContext?.isLoginMain ? (
             <div>
               <Button
                 id="demo-customized-button"
@@ -256,7 +325,7 @@ const ToolBarComponent = ({isSticky}) => {
                   }}
                   className="py-0 px-0 my-0"
                 >
-                  {userName}
+                  {appContext?.userInfo?.name || ""}
                 </Typography>
               </Button>
               <Menu
@@ -317,7 +386,7 @@ const ToolBarComponent = ({isSticky}) => {
                   />
                   داشبورد
                 </MenuItem>
-                <Divider />
+                {/* <Divider />
                 <MenuItem
                   sx={{
                     display: "flex",
@@ -325,6 +394,8 @@ const ToolBarComponent = ({isSticky}) => {
                     fontSize: 14,
                   }}
                   onClick={handleClose}
+                  component={Link}
+                  to="/help"
                 >
                   <QuestionMarkIcon
                     sx={{
@@ -367,7 +438,7 @@ const ToolBarComponent = ({isSticky}) => {
                     className="mx-1 text-muted "
                   />
                   تنظیمات
-                </MenuItem>
+                </MenuItem> */}
                 <Divider />
                 <MenuItem
                   sx={{

@@ -10,6 +10,8 @@ const PriceRange = () => {
   useEffect(() => {
     if (popVerFilterContext?.selectedRangPriceList.length == 2) {
       setValue(popVerFilterContext?.selectedRangPriceList);
+    }else{
+      setValue([100000, 20000000])
     }
   }, [popVerFilterContext?.selectedRangPriceList]);
 

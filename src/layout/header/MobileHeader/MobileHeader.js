@@ -16,7 +16,7 @@ import {
   Button,
 } from "@mui/material";
 import { styled, useTheme, alpha } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import LogoutIcon from "@mui/icons-material/Logout";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -35,6 +35,8 @@ import RemoveStorageLogin from "../../../components/RemoveStorageLogin/RemoveSto
 import { useLocation } from "react-router-dom";
 import { AppContext } from "../../../App";
 import { useContext } from "react";
+import SelectCity from "../../../components/popups/SelectCity/SelectCity";
+import { HostTourSearchTitleApi } from "../../../api/toureApis";
 // Styled components for the search bar
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -78,11 +80,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const MobileHeader = () => {
   const appContext = useContext(AppContext);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(false);
+  // const [isLogin, setIsLogin] = useState(false);
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const [userName, setUserName] = useState("کاربر شبینجا");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isSticky, setIsSticky] = useState(false);
+  const navigate = useNavigate();
+  const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
+  const [calendarAnchor, setCalendarAnchor] = useState(null);
+  const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
+
   const location = useLocation();
   const theme = useTheme();
 
@@ -101,11 +108,11 @@ const MobileHeader = () => {
       CheckTokenExpiration(); // بررسی عتبار توکن
       const token = localStorage.getItem("access_token");
       if (token) {
-        setIsLogin(true);
+        // setIsLogin(true);
         appContext.setIsLoginMain(true);
         setUserName(localStorage.getItem("name") || "کاربر شبینجا"); // Fallback name if not set
       } else {
-        setIsLogin(false);
+        // setIsLogin(false);
         appContext.setIsLoginMain(false);
         setUserName("کاربر شبینجا");
       }
@@ -115,8 +122,28 @@ const MobileHeader = () => {
     checkLoginStatus();
   }, [localStorage.getItem("access_token")]);
 
-  const handleSearchChange = (event) => {
-    console.log("Search:", event.target.value);
+  const handleSearchCities = async (textToSearch) => {
+    console.log(textToSearch, "textToSearch");
+    // setSelectedCity({});
+    if (textToSearch.length >= 3 || textToSearch.length == 0) {
+      setLoadingSearchCitis(true);
+      const resultGetTours = await HostTourSearchTitleApi({
+        title: textToSearch,
+      });
+      var objectList = resultGetTours?.data;
+      setObjectOfLisDatas(objectList);
+      setLoadingSearchCitis(false);
+    }
+  };
+
+  const handleDateClick = (event, field) => {
+    setCalendarAnchor(event.currentTarget);
+  };
+
+  const handleSelectCity = (selected) => {
+    setCalendarAnchor(null);
+    const url = `/search/${selected.titleEn}`;
+    navigate(url);
   };
 
   return (
@@ -186,7 +213,7 @@ const MobileHeader = () => {
 
                   {/* User Section */}
                   <Grid item xs="auto">
-                    {isLogin ? (
+                    {appContext.isLoginMain  ? (
                       <div></div>
                     ) : (
                       <Button
@@ -215,16 +242,50 @@ const MobileHeader = () => {
 
                 {/* Search Bar */}
                 <Grid item xs={12} className="w-100 mt-3">
-                  <Search>
-                    <SearchIconWrapper>
-                      <SearchIcon />
-                    </SearchIconWrapper>
-                    <StyledInputBase
-                      placeholder="جستجو شهر، استان یا اقامتگاه"
-                      inputProps={{ "aria-label": "search" }}
-                      onChange={handleSearchChange}
-                    />
-                  </Search>
+                  <Box>
+                    <Search onClick={(e) => handleDateClick(e, "city")}>
+                      <SearchIconWrapper>
+                        <SearchIcon />
+                      </SearchIconWrapper>
+                      <StyledInputBase
+                        placeholder="جستجو شهر، استان یا اقامتگاه "
+                        inputProps={{
+                          "aria-label": "search",
+                          onChange: (e) => handleSearchCities(e.target.value),
+                        }}
+                      />
+                    </Search>
+                    {calendarAnchor && (
+                      <Box
+                        sx={{
+                          position: "absolute",
+                          top:
+                            calendarAnchor.getBoundingClientRect().bottom + 30,
+                          right:
+                            calendarAnchor.getBoundingClientRect().left - 10,
+                          // backgroundColor: "red",
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                          borderRadius: "8px",
+                          zIndex: 1000,
+                          width: "100%",
+                          px: 3,
+
+                          //   transform: `translate(${"50px"}, 0)`,
+                        }}
+                      >
+                        <SelectCity
+                          closePopup={() => setCalendarAnchor(null)}
+                          selectedCity={(item) => {
+                            handleSelectCity(item);
+                          }}
+                          objectOfLisDatas={objectOfLisDatas}
+                          loading={loadingSearchCitis}
+                          widthSize={"100%"}
+                          disableOnoutClose={true}
+                        />
+                      </Box>
+                    )}
+                  </Box>
                 </Grid>
               </Grid>
             </Toolbar>

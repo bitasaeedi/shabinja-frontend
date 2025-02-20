@@ -13,10 +13,21 @@ import {
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import CommentCardOfStay from "../../../../../../components/Cards/CommentCardOfStay/CommentCardOfStay";
-const PopOverShowComments = ({ anchorEl, handleClosePopover }) => {
+import { HostTourSearchCommentApi } from "../../../../../../api/toureApis";
+const PopOverShowComments = ({ anchorEl, handleClosePopover, stayId }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
+  const [commentsList, setCommentsList] = useState([]);
 
+  useEffect(() => {
+    handleGetComments();
+  }, [stayId]);
+
+  const handleGetComments = async () => {
+    const result = await HostTourSearchCommentApi(stayId);
+    // console.log(result?.data, "result?.data?.items ");
+    setCommentsList(result?.data?.items || []);
+  };
   return isMobile ? (
     <SwipeableDrawer
       anchor="bottom"
@@ -61,9 +72,13 @@ const PopOverShowComments = ({ anchorEl, handleClosePopover }) => {
         }}
       >
         <Grid container spacing={1}>
-          {[1, 2, 3, 4, 5, 6].map((item, index) => (
+          {commentsList.map((item, index) => (
             <Grid item xs={12} md={6} key={index}>
-              <CommentCardOfStay showReplyes={true} item={item} index={index} />
+              <CommentCardOfStay
+                // showReplyes={true}
+                comment={item}
+                index={index}
+              />
             </Grid>
           ))}
         </Grid>
@@ -99,6 +114,7 @@ const PopOverShowComments = ({ anchorEl, handleClosePopover }) => {
           //   maxHeight: "93vh",
           mx: "auto",
           pb: 2,
+          minWidth: 600,
         },
       }}
     >
@@ -129,9 +145,13 @@ const PopOverShowComments = ({ anchorEl, handleClosePopover }) => {
           mt: 2,
         }}
       >
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item, index) => (
+        {commentsList.map((item, index) => (
           <Grid item xs={12} md={12} key={index}>
-            <CommentCardOfStay showReplyes={true} item={item} index={index} />
+            <CommentCardOfStay
+              // showReplyes={true}
+              comment={item}
+              index={index}
+            />
           </Grid>
         ))}
       </Grid>

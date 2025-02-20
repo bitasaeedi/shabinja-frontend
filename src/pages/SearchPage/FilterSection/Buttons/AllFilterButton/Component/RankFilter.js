@@ -5,6 +5,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import { Typography } from "@mui/material";
 import StarOutlineIcon from "@mui/icons-material/StarOutline";
 import GradeOutlinedIcon from "@mui/icons-material/GradeOutlined";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useContext } from "react";
+import { PopVerFilterContext } from "../PopVerFilter";
 const filterOptions = [
   {
     value: "1-2",
@@ -56,13 +60,23 @@ const filterOptions = [
 ];
 
 export default function RankFilter() {
-  const [selectedFilters, setSelectedFilters] = React.useState([]);
+  const popVerFilterContext = useContext(PopVerFilterContext);
+  const [selectedFilters, setSelectedFilters] = useState([]);
+
+  useEffect(() => {
+    setSelectedFilters(popVerFilterContext.selectedListScore);
+  }, [popVerFilterContext.selectedListScore]);
 
   const handleFilterSelect = (filterValue) => {
     if (selectedFilters.includes(filterValue)) {
-      setSelectedFilters(selectedFilters.filter((f) => f !== filterValue));
+      popVerFilterContext.setSelectedListScore(
+        selectedFilters.filter((f) => f !== filterValue)
+      );
     } else {
-      setSelectedFilters([...selectedFilters, filterValue]);
+      popVerFilterContext.setSelectedListScore([
+        ...selectedFilters,
+        filterValue,
+      ]);
     }
   };
 

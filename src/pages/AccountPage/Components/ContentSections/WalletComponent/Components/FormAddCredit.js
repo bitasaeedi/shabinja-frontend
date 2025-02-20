@@ -49,7 +49,7 @@ const FormAddCredit = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container>
           <Grid item xs="12">
-            <Typography variant="h6">افزایش موجودی کیف پول</Typography>
+            <Typography variant="h6">افزایش/کاهش موجودی کیف پول</Typography>
             <Typography variant="body2" sx={{ fontSize: 13, mt: 1 }}>
               با شارژ موجودی حساب خود می‌توانید با سرعت و سهولت بیشتری خرید کنید
             </Typography>
@@ -134,21 +134,43 @@ const FormAddCredit = () => {
               )}
             />
           </Grid>
-          <Grid item xs="12" sx={{ mt: 4 }}>
+          <Grid item xs="12" md={6} sx={{ mt: 4 }}>
             <Button
               type="submit"
               variant="contained"
+              // color="black"
               sx={{
-                backgroundColor: "black",
-                color: "white",
                 width: "auto",
                 width: { xs: "100%", md: "auto" },
+                backgroundColor: "black",
+                color: "white",
               }}
               disabled={
                 parseInt(amount.replace(/,/g, "")) < 10000 || amount === ""
               } // Disable if less than 50,000 or empty
             >
               افزایش موجودی
+            </Button>
+          </Grid>
+          <Grid
+            item
+            xs="12"
+            md={6}
+            sx={{ mt: 4, display: "flex", justifyContent: "end" }}
+          >
+            <Button
+              // type="submit"
+              variant="text"
+              color="primary"
+              sx={{
+                width: { xs: "100%", md: "auto" },
+                // "&:hover": { backgroundColor: "black", color: "white" }, 
+              }}
+              disabled={
+                parseInt(amount.replace(/,/g, "")) < 10000 || amount === ""
+              } // Disable if less than 50,000 or empty
+            >
+              برداشت از حساب
             </Button>
           </Grid>
         </Grid>

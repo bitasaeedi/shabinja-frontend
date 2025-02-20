@@ -35,7 +35,7 @@ const MobileFooter = () => {
     {
       label: "پشتیبانی",
       icon: <HeadsetMicIcon fontSize="small" />,
-      action: () => navigate("/support"),
+      action: () => navigate("/account/support"),
       disabled: false,
       color: "primary.main",
     },
@@ -47,9 +47,17 @@ const MobileFooter = () => {
       color: "primary.main",
     },
     {
-      label: "پنل‌میزبان",
+      label:
+        appContext?.userInfo?.userIsHost && appContext?.isLoginMain
+          ? " پنل‌میزبان"
+          : "میزبان شو",
       icon: <ShoppingBag fontSize="small" />,
-      action: () => navigate("/pannel/menu"),
+      action: () =>
+        navigate(
+          appContext?.userInfo?.userIsHost && appContext?.isLoginMain
+            ? "/pannel/menu"
+            : "/new-stay/start"
+        ),
       disabled: false,
       color: "primary.main",
     },

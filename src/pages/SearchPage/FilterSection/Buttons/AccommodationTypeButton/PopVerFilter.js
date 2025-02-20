@@ -14,7 +14,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import ListCheckBox from "../AllFilterButton/Component/ListCheckBox";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import { GetTypeHostListApi } from "../../../../../api/toureApis";
-
+import { SearchPageContext } from "../../../SearchPage";
+import { useContext } from "react";
 const PopVerFilter = ({
   callBackFunc,
   anchorEl,
@@ -23,26 +24,29 @@ const PopVerFilter = ({
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
-
+  const searchPageContext = useContext(SearchPageContext);
   const [listTypeHost, setListTypeHost] = useState([]);
   const [selectedListTypeHost, setSelectedListTypeHost] = useState([]);
+
+  useEffect(() => {
+    setListTypeHost(searchPageContext?.resutSearchTours?.typeHosts || []);
+  }, [searchPageContext?.resutSearchTours?.typeHosts]);
 
   // دریافت لیست ها
   useEffect(() => {
     setSelectedListTypeHost([]);
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter = params.get("typeHost");
-    console.log(valueOfFilter, "valueOfFilter");
     var tyeHostList = valueOfFilter?.split(",") || [];
     setSelectedListTypeHost(tyeHostList);
 
-    handleGetTypeHostList();
+    // handleGetTypeHostList();
   }, [anchorEl]);
 
   // لیست نوع اقامتگاه
   const handleGetTypeHostList = async () => {
-    const myList = await GetTypeHostListApi();
-    setListTypeHost(myList.data || []);
+    const myList = await GetTypeHostListApi() || {};
+    setListTypeHost(myList?.data || []);
     return myList;
   };
 

@@ -2,10 +2,10 @@ import React from "react";
 import { Card, Avatar, Typography, Box } from "@mui/material";
 
 const CardComment = ({ centerItem }) => {
-  const widthSize = 250;
-  const widthSizeMobile = 200;
-  const heightSize = 200;
-  const heightSizeMobile = 170;
+  const widthSize = 180;
+  const widthSizeMobile = 150;
+  const heightSize = 140;
+  const heightSizeMobile = 140;
   return (
     <Box
       sx={{
@@ -48,7 +48,7 @@ const CardComment = ({ centerItem }) => {
           backgroundColor: "#fff",
           opacity: centerItem ? "1" : ".85",
           overflow: "visible",
-          px: 2,
+          px: 1,
           transition: "all 0.3s ease-in-out",
         }}
         className=" border border-muted"
@@ -67,8 +67,8 @@ const CardComment = ({ centerItem }) => {
             src="https://via.placeholder.com/100"
             alt="User Avatar"
             sx={{
-              width: { xs: 55, md: 70 },
-              height: { xs: 55, md: 70 },
+              width: { xs: 40, md: 50 },
+              height: { xs: 40, md: 50 },
               border: "4px solid #fff", // Add border to make it blend with the card
               boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Add shadow for emphasis
             }}
@@ -83,7 +83,7 @@ const CardComment = ({ centerItem }) => {
             color: "#333",
             mb: 1,
             mt: 5,
-            fontSize: "18px",
+            fontSize: { xs: 14, md: 14 },
           }}
         >
           پدرام محمدی
@@ -94,12 +94,12 @@ const CardComment = ({ centerItem }) => {
           variant="body1"
           sx={{
             color: "#555",
-            fontSize: { xs: 10, md: "13px" },
+            fontSize: { xs: 10, md: 11 },
             textAlign: "justify",
             // mt: 1,
-            fontWeight: "bold",
+            // fontWeight: "bold",
             display: "-webkit-box",
-            WebkitLineClamp: { xs: 4, md: 5 }, // Limit to 3 lines (adjust as needed)
+            WebkitLineClamp: { xs: 3, md: 3 }, // Limit to 3 lines (adjust as needed)
             WebkitBoxOrient: "vertical",
             overflow: "hidden",
             textOverflow: "ellipsis",

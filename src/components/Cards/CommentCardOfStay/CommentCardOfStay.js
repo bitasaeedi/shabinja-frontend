@@ -1,8 +1,21 @@
-import React from "react";
-import { Card, Avatar, Typography, Rating } from "@mui/material";
+import React, { useState } from "react";
+import { Card, Avatar, Typography, Rating, Skeleton } from "@mui/material";
 import { Box } from "@mui/system";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
-const CommentCardOfStay = ({ item, showReplyes, index }) => {
+const CommentCardOfStay = ({ comment, showReplyes, index }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // محاسبه چند روز قبل
+  const getDaysAgo = (dateString) => {
+    if (!dateString) return "نامشخص";
+    const createdDate = new Date(dateString);
+    const today = new Date();
+    const diffTime = Math.abs(today - createdDate);
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
+
   return (
     <Card
       sx={{
@@ -23,7 +36,21 @@ const CommentCardOfStay = ({ item, showReplyes, index }) => {
           justifyContent: "start",
         }}
       >
-        <Avatar sx={{ width: 45, height: 45, fontSize: 16 }}>ح</Avatar>
+        <Avatar
+          sx={{
+            width: 45,
+            height: 45,
+            fontSize: 16,
+          }}
+          src={
+            comment?.userImage?.url
+              ? DownloadImageApi(comment?.userImage?.url)
+              : undefined
+          }
+        >
+          {comment?.userFirstName?.[0] || "ی"}
+        </Avatar>
+
         <Box sx={{ flexGrow: 1 }}>
           <Typography
             variant="h6"
@@ -32,14 +59,16 @@ const CommentCardOfStay = ({ item, showReplyes, index }) => {
               fontSize: 14,
             }}
           >
-            حسین
+            {comment?.userFirstName || "بی‌نام"}
           </Typography>
           <Typography
             variant="body2"
             color="text.secondary"
             sx={{ mb: 1, fontSize: 12 }}
           >
-            اقامت 3 روز پیش
+            {comment?.created
+              ? `${getDaysAgo(comment.created)} روز قبل`
+              : "نامشخص"}
           </Typography>
         </Box>
       </Box>
@@ -56,18 +85,19 @@ const CommentCardOfStay = ({ item, showReplyes, index }) => {
         >
           <Rating
             name="read-only"
-            value={index + 1 || 5}
+            value={comment?.place}
             readOnly
             size="small"
             sx={{ mr: 1, color: index < 5 ? "gold" : "gold", fontSize: 14 }}
           />
-          <span>۱ شب اقامت در اقامتگاه</span>
+          <span>{comment?.servicelang} شب اقامت در اقامتگاه</span>
         </Typography>
         <Typography variant="body1" sx={{ fontSize: 13, mt: 2 }}>
-          فقط میتونم بگم یه کارت پستال بی نظیر بود. از میزبان بزرگوار بخاطر
+          {comment?.dics}
+          {/* فقط میتونم بگم یه کارت پستال بی نظیر بود. از میزبان بزرگوار بخاطر
           فراهم همچین ویلای بسیار تمیز و بی نظیری تشکر میکنم فقط .سیستم گرمایش
           مناسب نبود و فضا سرد بود سیستم tv مشکل داشت و تمیزی تختخواب قابل پسند
-          نبود
+          نبود */}
         </Typography>
       </Box>
 

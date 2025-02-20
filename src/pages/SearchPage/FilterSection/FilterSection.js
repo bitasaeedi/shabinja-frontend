@@ -7,11 +7,7 @@ import RentalRange from "./Buttons/RentalRange/RentalRange";
 import AccommodationTypeButton from "./Buttons/AccommodationTypeButton/AccommodationTypeButton";
 import AllFilterButton from "./Buttons/AllFilterButton/AllFilterButton";
 import LocationFilterButton from "./Buttons/LocationFilterButton/LocationFilterButton";
-// import FeutersButtonFilter from "./Buttons/FeutersButtonFilter/FeutersButtonFilter";
-// import EmkanatFilterButtons from "./Buttons/EmkanatFilterButtons/EmkanatFilterButtons";
-// import RoomsFilterButton from "./Buttons/RoomsFilterButton/RoomsFilterButton";
-// import RullesButtonFilter from "./Buttons/RullesButtonFilter/RullesButtonFilter";
-// import TypeEjarehFilter from "./Buttons/TypeEjarehFilter/TypeEjarehFilter";
+
 
 const FilterSection = () => {
   const buttonComponents = [
@@ -22,11 +18,6 @@ const FilterSection = () => {
     <LocationFilterButton />,
     <AccommodationTypeButton />,
    
-    // <FeutersButtonFilter />,
-    // <EmkanatFilterButtons />,
-    // <RoomsFilterButton />,
-    // <RullesButtonFilter />,
-    // <TypeEjarehFilter />,
   ];
   return (
     <Box

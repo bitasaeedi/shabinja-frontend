@@ -65,7 +65,7 @@ const CardImage = ({ myData = {} }) => {
           image={DownloadImageApi(myData?.file?.url)} // Use the randomly selected image
           // alt={myData?.title}
           onLoad={handleImageLoad}
-          // loading="lazy"
+          loading="lazy"
           style={{ display: isImageLoaded ? "block" : "none" }}
         />
       )}

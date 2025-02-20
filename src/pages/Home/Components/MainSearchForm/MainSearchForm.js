@@ -19,12 +19,11 @@ import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
 import SelectCity from "../../../../components/popups/SelectCity/SelectCity";
 import { HostTourSearchTitleApi } from "../../../../api/toureApis";
 import { useNavigate } from "react-router-dom";
-import { getValue } from "@testing-library/user-event/dist/utils";
-const cities = [
-  { id: 1, name: "تهران" },
-  { id: 2, name: "مشهد" },
-  { id: 3, name: "اصفهان" },
-];
+import DesctopSelectDate from "./DesctopSelectDate";
+import {
+  GetMiladiStdFunc,
+  GetShamsiDateDetails,
+} from "../../../../components/DateFunctions/DateFunctions";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -108,9 +107,6 @@ const MainSearchForm = () => {
     return () => clearInterval(interval);
   }, [texts.length]);
 
-  useEffect(() => {
-    // handleSearchCities("");
-  }, []);
 
   const onSubmit = (data) => {
     if (selectedCity.titleEn) {
@@ -154,19 +150,38 @@ const MainSearchForm = () => {
     setCurrentField(field);
   };
 
-  const handleDateSelect = (selectedDate) => {
-    setValue(currentField, selectedDate?.shamsiObj.fullshamsi);
-    setCalendarAnchor(null); // Close calendar after selecting
-
-    if (currentField === "entryDate") {
-      console.log(currentField, "currentField");
-      const exitDateInput = document.querySelector('input[name="exitDate"]');
-      exitDateInput.click();
+  const handleDateSelect = (value) => {
+    if (Array.isArray(value)) {
+      const list = value.map((date) => {
+        const miladi = GetMiladiStdFunc(new Date(date.toJSON()));
+        return {
+          miladi,
+          shamsiObj: GetShamsiDateDetails(miladi),
+        };
+      });
+      handleSetDates(list);
+    } else {
+      // console.log(value.toObject(), "calendar normal");
     }
   };
 
+  const handleSetDates = (list) => {
+    if (list.length === 1) {
+      setValue("entryDate", list[0]?.shamsiObj?.fullshamsi);
+      setValue("exitDate", "");
+      const exitDateInput = document.querySelector('input[name="exitDate"]');
+      exitDateInput.focus(); // Focus on the exit date input
+      exitDateInput.click();
+    } else if (list.length > 1) {
+      setValue("entryDate", list[0]?.shamsiObj?.fullshamsi);
+      setValue("exitDate", list[1]?.shamsiObj?.fullshamsi);
+      setCalendarAnchor(null);
+      const pepoleInput = document.querySelector('input[name="peopleCount"]');
+      pepoleInput.focus(); // Focus on the exit date input
+      pepoleInput.click();
+    }
+  };
   const handleSearchCities = async (textToSearch) => {
-    console.log(textToSearch, "textToSearch");
     setSelectedCity({});
     if (textToSearch.length >= 3 || textToSearch.length == 0) {
       setLoadingSearchCitis(true);
@@ -443,15 +458,26 @@ const MainSearchForm = () => {
                         setValue("city", item?.title);
                         setSelectedCity(item);
                         setCalendarAnchor(null);
+                        const pepoleInput = document.querySelector(
+                          'input[name="entryDate"]'
+                        );
+                        pepoleInput.focus(); // Focus on the exit date input
+                        pepoleInput.click();
                       }}
                       objectOfLisDatas={objectOfLisDatas}
                       loading={loadingSearchCitis}
                     />
                   ) : (
-                    <FormDate
-                      returnDate={handleDateSelect}
-                      closePopup={() => setCalendarAnchor(null)}
+                    <DesctopSelectDate
+                      anchorEl={calendarAnchor}
+                      handleClosePopover={() => setCalendarAnchor(null)}
+                      onChange={handleDateSelect}
+                      values={[watch("entryDate"), watch("exitDate")]}
                     />
+                    // <FormDate
+                    //   returnDate={handleDateSelect}
+                    //   closePopup={() => setCalendarAnchor(null)}
+                    // />
                   )}
                   {/*  */}
                 </Box>

@@ -17,6 +17,7 @@ import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import EventNoteOutlinedIcon from "@mui/icons-material/EventNoteOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RemoveStorageLogin from "../../../../components/RemoveStorageLogin/RemoveStorageLogin";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import { AppContext } from "../../../../App";
 const MenuSection = () => {
   const { section } = useParams();
@@ -26,20 +27,39 @@ const MenuSection = () => {
     {
       label: "حساب کاربری",
       path: "profile",
+      pannel: true,
       icon: <AccountCircleOutlinedIcon />,
     },
     {
       label: "رزرو‌ها",
       path: "reservations",
+      pannel: true,
       icon: <EventNoteOutlinedIcon />, // Represents schedules or events
     },
     {
       label: "پسندها",
       path: "favorites",
+      pannel: true,
       icon: <FavoriteBorderOutlinedIcon />,
     },
-    { label: "کیف پول", path: "wallet", icon: <WalletOutlinedIcon /> },
-    { label: "پشتیبانی", path: "support", icon: <HeadsetMicIcon /> },
+    {
+      label: "کیف پول",
+      pannel: true,
+      path: "wallet",
+      icon: <WalletOutlinedIcon />,
+    },
+    {
+      label: "سوالات متداول", // Help
+      path: "help",
+      pannel: false,
+      icon: <HelpOutlineOutlinedIcon />,
+    },
+    {
+      label: "پشتیبانی",
+      pannel: true,
+      path: "support",
+      icon: <HeadsetMicIcon />,
+    },
   ];
 
   const handleLogout = () => {
@@ -112,7 +132,8 @@ const MenuSection = () => {
             button
             key={item.path}
             component={Link}
-            to={`/account/${item.path}`}
+            // to={`/account/${item.path}`}
+            to={item?.pannel ? `/account/${item.path}` : `/${item.path}`}
             sx={{
               py: 1.5,
               px: 3,
@@ -165,8 +186,6 @@ const MenuSection = () => {
           <ListItemText primary={" خروج از حساب کاربری"} />
         </ListItem>
       </List>
-
-  
     </Box>
   );
 };

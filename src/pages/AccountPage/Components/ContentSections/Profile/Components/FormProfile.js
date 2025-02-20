@@ -11,7 +11,11 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import UploadIcon from "@mui/icons-material/Upload";
 import ClearIcon from "@mui/icons-material/Clear";
-import { UserSearchOneApi } from "../../../../../../api/Users.api";
+import {
+  UserSearchOneApi,
+  UserUpdateApi,
+} from "../../../../../../api/Users.api";
+import { GetShamsiDateDetails } from "../../../../../../components/DateFunctions/DateFunctions";
 
 const FormProfile = () => {
   const [profileImage, setProfileImage] = useState(null);
@@ -33,19 +37,34 @@ const FormProfile = () => {
     handleSubmit,
     formState: { errors },
     setValue,
-  } = useForm({ defaultValues });
+  } = useForm({});
 
   useEffect(() => {
     // Set default values on component mount
-    for (let key in defaultValues) {
-      setValue(key, defaultValues[key]);
-    }
+
     handleGetUserInfo();
-  }, [setValue]);
+  }, []);
 
   const handleGetUserInfo = async () => {
-    const userData = await UserSearchOneApi();
-    console.log("userData", userData);
+    try {
+      const userData = await UserSearchOneApi();
+      console.log(userData, "userData");
+      const profile = userData?.data;
+      if (profile) {
+        const shamsiObject = GetShamsiDateDetails(profile.birthDay);
+        setValue("name", profile.firstName || "");
+        setValue("lastName", profile.lastName || "");
+        setValue("nation", profile.nationalCode || "");
+        setValue("sms", profile.mobile || "");
+        setValue("email", profile.email || "");
+        setValue("birthday", shamsiObject?.fullshamsi || "");
+        setValue("aboutMe", profile.aboutMe || ""); // If `aboutMe` exists
+        setValue("password", profile.password || "");
+        setValue("passwordrepeat", profile.password || "");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -59,23 +78,33 @@ const FormProfile = () => {
     if (profileImage) {
       const formData = new FormData();
       formData.append("profileImage", profileImage);
-
-      try {
-        // Replace with your API endpoint
-        const response = await fetch("/api/upload-profile-image", {
-          method: "POST",
-          body: formData,
-        });
-        const result = await response.json();
-        console.log(result);
-      } catch (error) {
-        console.error("Error uploading image:", error);
-      }
     }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    const myData = {
+      // sex: data?.sex,
+      firstName: data?.name,
+      lastName: data?.lastName,
+      // userName: data?.userName,
+      // password: data?.password,
+      nationalCode: data?.nation,
+      // zipCode: data?.zipCode,
+      // fatherName: data?.fatherName,
+      // phone: data?.phone,
+      mobile: data?.sms,
+      email: data?.email,
+      birthDay: data?.birthday, // شمسی
+      // address: data?.address,
+      // certificateId: data?.certificateId,
+      // cityId: data?.cityId,
+      // methodOfIntroduction: data?.methodOfIntroduction,
+    };
+
+    console.log(data, "onSubmit", myData);
+    const result = await UserUpdateApi(myData);
+    handleGetUserInfo();
+    console.log("result update:", result);
   };
 
   return (
@@ -123,7 +152,7 @@ const FormProfile = () => {
               >
                 <Avatar
                   sx={{
-                    background: 'linear-gradient(135deg, #287dfa, #6a11cb)',
+                    background: "linear-gradient(135deg, #287dfa, #6a11cb)",
                   }}
                   src={profileImage ? profileImage : ""}
                 >
@@ -182,10 +211,13 @@ const FormProfile = () => {
               <TextField
                 label="نام"
                 fullWidth
-                {...register("name", { required: "نام الزامی است" })}
+                {...register("name", {
+                  // required: "نام الزامی است"
+                })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
                 size="small"
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -195,8 +227,9 @@ const FormProfile = () => {
                 label="نام خانوادگی"
                 fullWidth
                 {...register("lastName", {
-                  required: "نام خانوادگی الزامی است",
+                  // required: "نام خانوادگی الزامی است",
                 })}
+                InputLabelProps={{ shrink: true }}
                 error={!!errors.lastName}
                 helperText={errors.lastName?.message}
                 size="small"
@@ -208,10 +241,13 @@ const FormProfile = () => {
               <TextField
                 label="کد ملی"
                 fullWidth
-                {...register("nation", { required: "کد ملی الزامی است" })}
+                {...register("nation", {
+                  // required: "کد ملی الزامی است"
+                })}
                 error={!!errors.nation}
                 helperText={errors.nation?.message}
                 size="small"
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -220,11 +256,14 @@ const FormProfile = () => {
               <TextField
                 label="شماره موبایل"
                 fullWidth
-                {...register("sms", { required: "شماره موبایل الزامی است" })}
+                {...register("sms", {
+                  // required: "شماره موبایل الزامی است"
+                })}
                 error={!!errors.sms}
                 helperText={errors.sms?.message}
                 size="small"
-                disabled
+                InputLabelProps={{ shrink: true }}
+                // disabled
               />
             </Grid>
 
@@ -233,9 +272,12 @@ const FormProfile = () => {
               <TextField
                 label="ایمیل"
                 fullWidth
-                {...register("email", { required: "ایمیل الزامی است" })}
+                {...register("email", {
+                  // required: "ایمیل الزامی است"
+                })}
                 error={!!errors.email}
                 helperText={errors.email?.message}
+                InputLabelProps={{ shrink: true }}
                 size="small"
               />
             </Grid>
@@ -245,9 +287,12 @@ const FormProfile = () => {
               <TextField
                 label="تاریخ تولد"
                 fullWidth
-                {...register("birthday", { required: "تاریخ تولد الزامی است" })}
+                {...register("birthday", {
+                  //  required: "تاریخ تولد الزامی است"
+                })}
                 error={!!errors.birthday}
                 helperText={errors.birthday?.message}
+                InputLabelProps={{ shrink: true }}
                 size="small"
               />
             </Grid>
@@ -257,11 +302,14 @@ const FormProfile = () => {
               <TextField
                 label="رمز عبور"
                 fullWidth
-                {...register("password", { required: "  الزامی است" })}
+                {...register("password", {
+                  //  required: "  الزامی است"
+                })}
                 error={!!errors.password}
                 helperText={errors.password?.message}
                 size="small"
                 type={"password"}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -270,11 +318,14 @@ const FormProfile = () => {
               <TextField
                 label="تکرار رمز عبور"
                 fullWidth
-                {...register("passwordrepeat", { required: " الزامی است" })}
+                {...register("passwordrepeat", {
+                  // required: " الزامی است"
+                })}
                 error={!!errors.passwordrepeat}
                 helperText={errors.passwordrepeat?.message}
                 size="small"
                 type={"password"}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -287,6 +338,7 @@ const FormProfile = () => {
                 size="small"
                 multiline
                 rows={4}
+                InputLabelProps={{ shrink: true }}
               />
             </Grid>
 
@@ -310,7 +362,7 @@ const FormProfile = () => {
               >
                 ثبت اطلاعات
               </Button>
-              <Button
+              {/* <Button
                 variant="contained"
                 // color="secondary"
                 sx={{
@@ -321,7 +373,7 @@ const FormProfile = () => {
                 }}
               >
                 انصراف
-              </Button>
+              </Button> */}
             </Grid>
           </Grid>
         </form>

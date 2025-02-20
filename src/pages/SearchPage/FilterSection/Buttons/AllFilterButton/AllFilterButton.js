@@ -86,14 +86,14 @@ const AllFilterButton = ({}) => {
       </Button>
 
       {/* Popover */}
-      {/* {Boolean(anchorEl) && ( */}
+      {Boolean(anchorEl) && (
         <PopVerFilter
           callBackFunc={handleSetSearch}
           defaultCount={parseFloat(valueOfFilter)}
           anchorEl={anchorEl}
           handleClosePopover={handleClosePopover}
         />
-      {/* )} */}
+      )}
     </>
   );
 };

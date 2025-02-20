@@ -54,11 +54,11 @@ const TitleStay = () => {
         color="text.secondary"
         sx={{ marginBottom: 2 }}
       >
-        {`${stayPageContext?.infoOfStay?.accerss || ""}، ${
+        {/* {`${stayPageContext?.infoOfStay?.accerss || ""}، ${
           stayPageContext?.infoOfStay?.room || ""
         } اتاق، ${stayPageContext?.infoOfStay?.minCapacity || ""}تا${
           stayPageContext?.infoOfStay?.maxCapacity || ""
-        } نفر`}
+        } نفر`} */}
       </Typography>
     </Box>
   );

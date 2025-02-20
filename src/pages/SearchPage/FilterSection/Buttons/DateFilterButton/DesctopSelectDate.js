@@ -5,6 +5,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import weekends from "react-multi-date-picker/plugins/highlight_weekends";
 import transition from "react-element-popper/animations/transition";
 import {
+  ConvertShamsiToMiladi,
   GetMiladiStdFunc,
   GetShamsiDateDetails,
 } from "../../../../../components/DateFunctions/DateFunctions";
@@ -63,8 +64,13 @@ const DesctopSelectDate = ({
       weekDays={weekDays}
       mapDays={({ date, today, selectedDate, isSameDate }) => {
         let isWeekend = date.weekDay.index === 6;
+        let isSmallerThenStart =
+          values[0] &&
+          GetMiladiStdFunc(date.toJSON()) <
+            GetMiladiStdFunc(ConvertShamsiToMiladi(values[0]));
         var isDisabled =
-          GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON());
+          GetMiladiStdFunc(date.toJSON()) < GetMiladiStdFunc(today.toJSON()) ||
+          isSmallerThenStart;
         if (isWeekend) {
           return {
             disabled: isDisabled ? true : false,

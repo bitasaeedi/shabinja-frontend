@@ -14,81 +14,44 @@ import ToRial from "../../ToRial/ToRial";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
-const baseUrl = API_URL;
+import ImageOfCard from "./ImageOfCard";
+import SliderDetailsPage from "../../Sliders/SliderCards";
 const HomeCard = ({ myData = {} }) => {
-  // List of image URLs
-  // State to manage image loading
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-
-  const images = [
-    "https://cdn.jabama.com/image/383x240/jabama-images/959393/da0cea0a-c9e5-4e37-aa9a-10a106133f86.jpg",
-    "https://cdn.jabama.com/image/890x492/jabama-images/2056939/6bd7c426-8583-47cd-b067-25948bf780e0.png",
-    "https://cdn.jabama.com/image/383x240/jabama-images/2056939/e6261ca3-ed5c-4f5e-8dff-6988c23d049a.jpg",
-    "https://cdn.jabama.com/image/890x492/jabama-images/1737810/be45c5c1-084b-4945-aae1-8ed16ed90e78.jpg",
-    "https://cdn.jabama.com/image/890x492/jabama-images/1494419/b27a2b5c-bc4a-4450-84a6-ded952b22ccb.jpeg",
-    "https://cdn.jabama.com/image/383x240/jabama-images/1494419/ba770497-03c7-4f86-b7c1-9871da849437.jpeg",
-  ];
-
-  // // Function to randomly select an image
-  const randomImage = images[Math.floor(Math.random() * images.length)];
-
-  const handleImageLoad = () => {
-    setIsImageLoaded(true);
-  };
-
-  useEffect(() => {
-    // console.log(myData, "myData");
-  }, []);
-
   return (
     <Box className=" w-auto pb-0 mb-0">
-      <Link
-        to={`/stay/${myData?.id}`}
-        style={{ textDecoration: "none", display: "block", width: "100%" }}
+      <Card
+        sx={{
+          width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
+          borderRadius: 3,
+          // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          boxShadow: "none !important",
+          overflow: "hidden",
+          direction: "rtl",
+          pb: 0,
+          mb: 1,
+          backgroundColor: "transparent",
+        }}
+        // className="border"
       >
-        <Card
-          sx={{
-            width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
-            borderRadius: 3,
-            // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-            boxShadow: "none !important",
-            overflow: "hidden",
-            direction: "rtl",
-            pb: 0,
-            mb: 1,
-            backgroundColor: "transparent",
-          }}
-          // className="border"
+        <SliderDetailsPage
+          lists={myData?.images.map((item) => ({
+            url: item,
+            title: item,
+          }))}
         >
-          {/* Image with Skeleton loader */}
-          {isImageLoaded != true && (
-            <Skeleton
-              variant="rectangular"
-              width="100%"
-              sx={{
-                height: { xs: 155, sm: 155, md: 195 },
-              }}
-            />
-          )}
+          <ImageOfCard />
+        </SliderDetailsPage>
 
-          <CardMedia
-            component="img"
-            sx={{
-              height: { xs: 155, sm: 155, md: 195 },
-              objectFit: "cover",
-              borderRadius: "0px 0px 10px 10px",
-            }}
-            // `${baseUrl}${myData?.image}`
-            image={
-              myData?.image ? DownloadImageApi(myData?.image) : randomImage
-            } // Use the randomly selected image
-            alt={myData?.title}
-            onLoad={handleImageLoad}
-            // loading="lazy"
-            style={{ display: isImageLoaded ? "block" : "none" }}
-          />
-
-          {/* Card Content */}
+        {/* Card Content */}
+        <Link
+          to={`/stay/${myData?.id}`}
+          style={{
+            textDecoration: "none",
+            display: "block",
+            width: "100%",
+            color: "inherit",
+          }}
+        >
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}
             <Box
@@ -235,8 +198,8 @@ const HomeCard = ({ myData = {} }) => {
             /> */}
             </Box>
           </CardContent>
-        </Card>
-      </Link>
+        </Link>
+      </Card>
     </Box>
   );
 };

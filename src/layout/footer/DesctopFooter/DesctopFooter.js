@@ -13,6 +13,7 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import XIcon from "@mui/icons-material/X";
 import { Link } from "react-router-dom";
 import logo_with_name from "../../../images/shabinja_logo_with_name.png";
+import logo_with_name_white from "../../../images/shabinja_logo_with_name_white.png";
 const DesctopFooter = () => {
   return (
     <Box
@@ -30,72 +31,81 @@ const DesctopFooter = () => {
         {/* Logo and Quick Links Section */}
 
         <Grid container spacing={2}>
-          {/* About Us */}
-          <Grid item xs={12} md={4}>
-            <Box
-              sx={{ display: "flex" }}
-              justifyContent="flex-start"
-              alignItems="center"
-              mb={2}
-              mt={1}
+          <Grid item xs={6} md={2}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                // color: "#0d47a1",
+                textAlign: { xs: "start", md: "center" },
+              }}
             >
-              {/* Logo Section */}
-              <Link to="/">
-                <Box
-                  className="mx-0 px-0"
-                  component="img"
-                  src={logo_with_name}
-                  alt="Shabinja Logo"
-                  sx={{
-                    maxWidth: { xs: 100, md: 140 }, // Controls the max width of the image
-                    width: "auto", // Ensures the width scales proportionally
-                    height: "auto", // Keeps the height proportional to the width
-                    objectFit: "contain", // Makes sure the image fits inside the container without distortion
-                    cursor: "pointer",
-                  }}
-                />
-              </Link>
-            </Box>
-            <Box textAlign="center" mt={4}>
-              <Typography
-                variant="h6"
-                fontWeight="bold"
-                gutterBottom
-                sx={{ color: "#0d47a1" }}
-              >
-                ما را در شبکه‌های اجتماعی دنبال کنید
-              </Typography>
-              <Box>
-                <IconButton
-                  to="/"
-                  sx={{ color: "#d32f2f" }}
-                  aria-label="Instagram"
-                >
-                  <InstagramIcon />
-                </IconButton>
-                <IconButton
-                  to="/"
-                  sx={{ color: "#03a9f4" }}
-                  aria-label="Telegram"
-                >
-                  <TelegramIcon />
-                </IconButton>
-                <IconButton to="/" sx={{ color: "black" }} aria-label="X">
-                  {/* //1da1f2 */}
-                  <XIcon />
-                </IconButton>
-              </Box>
+              ویلاهای شمال
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "space-between", md: "space-around" },
+              }}
+            >
+              <Stack spacing={1}>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+              </Stack>
             </Box>
           </Grid>
-
-          {/* FAQ Section */}
+          <Grid item xs={6} md={2}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                // color: "#0d47a1",
+                textAlign: { xs: "end", md: "center" },
+              }}
+            >
+              ویلاهای جنوب
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: { xs: "flex-end", md: "space-around" },
+              }}
+            >
+              <Stack spacing={1}>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
+                </Link>
+              </Stack>
+            </Box>
+          </Grid>
           <Grid item xs={12} md={4}>
             <Typography
               variant="h6"
               fontWeight="bold"
               gutterBottom
               sx={{
-                color: "#0d47a1",
+                // color: "#0d47a1",
                 textAlign: { xs: "start", md: "center" },
               }}
             >
@@ -109,31 +119,47 @@ const DesctopFooter = () => {
             >
               <Stack spacing={1}>
                 <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>شیوه‌های پرداخت امن</Typography>
+                  <Typography sx={{ textAlign: "center" }}>
+                    شیوه‌های پرداخت امن
+                  </Typography>
                 </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>سوالات متداول مسافران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>تماس با پشتیبانی</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>قوانین و مقررات</Typography>
-                </Link>
-              </Stack>
-              <Stack spacing={1} sx={{}}>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>صفحه اصلی</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>رزرو اقامتگاه</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>تماس با ما</Typography>
+                <Link to="/help" className="react-router-link">
+                  <Typography sx={{ textAlign: "center" }}>
+                    سوالات متداول مسافران
+                  </Typography>
                 </Link>
 
+                <Link to="/rules" className="react-router-link">
+                  <Typography sx={{ textAlign: "center" }}>
+                    قوانین و مقررات
+                  </Typography>
+                </Link>
                 <Link to="/" className="react-router-link">
-                  <Typography sx={{}}>مجله شبینجا</Typography>
+                  <Typography sx={{ textAlign: "center" }}>
+                    رزرو اقامتگاه
+                  </Typography>
+                </Link>
+              </Stack>
+              <Stack spacing={1} sx={{ textAlign: "center" }}>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{ textAlign: "center" }}>
+                    صفحه اصلی
+                  </Typography>
+                </Link>
+                <Link to="/" className="react-router-link">
+                  <Typography sx={{ textAlign: "center" }}>
+                    مجله شبینجا
+                  </Typography>
+                </Link>
+                <Link to="/about" className="react-router-link">
+                  <Typography sx={{ textAlign: "center" }}>
+                    درباره ما
+                  </Typography>
+                </Link>
+                <Link to="/contact" className="react-router-link">
+                  <Typography sx={{ textAlign: "center" }}>
+                    تماس با ما
+                  </Typography>
                 </Link>
               </Stack>
             </Box>
@@ -145,13 +171,13 @@ const DesctopFooter = () => {
               fontWeight="bold"
               gutterBottom
               sx={{
-                color: "#0d47a1",
+                // color: "#0d47a1",
                 textAlign: { xs: "start", md: "center" },
               }}
             >
-              مجوزها و نمادها
+              به ما اعتماد کنید
             </Typography>
-            <Box display="flex" gap={2}>
+            <Box display="flex" gap={2} sx={{ height: 115 }}>
               <Box
                 sx={{
                   backgroundColor: "#e3f2fd",
@@ -180,10 +206,7 @@ const DesctopFooter = () => {
                 </Typography>
                 <Typography variant="caption">الکترونیکی</Typography>
               </Box>
-            </Box>
 
-            {/* sxv n,l  */}
-            <Box display="flex" mt={1} gap={2}>
               <Box
                 sx={{
                   backgroundColor: "#e3f2fd",
@@ -197,63 +220,194 @@ const DesctopFooter = () => {
                   مجوز کشوری
                 </Typography>
                 <Typography variant="caption">کسب و کار مجازی</Typography>
-              </Box>
-              <Box
-                sx={{
-                  backgroundColor: "#fce4ec",
-                  borderRadius: 1,
-                  p: 2,
-                  textAlign: "center",
-                  flex: 1,
-                }}
-              >
-                <Typography variant="body2" fontWeight="bold">
-                  نماد اعتماد
-                </Typography>
-                <Typography variant="caption">الکترونیکی</Typography>
               </Box>
             </Box>
           </Grid>
         </Grid>
 
+        {/* لوگو و شبکه ها */}
         <Box
-          mt={6}
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            mt: 2,
+            alignItems: "center",
+            backgroundColor: "#0d47a1",
+            p: 2,
+            borderRadius: 3,
+            mx: 0,
+            flexDirection: { xs: "column", md: "row" }, // Stack vertically on small screens, row on medium and larger screens
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              mb: { xs: 2, md: 0 }, // Add margin bottom on small screens, remove on medium and larger screens
+            }}
+          >
+            <Link to="/">
+              <Box
+                component="img"
+                src={logo_with_name_white}
+                alt="Shabinja Logo"
+                sx={{
+                  maxWidth: { xs: 100, md: 120 },
+                  width: "auto",
+                  height: "auto",
+                  objectFit: "contain",
+                  cursor: "pointer",
+                }}
+              />
+            </Link>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              flexDirection: { xs: "column", md: "row" }, // Stack vertically on small screens, row on medium and larger screens
+              textAlign: { xs: "center", md: "left" }, // Center text on small screens, left align on medium and larger screens
+            }}
+          >
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              gutterBottom
+              sx={{
+                color: "#fff",
+                mt: 1,
+                mr: { xs: 0, md: 2 }, // Remove margin right on small screens, add on medium and larger screens
+                mb: { xs: 2, md: 0 }, // Add margin bottom on small screens, remove on medium and larger screens
+              }}
+            >
+              ما را در شبکه‌های اجتماعی دنبال کنید
+            </Typography>
+            <Box>
+              <IconButton
+                to="/"
+                sx={{ color: "#d32f2f", backgroundColor: "#fff" }}
+                aria-label="Instagram"
+              >
+                <InstagramIcon />
+              </IconButton>
+              <IconButton
+                to="/"
+                sx={{ color: "#03a9f4", backgroundColor: "#fff", mx: 1 }}
+                aria-label="Telegram"
+              >
+                <TelegramIcon />
+              </IconButton>
+              <IconButton
+                to="/"
+                sx={{ color: "black", backgroundColor: "#fff" }}
+                aria-label="X"
+              >
+                <XIcon />
+              </IconButton>
+            </Box>
+          </Box>
+        </Box>
+
+        <Box
+          mt={1}
           pt={3}
-          borderTop="1px solid #ddd"
+          // borderTop="1px solid #ddd"
           textAlign="center"
           color="textSecondary"
           sx={{ pb: { xs: 5, md: 0 } }}
         >
           <Grid container>
-            <Grid xs={12} md={4}>
-              <Typography variant="body2" sx={{ mb: 1, fontWeight: "bold" }}>
-                تیم شبینجا به صورت ۲۴ ساعته آماده پاسخگویی به سوالات شما است.
-              </Typography>
-            </Grid>
-            <Grid xs={12} md={4} className="d-flex justify-content-around">
-              <Typography variant="body2">
-                شماره پشتیبانی:{" "}
-                <strong dir="ltr" className="mx-1">
+            {/* تلفن */}
+            <Grid item xs={12} md={4} sx={{}}>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    // color: "#0d47a1",
+                    textAlign: { xs: "start", md: "center" },
+                    fontSize: 16,
+                  }}
+                >
+                  تلفن پشتیبانی :{" "}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    color: "#0d47a1",
+                    textAlign: { xs: "start", md: "center" },
+                    fontSize: 16,
+                    ml: 1,
+                  }}
+                >
                   021-12345678
-                </strong>
-              </Typography>
-              <Typography variant="body2">
-                فکس :{" "}
-                <strong dir="ltr" className="mx-1">
-                  021-12345678
-                </strong>
-              </Typography>
+                </Typography>
+              </Box>
             </Grid>
-            <Grid xs={12} md={4} sx={{}}>
-              <Typography
-                variant="body2"
-                sx={{ textAlign: { sx: "start", md: "center" } }}
-              >
-                ایمیل :{" "}
-                <strong className="mx-1" dir="ltr">
+
+            {/* ایمیل */}
+            <Grid item xs={12} md={4} sx={{}}>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    // color: "#0d47a1",
+                    textAlign: { xs: "start", md: "center" },
+                    fontSize: 16,
+                  }}
+                >
+                  ایمیل:
+                </Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    color: "#0d47a1",
+                    textAlign: { xs: "start", md: "center" },
+                    fontSize: 16,
+                    ml: 1,
+                  }}
+                >
                   support@shabinja.com
-                </strong>
-              </Typography>
+                </Typography>
+              </Box>
+            </Grid>
+            {/* کد پستی */}
+            <Grid item xs={12} md={4} sx={{}}>
+              <Box sx={{ display: "flex", justifyContent: "center" }}>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    // color: "#0d47a1",
+                    textAlign: { xs: "start", md: "center" },
+                    fontSize: 16,
+                  }}
+                >
+                  کدپستی :{" "}
+                </Typography>
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  gutterBottom
+                  sx={{
+                    color: "#0d47a1",
+                    textAlign: { xs: "start", md: "center" },
+                    fontSize: 16,
+                    ml: 1,
+                  }}
+                >
+                  021-12345678
+                </Typography>
+              </Box>
             </Grid>
           </Grid>
         </Box>
