@@ -7,7 +7,7 @@ const baseUrl = API_URL;
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
   try {
-    console.log(searchData , "searchData HostTourSearchApi")
+    console.log(searchData, "searchData HostTourSearchApi");
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
@@ -28,7 +28,7 @@ export const HostTourSearchApi = async (searchData) => {
         RolItemTourId: [],
         OtherItemTourId: [],
         AccommodationSpace: [],
-
+        Locations: searchData?.locations || [],
         Rate: searchData?.rate || [],
         TypeHost: searchData?.typeHost || [], // نوع اقامتگاه
         TypeHostLoc: searchData?.typeHostLoc || [],

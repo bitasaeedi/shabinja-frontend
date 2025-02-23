@@ -17,6 +17,7 @@ export const SpaceStay = () => {
   }
 
   const fontSizeText = 15;
+  const fontSizeTextxs = 13;
   return (
     <Box>
       <Divider sx={{ my: 2, bgcolor: "#ddd" }} />
@@ -26,7 +27,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             ظرفیت استاندارد:
@@ -34,7 +35,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -46,7 +47,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             حداکثر ظرفیت :
@@ -54,7 +55,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -66,7 +67,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             متراژ زیربنا :
@@ -74,7 +75,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -86,7 +87,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             متراژ محوطه :
@@ -94,7 +95,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -106,7 +107,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             نوع اقامتگاه :
@@ -114,7 +115,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -126,7 +127,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             منطقه :
@@ -134,7 +135,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -147,7 +148,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             تخت یک نفره :
@@ -155,7 +156,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -167,7 +168,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             تخت دونفره :
@@ -175,7 +176,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -187,15 +188,15 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
-            اتاق خواب : 
+            اتاق خواب :
           </Typography>
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"
@@ -207,7 +208,7 @@ export const SpaceStay = () => {
           <Typography
             variant="h6"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
             }}
           >
             رختخواب سنتی (تشک):
@@ -215,7 +216,7 @@ export const SpaceStay = () => {
           <Typography
             variant="body2"
             sx={{
-              fontSize: { xs: fontSizeText, md: fontSizeText },
+              fontSize: { xs: fontSizeTextxs, md: fontSizeText },
               ml: 1,
             }}
             color="textSecondary"

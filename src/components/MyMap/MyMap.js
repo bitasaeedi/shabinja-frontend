@@ -2,13 +2,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { MapContainer, TileLayer, useMap, Marker } from "react-leaflet";
 import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import SwitchMapButton from "./SwitchMapButton";
 
 const MyMap = ({
-  points,
+  points = [],
   returnNewPositionOnDrag,
-  onPolygonDrawn,
+  onPolygonDrawn = () => {},
   centerInitial,
   dragable,
   zoomDefault = 8,
@@ -22,6 +22,7 @@ const MyMap = ({
   const [activeMarkerId, setActiveMarkerId] = useState(null);
   const [center, setCenter] = useState([]); //
   const mapRef = useRef();
+  const [loadingFindPoint, setLoadingFindPoint] = useState(false);
 
   // const center = [36.5972685, 51.3931284];
   // const center = [36.022227982837855, 51.339111328125];
@@ -63,6 +64,7 @@ const MyMap = ({
     }
 
     setMarkers(updatedPoints);
+    setLoadingFindPoint(false);
   }, [points]);
 
   const handlReturnNewPositionOnDrag = (lat, lng, id) => {
@@ -70,13 +72,14 @@ const MyMap = ({
   };
 
   const handleSearchInArea = () => {
+    setLoadingFindPoint(true);
     const map = mapRef.current; // Access the map instance
     if (map) {
       const bounds = map.getBounds(); // Get visible map bounds
       const zoom = map.getZoom(); // Get current zoom level
       const visiblePoints = generatePointsWithinBounds(bounds, zoom);
       console.log(visiblePoints, "visiblePoints");
-      // onPolygonDrawn(visiblePoints); // لیست سه نقطه برای سرچ
+      onPolygonDrawn(visiblePoints); // لیست سه نقطه برای سرچ
     }
   };
 
@@ -88,7 +91,7 @@ const MyMap = ({
     const centerLng = (ne.lng + sw.lng) / 2;
 
     // Adjust triangle size based on zoom level
-    const size = zoom > 8 ? 0.4 : 0.3; // Smaller size for higher zoom levels
+    const size = 2; //zoom > 8 ? 0.4 : 0.1; // Smaller size for higher zoom levels
 
     // Generate triangle points
     return generateTrianglePoints(centerLat, centerLng, size);
@@ -134,6 +137,7 @@ const MyMap = ({
               variant="contained"
               color="white"
               onClick={handleSearchInArea}
+              disabled={loadingFindPoint} // Disable the button when loading
               sx={{
                 position: "absolute",
                 top: 30,
@@ -141,9 +145,17 @@ const MyMap = ({
                 transform: "translate(-50%, -50%)",
                 zIndex: 1000,
                 backgroundColor: "white",
+                "&:disabled": {
+                  backgroundColor: "rgba(255, 255, 255, 0.7)", // Optional: Dim the button when disabled
+                },
+                minWidth: 100,
               }}
             >
-              <Typography>جستجو در این منطقه</Typography>
+              {loadingFindPoint ? (
+                <CircularProgress size={24} sx={{ color: "black" }} /> // Show a loading spinner
+              ) : (
+                <Typography>جستجو در این منطقه</Typography> // Show the text when not loading
+              )}
             </Button>
           )}
 

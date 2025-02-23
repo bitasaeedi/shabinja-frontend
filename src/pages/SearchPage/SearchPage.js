@@ -105,8 +105,9 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const cardListRef = useRef(null);
   const { searchtype } = useParams();
-
+  const [currentPage, setCurrentPage] = useState(1); // شماره pagination
   const appContext = useContext(AppContext);
+  const [listLocation, setListLocation] = useState([]);
 
   useEffect(() => {
     appContext.setShowfooter(true);
@@ -115,6 +116,10 @@ const SearchPage = () => {
       removeShadow: true,
     });
   }, []);
+
+  useEffect(() => {
+    handleSearch();
+  }, [searchtype, searchParams.toString(), currentPage, listLocation]);
 
   //     window.scroll(0, 0);
   // Function to parse URL params
@@ -138,8 +143,8 @@ const SearchPage = () => {
       room: filters?.room,
       minprice: filters?.min,
       maxprice: filters?.max,
-      skip: 20,
-      take: 10,
+      skip: currentPage,
+      take: 20,
       // sort: filters?.sort,
       rolItemTour: filters?.rules?.split(",") || [], // قوانین
       typeHost: filters?.typeHost?.split(",") || [], // نوع اقامتگاه
@@ -148,6 +153,7 @@ const SearchPage = () => {
       rate: filters?.scores?.split(",") || [],
       // province: searchData?.province ,
       city: filters?.cities?.split(",") || [],
+      locations: listLocation, // لیست نقاط برای جستجو
     };
 
     const result = await HostTourSearchApi(filtersParams);
@@ -157,10 +163,6 @@ const SearchPage = () => {
     setLoadingSearch(false);
     // }, 1000);
   };
-
-  useEffect(() => {
-    handleSearch();
-  }, [searchtype, searchParams.toString()]);
 
   const toggleMap = () => {
     setShowMap((prev) => !prev);
@@ -191,6 +193,17 @@ const SearchPage = () => {
     setListFiltersInUrl(listFiltersWithValues);
   };
 
+  const onPolygonDrawn = (list = []) => {
+    // var newList = list.map((item, ind) => ({
+    //   id: ind + 1,
+    //   ...item,
+    //   loc: `${item?.lat},${item?.lng}`,
+    // }));
+    // console.log(newList, "newList");
+    // setListCards(newList);
+    setListLocation(list || []);
+  };
+
   return (
     <SearchPageContext.Provider
       value={{
@@ -201,6 +214,8 @@ const SearchPage = () => {
         filterList: filterList, //  مربوط به گزینه فیلترهمه یکجا
         listFiltersInUrl: listFiltersInUrl, // لیست مقادیری که در url هستند
         resutSearchTours, // نتیجه جستجو
+        currentPage,
+        setCurrentPage,
       }}
     >
       <Box sx={{ position: "relative" }} className=" ">
@@ -254,7 +269,11 @@ const SearchPage = () => {
 
           {/* Map Section */}
           {!isMobile && showMap && (
-            <MapSection points={listCards} onClose={toggleMap} />
+            <MapSection
+              points={listCards || []}
+              onClose={toggleMap}
+              onPolygonDrawn={onPolygonDrawn}
+            />
             // MAP_POINTS
           )}
         </Grid>
@@ -277,9 +296,10 @@ const SearchPage = () => {
               }}
             >
               <MyMap
-                points={listCards}
+                points={listCards || []}
                 // points={MAP_POINTS}
                 centerInitial={[2.2728759, 75.6305622]}
+                onPolygonDrawn={onPolygonDrawn}
               />
               <IconButton
                 sx={{

@@ -51,6 +51,7 @@ const HomeCard = ({ myData = {} }) => {
             width: "100%",
             color: "inherit",
           }}
+          target="_blank"
         >
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}

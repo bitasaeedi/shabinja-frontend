@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.3a3155ce.css",
-    "main.js": "/static/js/main.09800f1b.js",
+    "main.css": "/static/css/main.f9d6f265.css",
+    "main.js": "/static/js/main.20297d0b.js",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/hero-bg2.jpg": "/static/media/hero-bg2.0ded5e5b9ad019ebd19e.jpg",
     "static/media/bread-bg4.jpg": "/static/media/bread-bg4.f210e8c49c8cb971155c.jpg",
@@ -46,7 +46,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.3a3155ce.css",
-    "static/js/main.09800f1b.js"
+    "static/css/main.f9d6f265.css",
+    "static/js/main.20297d0b.js"
   ]
 }

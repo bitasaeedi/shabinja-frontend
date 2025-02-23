@@ -139,7 +139,7 @@ function MarkerShow({
       {showPopup && (
         <Popup
           minWidth={"300px"}
-          className="custom-popup"
+          className="custom-popup p-0 m-0"
           closeButton={false}
           onClose={() => setPopupOpen(false)} // Handle popup close
         >

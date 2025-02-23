@@ -1,22 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Grid, Pagination } from "@mui/material";
 import MapToggleButton from "../components/MapToggleButton";
 import CardHouseDetails from "../../../components/Cards/CardHouseDetails/CardHouseDetails";
 import HomeCardSkeleton from "../../../components/Cards/HomeCards/HomeCardSkeleton";
 import SkeletonCardHouseDetails from "../../../components/Cards/CardHouseDetails/SkeletonCardHouseDetails";
+import { SearchPageContext } from "../SearchPage";
 
 const CardList = ({ data = [], showMap, toggleMap, loading }) => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const searchPageContext = useContext(SearchPageContext);
+  // const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 20;
 
-  // Calculate total pages and current page data
-  const totalPages = Math.ceil(data.length / itemsPerPage);
-  const currentData = data.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
+  const totalPages = Math.ceil(
+    searchPageContext?.resutSearchTours?.countAll / itemsPerPage
   );
 
-  const handlePageChange = (event, value) => setCurrentPage(value);
+  const handlePageChange = (event, value) =>
+    searchPageContext?.setCurrentPage(value);
 
   return (
     <Box sx={{ mb: 10 }} className=" ">
@@ -26,7 +26,7 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
         justifyContent="center"
         className=" mx-0 px-0"
       >
-        {(loading ? Array.from({ length: itemsPerPage }) : currentData).map(
+        {(loading ? Array.from({ length: itemsPerPage }) : data).map(
           (item, index) => (
             <Grid
               item
@@ -49,8 +49,8 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
 
       {/* Pagination */}
       <Pagination
-        count={totalPages}
-        page={currentPage}
+        count={totalPages} // تعداد کل صفحات
+        page={searchPageContext?.currentPage} // شماره صفحه درحال حاضر
         onChange={handlePageChange}
         color="primary"
         shape="rounded"

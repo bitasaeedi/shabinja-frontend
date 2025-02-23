@@ -1,23 +1,41 @@
-import { CardMedia, Skeleton } from "@mui/material";
+import { CardMedia, Skeleton, IconButton, Box } from "@mui/material";
+import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
 const ImageOfCardDetails = ({ url, title }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
   };
-  useEffect(() => {
-    console.log(url, "url");
-  }, []);
+
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
     <>
-      {isImageLoaded != true && (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
+      <Box sx={{ width: "100%", position: "relative" }}>
+        {isImageLoaded != true && (
+          <Skeleton
+            variant="rectangular"
+            width="100%"
+            sx={{
+              height: {
+                xs: 150,
+                sm: 180,
+                md: 180,
+                lg: 200,
+                xl: 200,
+              },
+            }}
+          />
+        )}
+        <CardMedia
+          component="img"
           sx={{
             height: {
               xs: 150,
@@ -26,28 +44,27 @@ const ImageOfCardDetails = ({ url, title }) => {
               lg: 200,
               xl: 200,
             },
+            objectFit: "cover",
+            borderRadius: "0px 0px 10px 10px",
           }}
+          image={DownloadImageApi(url)} // Use the randomly selected image
+          alt={title}
+          onLoad={handleImageLoad}
+          // loading="lazy"
+          style={{ display: isImageLoaded ? "block" : "none" }}
         />
-      )}
-      <CardMedia
-        component="img"
-        sx={{
-          height: {
-            xs: 150,
-            sm: 180,
-            md: 180,
-            lg: 200,
-            xl: 200,
-          },
-          objectFit: "cover",
-          borderRadius: "0px 0px 10px 10px",
-        }}
-        image={DownloadImageApi(url)} // Use the randomly selected image
-        alt={title}
-        onLoad={handleImageLoad}
-        // loading="lazy"
-        style={{ display: isImageLoaded ? "block" : "none" }}
-      />
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            color: isLiked ? "red" : "white",
+          }}
+          onClick={handleLikeClick}
+        >
+          {isLiked ? <Favorite /> : <FavoriteBorder />}
+        </IconButton>
+      </Box>
     </>
   );
 };

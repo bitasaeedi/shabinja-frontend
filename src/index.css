@@ -162,6 +162,13 @@ body {
 }
 
 
+.leaflet-popup-content {
+  /* padding: 0; */
+  /* background-color: aqua; */
+  margin: 5px !important;
+}
+
+
 
 
 

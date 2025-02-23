@@ -4,7 +4,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MyMap from "../../../components/MyMap/MyMap";
 import PropTypes from "prop-types";
 
-const MapSection = ({ points, onClose }) => (
+const MapSection = ({ points, onClose, onPolygonDrawn }) => (
   <Grid
     item
     xs={6}
@@ -17,7 +17,11 @@ const MapSection = ({ points, onClose }) => (
       zIndex: 2,
     }}
   >
-    <MyMap points={points} centerInitial={[2.2728759, 75.6305622]} />
+    <MyMap
+      points={points}
+      centerInitial={[2.2728759, 75.6305622]}
+      onPolygonDrawn={onPolygonDrawn}
+    />
     <IconButton
       sx={{
         position: "absolute",

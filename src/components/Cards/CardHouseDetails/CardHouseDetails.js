@@ -53,7 +53,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
         // className="border"
       >
         <SliderDetailsPage
-          lists={myData?.images.map((item) => ({
+          lists={myData?.images?.map((item) => ({
             url: item,
             title: item,
           }))}
@@ -64,6 +64,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
         <Link
           to={`/stay/${myData?.id}`}
           style={{ textDecoration: "none", display: "block", width: "100%" }}
+          target="_blank"
         >
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}
