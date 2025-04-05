@@ -20,6 +20,8 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import QuestionsPage from "./pages/QuestionsPage/QuestionsPage";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import RulesPage from "./pages/RulesPage/RulesPage";
+import MagazinePage from "./pages/MagazinePage/MagazinePage";
+import { FavoritDestinationApi } from "./api/toureApis";
 // Create Context
 export const AppContext = createContext();
 
@@ -75,36 +77,50 @@ function App() {
   const [showFooter, setShowfooter] = useState(true);
   const [showHeader, setShowHeader] = useState(true);
   const [settingHeader, setSettingHeader] = useState({});
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState({ name: "", lastName: "" });
+  const [favoritDestination, setFavoritDestination] = useState([]);
   useEffect(() => {
     if (isLoginMain) {
       handleGetInfoUser();
     }
+    getListData();
   }, [isLoginMain]);
 
   const handleGetInfoUser = async () => {
     const profile = await UserSearchOneApi();
     setUserInfo({
       name: profile?.data?.firstName,
+      lastName: profile?.data?.lastName,
+      imageUrl: profile?.data?.image?.url,
       userIsHost: true,
+      // ...profile?.data,
     });
+  };
+
+  // مقاصد محبوب
+  const getListData = async (dataToFilter) => {
+    const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
+    var list = resultGetFavorit?.data;
+    console.log(list, "FavoritDestinationApi list");
+    setFavoritDestination(list);
+    return list;
   };
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
         <AppContext.Provider
           value={{
-            tes: "test",
             isLoginMain,
             setIsLoginMain,
             showFooter,
             setShowfooter,
-
+            handleGetInfoUser,
             showHeader,
             setShowHeader,
             settingHeader,
             setSettingHeader,
             userInfo,
+            favoritDestination,
           }}
         >
           <Router>
@@ -116,6 +132,7 @@ function App() {
               <Route path="/help" element={<QuestionsPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/rules" element={<RulesPage />} />
+              <Route path="/mag" element={<MagazinePage />} />
               <Route path="/search/:searchtype" element={<SearchPage />} />
               <Route path="/account/:section" element={<AccountPage />} />
               <Route path="/pannel/:section" element={<PannelPage />} />

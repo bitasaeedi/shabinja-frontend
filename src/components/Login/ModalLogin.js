@@ -58,7 +58,7 @@ const ModalLogin = ({ open, handleClose }) => {
         }}
         // style={{ zIndex: 2000 }}
       >
-        {manageForms === "stepCode" && (
+        {(manageForms === "stepCode" || manageForms === "stepPassword") && (
           <IconButton
             onClick={() => {
               handleCallBackFinall("stepMobile");
@@ -85,7 +85,6 @@ const ModalLogin = ({ open, handleClose }) => {
               cursor: "pointer",
             }}
           />
-
         </Box>
         <IconButton
           onClick={handleClose}

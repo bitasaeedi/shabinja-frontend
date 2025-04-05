@@ -29,6 +29,7 @@ import {
 } from "../../api/toureApis";
 import { useNavigate } from "react-router-dom";
 import {
+  GetAccommodationSpace,
   GetOtherItemTourList,
   getProvinceList,
   GetRollesList,
@@ -38,6 +39,7 @@ import OffConditions from "./Components/OffConditions";
 import ShabinjaRules from "./Components/ShabinjaRules";
 import DocumentOfStay from "./Components/DocumentOfStay";
 import DescribGeoStay from "./Components/DescribGeoStay";
+import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
 export const ManageStepsContext = createContext();
 // تنظیمات مراحل
 const stepsConfig = [
@@ -112,16 +114,16 @@ const stepsConfig = [
       </Box>
     ),
   },
-  {
-    label: "توصیف موقعیت اقامتگاه",
-    activeLabel: "توصیف موقعیت اقامتگاه",
-    stepNumber: 3,
-    componentLevel: (
-      <Box sx={{ minHeight: "30vh" }}>
-        <DescribGeoStay />
-      </Box>
-    ),
-  },
+  // {
+  //   label: "توصیف موقعیت اقامتگاه",
+  //   activeLabel: "توصیف موقعیت اقامتگاه",
+  //   stepNumber: 3,
+  //   componentLevel: (
+  //     <Box sx={{ minHeight: "30vh" }}>
+  //       <DescribGeoStay />
+  //     </Box>
+  //   ),
+  // },
   {
     label: "تصاویر اقامتگاه",
     activeLabel: "تصاویر اقامتگاه را آپلود کنید",
@@ -205,10 +207,18 @@ const ManageSteps = ({ stayCodeToComplete }) => {
   const [hostInfoUpdating, setHostInfoUpdating] = useState({});
   const [listEmkanat, setListEmkanat] = useState([]);
   const [listRules, setListRules] = useState([]);
+  const [listAccommodationSpace, setListAccommodationSpace] = useState([]);
   const [listTypeHostLoc, setListTypeHostLoc] = useState([]); // نوع منطقه
   const [listTypeHost, setListTypeHost] = useState([]); // نوع اقامتگاه
   const [provinceList, setProvinceList] = useState([]); // استانها
   const [lastStep, setLastStep] = useState(null);
+
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+
   useEffect(() => {
     if (!stayCodeToComplete) {
       handleStepChange(0);
@@ -220,8 +230,9 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     handleGetTypeHostLoc();
     handleGetTypeHost();
     handleSearchProvince();
+    handleSearchListAccommodationSpace();
   }, [stayCodeToComplete]);
-
+  //
   //   دریافت اطلاعات اقامتگاه
   const handleGetInfoStay = async () => {
     const hostResult = await HostTourSearchOneApiForEdit(stayCodeToComplete);
@@ -236,14 +247,18 @@ const ManageSteps = ({ stayCodeToComplete }) => {
   // پیدا کردن آخرین مرحله
   const handleFindLastStep = async (data) => {
     if (!activeStep) {
-      handleStepChange(1);
+      handleStepChange(0);
     }
   };
 
   //  ایجاد اقامتگاه
   const handleCreateStay = async (data) => {
     const hostResult = await HostTourCreateApi(data);
-    navigate(`/new-stay/${hostResult?.data?.guid}`);
+    if (hostResult?.issuccess) {
+      navigate(`/new-stay/${hostResult?.data?.guid}`);
+    } else {
+      handleMangeAlert(true, "error", hostResult?.message || "Upload failed");
+    }
   };
 
   //  به روز رسانی اقامتگاه
@@ -254,8 +269,23 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     };
     // console.log(myData, "handleUpdateStay", stayCodeToComplete);
     const hostResult = await HostTourUpdateApi(myData, stayCodeToComplete);
-    await handleGetInfoStay();
-    return hostResult;
+    if (hostResult?.issuccess) {
+      await handleGetInfoStay();
+      return true;
+    } else {
+      handleMangeAlert(true, "error", hostResult?.message || "Upload failed");
+      return false;
+    }
+
+    // return hostResult;
+  };
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show,
+      status,
+      message,
+    });
   };
 
   //   تعویض مرحله تکمیل فرم
@@ -284,6 +314,12 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     if (activeStep > 0) {
       handleStepChange(activeStep - 1);
     }
+  };
+
+  // لیسست  فضای اقامتگاه
+  const handleSearchListAccommodationSpace = async () => {
+    const result = await GetAccommodationSpace();
+    setListAccommodationSpace(result?.data || []);
   };
 
   // لیسست امکانات
@@ -336,6 +372,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
           listTypeHostLoc,
           listTypeHost,
           provinceList,
+          listAccommodationSpace,
         }}
       >
         <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
@@ -370,6 +407,20 @@ const ManageSteps = ({ stayCodeToComplete }) => {
 
         {/* Sticky Navigation Section */}
       </ManageStepsContext.Provider>
+
+      {showAlertSetting?.show && (
+        <MyAlertMui
+          message={showAlertSetting?.message || ""}
+          handleClose={() =>
+            handleMangeAlert(
+              false,
+              showAlertSetting?.status,
+              showAlertSetting?.message
+            )
+          }
+          status={showAlertSetting?.status}
+        />
+      )}
     </>
   );
 };

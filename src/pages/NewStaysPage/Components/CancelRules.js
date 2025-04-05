@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -17,21 +17,21 @@ import { ManageStepsContext } from "../ManageSteps";
 
 const CancelRules = () => {
   const manageStepsContext = useContext(ManageStepsContext);
-  const [selectedOption, setSelectedOption] = useState("");
-
+  const [selectedOption, setSelectedOption] = useState(0);
+  const [loading, setLoading] = useState(false);
   const options = [
     {
-      id: 1,
+      id: 0,
       title: "آسان (پیشنهادی شبینجا)",
       text: "با انتخاب قوانین آسان بسته به زمان کنسلی 10 تا 20 درصد از کل مبلغ رزرو از میهمان یا میزبان دریافت میشود.",
     },
     {
-      id: 2,
+      id: 1,
       title: "متعادل (پیشنهادی)",
       text: "با انتخاب قوانین متعادل بسته به زمان کنسلی از 20 تا 40 درصد از کل مبلغ رزرو از میهمان یا میزبان خسارت دریافت میشود.",
     },
     {
-      id: 3,
+      id: 2,
       title: "سخت‌گیرانه",
       text: "با انتخاب قوانین سخت‌گیرانه بسته به زمان کنسلی، تا 70 درصد از کل مبلغ رزرو به عنوان خسارت دریافت میشود.",
     },
@@ -40,17 +40,23 @@ const CancelRules = () => {
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
   };
-
+  useEffect(() => {
+    setSelectedOption(manageStepsContext?.hostInfoUpdating?.cancelReservation); // 0 or 1 or 2
+  }, [manageStepsContext?.hostInfoUpdating?.cancelReservation]);
+  // cancelReservation
   const isNextDisabled = () => selectedOption === "";
 
   const onSubmit = async () => {
-    const selectedRule = options.find(
-      (option) => option.id === parseInt(selectedOption)
-    );
-    if (selectedRule && manageStepsContext?.stayCodeToComplete) {
-      await manageStepsContext?.handleUpdateStay({ cancelRule: selectedRule });
-      manageStepsContext?.handleNext();
+    setLoading(true);
+    if (selectedOption && manageStepsContext?.stayCodeToComplete) {
+      const res = await manageStepsContext?.handleUpdateStay({
+        cancelReservation: selectedOption,
+      });
+      if (res) {
+        manageStepsContext?.handleNext();
+      }
     }
+    setLoading(false);
   };
 
   return (
@@ -124,7 +130,7 @@ const CancelRules = () => {
         handleNext={onSubmit}
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
-        loading={false}
+        loading={loading}
         nexDisable={isNextDisabled()}
       />
     </>

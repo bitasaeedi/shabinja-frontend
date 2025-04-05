@@ -19,12 +19,13 @@ import SignpostIcon from '@mui/icons-material/Signpost';
 import TravelExploreIcon from '@mui/icons-material/TravelExplore';
 const DescribGeoStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
-
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {},
   });
 
   const onSubmit = async (data) => {
+    setLoading(true)
     const {} = data;
     const myData = {};
     manageStepsContext?.handleNext(); // موقت
@@ -32,6 +33,7 @@ const DescribGeoStay = () => {
       await manageStepsContext?.handleUpdateStay(myData);
       manageStepsContext?.handleNext();
     }
+    setLoading(false)
   };
 
   const isNextDisabled = () => !true;
@@ -89,7 +91,7 @@ const DescribGeoStay = () => {
         handleNext={handleSubmit(onSubmit)}
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
-        loading={false}
+        loading={loading}
         nexDisable={isNextDisabled()}
       />
     </>

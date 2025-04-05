@@ -15,9 +15,9 @@ const CardUploadedImage = ({ file, removeImageFromUploadedList }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   const handleDelete = async () => {
     setDeleteLoading(true);
-    const result = await HostDeleteImageApi(file.Guid);
-    console.log(result, "result delete", file.Id);
-    removeImageFromUploadedList(file.Id);
+    const result = await HostDeleteImageApi(file.guid);
+    console.log(result, "result delete", file.id);  
+    removeImageFromUploadedList(file.id);
     setDeleteLoading(false);
   };
 
@@ -47,9 +47,9 @@ const CardUploadedImage = ({ file, removeImageFromUploadedList }) => {
           borderRadius: "10px",
           display: loading ? "none" : "block",
         }}
-        image={DownloadImageApi(file?.File?.Url)} // Use the randomly selected image
+        image={DownloadImageApi(file?.file?.url)} // Use the randomly selected image
         onLoad={() => setLoading(false)} // Hide skeleton after loading
-        alt={file?.File?.Name || "Uploaded Image"}
+        alt={file?.file?.fileName || "Uploaded Image"}
       />
 
       <IconButton

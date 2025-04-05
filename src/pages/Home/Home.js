@@ -102,7 +102,7 @@ const Home = () => {
       removeShadow: false,
     });
   }, []);
-  // فراخوانی api برای دریافت اطلاهات
+  // مقاصد محبوب
   const getListData = async (dataToFilter) => {
     const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
     var list = resultGetFavorit?.data;

@@ -135,8 +135,6 @@ const ToolBarComponent = ({ isSticky }) => {
   };
 
   const handleSearchCities = async (textToSearch) => {
-    console.log(textToSearch, "textToSearch");
-    // setSelectedCity({});
     if (textToSearch.length >= 3 || textToSearch.length == 0) {
       setLoadingSearchCitis(true);
       const resultGetTours = await HostTourSearchTitleApi({
@@ -225,9 +223,7 @@ const ToolBarComponent = ({ isSticky }) => {
               >
                 <SelectCity
                   closePopup={() => setCalendarAnchor(null)}
-                  selectedCity={(item) => {
-                    handleSelectCity(item);
-                  }}
+                  selectedCity={handleSelectCity}
                   objectOfLisDatas={objectOfLisDatas}
                   loading={loadingSearchCitis}
                   disableOnoutClose={true}

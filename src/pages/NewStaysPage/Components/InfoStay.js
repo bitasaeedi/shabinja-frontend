@@ -31,7 +31,7 @@ const InfoStay = () => {
   const [loading, setLoading] = useState(false);
   const { control, handleSubmit, watch, setValue, formState } = useForm({
     defaultValues: {
-      type: manageStepsContext?.hostInfoUpdating?.typeHost || "",
+      type: manageStepsContext?.hostInfoUpdating?.accommodationSpaceId || "",
       TypeHostId: manageStepsContext?.hostInfoUpdating?.typeHostId || "",
       TypeHostLocId: manageStepsContext?.hostInfoUpdating?.typeHostLocId || "",
     },
@@ -41,12 +41,13 @@ const InfoStay = () => {
   const TypeHostIdInput = watch("TypeHostId");
   const TypeHostLocIdInput = watch("TypeHostLocId");
 
+  
   // Submit handler
   const onSubmit = async (data) => {
     setLoading(true);
     const { type, TypeHostId, TypeHostLocId } = data;
     const myData = {
-      type: type,
+      accommodationSpaceId: type,
       typeHostId: TypeHostId,
       typeHostLocId: TypeHostLocId,
     };
@@ -96,7 +97,7 @@ const InfoStay = () => {
                       fieldState.error ? fieldState.error.message : ""
                     }
                   >
-                    {list.map((item, index) => (
+                    {manageStepsContext?.listAccommodationSpace.map((item, index) => (
                       <MenuItem key={index} value={item.id}>
                         {item.title}
                       </MenuItem>

@@ -19,11 +19,11 @@ import InputeContainer from "./Componnets/InputeContainer";
 import SwitchSelect from "../../../components/CheckBoxSelect/SwitchSelect";
 import CounterComponent from "../../../components/CounterComponent/CounterComponent";
 const listStairs = [
-  { id: "0", label: "ندارد" },
-  { id: "10", label: "کمتر از 10" },
-  { id: "20", label: "کمتر از 20" },
-  { id: "30", label: "کمتر از 30" },
-  { id: "1000", label: "بیشتر از 30" },
+  { id: 0, label: "ندارد" },
+  { id: 10, label: "کمتر از 10" },
+  { id: 20, label: "کمتر از 20" },
+  { id: 30, label: "کمتر از 30" },
+  { id: 40, label: "بیشتر از 30" },
 ];
 const AboutStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
@@ -40,7 +40,7 @@ const AboutStay = () => {
           "",
         SizeOfTheInfrastructure:
           manageStepsContext?.hostInfoUpdating?.sizeOfTheInfrastructure || "",
-        stair: manageStepsContext?.hostInfoUpdating?.stair || "",
+        stair: manageStepsContext?.hostInfoUpdating?.step || "0",
       },
     });
 
@@ -49,7 +49,10 @@ const AboutStay = () => {
   const description = watch("description");
   const titleWatch = watch("title");
   const stairs = watch("stair");
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setCountFloor(manageStepsContext?.hostInfoUpdating?.floor);
+    setGoodForOld(manageStepsContext?.hostInfoUpdating?.disabled);
+  }, [manageStepsContext?.hostInfoUpdating]);
 
   const handleInputChange = (e, name) => {
     const value = e.target.value.replace(/,/g, ""); // Remove commas
@@ -66,13 +69,18 @@ const AboutStay = () => {
       title,
       AllSizeOfTheInfrastructure,
       SizeOfTheInfrastructure,
+      stair,
     } = data;
     const myData = {
       allSizeOfTheInfrastructure: AllSizeOfTheInfrastructure,
       sizeOfTheInfrastructure: SizeOfTheInfrastructure,
       dics: description,
       title: title,
+      step: stair,
+      disabled: goodForOld,
+      floor: countFloor,
     };
+    // console.log(myData, "myData");
     if (manageStepsContext?.stayCodeToComplete) {
       await manageStepsContext?.handleUpdateStay(myData);
       manageStepsContext?.handleNext();
@@ -86,7 +94,7 @@ const AboutStay = () => {
       SizeOfTheInfrastructureInput &&
       description?.length >= 3 &&
       titleWatch?.length >= 3 &&
-      stairs
+      stairs >= 0
     );
   };
   return (
@@ -354,7 +362,7 @@ const AboutStay = () => {
                 gutterBottom
               >
                 <InfoOutlined sx={{ mr: 1 }} />
-                مشخصات کلی اقامتگاه 
+                مشخصات کلی اقامتگاه
               </Typography>
               <Typography
                 variant="body2"

@@ -27,6 +27,7 @@ const UploadImages = () => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [images, setImages] = useState([]);
   const [uploadedImages, setUploadedImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     handleGetImageUploaded();
   }, [images]);
@@ -58,19 +59,21 @@ const UploadImages = () => {
   };
 
   const onSubmit = async () => {
+    setLoading(true);
     manageStepsContext?.handleNext();
+    setLoading(false);
   };
   const handleGetImageUploaded = async () => {
     const result = await HostTourSearchImagesApi(
       manageStepsContext?.hostInfoUpdating?.id
     );
-    setUploadedImages(result?.Data || []);
+    setUploadedImages(result?.data || []);
   };
 
   // خارج کردن عکس از لیست عکسهای اپلود شده.
   const removeImageFromUploadedList = (idImage) => {
     setUploadedImages((prevList) =>
-      prevList.filter((img) => img.Id !== idImage)
+      prevList.filter((img) => img.id !== idImage)
     );
   };
   return (
@@ -195,6 +198,7 @@ const UploadImages = () => {
           >
             {images?.map((file, index) => (
               <UploadProccessImage
+                key={index}
                 fileObj={file}
                 index={index}
                 idStay={manageStepsContext?.hostInfoUpdating?.id}
@@ -266,7 +270,7 @@ const UploadImages = () => {
         handleNext={onSubmit}
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
-        loading={false}
+        loading={loading}
         nexDisable={uploadedImages?.length < 6}
       />
     </>

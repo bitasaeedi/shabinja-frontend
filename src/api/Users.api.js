@@ -29,22 +29,23 @@ export const UserUpdateApi = async (data) => {
     const response = await axios.post(
       `${baseUrl}/profile/Update`,
       {
-        // sex: 0,
+        sex: 0,
         firstName: data?.firstName, //
         lastName: data?.lastName,
-        // userName: "09934623142",
-        // password: "123445",
+        userName: data?.mobile,
+        // password:  null,
         nationalCode: data?.nationalCode,
         // zipCode: "1234564567",
         // fatherName: "1234156",
-        // phone: "45645485971",
+        phone: data?.mobile,
         mobile: data?.mobile,
-        // email: "yaserzarvandi1@gmail.com",
+        email: data?.email || null,
         birthDay: ConvertShamsiToMiladi(data?.birthDay),
         // address: "12312",
         // certificateId: "1123",
         cityId: 429,
-        // methodOfIntroduction: 0,
+        provinceId: 1,
+        image: data?.image,
       },
       {
         headers: {
@@ -60,3 +61,28 @@ export const UserUpdateApi = async (data) => {
     return error?.response?.data;
   }
 };
+
+
+export const UserUpdateImage = async (data) => {
+  const token = localStorage.getItem("access_token");
+  try {
+    const response = await axios.post(
+      `${baseUrl}/profile/UpdateImage`,
+      {
+        image: data?.image,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data; // Return response data
+  } catch (error) {
+    console.error("Error:", error?.response?.data || error.message);
+    // console.log("Token:", token);
+    return error?.response?.data;
+  }
+};
+
