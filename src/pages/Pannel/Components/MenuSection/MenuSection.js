@@ -20,7 +20,6 @@ import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RemoveStorageLogin from "../../../../components/RemoveStorageLogin/RemoveStorageLogin";
 import { AppContext } from "../../../../App";
-import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 const MenuSection = () => {
   const { section } = useParams();
   const appContext = useContext(AppContext);
@@ -110,13 +109,8 @@ const MenuSection = () => {
             color: "white",
             mx: 2,
           }}
-          src={
-            appContext?.userInfo?.imageUrl
-              ? DownloadImageApi(appContext?.userInfo?.imageUrl)
-              : ""
-          }
         >
-          {appContext?.userInfo?.name[0]}
+          م
         </Avatar>
         <Box
           sx={
@@ -129,9 +123,7 @@ const MenuSection = () => {
             variant="h6"
             sx={{ fontWeight: "bold", fontSize: "16px" }}
           >
-            {/* {appContext?.userInfo?.name} */}
-            {`${appContext?.userInfo?.name} ${appContext?.userInfo?.lastName}`}
-            {/* محمد محمدی */}
+            محمد محمدی
           </Typography>
           <Typography variant="body2">کاربر ویژه</Typography>
         </Box>

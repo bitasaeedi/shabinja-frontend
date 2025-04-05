@@ -17,7 +17,6 @@ const FormGetCode = ({
   callBack,
   initialCountdown = 120,
   mobileGettingSms,
-  handleSetManageFormsSteps,
 }) => {
   const { register, handleSubmit, setValue, setFocus, getValues } = useForm();
   const inputsRef = useRef([]);
@@ -217,18 +216,7 @@ const FormGetCode = ({
               </Grid>
             ))}
           </Grid>
-          {/* <Box sx={{ mt: 3 }}>
-            <Button
-              variant="text"
-              color="primary"
-            
-              onClick={() => handleSetManageFormsSteps("stepPassword")}
-           
-              size="small"
-            >
-              ورود با رمز عبور
-            </Button>
-          </Box> */}
+
           <Box sx={{ mt: 5, maxWidth: 400, minWidth: 300 }}>
             <Typography
               variant="body2"

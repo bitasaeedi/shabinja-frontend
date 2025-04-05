@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Typography, Skeleton, IconButton } from "@mui/material";
 import SelectCityOption from "./SelectCityOption";
 import CloseIcon from "@mui/icons-material/Close";
-import { AppContext } from "../../../App";
-import { Link } from "react-router-dom";
-
 const SelectCity = ({
   selectedCity,
   closePopup,
@@ -14,9 +11,9 @@ const SelectCity = ({
   disableOnoutClose = false,
 }) => {
   const counterRef = useRef();
-  const appContext = useContext(AppContext);
 
   useEffect(() => {
+    // if (!disableOnoutClose) {
     const handleClickOutside = (event) => {
       if (counterRef.current && !counterRef.current.contains(event.target)) {
         closePopup(); // Close the popup if clicked outside
@@ -26,6 +23,7 @@ const SelectCity = ({
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
+    // }
   }, [closePopup]);
 
   return (
@@ -35,50 +33,10 @@ const SelectCity = ({
         backgroundColor: "#f5f5f5",
         borderRadius: "8px",
         padding: "18px 16px",
-        width: widthSize ? widthSize : "280px",
+        width: widthSize ? widthSize : "250px",
         boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)", // Add subtle shadow
       }}
     >
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography className="m-2" sx={{ fontSize: "12px", color: "gray" }}>
-          مقاصد محبوب
-        </Typography>
-        <IconButton onClick={closePopup}>
-          <CloseIcon />
-        </IconButton>
-      </Box>
-      <Box sx={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-        {appContext?.favoritDestination?.map((city, index) => (
-          <Box
-            key={index}
-            sx={{
-              minWidth: "10px",
-              maxWidth: "150px",
-              bgcolor: "#e9e9e9",
-              borderRadius: "8px",
-              padding: "8px",
-              textAlign: "center",
-            }}
-          >
-            {" "}
-            <Link
-              to={`/search/${city?.urlTour}`}
-              style={{
-                textDecoration: "none",
-                display: "block",
-                width: "100%",
-                color: "inherit",
-              }}
-              onClick={closePopup}
-              //  target="_blank"
-            >
-              <Typography sx={{ fontSize: 10 }}>{city?.title}</Typography>
-            </Link>
-          </Box>
-        ))}
-      </Box>
-
-      {/* مقاصدی که سرچ شده */}
       <Box
         sx={{
           display: "flex",
@@ -88,7 +46,12 @@ const SelectCity = ({
         <Typography className="m-2" sx={{ fontSize: "12px", color: "gray" }}>
           لیست اقامتگاه‌ها
         </Typography>
+
+        <IconButton onClick={closePopup}>
+          <CloseIcon />
+        </IconButton>
       </Box>
+
       <Box>
         {loading ? (
           // Skeleton loading effect

@@ -7,12 +7,7 @@ import MobileHeader from "./MobileHeader/MobileHeader";
 function Header({}) {
   const appContext = useContext(AppContext);
   return (
-    <Box
-      sx={{
-        display:
-          appContext?.settingHeader?.showHeader === false ? "none" : "flex",
-      }}
-    >
+    <Box sx={{ display: "flex" }}>
       <Box
         sx={{
           display: { xs: "none", md: "flex" },

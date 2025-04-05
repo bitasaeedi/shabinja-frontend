@@ -8,8 +8,6 @@ import {
   IconButton,
   InputAdornment,
   useMediaQuery,
-  Divider,
-  Skeleton,
 } from "@mui/material"; // Using Grid from @mui/material
 import { useForm, Controller } from "react-hook-form";
 import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
@@ -18,8 +16,6 @@ import { useRef } from "react";
 import { StayPageContext } from "../../StayPage";
 import { useTheme } from "@mui/material/styles";
 import MobilePopOverDateSelect from "../MobileForm/components/MobilePopOverDateSelect";
-import { PriceCalculationApi } from "../../../../api/toureApis";
-import ToRial from "../../../../components/ToRial/ToRial";
 const FormReserve = () => {
   const theme = useTheme();
   const stayPageContext = useContext(StayPageContext);
@@ -27,8 +23,7 @@ const FormReserve = () => {
   const [currentField, setCurrentField] = useState("");
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [count, setCount] = useState(0);
-  const [calculatedPrice, setCalculatedPrice] = useState(null);
-  const [calculating, setCalculating] = useState(false);
+
   const counterRef = useRef();
 
   const increment = () => {
@@ -48,17 +43,13 @@ const FormReserve = () => {
     formState: { errors },
     setValue,
     watch,
-    getValues,
     setFocus,
   } = useForm();
 
   useEffect(() => {
+    console.log(stayPageContext.listDateSelected, "listDate");
     handleSetSearch(stayPageContext.listDateSelected);
   }, [stayPageContext.listDateSelected]);
-
-  useEffect(() => {
-    calculatePrice();
-  }, [getValues("entryDate"), getValues("exitDate"), count]);
 
   // Handle form submission
   const onSubmit = (data) => {
@@ -84,27 +75,6 @@ const FormReserve = () => {
     }
   };
 
-  const calculatePrice = async (data) => {
-    // getValues("entryDate") && getValues("exitDate") &&
-    if (count > 0) {
-      setCalculating(true);
-      setCalculatedPrice(null);
-      const myData = {
-        id: stayPageContext?.infoOfStay?.id,
-        start: getValues("entryDate"),
-        end: getValues("exitDate"),
-        conut: count,
-      };
-
-      const response = await PriceCalculationApi(myData);
-      console.log(response, "PriceCalculationApi");
-
-      setCalculatedPrice({ price: 12000 });
-
-      setCalculating(false);
-    }
-  };
-
   const inputStyles = {
     backgroundColor: "#ffffff",
     borderRadius: "8px",
@@ -118,7 +88,7 @@ const FormReserve = () => {
   return (
     <>
       <Box className="border" sx={{ minHeight: 200, py: 2, px: 3 }}>
-        {/* <Box
+        <Box
           sx={{
             mb: 3,
           }}
@@ -149,8 +119,7 @@ const FormReserve = () => {
           >
             / هرشب
           </Typography>
-        </Box> */}
-        {/* فرم */}
+        </Box>
         <Box sx={{ mt: 2, position: "relative" }}>
           <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={0}>
@@ -383,82 +352,6 @@ const FormReserve = () => {
             </Grid>
           </form>
         </Box>
-        {/* قیمت محاسبه شده */}
-        <Box
-          sx={{
-            mt: 2,
-            fontSize: 13,
-            display: calculatedPrice?.price > 0 ? "block" : "none",
-          }}
-        >
-          {/*  */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              color: "#999",
-            }}
-          >
-            <Box>
-              <Typography>2 شب اقامت</Typography>
-            </Box>
-            <Box>
-              {" "}
-              <Typography> {ToRial(calculatedPrice?.price)} تومان </Typography>
-            </Box>
-          </Box>
-          {/*  */}
-          <Divider sx={{ my: 1 }} />
-          {/*  */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-            }}
-          >
-            <Box>
-              <Typography>جمع مبلغ قابل پرداخت</Typography>
-            </Box>
-            <Box>
-              {" "}
-              <Typography> {ToRial(calculatedPrice?.price)} تومان </Typography>
-            </Box>
-          </Box>
-        </Box>
-        {/* loading calculating */}
-        {calculating && (
-          <>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                color: "#999",
-                mt: 2,
-              }}
-            >
-              <Box>
-                <Skeleton variant="text" width={100} height={20} />
-              </Box>
-              <Box>
-                <Skeleton variant="text" width={80} height={20} />
-              </Box>
-            </Box>
-            <Divider sx={{ my: 1 }} />
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            >
-              <Box>
-                <Skeleton variant="text" width={120} height={20} />
-              </Box>
-              <Box>
-                <Skeleton variant="text" width={80} height={20} />
-              </Box>
-            </Box>
-          </>
-        )}
       </Box>
 
       {anchorEl && isMobile && (

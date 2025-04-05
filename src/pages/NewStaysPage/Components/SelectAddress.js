@@ -26,8 +26,6 @@ const SelectAddress = () => {
       province: manageStepsContext?.hostInfoUpdating?.provinceId || "",
       city: manageStepsContext?.hostInfoUpdating?.cityId || "",
       address: manageStepsContext?.hostInfoUpdating?.address || "",
-      zipCod: manageStepsContext?.hostInfoUpdating?.zipCod || "",
-      tell: manageStepsContext?.hostInfoUpdating?.tell || "",
     },
   });
 
@@ -37,6 +35,8 @@ const SelectAddress = () => {
   const selectedProvince = watch("province");
   const selectedCity = watch("city");
   const addressInput = watch("address");
+
+ 
 
   useEffect(() => {
     // handleSearchProvince();
@@ -62,22 +62,14 @@ const SelectAddress = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const { province, city, address, zipCod, tell } = data;
-    const myData = {
-      provinceId: province,
-      cityId: city,
-      address: address,
-      zipCod,
-      tell,
-    };
+    const { province, city, address } = data;
+    const myData = { provinceId: province, cityId: city, address: address };
 
     if (!manageStepsContext?.stayCodeToComplete) {
       await manageStepsContext?.handleCreateStay(myData);
     } else {
-      const result = await manageStepsContext?.handleUpdateStay(myData);
-      if (result) {
-        manageStepsContext?.handleNext();
-      }
+      await manageStepsContext?.handleUpdateStay(myData);
+      manageStepsContext?.handleNext();
     }
     setLoading(false);
   };
@@ -188,7 +180,7 @@ const SelectAddress = () => {
               {/*  کد پستی */}
               <InputeContainer label={"کد پستی(اختیاری)"}>
                 <Controller
-                  name="zipCod"
+                  name="codePosti"
                   control={control}
                   rules={
                     {
@@ -210,14 +202,12 @@ const SelectAddress = () => {
               {/*  شماره تماس */}
               <InputeContainer label={"شماره تلفن ثابت (اختیاری)"}>
                 <Controller
-                  name="tell"
+                  name="phone"
                   control={control}
-                  rules={
-                    {
-                      // required: " الزامی است",
-                      // maxLength: {},
-                    }
-                  }
+                  rules={{
+                    // required: " الزامی است",
+                    // maxLength: {},
+                  }}
                   render={({ field, fieldState }) => (
                     <TextField
                       size="small"

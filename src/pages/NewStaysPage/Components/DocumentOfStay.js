@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
-  Button,
   Card,
   CardContent,
   FormGroup,
@@ -18,31 +17,22 @@ import { ManageStepsContext } from "../ManageSteps";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import CardMembershipIcon from "@mui/icons-material/CardMembership";
 import ContactPageIcon from "@mui/icons-material/ContactPage";
-import CardUploadedImage from "./Componnets/CardUploadedImage";
-import HomeDoc from "./Componnets/UploadDoctHome.js/HomeDoc";
-import NationDoc from "./Componnets/UploadDoctHome.js/NationDoc";
+
 
 const DocumentOfStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
 
-  const [loading, setLoading] = useState(false);
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {},
   });
 
-  useEffect(() => {
-    console.log(manageStepsContext?.hostInfoUpdating, "hostInfoUpdating");
-  }, [manageStepsContext?.hostInfoUpdating]);
-
   const onSubmit = async (data) => {
-    setLoading(true);
     const {} = data;
     const myData = {};
     if (manageStepsContext?.stayCodeToComplete) {
-      // await manageStepsContext?.handleUpdateStay(myData);
+      await manageStepsContext?.handleUpdateStay(myData);
       manageStepsContext?.handleNext();
     }
-    setLoading(true);
   };
 
   const isNextDisabled = () => !true;
@@ -50,19 +40,12 @@ const DocumentOfStay = () => {
   return (
     <>
       <Grid container spacing={3}>
-        <Grid
-          item
-          xs={12}
-          md={8}
-          sx={{
-            display: { xs: "none", md: "block" },
-          }}
-        >
-          <Grid container spacing={3}>
-            <HomeDoc />
-            <NationDoc />
-          </Grid>
+        <Grid item xs={12} md={8}>
+          <FormGroup>
+            <Grid container spacing={0}></Grid>
+          </FormGroup>
         </Grid>
+
         <Grid
           item
           xs={12}
@@ -89,7 +72,7 @@ const DocumentOfStay = () => {
                   mb: 1,
                 }}
               >
-                <ContactPageIcon sx={{ mr: 1 }} />
+                <ContactPageIcon   sx={{ mr: 1 }} />
                 مدارک صاحب اقامتگاه
               </Typography>
               <Typography
@@ -107,7 +90,7 @@ const DocumentOfStay = () => {
         handleNext={handleSubmit(onSubmit)}
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
-        loading={loading}
+        loading={false}
         nexDisable={isNextDisabled()}
       />
     </>

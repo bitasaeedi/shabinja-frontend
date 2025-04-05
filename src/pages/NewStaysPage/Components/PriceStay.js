@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import {
@@ -21,7 +21,6 @@ import { ManageStepsContext } from "../ManageSteps";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import InputeContainer from "./Componnets/InputeContainer";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import ToRial from "../../../components/ToRial/ToRial";
 
 const listSeasons = [
   { id: 1, title: "بهار", icon: <SpaIcon color="success" />, label: "spring" },
@@ -44,143 +43,24 @@ const PriceStay = () => {
   const [loading, setLoading] = useState(false);
 
   const { control, handleSubmit, setValue, getValues } = useForm({});
-  useEffect(() => {
-    const myHostInfo = manageStepsContext?.hostInfoUpdating;
-    // Set prices for Spring
-    const listPriceSpring = myHostInfo?.priceHostTourBaseSpring || [];
-    listPriceSpring.forEach((item) => {
-      if (item?.periodType === 1)
-        setValue("midWeekspring", ToRial(item?.priceBase));
-      if (item?.periodType === 0)
-        setValue("endWeekspring", ToRial(item?.priceBase));
-      if (item?.periodType === 2)
-        setValue("peakDaysspring", ToRial(item?.priceBase));
-    });
-
-    // Set prices for Summer
-    const listPriceSummer = myHostInfo?.priceHostTourBaseSummer || [];
-    listPriceSummer.forEach((item) => {
-      if (item?.periodType === 1)
-        setValue("midWeeksummer", ToRial(item?.priceBase));
-      if (item?.periodType === 0)
-        setValue("endWeeksummer", ToRial(item?.priceBase));
-      if (item?.periodType === 2)
-        setValue("peakDayssummer", ToRial(item?.priceBase));
-    });
-
-    // Set prices for Autumn
-    const listPriceAutumn = myHostInfo?.priceHostTourBaseAutum || [];
-    listPriceAutumn.forEach((item) => {
-      if (item?.periodType === 1)
-        setValue("midWeekautumn", ToRial(item?.priceBase));
-      if (item?.periodType === 0)
-        setValue("endWeekautumn", ToRial(item?.priceBase));
-      if (item?.periodType === 2)
-        setValue("peakDaysautumn", ToRial(item?.priceBase));
-    });
-
-    // Set prices for Winter
-    const listPriceWinter = myHostInfo?.priceHostTourBaseWinter || [];
-    listPriceWinter.forEach((item) => {
-      if (item?.periodType === 1)
-        setValue("midWeekwinter", ToRial(item?.priceBase));
-      if (item?.periodType === 0)
-        setValue("endWeekwinter", ToRial(item?.priceBase));
-      if (item?.periodType === 2)
-        setValue("peakDayswinter", ToRial(item?.priceBase));
-    });
-  }, [manageStepsContext?.hostInfoUpdating]);
 
   // Submit handler
-  const onSubmit = async (data) => {
+  const onSubmit = (data) => {
+    console.log("Form Data:", data);
     setLoading(true);
-    const myData = {
-      priceHostTourBaseSpring: [
-        ///قیمت برای بهار
-        {
-          PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.midWeekspring)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.endWeekspring)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.peakDaysspring)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-      ],
-      priceHostTourBaseSummer: [
-        ////قیمت برای تابستان
-        {
-          PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.midWeeksummer)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.endWeeksummer)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.peakDayssummer)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-      ],
-      priceHostTourBaseAutum: [
-        ////قیمت برای پاییز
-        {
-          PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.midWeekautumn)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.endWeekautumn)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.peakDaysautumn)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-      ],
-      priceHostTourBaseWinter: [
-        ///قیمت برای زمستان
-        {
-          PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.midWeekwinter)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.endWeekwinter)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-        {
-          PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
-          priceBase: String(data?.peakDayswinter)?.replaceAll(",", ""),
-          otherPrice: 0,
-        },
-      ],
-    };
-    console.log("Form Data:", myData);
-    await manageStepsContext?.handleUpdateStay(myData);
     manageStepsContext?.handleNext();
-
     setLoading(false);
   };
 
-  const handleInputChange = (e, field) => {
-    const inputValue = e.target.value.replace(/,/g, "");
-    if (isNaN(inputValue) && inputValue.length > 0) {
-      field.onChange(ToRial(inputValue?.slice(0, -1)));
-    } else {
-      field.onChange(ToRial(inputValue));
+  const formatAmount = (value) => {
+    if (!value) return "";
+    return Number(value.replace(/,/g, "")).toLocaleString(); // Format with commas
+  };
+
+  const handleInputChange = (e, nameInput) => {
+    const inputValue = e.target.value.replace(/,/g, ""); // Remove commas
+    if (/^\d*$/.test(inputValue)) {
+      setValue(nameInput, formatAmount(inputValue));
     }
   };
 
@@ -191,12 +71,7 @@ const PriceStay = () => {
         <Grid item xs={12} md={8} sx={{ mt: 1 }}>
           <Box component="form" onSubmit={handleSubmit(onSubmit)}>
             {listSeasons.map((item, index) => (
-              <FormSeasons
-                key={index}
-                item={item}
-                control={control}
-                setValue={setValue}
-              />
+              <FormSeasons key={index} item={item} />
             ))}{" "}
             <Box sx={{ mt: 3 }}>
               <InputeContainer label="هر نفر اضافه">
@@ -218,7 +93,7 @@ const PriceStay = () => {
                       value={field.value || ""}
                       onChange={(e) => {
                         field.onChange(e);
-                        handleInputChange(e, field);
+                        handleInputChange(e, "priceForExtraPersone");
                       }}
                       InputProps={{
                         startAdornment: (

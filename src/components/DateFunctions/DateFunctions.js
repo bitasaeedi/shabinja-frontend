@@ -36,10 +36,7 @@ export const GetShamsiDateDetails = (miladiDate) => {
     title: `${jalaaliDate.jd} ${shamsiMonthNames[jalaaliDate.jm - 1]} ${
       jalaaliDate.jy
     }`, // Full date in readable format
-    fullshamsi: `${jalaaliDate.jy}/${String(jalaaliDate.jm).padStart(
-      2,
-      "0"
-    )}/${String(jalaaliDate.jd).padStart(2, "0")}`,
+    fullshamsi: `${jalaaliDate.jy}/${jalaaliDate.jm}/${jalaaliDate.jd}`,
   };
 
   return details;

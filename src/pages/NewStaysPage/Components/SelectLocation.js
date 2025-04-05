@@ -12,10 +12,7 @@ const SelectLocation = () => {
   const [newPosition, setNewPosition] = useState(null);
   const [defaultPosition, setDefaultPosition] = useState(null);
   useEffect(() => {
-    if (
-      manageStepsContext?.hostInfoUpdating?.loc &&
-      manageStepsContext?.hostInfoUpdating?.loc.includes(",")
-    ) {
+    if (manageStepsContext?.hostInfoUpdating?.loc) {
       setNewPosition(manageStepsContext?.hostInfoUpdating?.loc);
     } else if (manageStepsContext?.hostInfoUpdating?.cityTitle) {
       handleGetDefaultPosition();
@@ -30,7 +27,7 @@ const SelectLocation = () => {
   const handleGetDefaultPosition = async () => {
     const result = await geocodeLocation(
       manageStepsContext?.hostInfoUpdating?.cityTitle,
-      manageStepsContext?.hostInfoUpdating?.cityProvinceTitle
+      manageStepsContext?.hostInfoUpdating?.cityTitle
     );
     setDefaultPosition(
       result?.lat ? `${result?.lat},${result?.lon}` : "35.6892523,51.3896004"
@@ -53,7 +50,6 @@ const SelectLocation = () => {
 
   const geocodeLocation = async (city, province) => {
     try {
-      console.log(city, "province", province);
       const response = await fetch(
         `https://nominatim.openstreetmap.org/search?city=${encodeURIComponent(
           city

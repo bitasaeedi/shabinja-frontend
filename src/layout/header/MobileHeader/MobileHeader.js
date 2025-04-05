@@ -123,6 +123,8 @@ const MobileHeader = () => {
   }, [localStorage.getItem("access_token")]);
 
   const handleSearchCities = async (textToSearch) => {
+    console.log(textToSearch, "textToSearch");
+    // setSelectedCity({});
     if (textToSearch.length >= 3 || textToSearch.length == 0) {
       setLoadingSearchCitis(true);
       const resultGetTours = await HostTourSearchTitleApi({
