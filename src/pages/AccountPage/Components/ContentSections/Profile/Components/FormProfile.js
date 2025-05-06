@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
@@ -14,29 +14,32 @@ import ClearIcon from "@mui/icons-material/Clear";
 import {
   UserSearchOneApi,
   UserUpdateApi,
+  UserUpdateImage,
 } from "../../../../../../api/Users.api";
 import { GetShamsiDateDetails } from "../../../../../../components/DateFunctions/DateFunctions";
+import MyAlertMui from "../../../../../../components/MyAlertMui/MyAlertMui";
+import { AppContext } from "../../../../../../App";
+import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
+import { getValue } from "@testing-library/user-event/dist/utils";
+import InputMask from "react-input-mask";
 
 const FormProfile = () => {
+  const appContext = useContext(AppContext);
   const [profileImage, setProfileImage] = useState(null);
-
-  const defaultValues = {
-    name: "محمد",
-    lastName: "محمدی",
-    nation: "1234567890",
-    sms: "09123456789",
-    email: "example@example.com",
-    birthday: "1403/03/01",
-    password: "",
-    passwordrepeat: "",
-    aboutMe: "این یک متن تستی برای اینپوت درباره من میباشد",
-  };
-
+  const [imageToUploade, setImageToUploade] = useState(null);
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+  const [loadingImage, setLoadingImage] = useState(false);
+  const [loadingForm, setLoadingForm] = useState(false);
   const {
     register,
     handleSubmit,
     formState: { errors },
     setValue,
+    getValues,
   } = useForm({});
 
   useEffect(() => {
@@ -47,8 +50,10 @@ const FormProfile = () => {
 
   const handleGetUserInfo = async () => {
     try {
+      setLoadingForm(true);
+      appContext?.handleGetInfoUser();
       const userData = await UserSearchOneApi();
-      console.log(userData, "userData");
+      // console.log(userData, "userData");
       const profile = userData?.data;
       if (profile) {
         const shamsiObject = GetShamsiDateDetails(profile.birthDay);
@@ -65,29 +70,73 @@ const FormProfile = () => {
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
+    setLoadingForm(false);
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setProfileImage(URL.createObjectURL(file)); // Preview the selected image
+    const file = e.target.files[0]; // Get the selected file
+
+    if (!file) {
+      console.error("No file selected");
+      return;
     }
+
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      const fileData = {
+        fileName: file.name, // File name
+        extension: `.${file.name.split(".").pop()}`, // File extension
+        size: file.size, // File size in bytes
+        data: reader.result, // Base64 encoded data
+      };
+
+      // console.log(fileData, "fileData"); // Log the fileData object
+      setImageToUploade(fileData); // Set the fileData to state or wherever you need it
+    };
+
+    reader.onerror = (error) => {
+      console.error("Error reading file:", error);
+    };
+
+    reader.readAsDataURL(file); // Read the file as a Data URL (base64)
+
+    // Preview the selected image
+    setProfileImage(URL.createObjectURL(file));
   };
 
   const handleProfileImageUpload = async () => {
-    if (profileImage) {
-      const formData = new FormData();
-      formData.append("profileImage", profileImage);
+    setLoadingImage(true);
+    if (imageToUploade) {
+      const myData = {
+        image: imageToUploade,
+      };
+      const result = await UserUpdateImage(myData);
+      handleGetUserInfo();
+
+      if (result?.issuccess) {
+        handleMangeAlert(
+          true,
+          "success",
+          result?.message || "Image uploaded successfully"
+        );
+      } else {
+        handleMangeAlert(true, "error", result?.message || "Upload failed");
+      }
+      setImageToUploade(null);
+      setProfileImage(null);
     }
+    setLoadingImage(false);
   };
 
   const onSubmit = async (data) => {
+    setLoadingForm(true);
     const myData = {
       // sex: data?.sex,
       firstName: data?.name,
       lastName: data?.lastName,
       // userName: data?.userName,
-      // password: data?.password,
+      password: data?.password,
       nationalCode: data?.nation,
       // zipCode: data?.zipCode,
       // fatherName: data?.fatherName,
@@ -101,10 +150,26 @@ const FormProfile = () => {
       // methodOfIntroduction: data?.methodOfIntroduction,
     };
 
-    console.log(data, "onSubmit", myData);
     const result = await UserUpdateApi(myData);
+    if (result?.issuccess) {
+      handleMangeAlert(
+        true,
+        "success",
+        result?.message || "Image uploaded successfully"
+      );
+    } else {
+      handleMangeAlert(true, "error", result?.message || "Upload failed");
+    }
     handleGetUserInfo();
-    console.log("result update:", result);
+    // setLoadingForm(false);
+  };
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show,
+      status,
+      message,
+    });
   };
 
   return (
@@ -154,9 +219,15 @@ const FormProfile = () => {
                   sx={{
                     background: "linear-gradient(135deg, #287dfa, #6a11cb)",
                   }}
-                  src={profileImage ? profileImage : ""}
+                  src={
+                    profileImage
+                      ? profileImage
+                      : appContext?.userInfo?.imageUrl
+                      ? DownloadImageApi(appContext?.userInfo?.imageUrl)
+                      : ""
+                  }
                 >
-                  م
+                  {appContext?.userInfo?.name[0]}
                 </Avatar>
 
                 <Box
@@ -171,6 +242,7 @@ const FormProfile = () => {
                       onClick={() =>
                         document.getElementById("profileImageInput").click()
                       }
+                      disabled={loadingImage}
                     >
                       ویرایش تصویر پروفایل
                     </Button>
@@ -212,7 +284,7 @@ const FormProfile = () => {
                 label="نام"
                 fullWidth
                 {...register("name", {
-                  // required: "نام الزامی است"
+                  required: "نام الزامی است",
                 })}
                 error={!!errors.name}
                 helperText={errors.name?.message}
@@ -227,7 +299,7 @@ const FormProfile = () => {
                 label="نام خانوادگی"
                 fullWidth
                 {...register("lastName", {
-                  // required: "نام خانوادگی الزامی است",
+                  required: "نام خانوادگی الزامی است",
                 })}
                 InputLabelProps={{ shrink: true }}
                 error={!!errors.lastName}
@@ -242,7 +314,7 @@ const FormProfile = () => {
                 label="کد ملی"
                 fullWidth
                 {...register("nation", {
-                  // required: "کد ملی الزامی است"
+                  required: "کد ملی الزامی است",
                 })}
                 error={!!errors.nation}
                 helperText={errors.nation?.message}
@@ -257,13 +329,13 @@ const FormProfile = () => {
                 label="شماره موبایل"
                 fullWidth
                 {...register("sms", {
-                  // required: "شماره موبایل الزامی است"
+                  required: "شماره موبایل الزامی است",
                 })}
                 error={!!errors.sms}
                 helperText={errors.sms?.message}
                 size="small"
                 InputLabelProps={{ shrink: true }}
-                // disabled
+                disabled
               />
             </Grid>
 
@@ -284,26 +356,37 @@ const FormProfile = () => {
 
             {/* تاری تولد */}
             <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="تاریخ تولد"
-                fullWidth
+              {/* <InputMask
+                mask="9999/99/99"
+                maskChar={null}
                 {...register("birthday", {
-                  //  required: "تاریخ تولد الزامی است"
+                  required: "تاریخ تولد الزامی است",
                 })}
-                error={!!errors.birthday}
-                helperText={errors.birthday?.message}
-                InputLabelProps={{ shrink: true }}
-                size="small"
-              />
+              > */}
+                {/* {() => ( */}
+                  <TextField
+                    {...register("birthday", {
+                      required: "تاریخ تولد الزامی است",
+                    })}
+                    label="تاریخ تولد"
+                    fullWidth
+                    error={!!errors.birthday}
+                    helperText={errors.birthday?.message}
+                    InputLabelProps={{ shrink: true }}
+                    size="small"
+                    // dir="ltr"
+                  />
+                {/* )} */}
+              {/* </InputMask> */}
             </Grid>
 
             {/* رمز عبور */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
+            {/* <Grid item xs={12} md={6} sx={{ py: 3 }}>
               <TextField
-                label="رمز عبور"
+                label="رمز عبور جدید(اختیاری)"
                 fullWidth
                 {...register("password", {
-                  //  required: "  الزامی است"
+              
                 })}
                 error={!!errors.password}
                 helperText={errors.password?.message}
@@ -311,10 +394,10 @@ const FormProfile = () => {
                 type={"password"}
                 InputLabelProps={{ shrink: true }}
               />
-            </Grid>
+            </Grid> */}
 
             {/* تکرار رمز عبور */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
+            {/* <Grid item xs={12} md={6} sx={{ py: 3 }}>
               <TextField
                 label="تکرار رمز عبور"
                 fullWidth
@@ -327,7 +410,7 @@ const FormProfile = () => {
                 type={"password"}
                 InputLabelProps={{ shrink: true }}
               />
-            </Grid>
+            </Grid> */}
 
             {/* درباره من */}
             <Grid item xs={12} sx={{ py: 3 }}>
@@ -358,7 +441,7 @@ const FormProfile = () => {
                   color: "white",
                   width: "auto",
                 }}
-                // fullWidth
+                disabled={loadingForm}
               >
                 ثبت اطلاعات
               </Button>
@@ -378,6 +461,20 @@ const FormProfile = () => {
           </Grid>
         </form>
       </Box>
+
+      {showAlertSetting?.show && (
+        <MyAlertMui
+          message={showAlertSetting?.message || ""}
+          handleClose={() =>
+            handleMangeAlert(
+              false,
+              showAlertSetting?.status,
+              showAlertSetting?.message
+            )
+          }
+          status={showAlertSetting?.status}
+        />
+      )}
     </Box>
   );
 };

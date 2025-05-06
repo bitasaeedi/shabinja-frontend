@@ -9,30 +9,44 @@ import {
 import React, { useState } from "react";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { useForm, Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 import InputeContainer from "./InputeContainer";
-import { Watch } from "@mui/icons-material";
-const FormSeasons = ({ item }) => {
-  const { control, handleSubmit, setValue, getValues, watch } = useForm({});
+import ToRial from "../../../../components/ToRial/ToRial";
 
+const FormSeasons = ({ item, control, setValue }) => {
   const [isOpen, setIsOpen] = useState(true);
 
-  // Toggle Spring Collapse
   const handleToggleSpring = () => {
     setIsOpen((prev) => !prev);
   };
 
-  const formatAmount = (value) => {
-    if (!value) return "";
-    return Number(value.replace(/,/g, "")).toLocaleString(); // Format with commas
+
+
+  const handleInputChange = (e, field) => {
+    const inputValue = e.target.value.replace(/,/g, "");
+    if (isNaN(inputValue) && inputValue.length > 0) {
+      field.onChange(ToRial(inputValue?.slice(0, -1)));
+    } else {
+      field.onChange(ToRial(inputValue));
+    }
+
+
   };
 
-  const handleInputChange = (e, nameInput) => {
-    const inputValue = e.target.value.replace(/,/g, ""); // Remove commas
-    if (/^\d*$/.test(inputValue)) {
-      setValue(nameInput, formatAmount(inputValue));
-    }
-  };
+  const midWeekValue = useWatch({
+    control,
+    name: `midWeek${item?.label}`,
+  });
+
+  const endWeekValue = useWatch({
+    control,
+    name: `endWeek${item?.label}`,
+  });
+
+  const peakDaysValue = useWatch({
+    control,
+    name: `peakDays${item?.label}`,
+  });
 
   return (
     <Box className="shadow-sm border my-3">
@@ -43,7 +57,6 @@ const FormSeasons = ({ item }) => {
           alignItems: "center",
           cursor: "pointer",
           padding: "8px 16px",
-          // backgroundColor: "#f5f5f5",
         }}
         onClick={handleToggleSpring}
       >
@@ -52,26 +65,20 @@ const FormSeasons = ({ item }) => {
             {item.icon}
             <Typography variant="body1">{item.title}</Typography>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-            }}
-          >
+          <Box sx={{ display: "flex" }}>
             <Typography
               variant="body2"
               sx={{
-                fontSize: "0.8rem", // Smaller font size
-                fontWeight: 300, // Thinner font weight
-                color: "gray", // Muted color
-                borderRight: "1px solid #ccc", // Border left
-                paddingRight: "8px", // Add padding to give spacing
-                marginLeft: "8px", // Optional spacing between items
+                fontSize: "0.8rem",
+                fontWeight: 300,
+                color: "gray",
+                borderRight: "1px solid #ccc",
+                paddingRight: "8px",
+                marginLeft: "8px",
               }}
             >
               وسط هفته:
-              <span style={{ marginInline: "4px" }}>
-                {watch(`midWeek${item?.label}`) || 0}
-              </span>
+              <span style={{ marginInline: "4px" }}>{midWeekValue || 0}</span>
             </Typography>
             <Typography
               variant="body2"
@@ -79,15 +86,13 @@ const FormSeasons = ({ item }) => {
                 fontSize: "0.8rem",
                 fontWeight: 300,
                 color: "gray",
-                borderRight: "1px solid #ccc", // Border left
-                paddingRight: "8px", // Add padding to give spacing
-                marginLeft: "8px", // Optional spacing between items
+                borderRight: "1px solid #ccc",
+                paddingRight: "8px",
+                marginLeft: "8px",
               }}
             >
               آخر هفته:
-              <span style={{ marginInline: "4px" }}>
-                {watch(`endWeek${item?.label}`) || 0}
-              </span>
+              <span style={{ marginInline: "4px" }}>{endWeekValue || 0}</span>
             </Typography>
             <Typography
               variant="body2"
@@ -95,15 +100,12 @@ const FormSeasons = ({ item }) => {
                 fontSize: "0.8rem",
                 fontWeight: 300,
                 color: "gray",
-                // borderRight: "1px solid #ccc", // Border left
-                paddingRight: "8px", // Add padding to give spacing
-                marginLeft: "8px", // Optional spacing between items
+                paddingRight: "8px",
+                marginLeft: "8px",
               }}
             >
               ایام پیک
-              <span style={{ marginInline: "4px" }}>
-                {watch(`peakDays${item?.label}`) || 0}
-              </span>
+              <span style={{ marginInline: "4px" }}>{peakDaysValue || 0}</span>
             </Typography>
           </Box>
         </Box>
@@ -112,16 +114,15 @@ const FormSeasons = ({ item }) => {
         </IconButton>
       </Box>
 
-      {/* Collapsible Content */}
       <Collapse in={isOpen} timeout="auto" unmountOnExit>
         <Box sx={{ padding: "16px", backgroundColor: "#ffffff" }}>
-          {/* وسط هفته */}
           <Box sx={{ mt: 0 }}>
             <InputeContainer label="وسط هفته">
               <Controller
                 name={`midWeek${item?.label}`}
                 control={control}
                 rules={{
+                  value: /^\d*$/, // Only numbers are allowed
                   required: "وارد کردن مبلغ الزامی است",
                 }}
                 render={({ field, fieldState }) => (
@@ -132,11 +133,11 @@ const FormSeasons = ({ item }) => {
                     type="text"
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    // label="وسط هفته"
                     value={field.value || ""}
-                    onChange={(e) =>
-                      handleInputChange(e, `midWeek${item?.label}`)
-                    }
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleInputChange(e, field);
+                    }}
                     InputProps={{
                       onFocus: (e) => e.preventDefault(),
                       startAdornment: (
@@ -151,12 +152,9 @@ const FormSeasons = ({ item }) => {
                     }}
                     sx={{
                       "& .MuiInputBase-input::placeholder": {
-                        fontSize: "0.8rem", // Smaller font size for the placeholder
+                        fontSize: "0.8rem",
                         textAlign: "left",
-                        direction: "rtl", // Right-to-left alignment
-                      },
-                      "& .MuiInputBase-input": {
-                        // textAlign: "left", // Align the value to the left
+                        direction: "rtl",
                       },
                     }}
                   />
@@ -165,13 +163,13 @@ const FormSeasons = ({ item }) => {
             </InputeContainer>
           </Box>
 
-          {/* آخر و تعطیلات هفته */}
           <Box sx={{ mt: 3 }}>
             <InputeContainer label="آخر هفته و تعطیلات عادی">
               <Controller
                 name={`endWeek${item?.label}`}
                 control={control}
                 rules={{
+                  value: /^\d*$/, // Only numbers are allowed
                   required: "وارد کردن مبلغ الزامی است",
                 }}
                 render={({ field, fieldState }) => (
@@ -182,11 +180,11 @@ const FormSeasons = ({ item }) => {
                     type="text"
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    // label="آخر هفته و تعطیلات عادی"
                     value={field.value || ""}
-                    onChange={(e) =>
-                      handleInputChange(e, `endWeek${item?.label}`)
-                    }
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleInputChange(e, field);
+                    }}
                     InputProps={{
                       onFocus: (e) => e.preventDefault(),
                       startAdornment: (
@@ -201,12 +199,9 @@ const FormSeasons = ({ item }) => {
                     }}
                     sx={{
                       "& .MuiInputBase-input::placeholder": {
-                        fontSize: "0.8rem", // Smaller font size for the placeholder
+                        fontSize: "0.8rem",
                         textAlign: "left",
-                        direction: "rtl", // Right-to-left alignment
-                      },
-                      "& .MuiInputBase-input": {
-                        // textAlign: "left", // Align the value to the left
+                        direction: "rtl",
                       },
                     }}
                   />
@@ -215,13 +210,13 @@ const FormSeasons = ({ item }) => {
             </InputeContainer>
           </Box>
 
-          {/* ایام پیک*/}
           <Box sx={{ mt: 3 }}>
             <InputeContainer label="ایام پیک">
               <Controller
                 name={`peakDays${item?.label}`}
                 control={control}
                 rules={{
+                  value: /^\d*$/, // Only numbers are allowed
                   required: "وارد کردن مبلغ الزامی است",
                 }}
                 render={({ field, fieldState }) => (
@@ -232,11 +227,11 @@ const FormSeasons = ({ item }) => {
                     type="text"
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    // label="ایام پیک"
                     value={field.value || ""}
-                    onChange={(e) =>
-                      handleInputChange(e, `peakDays${item?.label}`)
-                    }
+                    onChange={(e) => {
+                      field.onChange(e);
+                      handleInputChange(e, field);
+                    }}
                     InputProps={{
                       onFocus: (e) => e.preventDefault(),
                       startAdornment: (
@@ -251,12 +246,9 @@ const FormSeasons = ({ item }) => {
                     }}
                     sx={{
                       "& .MuiInputBase-input::placeholder": {
-                        fontSize: "0.8rem", // Smaller font size for the placeholder
+                        fontSize: "0.8rem",
                         textAlign: "left",
-                        direction: "rtl", // Right-to-left alignment
-                      },
-                      "& .MuiInputBase-input": {
-                        // textAlign: "left", // Align the value to the left
+                        direction: "rtl",
                       },
                     }}
                   />

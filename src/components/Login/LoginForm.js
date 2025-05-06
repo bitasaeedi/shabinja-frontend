@@ -2,12 +2,16 @@ import React, { useState } from "react";
 import { Box, Fade, Grid, Slide, Typography } from "@mui/material";
 import FormGetMobileNumber from "./Components/FormGetMobileNumber";
 import FormGetCode from "./Components/FormGetCode";
+import FormGetPass from "./Components/FormGetPass";
 
 const LoginForm = ({ handleCallBack, manageForms }) => {
   const [mobileGettingSms, setMobileGettingSms] = useState("");
   // اجرا شدن در صورت ارسال موفق شماره موبایل حهت دریافت پیامک
   const handleGetResponseSendMobile = async (response) => {
     setMobileGettingSms(response?.data?.userName);
+
+    // handleSetManageFormsSteps("stepPassword"); // نمایش فرم دریافت پسورد
+
     handleSetManageFormsSteps("stepCode"); // نمایش فرم دریافت کد
   };
 
@@ -33,11 +37,11 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
         }}
       >
         {/* <Slide direction="left" in={manageForms === "stepMobile"} timeout={500}> */}
-          <div>
-            {manageForms === "stepMobile" && (
-              <FormGetMobileNumber callBack={handleGetResponseSendMobile} />
-            )}
-          </div>
+        <div>
+          {manageForms === "stepMobile" && (
+            <FormGetMobileNumber callBack={handleGetResponseSendMobile} />
+          )}
+        </div>
         {/* </Slide> */}
 
         <Slide direction="left" in={manageForms === "stepCode"} timeout={500}>
@@ -46,6 +50,23 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
               <FormGetCode
                 callBack={handleGetResponseSendCode}
                 mobileGettingSms={mobileGettingSms}
+                handleSetManageFormsSteps={handleSetManageFormsSteps}
+              />
+            )}
+          </div>
+        </Slide>
+
+        <Slide
+          direction="left"
+          in={manageForms === "stepPassword"}
+          timeout={500}
+        >
+          <div>
+            {manageForms === "stepPassword" && (
+              <FormGetPass
+                callBack={handleGetResponseSendCode}
+                mobileGettingSms={mobileGettingSms}
+                handleSetManageFormsSteps={handleSetManageFormsSteps}
               />
             )}
           </div>

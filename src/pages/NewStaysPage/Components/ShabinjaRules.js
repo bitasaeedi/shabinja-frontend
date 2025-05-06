@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   Box,
   Card,
@@ -18,6 +18,7 @@ import { useForm, Controller } from "react-hook-form";
 import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import { ManageStepsContext } from "../ManageSteps";
+import { useNavigate } from "react-router-dom";
 
 const rules = [
   "استفاده از وب‌سایت تنها برای اهداف قانونی مجاز است.",
@@ -53,7 +54,8 @@ const rules = [
 
 const ShabinjaRules = () => {
   const manageStepsContext = useContext(ManageStepsContext);
-
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { control, handleSubmit, setValue, watch } = useForm({
     defaultValues: {
       acceptRules: false, // Checkbox default value
@@ -61,14 +63,17 @@ const ShabinjaRules = () => {
   });
 
   const onSubmit = async (data) => {
+    setLoading(true)
     const { acceptRules } = data;
     if (acceptRules) {
       const myData = {};
       if (manageStepsContext?.stayCodeToComplete) {
         await manageStepsContext?.handleUpdateStay(myData);
-        manageStepsContext?.handleNext();
+        navigate(`/pannel/stays`);
+        // manageStepsContext?.handleNext();
       }
     }
+    setLoading(false)
   };
 
   // Check whether the "acceptRules" checkbox is selected
@@ -175,7 +180,7 @@ const ShabinjaRules = () => {
         handleNext={handleSubmit(onSubmit)}
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
-        loading={false}
+        loading={loading}
         nexDisable={isNextDisabled}
       />
     </>

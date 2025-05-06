@@ -237,6 +237,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         Title: updateData?.title, // "اسم میزبان",
         TypeHostId: updateData?.typeHostId, // 1, //نوع اقامت برحسب آی دی
         TypeHostLocId: updateData?.typeHostLocId, //1, //منطقه اقامت برحسب آی دی
+        AccommodationSpaceId: updateData?.accommodationSpaceId, // فضای اقامتگاه (دربست)
         ProvinceId: updateData?.provinceId, //1, //استان برحسب آی دی
         CityId: updateData?.cityId, //1, // شهر برحسب استان
         Start: updateData?.start, //"12:00", // ساعت ورود برحسب رشته
@@ -254,7 +255,65 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         RolItemTourIds: updateData?.rolItemTourIds, //["1", "2"], /// قوانین برحسب لیست آی دی
         Dics: updateData?.dics, //"توضیحات",
         Loc: updateData?.loc, //"لوکیشن",
+        Step: updateData?.step, //"پله ها",
+        Disabled: updateData?.disabled, //"مناسب سالمندان",
+        CancelReservation: updateData?.cancelReservation, //آسان=0 ,متعادل=1, سختگیرانه=2
+        DiscountToday: updateData?.discountToday, //"تخفیف امروز ",
+        DiscountSecond: updateData?.discountSecond, //"تخفیف فردا ",
+        DiscountThrid: updateData?.discountThrid, //"تخفیف پسفردا ",
+        DiscountWeeky: updateData?.discountWeeky, //"تخفیف هفتگی ",
+        DiscountMonth: updateData?.discountMonth, //"تخفیف ماهانه ",
+        DiscountOther: updateData?.discountOther, //"تخفیف متفرقه ",
         Address: updateData?.address, //"لوکیشن",
+        tell: updateData?.tell,
+        zipCod: updateData?.zipCod,
+        FileHost: updateData?.fileHost,
+        NationallImage: updateData?.nationallImage,
+        PriceHostTourBaseSpring: [
+          ...updateData?.priceHostTourBaseSpring,
+          ///قیمت برای بهار
+          // {
+          //   PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
+          //   priceBase: 100000,
+          //   otherPrice: 0,
+          // },
+        ],
+        PriceHostTourBaseSummer: [
+          ...updateData?.priceHostTourBaseSummer,
+          ////قیمت برای تابستان
+          // {
+          //   PeriodType: 0,
+          //   priceBase: 100000,
+          //   otherPrice: 0,
+          // },
+        ],
+        PriceHostTourBaseAutum: [
+          ...updateData?.priceHostTourBaseAutum,
+          ////قیمت برای پاییز
+          // {
+          //   periodType: 0,
+          //   priceBase: 100000,
+          //   otherPrice: 0,
+          // },
+        ],
+        PriceHostTourBaseWinter: [
+          ...updateData?.priceHostTourBaseWinter,
+          ///قیمت برای زمستان
+          // {
+          //   PeriodType: 0,
+          //   priceBase: 100000,
+          //   otherPrice: 0,
+          // },
+        ],
+        PriceHostTourTimer: [
+          ///قیمت برای زمانهای مشخص
+          // {
+          //   start: "2025-11-16T00:00:00Z",
+          //   end: "2025-11-17T00:00:00Z",
+          //   priceBase: 100000,
+          //   otherPrice: 0,
+          // },
+        ],
       },
       {
         headers: {
@@ -422,6 +481,33 @@ export const MyReservationsApi = async (data) => {
       "Error uploading image:",
       error?.response?.data || error.message
     );
+    return error?.response?.data;
+  }
+};
+
+//محاسبه قیمت
+export const PriceCalculationApi = async (data) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.post(
+      `${baseUrl}/HostTour/PriceCalculation`,
+      {
+        id: data?.id,
+        start: ConvertShamsiToMiladi(data?.start),
+        end: ConvertShamsiToMiladi(data?.end),
+        conut: data?.conut,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error("Error :", error?.response?.data || error.message);
     return error?.response?.data;
   }
 };

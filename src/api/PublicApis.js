@@ -3,6 +3,25 @@ import API_URL from "../config/apiConfig";
 import SUB_API_URL from "../config/apiConfig";
 const baseUrl = API_URL;
 
+// فضای اقامتگاه 
+export const GetAccommodationSpace = async () => {
+  try {
+    const token = localStorage.getItem("token");
+    const response = await axios.get(`${baseUrl}/AccommodationSpace/GetAll`, {
+      params: {
+        // title: searchData?.title,
+      },
+      headers: {
+        token: token,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
 // لیست قوانین
 export const GetRollesList = async () => {
   try {

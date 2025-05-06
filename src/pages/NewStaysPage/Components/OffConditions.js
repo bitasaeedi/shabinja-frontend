@@ -23,17 +23,51 @@ import PercentIcon from "@mui/icons-material/Percent";
 const OffConditions = () => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [showBox, setShowBox] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { control, handleSubmit, watch, setValue } = useForm({
-    defaultValues: {},
+    defaultValues: {
+      DiscountWeeky: manageStepsContext?.hostInfoUpdating?.discountWeeky || "",
+      DiscountMonth: manageStepsContext?.hostInfoUpdating?.discountMonth || "",
+      DiscountToday: manageStepsContext?.hostInfoUpdating?.discountToday || "",
+      DiscountSecond:
+        manageStepsContext?.hostInfoUpdating?.discountSecond || "",
+      DiscountThrid: manageStepsContext?.hostInfoUpdating?.discountThrid || "",
+    },
   });
 
+  useEffect(() => {
+    if (
+      manageStepsContext?.hostInfoUpdating?.discountToday ||
+      manageStepsContext?.hostInfoUpdating?.discountToday ||
+      manageStepsContext?.hostInfoUpdating?.discountThrid
+    ) {
+      setShowBox(true);
+    }
+  }, [manageStepsContext?.hostInfoUpdating?.discountToday]);
   const onSubmit = async (data) => {
-    const {} = data;
-    const myData = {};
+    setLoading(true);
+    const {
+      DiscountWeeky,
+      DiscountMonth,
+      DiscountToday,
+      DiscountSecond,
+      DiscountThrid,
+    } = data;
+
+    const myData = {
+      discountToday: showBox ? DiscountToday : 0, //"تخفیف امروز ",
+      discountSecond: showBox ? DiscountSecond : 0, //"تخفیف فردا ",
+      discountThrid: showBox ? DiscountThrid : 0, //"تخفیف پسفردا ",
+      discountWeeky: DiscountWeeky, //"تخفیف هفتگی ",
+      discountMonth: DiscountMonth, //"تخفیف ماهانه ",
+      // discountOther: discountOther, //"تخفیف متفرقه ",
+    };
+    // console.log(myData, "myData discount");
     if (manageStepsContext?.stayCodeToComplete) {
       await manageStepsContext?.handleUpdateStay(myData);
       manageStepsContext?.handleNext();
     }
+    setLoading(false);
   };
 
   const isNextDisabled = () => !true;
@@ -344,7 +378,7 @@ const OffConditions = () => {
         handleNext={handleSubmit(onSubmit)}
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
-        loading={false}
+        loading={loading}
         nexDisable={isNextDisabled()}
       />
     </>
