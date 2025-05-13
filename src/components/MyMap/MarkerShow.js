@@ -70,58 +70,58 @@ function MarkerShow({
     return new L.divIcon({
       className: "",
       html: `
-        <div 
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              width:${showArea ? "50px" : " 35px"};
+              height: ${showArea ? "50px" : " 35px"};
+              border-radius: 50%;
+              background-color: ${
+                dragable || showArea
+                  ? "transparent"
+                  : isSelected
+                  ? "black"
+                  : "white"
+              };
+              color: ${
+                dragable ? "rgb(204, 0, 1)" : isSelected ? "white" : "black"
+              };
+              font-size: ${dragable ? "40px" : "18px"};
+              position: relative;
+              border: ${showArea ? "3px solid blue" : "none"};
+            "
+          >
+          ${
+            showArea
+              ? `
+                <div
+                  style="
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    background-color: rgba(0, 0, 255, 0.4);
+                    z-index: 1;
+                  "
+                ></div>
+              `
+              : ""
+          }
+          <span class="${
+            showArea ? "" : dragable ? "fas fa-map-marker-alt" : "fas fa-home"
+          }"
           style="
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            width:${showArea ? "50px" : " 35px"}; 
-            height: ${showArea ? "50px" : " 35px"}; 
-            border-radius: 50%; 
-            background-color: ${
-              dragable || showArea
-                ? "transparent"
-                : isSelected
-                ? "black"
-                : "white"
-            }; 
-            color: ${
-              dragable ? "rgb(204, 0, 1)" : isSelected ? "white" : "black"
-            }; 
-            font-size: ${dragable ? "40px" : "18px"};
-            position: relative;
-            border: ${showArea ? "3px solid blue" : "none"};
-          "
-        >
-        ${
-          showArea
-            ? `
-              <div 
-                style="
-                  position: absolute;
-                  top: 0;
-                  left: 0;
-                  width: 100%;
-                  height: 100%;
-                  border-radius: 50%;
-                  background-color: rgba(0, 0, 255, 0.4);
-                  z-index: 1;
-                "
-              ></div>
-            `
-            : ""
-        }
-        <i class="${
-          showArea ? "" : dragable ? "fas fa-map-marker-alt" : "fas fa-home"
-        }" 
-        style="
-        position: ${dragable ? "absolute" : "flex"}; 
-        top: 0; 
-        transform:${dragable ? "translateY(-40%)" : "0"} ; 
-      "
-      ></i>
-        </div>
-      `,
+          position: ${dragable ? "absolute" : "static"};
+          top: 0;
+          transform:${dragable ? "translateY(-40%)" : "0"} ;
+        "
+        ></span>
+          </div>
+        `,
       iconSize: [40, 40],
       iconAnchor: [20, 20],
       popupAnchor: [0, -20],

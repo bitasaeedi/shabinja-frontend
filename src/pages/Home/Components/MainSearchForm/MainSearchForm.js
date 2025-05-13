@@ -189,7 +189,7 @@ const MainSearchForm = () => {
         title: textToSearch,
       });
       var objectList = resultGetTours?.data;
-      console.log(objectList, "resultGetTours list", textToSearch);
+      // console.log(objectList, "resultGetTours list", textToSearch);
       setObjectOfLisDatas(objectList);
       setLoadingSearchCitis(false);
     }

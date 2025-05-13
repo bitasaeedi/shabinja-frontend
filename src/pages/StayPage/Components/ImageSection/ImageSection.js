@@ -9,7 +9,15 @@ import CardImage from "../../../../components/Cards/CardImage/CardImage";
 
 const ImageSection = () => {
   const { staycode } = useParams();
-  const [listImages, setListImages] = useState([]);
+
+  const [listImages, setListImages] = useState([
+    { id: 1 },
+    { id: 2 },
+    { id: 3 },
+    { id: 4 },
+    { id: 5 },
+  ]);
+  
   const [loadedImages, setLoadedImages] = useState([]);
   const stayPageContext = useContext(StayPageContext);
 

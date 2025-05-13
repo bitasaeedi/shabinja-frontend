@@ -61,19 +61,28 @@ const SelectCity = ({
             }}
           >
             {" "}
-            <Link
-              to={`/search/${city?.urlTour}`}
+            <Box
+              // to={`/search/${city?.urlTour}`}
               style={{
                 textDecoration: "none",
                 display: "block",
                 width: "100%",
                 color: "inherit",
+                cursor: "pointer",
               }}
-              onClick={closePopup}
+              // onClick={closePopup}
+              onClick={() => {
+                console.log("city", city);
+                selectedCity({
+                  ...city,
+                  title: city?.title,
+                  titleEn: city?.urlTour,
+                });
+              }}
               //  target="_blank"
             >
               <Typography sx={{ fontSize: 10 }}>{city?.title}</Typography>
-            </Link>
+            </Box>
           </Box>
         ))}
       </Box>
@@ -85,11 +94,19 @@ const SelectCity = ({
           justifyContent: "space-between",
         }}
       >
-        <Typography className="m-2" sx={{ fontSize: "12px", color: "gray" }}>
+        <Typography
+          className="m-2 mt-4"
+          sx={{ fontSize: "12px", color: "gray" }}
+        >
           لیست اقامتگاه‌ها
         </Typography>
       </Box>
-      <Box>
+      <Box
+        sx={{
+          maxHeight: 300,
+          overflowY: "auto",
+        }}
+      >
         {loading ? (
           // Skeleton loading effect
           <Box>
@@ -139,6 +156,7 @@ const SelectCity = ({
               <SelectCityOption
                 key={index}
                 item={item}
+                isHost={true}
                 callBack={selectedCity}
               />
             ))}
