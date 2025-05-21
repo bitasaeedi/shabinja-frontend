@@ -215,7 +215,7 @@ const SpaceSleepStay = () => {
               </Box>
             </InputeContainer>
 
-            <InputeContainer label={"توضیحات (اختیاری)"} flexOnMobile={false}>
+            {/* <InputeContainer label={"توضیحات (اختیاری)"} flexOnMobile={false}>
               <Controller
                 name="moreDescription"
                 control={control}
@@ -240,7 +240,7 @@ const SpaceSleepStay = () => {
                   />
                 )}
               />
-            </InputeContainer>
+            </InputeContainer> */}
           </Box>
         </Grid>
 

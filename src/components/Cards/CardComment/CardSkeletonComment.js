@@ -3,10 +3,10 @@ import { Card, Box, Avatar, Typography, Paper, Skeleton } from "@mui/material";
 
 const CardSkeletonComment = () => {
   return (
-    <Box className="d-flex justify-content-center w-auto pb-0 mb-0 mx-1">
+    <Box className="d-flex justify-content-center ">
       <Card
         sx={{
-          width: 300,
+          width: 220,
           borderRadius: "10px",
           boxShadow: "none",
           backgroundColor: "#f9f9f9",

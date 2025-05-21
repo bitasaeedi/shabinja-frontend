@@ -120,7 +120,7 @@ const RulesStay = () => {
             </Grid>
 
             <Grid container spacing={2} sx={{ mt: 3 }}>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <InputeContainer
                   label={"حداقل تعداد شب رزرو"}
                   flexOnMobile={true}
@@ -137,7 +137,7 @@ const RulesStay = () => {
                     />
                   </Box>
                 </InputeContainer>
-              </Grid>
+              </Grid> */}
 
               <Grid item xs={12}>
                 <InputeContainer label={"ساعت ورود"}>

@@ -37,22 +37,14 @@ const SelectAddress = () => {
   const selectedProvince = watch("province");
   const selectedCity = watch("city");
   const addressInput = watch("address");
-
-  useEffect(() => {
-    // handleSearchProvince();
-  }, []);
+  const tellInput = watch("tell");
+  const zipCodeInpute = watch("zipCod");
 
   useEffect(() => {
     if (selectedProvince) {
       handleProvinceChange(selectedProvince);
     }
   }, [selectedProvince]);
-
-  // const handleSearchProvince = async () => {
-  //   const result = await getProvinceList();
-  //   const list = result?.data || [];
-  //   setProvinceList(list);
-  // };
 
   const handleProvinceChange = async (provinceId) => {
     setCities([]);
@@ -84,11 +76,14 @@ const SelectAddress = () => {
 
   // Improved disableNext logic
   const isNextDisabled = () => {
+    // return false;
     return !(
       selectedProvince &&
       selectedCity &&
       addressInput &&
-      addressInput.trim().length > 0
+      addressInput.trim().length > 0 &&
+      !isNaN(tellInput) &&
+      !isNaN(zipCodeInpute)
     );
   };
 
@@ -186,16 +181,14 @@ const SelectAddress = () => {
               </InputeContainer>
 
               {/*  کد پستی */}
-              <InputeContainer label={"کد پستی(اختیاری)"}>
+              <InputeContainer label={"کد پستی "}>
                 <Controller
                   name="zipCod"
                   control={control}
-                  rules={
-                    {
-                      // required: " الزامی است",
-                      // maxLength: {},
-                    }
-                  }
+                  rules={{
+                    required: " الزامی است",
+                    // maxLength: {},
+                  }}
                   render={({ field, fieldState }) => (
                     <TextField
                       size="small"
@@ -208,16 +201,14 @@ const SelectAddress = () => {
               </InputeContainer>
 
               {/*  شماره تماس */}
-              <InputeContainer label={"شماره تلفن ثابت (اختیاری)"}>
+              <InputeContainer label={"شماره تلفن ثابت "}>
                 <Controller
                   name="tell"
                   control={control}
-                  rules={
-                    {
-                      // required: " الزامی است",
-                      // maxLength: {},
-                    }
-                  }
+                  rules={{
+                    required: " الزامی است",
+                    // maxLength: {},
+                  }}
                   render={({ field, fieldState }) => (
                     <TextField
                       size="small"

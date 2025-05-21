@@ -1,6 +1,7 @@
 import { Button, Grid, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Begust = () => {
   return (
@@ -49,6 +50,8 @@ const Begust = () => {
 
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
           <Button
+            component={Link}
+            to="/new-stay/start"
             variant="contained"
             sx={{
               background: "linear-gradient(45deg, #ff9800, #ff5722)",

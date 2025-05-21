@@ -29,7 +29,6 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 import logo_with_name from "../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../../images/shabinja_logo_with_name_white.png";
-import ModalLogin from "../../../components/Login/ModalLogin";
 import CheckTokenExpiration from "../../../components/checkTokenExpiration/CheckTokenExpiration";
 import RemoveStorageLogin from "../../../components/RemoveStorageLogin/RemoveStorageLogin";
 import { useLocation } from "react-router-dom";
@@ -79,9 +78,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 const MobileHeader = () => {
   const appContext = useContext(AppContext);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  // const [isLogin, setIsLogin] = useState(false);
-  const [openModalLogin, setOpenModalLogin] = useState(false);
+
   const [userName, setUserName] = useState("کاربر شبینجا");
   const [anchorEl, setAnchorEl] = useState(null);
   const [isSticky, setIsSticky] = useState(false);
@@ -211,7 +208,7 @@ const MobileHeader = () => {
 
                   {/* User Section */}
                   <Grid item xs="auto">
-                    {appContext.isLoginMain  ? (
+                    {appContext.isLoginMain ? (
                       <div></div>
                     ) : (
                       <Button
@@ -223,7 +220,7 @@ const MobileHeader = () => {
                             sx={{ transform: "rotate(180deg)" }}
                           />
                         }
-                        onClick={() => setOpenModalLogin(true)}
+                        onClick={appContext?.handleShowModal}
                         sx={{
                           ml: { xs: 1, md: 0 },
                           px: { xs: 0, md: 3 },
@@ -288,13 +285,6 @@ const MobileHeader = () => {
               </Grid>
             </Toolbar>
           </AppBar>
-
-          {openModalLogin && (
-            <ModalLogin
-              open={openModalLogin}
-              handleClose={() => setOpenModalLogin(false)}
-            />
-          )}
         </Box>
       ) : (
         <></>

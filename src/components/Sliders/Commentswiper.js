@@ -153,13 +153,21 @@ const Commentswiper = ({ lists, title, loading = false }) => {
           paddingLeft: isMobile ? "90px" : "0",
         }}
       >
-        {loading !== false
-          ? [1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6, 7].map((item, index) => (
+        {loading !== false 
+          ? [1, 2, 3, 4, 5, 6].map((item, index) => (
               <SwiperSlide
                 key={index}
                 className=" d-flex justify-content-center "
               >
-                <CardSkeletonComment />
+                <Box
+                  sx={{
+                    height: 400,
+                    mx: 4,
+                  }}
+                  className="d-flex justify-content-center align-items-center"
+                >
+                  <CardSkeletonComment />
+                </Box>
               </SwiperSlide>
             ))
           : lists.map((slide, index) => (
@@ -180,6 +188,7 @@ const Commentswiper = ({ lists, title, loading = false }) => {
                   className="d-flex justify-content-center align-items-center"
                 >
                   <CardComment
+                    comment={slide}
                     centerItem={centerIndex === index ? true : false}
                   />
                 </Box>

@@ -12,9 +12,13 @@ const HomeDoc = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
 
   useEffect(() => {
-    // console.log(images, "images HomeDoc");
-    setUploadedImages([manageStepsContext?.hostInfoUpdating?.nationallImage]);
-  }, [manageStepsContext?.hostInfoUpdating?.nationallImage]);
+    console.log(
+      manageStepsContext?.hostInfoUpdating?.fileHost,
+      "images HomeDoc"
+    );
+    console.log(manageStepsContext?.hostInfoUpdating, "images HomeDoc");
+    setUploadedImages([manageStepsContext?.hostInfoUpdating?.fileHost]);
+  }, [manageStepsContext?.hostInfoUpdating?.fileHost]);
   const handleFileDrop = (event) => {
     event.preventDefault();
     const uploadedFiles = Array.from(event.dataTransfer.files).map((file) => ({
@@ -131,7 +135,12 @@ const HomeDoc = () => {
       <Box sx={{ mt: 3 }}>
         <Grid container spacing={0}>
           {uploadedImages.reverse()?.map((file, index) => (
-            <Grid key={index} xs={6} md={4} sx={{ p: 1, height: 150 }}>
+            <Grid
+              key={index}
+              xs={6}
+              md={4}
+              sx={{ p: 1, height: 150, display: file ? "flex" : "none" }}
+            >
               <CardShowImage
                 file={file}
                 // removeImageFromUploadedList={

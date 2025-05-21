@@ -6,7 +6,7 @@ import BeachAccessIcon from "@mui/icons-material/BeachAccess";
 import AgricultureIcon from "@mui/icons-material/Agriculture";
 import StarIcon from "@mui/icons-material/Star";
 import LocationCityIcon from '@mui/icons-material/LocationCity';
-import DomainIcon from '@mui/icons-material/Domain';
+
 const ItemsFastSearch = [
   {
     icon: <VillaIcon sx={{ fontSize: { xs: 30, md: 45 } }} />,

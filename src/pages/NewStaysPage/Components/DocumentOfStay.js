@@ -30,9 +30,9 @@ const DocumentOfStay = () => {
     defaultValues: {},
   });
 
-  useEffect(() => {
-    console.log(manageStepsContext?.hostInfoUpdating, "hostInfoUpdating");
-  }, [manageStepsContext?.hostInfoUpdating]);
+  // useEffect(() => {
+  //   console.log(manageStepsContext?.hostInfoUpdating, "hostInfoUpdating");
+  // }, [manageStepsContext?.hostInfoUpdating]);
 
   const onSubmit = async (data) => {
     setLoading(true);

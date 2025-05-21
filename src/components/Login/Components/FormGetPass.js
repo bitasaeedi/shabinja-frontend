@@ -14,10 +14,14 @@ import {
 } from "@mui/material";
 import AppShortcutIcon from "@mui/icons-material/AppShortcut";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
-import { ApiCheckAndSms } from "../../../api/LoginApis";
+import { ApiCheckAndSms, ApiGetTokenShabinja } from "../../../api/LoginApis";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 
-const FormGetPass = ({ callBack, handleSetManageFormsSteps }) => {
+const FormGetPass = ({
+  callBack,
+  handleSetManageFormsSteps,
+  mobileGettingSms,
+}) => {
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -41,27 +45,35 @@ const FormGetPass = ({ callBack, handleSetManageFormsSteps }) => {
   // ارسال پسورد
   const onSubmit = async (data) => {
     setLoading(true);
+    var resultGetToken = {};
+    resultGetToken = await ApiGetTokenShabinja({
+      username: mobileGettingSms,
+      password: parseFloat(data?.pass),
+    });
+    console.log(mobileGettingSms, data?.pass, "resultGetToken");
+    handleMangeAlert(true, resultGetToken?.issuccess, resultGetToken?.message);
+    if (resultGetToken?.issuccess === true) {
+      // ذخیره اطلاهات در توکت برای استفاده در api ها
+      const { access_token, expires_in, refresh_token, role, guid, id } =
+        resultGetToken?.data;
 
-    // var resultCheckPass = {};
-    // resultCheckPass = await ApiCheckAndSms({
-    //   password: data?.password,
-    // });
-    // console.log(resultCheckPass, "resultCheckPass");
-    // setLoading(false);
-    // if (resultCheckPass?.issuccess) {
-    //   callBack(resultCheckPass);
-    // } else {
-    //   handleMangeAlert(
-    //     true,
-    //     resultCheckPass?.issuccess,
-    //     resultCheckPass?.message
-    //   );
-    // }
+      // محاسبه زمان انقضای توکن
+      const expirationTime = new Date().getTime() + expires_in * 1000; // `expires_in` برحسب ثانیه است
+      // ذخیره‌سازی اطلاعات در localStorage
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("expires_in", expirationTime);
+      localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem("role", role);
+      localStorage.setItem("guid", guid);
+      localStorage.setItem("user_id", id);
+      callBack(resultGetToken);
+    }
+    setLoading(false);
   };
 
   useEffect(() => {
     // handleSubmit(onSubmit)();
-    // setFocus("password");
+    // setFocus("pass");
   }, []);
 
   return (

@@ -22,6 +22,7 @@ import ContactPage from "./pages/ContactPage/ContactPage";
 import RulesPage from "./pages/RulesPage/RulesPage";
 import MagazinePage from "./pages/MagazinePage/MagazinePage";
 import { FavoritDestinationApi } from "./api/toureApis";
+import ModalLogin from "./components/Login/ModalLogin";
 // Create Context
 export const AppContext = createContext();
 
@@ -79,6 +80,17 @@ function App() {
   const [settingHeader, setSettingHeader] = useState({});
   const [userInfo, setUserInfo] = useState({ name: "", lastName: "" });
   const [favoritDestination, setFavoritDestination] = useState([]);
+
+  const [openModalLogin, setOpenModalLogin] = useState(false);
+
+  const handleModalClose = () => {
+    setOpenModalLogin(false);
+  };
+
+  const handleShowModal = () => {
+    setOpenModalLogin(true);
+  };
+
   useEffect(() => {
     if (isLoginMain) {
       handleGetInfoUser();
@@ -89,9 +101,9 @@ function App() {
   const handleGetInfoUser = async () => {
     const profile = await UserSearchOneApi();
     setUserInfo({
-      name: profile?.data?.firstName,
-      lastName: profile?.data?.lastName,
-      imageUrl: profile?.data?.image?.url,
+      name: profile?.data?.firstName || "",
+      lastName: profile?.data?.lastName || "",
+      imageUrl: profile?.data?.image?.url || "",
       userIsHost: true,
       // ...profile?.data,
     });
@@ -121,6 +133,10 @@ function App() {
             setSettingHeader,
             userInfo,
             favoritDestination,
+
+            // login modal
+            handleShowModal,
+            handleModalClose,
           }}
         >
           <Router>
@@ -144,6 +160,12 @@ function App() {
               {/* <Route path="*" element={<Home />} /> */}
             </Routes>
             <Footer />
+            {openModalLogin && (
+              <ModalLogin
+                open={openModalLogin}
+                handleClose={handleModalClose}
+              />
+            )}
           </Router>
         </AppContext.Provider>
       </ThemeProvider>

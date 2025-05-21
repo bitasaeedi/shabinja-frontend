@@ -247,7 +247,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
   // پیدا کردن آخرین مرحله
   const handleFindLastStep = async (data) => {
     if (!activeStep) {
-      handleStepChange(0);
+      handleStepChange(1);
     }
   };
 

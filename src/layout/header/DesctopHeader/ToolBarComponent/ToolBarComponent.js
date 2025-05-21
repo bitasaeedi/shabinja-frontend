@@ -1,28 +1,20 @@
 import {
-  Avatar,
   Box,
-  Container,
   Divider,
   IconButton,
-  ListItemIcon,
   Menu,
   MenuItem,
   Tooltip,
 } from "@mui/material";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
 import GridViewIcon from "@mui/icons-material/GridView";
 import logo_with_name from "../../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../.././../images/shabinja_logo_with_name_white.png";
 import React, { useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Link, useNavigate } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import SupportAgentIcon from "@mui/icons-material/SupportAgent";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
@@ -30,7 +22,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import { AppContext } from "../../../../App";
-import ModalLogin from "../../../../components/Login/ModalLogin";
 
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/system";
@@ -92,9 +83,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const ToolBarComponent = ({ isSticky }) => {
   const appContext = useContext(AppContext);
 
-  const [mobileOpen, setMobileOpen] = useState(false);
-  // const [isLogin, setIsLogin] = useState(false);
-  const [openModalLogin, setOpenModalLogin] = useState(false);
   const [userName, setUserName] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
@@ -470,7 +458,7 @@ const ToolBarComponent = ({ isSticky }) => {
                   }}
                 />
               }
-              onClick={() => setOpenModalLogin(true)}
+              onClick={appContext?.handleShowModal}
               sx={{
                 ml: { xs: 2, md: 0 },
                 minWidth: "auto",
@@ -492,12 +480,6 @@ const ToolBarComponent = ({ isSticky }) => {
           )}
         </Box>
       </Toolbar>
-      {openModalLogin && (
-        <ModalLogin
-          open={openModalLogin}
-          handleClose={() => setOpenModalLogin(false)}
-        />
-      )}
     </>
   );
 };

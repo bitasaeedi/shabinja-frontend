@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Avatar, Typography, Box } from "@mui/material";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
-const CardComment = ({ centerItem }) => {
+const CardComment = ({ centerItem, comment }) => {
   const widthSize = 180;
   const widthSizeMobile = 150;
   const heightSize = 140;
@@ -64,15 +65,19 @@ const CardComment = ({ centerItem }) => {
           }}
         >
           <Avatar
-            src="https://via.placeholder.com/100"
+            // src="https://via.placeholder.com/100"
+            src={DownloadImageApi(comment?.image?.url)}
             alt="User Avatar"
             sx={{
               width: { xs: 40, md: 50 },
               height: { xs: 40, md: 50 },
               border: "4px solid #fff", // Add border to make it blend with the card
               boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Add shadow for emphasis
+              bgcolor: "#999999",
             }}
-          />
+          >
+            {comment?.fullName[0]}
+          </Avatar>
         </Box>
 
         {/* Name Section */}
@@ -86,7 +91,7 @@ const CardComment = ({ centerItem }) => {
             fontSize: { xs: 14, md: 14 },
           }}
         >
-          پدرام محمدی
+          {comment?.fullName}
         </Typography>
 
         {/* Comment Section */}
@@ -105,13 +110,14 @@ const CardComment = ({ centerItem }) => {
             textOverflow: "ellipsis",
           }}
         >
-          یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از
+          {comment?.dics}
+          {/* یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از
           بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از بهترین
           پشتیبانی‌ها رو در سایت شبینجا دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها
           رو در سایت شبینجا دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها رو در سایت
           شبینجا دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا
           دریافت کرده‌ام یکی از بهترین پشتیبانی‌ها رو در سایت شبینجا دریافت
-          کرده‌ام
+          کرده‌ام */}
         </Typography>
       </Card>
     </Box>

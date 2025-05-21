@@ -5,9 +5,7 @@ import MainSearchForm from "./MainSearchForm/MainSearchForm";
 import SubSliderHeader from "./SubSliderHeader";
 
 // سرچ دسکتاپ
-const Section1 = () => {
-
-
+const Section1 = ({ listCategories = [] }) => {
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
       <Box className="hero-box hero-bg">
@@ -18,7 +16,6 @@ const Section1 = () => {
           }}
         >
           {/* Title */}
-         
 
           <Grid container justifyContent="center" className="mt-4 mb-4">
             <Grid item xs={11} sm={8}>
@@ -51,7 +48,7 @@ const Section1 = () => {
               height: "100px", // Adjusted height for larger buttons
             }}
           >
-            <SubSliderHeader />
+            <SubSliderHeader listCategories={listCategories} />
           </Box>
         </Box>
       </Box>

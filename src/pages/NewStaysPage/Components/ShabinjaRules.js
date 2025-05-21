@@ -63,17 +63,22 @@ const ShabinjaRules = () => {
   });
 
   const onSubmit = async (data) => {
-    setLoading(true)
+    setLoading(true);
     const { acceptRules } = data;
     if (acceptRules) {
-      const myData = {};
+      const myData = {
+        isRole: true,
+      };
       if (manageStepsContext?.stayCodeToComplete) {
-        await manageStepsContext?.handleUpdateStay(myData);
-        navigate(`/pannel/stays`);
+        const result = await manageStepsContext?.handleUpdateStay(myData);
+        if (result) {
+          navigate(`/pannel/stays`);
+        }
+
         // manageStepsContext?.handleNext();
       }
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   // Check whether the "acceptRules" checkbox is selected

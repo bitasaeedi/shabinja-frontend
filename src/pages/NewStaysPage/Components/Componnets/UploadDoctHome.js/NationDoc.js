@@ -130,7 +130,12 @@ const NationDoc = () => {
       <Box sx={{ mt: 3 }}>
         <Grid container spacing={0}>
           {uploadedImages.reverse()?.map((file, index) => (
-            <Grid key={index} xs={6} md={4} sx={{ p: 1, height: 150 }}>
+            <Grid
+              key={index}
+              xs={6}
+              md={4}
+              sx={{ p: 1, height: 150, display: file ? "flex" : "none" }}
+            >
               <CardShowImage
                 file={file}
                 // removeImageFromUploadedList={

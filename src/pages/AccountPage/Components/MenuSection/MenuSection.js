@@ -125,9 +125,7 @@ const MenuSection = () => {
             variant="h6"
             sx={{ fontWeight: "bold", fontSize: "16px" }}
           >
-            {/* {appContext?.userInfo?.name} */}
             {`${appContext?.userInfo?.name} ${appContext?.userInfo?.lastName}`}
-            {/* محمد محمدی */}
           </Typography>
           <Typography variant="body2">کاربر ویژه</Typography>
         </Box>

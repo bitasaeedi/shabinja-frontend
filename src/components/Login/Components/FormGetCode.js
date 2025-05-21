@@ -15,15 +15,15 @@ import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 
 const FormGetCode = ({
   callBack,
-  initialCountdown = 120,
   mobileGettingSms,
   handleSetManageFormsSteps,
+  handleResendCode,
+  countdown,
+  isResendEnabled = false,
 }) => {
   const { register, handleSubmit, setValue, setFocus, getValues } = useForm();
   const inputsRef = useRef([]);
 
-  const [countdown, setCountdown] = useState(initialCountdown);
-  const [isResendEnabled, setIsResendEnabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [showAlertSetting, setShowAlertSetting] = useState({
@@ -31,16 +31,6 @@ const FormGetCode = ({
     status: "error",
     message: "خطای نامشخص",
   });
-
-  // Start countdown timer
-  useEffect(() => {
-    if (countdown > 0) {
-      const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
-      return () => clearInterval(timer);
-    } else {
-      setIsResendEnabled(true); // Enable the "Resend Code" button when countdown reaches zero
-    }
-  }, [countdown]);
 
   const handleMangeAlert = (show, status, message) => {
     setShowAlertSetting({
@@ -107,16 +97,6 @@ const FormGetCode = ({
         return;
       }
     }
-  };
-
-  // ارسال محدد کد پیامکی
-  const handleResendCode = async () => {
-    setIsResendEnabled(false); // Disable the "Resend Code" button again
-    var resultCheckSms = await ApiCheckAndSms({
-      UserName: mobileGettingSms,
-    });
-    // console.log(resultCheckSms, "handleResendCode");
-    setCountdown(initialCountdown); // Reset the countdown timer
   };
 
   useEffect(() => {
@@ -217,19 +197,17 @@ const FormGetCode = ({
               </Grid>
             ))}
           </Grid>
-          {/* <Box sx={{ mt: 3 }}>
+          <Box sx={{ mt: 3 }}>
             <Button
               variant="text"
               color="primary"
-            
               onClick={() => handleSetManageFormsSteps("stepPassword")}
-           
               size="small"
             >
               ورود با رمز عبور
             </Button>
-          </Box> */}
-          <Box sx={{ mt: 5, maxWidth: 400, minWidth: 300 }}>
+          </Box>
+          <Box sx={{ mt: 2, maxWidth: 400, minWidth: 300 }}>
             <Typography
               variant="body2"
               color="textSecondary"

@@ -1,17 +1,9 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Box, Button, Typography } from "@mui/material";
-import ModalLogin from "../ModalLogin";
+import { AppContext } from "../../../App";
 
 const AskToLogin = ({}) => {
-  const [openModalLogin, setOpenModalLogin] = useState(false);
-
-  const handleModalClose = () => {
-    setOpenModalLogin(false);
-  };
-
-  const handleShowModal = () => {
-    setOpenModalLogin(true);
-  };
+  const { handleShowModal } = useContext(AppContext);
 
   return (
     <>
@@ -61,9 +53,6 @@ const AskToLogin = ({}) => {
           ورود / ثبت‌نام
         </Button>
       </Box>
-      {openModalLogin && (
-        <ModalLogin open={openModalLogin} handleClose={handleModalClose} />
-      )}
     </>
   );
 };

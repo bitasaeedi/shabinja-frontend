@@ -303,7 +303,7 @@ const AboutStay = () => {
               />
             </InputeContainer>
             {/* {"نکات بیشتر"} */}
-            <InputeContainer label={"نکات بیشتر (اختیاری)"}>
+            {/* <InputeContainer label={"نکات بیشتر (اختیاری)"}>
               <Controller
                 name="morePoints"
                 control={control}
@@ -329,7 +329,7 @@ const AboutStay = () => {
                   />
                 )}
               />
-            </InputeContainer>
+            </InputeContainer> */}
           </Box>
         </Grid>
 

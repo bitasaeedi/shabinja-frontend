@@ -7,7 +7,7 @@ const baseUrl = API_URL;
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
   try {
-    console.log(searchData, "searchData HostTourSearchApi");
+    // console.log(searchData, "searchData HostTourSearchApi");
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
@@ -79,6 +79,24 @@ export const FavoritDestinationApi = async (searchData) => {
       params: {},
       headers: {
         token: token, // Add the token to the request header
+      },
+    });
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+//دسته بندی
+export const CategoryHostApi = async (searchData) => {
+  try {
+    // const token = localStorage.getItem("access_token");
+    const response = await axios.get(`${baseUrl}/CategoryHost/GetAll`, {
+      params: {},
+      headers: {
+        // token: token, // Add the token to the request header
       },
     });
     // console.log(response, "response");
@@ -209,7 +227,9 @@ export const HostTourCreateApi = async (createData) => {
         RolItemTourIds: createData?.rolItemTourIds, //["1", "2"], /// قوانین برحسب لیست آی دی
         Dics: createData?.dics, //"توضیحات",
         Loc: createData?.loc, //"لوکیشن",
-        Address: createData?.address, // آدرس متنی
+        Address: createData?.address || "", // آدرس متنی
+        tell: createData?.tell || "",
+        zipCod: createData?.zipCod || "",
       },
       {
         headers: {
@@ -229,10 +249,11 @@ export const HostTourCreateApi = async (createData) => {
 export const HostTourUpdateApi = async (updateData, guid) => {
   try {
     const token = localStorage.getItem("access_token");
+    console.log(updateData, "updateData");
     const response = await axios.post(
       `${baseUrl}/HostTour/update`,
       {
-        Id: updateData?.id,
+        // Id: updateData?.id,
         Guid: guid,
         Title: updateData?.title, // "اسم میزبان",
         TypeHostId: updateData?.typeHostId, // 1, //نوع اقامت برحسب آی دی
@@ -256,6 +277,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         Dics: updateData?.dics, //"توضیحات",
         Loc: updateData?.loc, //"لوکیشن",
         Step: updateData?.step, //"پله ها",
+        Floor: updateData?.floor, //"طلبقه ",
         Disabled: updateData?.disabled, //"مناسب سالمندان",
         CancelReservation: updateData?.cancelReservation, //آسان=0 ,متعادل=1, سختگیرانه=2
         DiscountToday: updateData?.discountToday, //"تخفیف امروز ",
@@ -268,6 +290,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         tell: updateData?.tell,
         zipCod: updateData?.zipCod,
         FileHost: updateData?.fileHost,
+        IsRole: updateData?.isRoleF, //updateData?.isRoleF/
         NationallImage: updateData?.nationallImage,
         PriceHostTourBaseSpring: [
           ...updateData?.priceHostTourBaseSpring,

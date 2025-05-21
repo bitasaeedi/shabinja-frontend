@@ -42,9 +42,6 @@ const FormGetMobileNumber = ({ callBack }) => {
     setLoading(true);
 
     var resultCheckSms = {
-      // data: {
-      //   userName: "09934623142",
-      // },
     };
     resultCheckSms = await ApiCheckAndSms({
       UserName: data?.phone,

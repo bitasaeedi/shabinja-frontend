@@ -49,8 +49,11 @@ const PriceStay = () => {
     // Set prices for Spring
     const listPriceSpring = myHostInfo?.priceHostTourBaseSpring || [];
     listPriceSpring.forEach((item) => {
-      if (item?.periodType === 1)
+      if (item?.periodType === 1) {
+        console.log(item?.otherPrice, "priceForExtraPersone");
         setValue("midWeekspring", ToRial(item?.priceBase));
+        setValue("priceForExtraPersone", ToRial(item?.otherPrice));
+      } // نرخ هر نفر اضافه
       if (item?.periodType === 0)
         setValue("endWeekspring", ToRial(item?.priceBase));
       if (item?.periodType === 2)
@@ -100,17 +103,20 @@ const PriceStay = () => {
         {
           PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.midWeekspring)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.endWeekspring)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.peakDaysspring)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
       ],
       priceHostTourBaseSummer: [
@@ -118,17 +124,20 @@ const PriceStay = () => {
         {
           PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.midWeeksummer)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.endWeeksummer)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.peakDayssummer)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
       ],
       priceHostTourBaseAutum: [
@@ -136,17 +145,20 @@ const PriceStay = () => {
         {
           PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.midWeekautumn)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.endWeekautumn)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.peakDaysautumn)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
       ],
       priceHostTourBaseWinter: [
@@ -154,17 +166,20 @@ const PriceStay = () => {
         {
           PeriodType: 1, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.midWeekwinter)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 0, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.endWeekwinter)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
         {
           PeriodType: 2, ///آخر هفته=0  وسط هفته=1    تعطیلات=2
           priceBase: String(data?.peakDayswinter)?.replaceAll(",", ""),
-          otherPrice: 0,
+          otherPrice:
+            String(data?.priceForExtraPersone)?.replaceAll(",", "") || 0,
         },
       ],
     };
