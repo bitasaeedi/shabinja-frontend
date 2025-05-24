@@ -24,7 +24,7 @@ export const UserSearchOneApi = async () => {
 
 export const UserUpdateApi = async (data) => {
   const token = localStorage.getItem("access_token");
-  console.log("birthDay:", ConvertShamsiToMiladi(data?.birthDay));
+  console.log("UserUpdateApi:", data);
   try {
     const response = await axios.post(
       `${baseUrl}/profile/Update`,
@@ -33,8 +33,8 @@ export const UserUpdateApi = async (data) => {
         firstName: data?.firstName, //
         lastName: data?.lastName,
         userName: data?.mobile,
-        // password:  null,
-        nationalCode: data?.nationalCode,
+        password: data?.password,
+        nationalCode: data?.nationalCode || null,
         // zipCode: "1234564567",
         // fatherName: "1234156",
         phone: data?.mobile,
@@ -62,7 +62,6 @@ export const UserUpdateApi = async (data) => {
   }
 };
 
-
 export const UserUpdateImage = async (data) => {
   const token = localStorage.getItem("access_token");
   try {
@@ -86,3 +85,19 @@ export const UserUpdateImage = async (data) => {
   }
 };
 
+export const UserDeleteImageApi = async () => {
+  const token = localStorage.getItem("access_token");
+  try {
+    const response = await axios.get(`${baseUrl}/profile/DeleteProfile`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data; // Return response data
+  } catch (error) {
+    console.error("Error:", error?.response?.data || error.message);
+    // console.log("Token:", token);
+    return error?.response?.data;
+  }
+};

@@ -26,6 +26,7 @@ import {
   HostTourSearchOneApi,
   HostTourSearchOneApiForEdit,
   HostTourUpdateApi,
+  UploadDocumentsApi,
 } from "../../api/toureApis";
 import { useNavigate } from "react-router-dom";
 import {
@@ -280,6 +281,24 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     // return hostResult;
   };
 
+  //
+  const handleUploadDocumentsApi = async (data) => {
+    const myData = {
+      ...data,
+    };
+    // console.log(myData, "handleUpdateStay", stayCodeToComplete);
+    const hostResult = await UploadDocumentsApi(myData, stayCodeToComplete);
+    if (hostResult?.issuccess) {
+      await handleGetInfoStay();
+      return true;
+    } else {
+      handleMangeAlert(true, "error", hostResult?.message || "Upload failed");
+      return false;
+    }
+
+    // return hostResult;
+  };
+
   const handleMangeAlert = (show, status, message) => {
     setShowAlertSetting({
       show,
@@ -362,6 +381,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
           handleGetInfoStay,
           handleCreateStay,
           handleUpdateStay,
+          handleUploadDocumentsApi,
 
           hostInfoUpdating,
           setHostInfoUpdating,

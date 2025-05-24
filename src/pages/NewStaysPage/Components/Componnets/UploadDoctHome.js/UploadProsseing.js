@@ -1,6 +1,9 @@
 import { Box, CircularProgress, Grid, Typography } from "@mui/material";
 import React, { useEffect, useState, useRef, useContext } from "react";
-import { HostUploadImageApi } from "../../../../../api/toureApis";
+import {
+  HostUploadImageApi,
+  UploadDocumentsApi,
+} from "../../../../../api/toureApis";
 import MyAlertMui from "../../../../../components/MyAlertMui/MyAlertMui";
 import { ManageStepsContext } from "../../../ManageSteps";
 
@@ -108,22 +111,25 @@ const UploadProsseing = ({
         if (typeImage == "homDoc") {
           myData = {
             fileHost: fileData,
+            // nationallImage: fileData,
+            // manageStepsContext?.hostInfoUpdating?.nationallImage,
           };
         } else {
           myData = {
             nationallImage: fileData,
+            // fileHost: fileData, //manageStepsContext?.hostInfoUpdating?.fileHost,
           };
         }
-        console.log(myData, "myData");
-        const result = await manageStepsContext?.handleUpdateStay(myData);
-        console.log(result, "result");
+        const result = await manageStepsContext?.handleUploadDocumentsApi(
+          myData
+        );
         setIsUploading(false);
-        if (result?.issuccess) {
+        if (result) {
           //   setUploadStatus("success");
+          handleMangeAlert(true, "success", "عملیات با موفقیت انجام  شد");
           setTimeout(() => {
             callBackUploaded(index, "uploaded");
           }, 1000);
-          handleMangeAlert(true, "success", "عملیات با موفقیت انجام  شد");
         } else {
           handleMangeAlert(true, "error", "عملیات با خطا مواجه شد");
           //   setUploadStatus("error");

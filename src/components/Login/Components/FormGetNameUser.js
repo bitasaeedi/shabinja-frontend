@@ -38,7 +38,7 @@ const FormGetNameUser = ({ handleSetManageFormsSteps, mobileGettingSms }) => {
         firstName: data?.firstName,
         lastName: data?.lastName,
         mobile: mobileGettingSms,
-        // nationalCode: "0000000000",
+        nationalCode: null,
       };
       const result = await UserUpdateApi(myData);
       console.log(result, "User data:", myData);

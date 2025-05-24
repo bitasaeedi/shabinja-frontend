@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import {
   Box,
   Button,
@@ -7,11 +7,22 @@ import {
   TextField,
   Typography,
   Avatar,
+  CircularProgress,
+  InputAdornment,
+  IconButton,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import UploadIcon from "@mui/icons-material/Upload";
 import ClearIcon from "@mui/icons-material/Clear";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
+  UserDeleteImageApi,
   UserSearchOneApi,
   UserUpdateApi,
   UserUpdateImage,
@@ -20,13 +31,13 @@ import { GetShamsiDateDetails } from "../../../../../../components/DateFunctions
 import MyAlertMui from "../../../../../../components/MyAlertMui/MyAlertMui";
 import { AppContext } from "../../../../../../App";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
-import { getValue } from "@testing-library/user-event/dist/utils";
 import InputMask from "react-input-mask";
+import { Delete } from "@mui/icons-material";
 
 const FormProfile = () => {
   const appContext = useContext(AppContext);
   const [profileImage, setProfileImage] = useState(null);
-  const [imageToUploade, setImageToUploade] = useState(null);
+  const [imageToUpload, setImageToUpload] = useState(null);
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
@@ -34,17 +45,23 @@ const FormProfile = () => {
   });
   const [loadingImage, setLoadingImage] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+
   const {
-    register,
+    control,
     handleSubmit,
-    formState: { errors },
     setValue,
-    getValues,
-  } = useForm({});
+    watch,
+    formState: { errors },
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const password = watch("password", "");
 
   useEffect(() => {
-    // Set default values on component mount
-
     handleGetUserInfo();
   }, []);
 
@@ -53,8 +70,8 @@ const FormProfile = () => {
       setLoadingForm(true);
       appContext?.handleGetInfoUser();
       const userData = await UserSearchOneApi();
-      // console.log(userData, "userData");
       const profile = userData?.data;
+
       if (profile) {
         const shamsiObject = GetShamsiDateDetails(profile.birthDay);
         setValue("name", profile.firstName || "");
@@ -63,168 +80,207 @@ const FormProfile = () => {
         setValue("sms", profile.mobile || "");
         setValue("email", profile.email || "");
         setValue("birthday", shamsiObject?.fullshamsi || "");
-        setValue("aboutMe", profile.aboutMe || ""); // If `aboutMe` exists
-        setValue("password", profile.password || "");
-        setValue("passwordrepeat", profile.password || "");
+        setValue("aboutMe", profile.aboutMe || "");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
+      handleManageAlert(true, "error", "خطا در دریافت اطلاعات کاربر");
+    } finally {
+      setLoadingForm(false);
     }
-    setLoadingForm(false);
   };
 
   const handleImageChange = (e) => {
-    const file = e.target.files[0]; // Get the selected file
+    const file = e.target.files[0];
+    if (!file) return;
 
-    if (!file) {
-      console.error("No file selected");
+    const validTypes = ["image/jpeg", "image/png", "image/gif"];
+    const maxSize = 2 * 1024 * 1024;
+
+    if (!validTypes.includes(file.type)) {
+      handleManageAlert(true, "error", "فرمت تصویر باید JPG, PNG یا GIF باشد");
+      return;
+    }
+
+    if (file.size > maxSize) {
+      handleManageAlert(
+        true,
+        "error",
+        "حجم تصویر نباید بیشتر از 2 مگابایت باشد"
+      );
       return;
     }
 
     const reader = new FileReader();
-
     reader.onloadend = () => {
-      const fileData = {
-        fileName: file.name, // File name
-        extension: `.${file.name.split(".").pop()}`, // File extension
-        size: file.size, // File size in bytes
-        data: reader.result, // Base64 encoded data
-      };
-
-      // console.log(fileData, "fileData"); // Log the fileData object
-      setImageToUploade(fileData); // Set the fileData to state or wherever you need it
+      setImageToUpload({
+        fileName: file.name,
+        extension: `.${file.name.split(".").pop()}`,
+        size: file.size,
+        data: reader.result,
+      });
     };
-
-    reader.onerror = (error) => {
-      console.error("Error reading file:", error);
+    reader.onerror = () => {
+      handleManageAlert(true, "error", "خطا در خواندن فایل تصویر");
     };
-
-    reader.readAsDataURL(file); // Read the file as a Data URL (base64)
-
-    // Preview the selected image
+    reader.readAsDataURL(file);
     setProfileImage(URL.createObjectURL(file));
   };
 
   const handleProfileImageUpload = async () => {
     setLoadingImage(true);
-    if (imageToUploade) {
-      const myData = {
-        image: imageToUploade,
-      };
-      const result = await UserUpdateImage(myData);
-      handleGetUserInfo();
-
-      if (result?.issuccess) {
-        handleMangeAlert(
+    try {
+      if (imageToUpload) {
+        const result = await UserUpdateImage({ image: imageToUpload });
+        handleGetUserInfo();
+        handleManageAlert(
           true,
-          "success",
-          result?.message || "Image uploaded successfully"
+          result?.issuccess ? "success" : "error",
+          result?.message ||
+            (result?.issuccess
+              ? "تصویر با موفقیت آپلود شد"
+              : "خطا در آپلود تصویر")
         );
-      } else {
-        handleMangeAlert(true, "error", result?.message || "Upload failed");
+        setImageToUpload(null);
+        setProfileImage(null);
       }
-      setImageToUploade(null);
-      setProfileImage(null);
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      handleManageAlert(true, "error", "خطا در آپلود تصویر");
+    } finally {
+      setLoadingImage(false);
     }
-    setLoadingImage(false);
+  };
+
+  const handleDeleteImageProfile = async () => {
+    setLoadingImage(true);
+    try {
+      const result = await UserDeleteImageApi();
+      handleGetUserInfo();
+      handleManageAlert(
+        true,
+        result?.issuccess ? "success" : "error",
+        result?.message ||
+          (result?.issuccess ? "تصویر با موفقیت حذف شد" : "خطا در حذف تصویر")
+      );
+      setImageToUpload(null);
+      setProfileImage(null);
+      setOpenDeleteDialog(false);
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      handleManageAlert(true, "error", "خطا در حذف تصویر");
+    } finally {
+      setLoadingImage(false);
+    }
+  };
+
+  const handleOpenDeleteDialog = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
   };
 
   const onSubmit = async (data) => {
     setLoadingForm(true);
-    const myData = {
-      // sex: data?.sex,
-      firstName: data?.name,
-      lastName: data?.lastName,
-      // userName: data?.userName,
-      password: data?.password,
-      nationalCode: data?.nation,
-      // zipCode: data?.zipCode,
-      // fatherName: data?.fatherName,
-      // phone: data?.phone,
-      mobile: data?.sms,
-      email: data?.email,
-      birthDay: data?.birthday, // شمسی
-      // address: data?.address,
-      // certificateId: data?.certificateId,
-      // cityId: data?.cityId,
-      // methodOfIntroduction: data?.methodOfIntroduction,
-    };
+    try {
+      const result = await UserUpdateApi({
+        firstName: data.name,
+        lastName: data.lastName,
+        password: data.password || undefined,
+        nationalCode: data.nation,
+        mobile: data.sms,
+        email: data.email,
+        birthDay: data.birthday,
+      });
 
-    const result = await UserUpdateApi(myData);
-    if (result?.issuccess) {
-      handleMangeAlert(
+      handleManageAlert(
         true,
-        "success",
-        result?.message || "Image uploaded successfully"
+        result?.issuccess ? "success" : "error",
+        result?.message ||
+          (result?.issuccess
+            ? "اطلاعات با موفقیت ذخیره شد"
+            : "خطا در ذخیره اطلاعات")
       );
-    } else {
-      handleMangeAlert(true, "error", result?.message || "Upload failed");
+      appContext?.handleGetInfoUser();
+    } catch (error) {
+      console.error("Error updating user:", error);
+      handleManageAlert(true, "error", "خطا در ذخیره اطلاعات");
+    } finally {
+      setLoadingForm(false);
     }
-    handleGetUserInfo();
-    // setLoadingForm(false);
   };
 
-  const handleMangeAlert = (show, status, message) => {
-    setShowAlertSetting({
-      show,
-      status,
-      message,
-    });
+  const handleManageAlert = (show, status, message) => {
+    setShowAlertSetting({ show, status, message });
+  };
+
+  const validateNationalCode = (value) => {
+    if (!value) return "کد ملی الزامی است";
+    if (!/^\d{10}$/.test(value)) return "کد ملی باید 10 رقم باشد";
+    return true;
+  };
+
+  const validateMobile = (value) => {
+    if (!value) return "شماره موبایل الزامی است";
+    if (!/^09\d{9}$/.test(value)) return "شماره موبایل معتبر نیست";
+    return true;
+  };
+
+  const validateEmail = (value) => {
+    if (!value) return true;
+    if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value)) {
+      return "ایمیل معتبر نیست";
+    }
+    return true;
+  };
+
+  const validatePassword = (value) => {
+    if (!value) return true;
+    if (value.length < 8) return "رمز عبور باید حداقل 8 کاراکتر باشد";
+    if (!/[A-Z]/.test(value))
+      return "رمز عبور باید شامل حداقل یک حرف بزرگ باشد";
+    if (!/[a-z]/.test(value))
+      return "رمز عبور باید شامل حداقل یک حرف کوچک باشد";
+    if (!/[0-9]/.test(value)) return "رمز عبور باید شامل حداقل یک عدد باشد";
+    if (!/[!@#$%^&*]/.test(value))
+      return "رمز عبور باید شامل حداقل یک کاراکتر خاص (!@#$%^&*) باشد";
+    return true;
+  };
+
+  const validateConfirmPassword = (value) => {
+    if (!password) return true;
+    return value === password || "رمزهای عبور مطابقت ندارند";
   };
 
   return (
-    <Box
-      sx={{
-        width: { xs: "100%", md: "100%" },
-        mx: "auto",
-      }}
-    >
+    <Box sx={{ width: { xs: "100%", md: "100%" }, mx: "auto" }}>
       <Typography
         variant="h6"
         align="right"
         gutterBottom
-        sx={{
-          fontSize: "18px",
-          display: { xs: "none", md: "flex" },
-        }}
+        sx={{ fontSize: "18px", display: { xs: "none", md: "flex" } }}
       >
         حساب کاربری
       </Typography>
-      <Box
-        sx={{
-          p: 3,
-          // backgroundColor:"#f9f9f9"
-        }}
-        className="shadow border rounded"
-      >
+
+      <Box sx={{ p: 3 }} className="shadow border rounded">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={1}>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                mb: 4,
-              }}
-            >
-              <Box
-                sx={{
-                  color: "black",
-                  display: "flex",
-                  justifyContent: "start",
-                  alignItems: "center",
-                  mx: 0,
-                }}
-              >
+          <Grid container spacing={2}>
+            {/* Profile Image Section */}
+            <Grid item xs={12} sx={{ mb: 4 }}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
                 <Avatar
                   sx={{
+                    width: 60,
+                    height: 60,
                     background: "linear-gradient(135deg, #287dfa, #6a11cb)",
                   }}
                   src={
-                    profileImage
-                      ? profileImage
-                      : appContext?.userInfo?.imageUrl
-                      ? DownloadImageApi(appContext?.userInfo?.imageUrl)
-                      : ""
+                    profileImage ||
+                    (appContext?.userInfo?.imageUrl &&
+                      DownloadImageApi(appContext.userInfo.imageUrl))
                   }
                 >
                   {appContext?.userInfo?.name[0]}
@@ -232,20 +288,74 @@ const FormProfile = () => {
 
                 <Box
                   sx={{
-                    ml: 1,
+                    ml: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: 1,
                   }}
                 >
-                  {!profileImage && (
-                    <Button
-                      variant="text"
-                      startIcon={<EditIcon />}
-                      onClick={() =>
-                        document.getElementById("profileImageInput").click()
-                      }
-                      disabled={loadingImage}
+                  {!profileImage ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "start",
+                        alignItems: "start",
+                      }}
                     >
-                      ویرایش تصویر پروفایل
-                    </Button>
+                      <Button
+                        variant="text"
+                        size="small"
+                        startIcon={<EditIcon />}
+                        onClick={() =>
+                          document.getElementById("profileImageInput").click()
+                        }
+                        disabled={loadingImage}
+                      >
+                        ویرایش تصویر پروفایل
+                      </Button>
+                      {appContext?.userInfo?.imageUrl && (
+                        <Button
+                          variant="text"
+                          color="error"
+                          startIcon={<Delete />}
+                          onClick={handleOpenDeleteDialog}
+                          disabled={loadingImage}
+                          size="small"
+                        >
+                          حذف تصویر
+                        </Button>
+                      )}
+                    </Box>
+                  ) : (
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={handleProfileImageUpload}
+                        size="small"
+                        startIcon={
+                          loadingImage ? (
+                            <CircularProgress size={20} color="inherit" />
+                          ) : (
+                            <UploadIcon />
+                          )
+                        }
+                        disabled={loadingImage}
+                      >
+                        ارسال تصویر
+                      </Button>
+                      <Button
+                        variant="text"
+                        color="error"
+                        onClick={() => setProfileImage(null)}
+                        startIcon={<ClearIcon />}
+                        disabled={loadingImage}
+                        size="small"
+                      >
+                        انصراف
+                      </Button>
+                    </Box>
                   )}
                   <input
                     id="profileImageInput"
@@ -254,225 +364,317 @@ const FormProfile = () => {
                     style={{ display: "none" }}
                     onChange={handleImageChange}
                   />
-                  {profileImage && (
-                    <Button
-                      variant="text"
-                      color="primary"
-                      onClick={handleProfileImageUpload}
-                      startIcon={<UploadIcon sx={{ fontSize: 12 }} />}
-                    >
-                      ارسال تصویر
-                    </Button>
-                  )}
-                  {profileImage && (
-                    <Button
-                      variant="text"
-                      color="error"
-                      onClick={() => setProfileImage(null)}
-                      startIcon={<ClearIcon sx={{ fontSize: 12 }} />}
-                    >
-                      انصراف
-                    </Button>
-                  )}
                 </Box>
               </Box>
             </Grid>
 
-            {/* نام */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="نام"
-                fullWidth
-                {...register("name", {
+            {/* Name */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="name"
+                control={control}
+                rules={{
                   required: "نام الزامی است",
-                })}
-                error={!!errors.name}
-                helperText={errors.name?.message}
-                size="small"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Grid>
-
-            {/* نام خانوادگی */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="نام خانوادگی"
-                fullWidth
-                {...register("lastName", {
-                  required: "نام خانوادگی الزامی است",
-                })}
-                InputLabelProps={{ shrink: true }}
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message}
-                size="small"
-              />
-            </Grid>
-
-            {/* کد ملی */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="کد ملی"
-                fullWidth
-                {...register("nation", {
-                  required: "کد ملی الزامی است",
-                })}
-                error={!!errors.nation}
-                helperText={errors.nation?.message}
-                size="small"
-                InputLabelProps={{ shrink: true }}
-              />
-            </Grid>
-
-            {/* شماره موبایل */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="شماره موبایل"
-                fullWidth
-                {...register("sms", {
-                  required: "شماره موبایل الزامی است",
-                })}
-                error={!!errors.sms}
-                helperText={errors.sms?.message}
-                size="small"
-                InputLabelProps={{ shrink: true }}
-                disabled
-              />
-            </Grid>
-
-            {/* ایمیل */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="ایمیل"
-                fullWidth
-                {...register("email", {
-                  // required: "ایمیل الزامی است"
-                })}
-                error={!!errors.email}
-                helperText={errors.email?.message}
-                InputLabelProps={{ shrink: true }}
-                size="small"
-              />
-            </Grid>
-
-            {/* تاری تولد */}
-            <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              {/* <InputMask
-                mask="9999/99/99"
-                maskChar={null}
-                {...register("birthday", {
-                  required: "تاریخ تولد الزامی است",
-                })}
-              > */}
-                {/* {() => ( */}
+                  minLength: {
+                    value: 2,
+                    message: "نام باید حداقل 2 کاراکتر باشد",
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "نام نمی‌تواند بیشتر از 50 کاراکتر باشد",
+                  },
+                }}
+                render={({ field }) => (
                   <TextField
-                    {...register("birthday", {
-                      required: "تاریخ تولد الزامی است",
-                    })}
-                    label="تاریخ تولد"
+                    {...field}
+                    label="نام"
                     fullWidth
-                    error={!!errors.birthday}
-                    helperText={errors.birthday?.message}
-                    InputLabelProps={{ shrink: true }}
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
                     size="small"
-                    // dir="ltr"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ mb: 2 }}
                   />
-                {/* )} */}
-              {/* </InputMask> */}
+                )}
+              />
             </Grid>
 
-            {/* رمز عبور */}
-            {/* <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="رمز عبور جدید(اختیاری)"
-                fullWidth
-                {...register("password", {
-              
-                })}
-                error={!!errors.password}
-                helperText={errors.password?.message}
-                size="small"
-                type={"password"}
-                InputLabelProps={{ shrink: true }}
+            {/* Last Name */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="lastName"
+                control={control}
+                rules={{
+                  required: "نام خانوادگی الزامی است",
+                  minLength: {
+                    value: 2,
+                    message: "نام خانوادگی باید حداقل 2 کاراکتر باشد",
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: "نام خانوادگی نمی‌تواند بیشتر از 50 کاراکتر باشد",
+                  },
+                }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="نام خانوادگی"
+                    fullWidth
+                    error={!!errors.lastName}
+                    helperText={errors.lastName?.message}
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ mb: 2 }}
+                  />
+                )}
               />
-            </Grid> */}
+            </Grid>
 
-            {/* تکرار رمز عبور */}
-            {/* <Grid item xs={12} md={6} sx={{ py: 3 }}>
-              <TextField
-                label="تکرار رمز عبور"
-                fullWidth
-                {...register("passwordrepeat", {
-                  // required: " الزامی است"
-                })}
-                error={!!errors.passwordrepeat}
-                helperText={errors.passwordrepeat?.message}
-                size="small"
-                type={"password"}
-                InputLabelProps={{ shrink: true }}
+            {/* National Code */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="nation"
+                control={control}
+                rules={{
+                  required: "کد ملی الزامی است",
+                  validate: validateNationalCode,
+                }}
+                render={({ field }) => (
+                  <InputMask mask="9999999999" {...field}>
+                    {(inputProps) => (
+                      <TextField
+                        {...inputProps}
+                        label="کد ملی"
+                        fullWidth
+                        error={!!errors.nation}
+                        helperText={errors.nation?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                      />
+                    )}
+                  </InputMask>
+                )}
               />
-            </Grid> */}
+            </Grid>
 
-            {/* درباره من */}
-            <Grid item xs={12} sx={{ py: 3 }}>
-              <TextField
-                label="درباره من"
-                fullWidth
-                {...register("aboutMe")}
-                size="small"
-                multiline
-                rows={4}
-                InputLabelProps={{ shrink: true }}
+            {/* Mobile Number */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="sms"
+                control={control}
+                rules={{
+                  required: "شماره موبایل الزامی است",
+                  validate: validateMobile,
+                }}
+                render={({ field }) => (
+                  <InputMask mask="09999999999" {...field}>
+                    {(inputProps) => (
+                      <TextField
+                        {...inputProps}
+                        label="شماره موبایل"
+                        fullWidth
+                        error={!!errors.sms}
+                        helperText={errors.sms?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                      />
+                    )}
+                  </InputMask>
+                )}
+              />
+            </Grid>
+
+            {/* Email */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="email"
+                control={control}
+                rules={{ validate: validateEmail }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="ایمیل"
+                    fullWidth
+                    error={!!errors.email}
+                    helperText={errors.email?.message}
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ mb: 2 }}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* Birth Date */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="birthday"
+                control={control}
+                rules={{ required: "تاریخ تولد الزامی است" }}
+                render={({ field }) => (
+                  <InputMask mask="9999/99/99" {...field}>
+                    {(inputProps) => (
+                      <TextField
+                        {...inputProps}
+                        label="تاریخ تولد"
+                        fullWidth
+                        error={!!errors.birthday}
+                        helperText={errors.birthday?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                      />
+                    )}
+                  </InputMask>
+                )}
+              />
+            </Grid>
+
+            {/* Password */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="password"
+                control={control}
+                rules={{ validate: validatePassword }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="رمز عبور جدید (اختیاری)"
+                    fullWidth
+                    type={showPassword ? "text" : "password"}
+                    error={!!errors.password}
+                    helperText={errors.password?.message}
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ mb: 2 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
+                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
+              />
+            </Grid>
+
+            {/* Confirm Password */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="passwordrepeat"
+                control={control}
+                rules={{ validate: validateConfirmPassword }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="تکرار رمز عبور"
+                    fullWidth
+                    type={showConfirmPassword ? "text" : "password"}
+                    error={!!errors.passwordrepeat}
+                    helperText={errors.passwordrepeat?.message}
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{ mb: 2 }}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={() =>
+                              setShowConfirmPassword(!showConfirmPassword)
+                            }
+                            edge="end"
+                          >
+                            {showConfirmPassword ? (
+                              <VisibilityOff />
+                            ) : (
+                              <Visibility />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                )}
               />
             </Grid>
 
             {/* Submit Button */}
-            <Grid
-              item
-              xs={12}
-              sx={{ py: 3 }}
-              className="d-flex justify-content-end"
-            >
-              <Button
-                type="submit"
-                variant="contained"
-                // color="primary"
-                sx={{
-                  backgroundColor: "black",
-                  color: "white",
-                  width: "auto",
-                }}
-                disabled={loadingForm}
-              >
-                ثبت اطلاعات
-              </Button>
-              {/* <Button
-                variant="contained"
-                // color="secondary"
-                sx={{
-                  backgroundColor: "#e9e9e9",
-                  color: "black",
-                  width: "auto",
-                  mx: 2,
-                }}
-              >
-                انصراف
-              </Button> */}
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              <Box display="flex" justifyContent="flex-end">
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "black",
+                    color: "white",
+                    minWidth: 120,
+                    "&:hover": { backgroundColor: "#333" },
+                  }}
+                  disabled={loadingForm}
+                  startIcon={
+                    loadingForm && (
+                      <CircularProgress size={20} color="inherit" />
+                    )
+                  }
+                >
+                  {loadingForm ? "در حال ذخیره..." : "ذخیره تغییرات"}
+                </Button>
+              </Box>
             </Grid>
           </Grid>
         </form>
       </Box>
 
-      {showAlertSetting?.show && (
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"حذف تصویر پروفایل"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            آیا مطمئن هستید که می‌خواهید تصویر پروفایل خود را حذف کنید؟
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog} color="primary">
+            انصراف
+          </Button>
+          <Button
+            onClick={handleDeleteImageProfile}
+            color="error"
+            autoFocus
+            disabled={loadingImage}
+            startIcon={
+              loadingImage && <CircularProgress size={20} color="inherit" />
+            }
+          >
+            {loadingImage ? "در حال حذف..." : "حذف"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+      {showAlertSetting.show && (
         <MyAlertMui
-          message={showAlertSetting?.message || ""}
+          message={showAlertSetting.message}
           handleClose={() =>
-            handleMangeAlert(
+            handleManageAlert(
               false,
-              showAlertSetting?.status,
-              showAlertSetting?.message
+              showAlertSetting.status,
+              showAlertSetting.message
             )
           }
-          status={showAlertSetting?.status}
+          status={showAlertSetting.status}
         />
       )}
     </Box>

@@ -249,7 +249,6 @@ export const HostTourCreateApi = async (createData) => {
 export const HostTourUpdateApi = async (updateData, guid) => {
   try {
     const token = localStorage.getItem("access_token");
-    console.log(updateData, "updateData");
     const response = await axios.post(
       `${baseUrl}/HostTour/update`,
       {
@@ -289,9 +288,9 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         Address: updateData?.address, //"لوکیشن",
         tell: updateData?.tell,
         zipCod: updateData?.zipCod,
-        FileHost: updateData?.fileHost,
+        // FileHost: updateData?.fileHost,
         IsRole: updateData?.isRoleF, //updateData?.isRoleF/
-        NationallImage: updateData?.nationallImage,
+        // NationallImage: updateData?.nationallImage,
         PriceHostTourBaseSpring: [
           ...updateData?.priceHostTourBaseSpring,
           ///قیمت برای بهار
@@ -337,6 +336,32 @@ export const HostTourUpdateApi = async (updateData, guid) => {
           //   otherPrice: 0,
           // },
         ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    // console.log(response, "response");
+    return response.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
+
+// آپلود سند اقامتگاه و کد ملی کاربر اقامتگاه
+export const UploadDocumentsApi = async (updateData, guid) => {
+  try {
+    const token = localStorage.getItem("access_token");
+    console.log(updateData , "UploadDocumentsApi")
+    const response = await axios.post(
+      `${baseUrl}/HostTour/UploadDocuments`,
+      {
+        Guid: guid,
+        FileHost: updateData?.fileHost,
+        NationallImage: updateData?.nationallImage,
       },
       {
         headers: {
