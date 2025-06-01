@@ -11,8 +11,11 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
+  IconButton,
 } from "@mui/material";
-import AppShortcutIcon from "@mui/icons-material/AppShortcut";
+
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 import { ApiCheckAndSms, ApiGetTokenShabinja } from "../../../api/LoginApis";
 import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
@@ -22,6 +25,7 @@ const FormGetPass = ({
   handleSetManageFormsSteps,
   mobileGettingSms,
 }) => {
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -48,9 +52,9 @@ const FormGetPass = ({
     var resultGetToken = {};
     resultGetToken = await ApiGetTokenShabinja({
       username: mobileGettingSms,
-      password: parseFloat(data?.pass),
+      password: data?.pass,
     });
-    console.log(mobileGettingSms, data?.pass, "resultGetToken");
+    // console.log(mobileGettingSms, data?.pass, "resultGetToken");
     handleMangeAlert(true, resultGetToken?.issuccess, resultGetToken?.message);
     if (resultGetToken?.issuccess === true) {
       // ذخیره اطلاهات در توکت برای استفاده در api ها
@@ -110,14 +114,28 @@ const FormGetPass = ({
             {...register("pass", {
               required: true, //"لطفا شماره موبایل خود را وارد کنید",
             })}
-            type={"text"}
+            // type={"password"}
+            type={showPassword ? "text" : "password"}
             InputProps={{
+              // startAdornment: (
+              //   <InputAdornment
+              //     position="start"
+              //     sx={{ color: "primary", mx: 0 }}
+              //   >
+              //     <HttpsOutlinedIcon />
+              //   </InputAdornment>
+              // ),
               endAdornment: (
                 <InputAdornment
                   position="start"
                   sx={{ color: "primary", mx: 0, ml: 2 }}
                 >
-                  <HttpsOutlinedIcon />
+                  <IconButton
+                    onClick={() => setShowPassword(!showPassword)}
+                    edge="start"
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
                 </InputAdornment>
               ),
             }}

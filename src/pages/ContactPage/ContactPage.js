@@ -25,9 +25,9 @@ const ContactPage = () => {
 
   return (
     <Container maxWidth="xl" sx={{ py: 4, mt: { xs: 0, md: 4 } }}>
-      <Box sx={{ py: 4, px: { xs: 2, md: 5 } }}>
-        <Grid container spacing={0}>
-          <Grid
+      <Box sx={{ py: { xs: 2, md: 8 }, px: { xs: 2, md: 5 } }}>
+        <Grid container spacing={0} justifyContent={"center"}>
+          {/* <Grid
             xs="12"
             md="6"
             sx={{
@@ -48,10 +48,10 @@ const ContactPage = () => {
               تماس با ما
             </Typography>
             <FormContact />
-          </Grid>
+          </Grid> */}
           <Grid
             xs="12"
-            md="6"
+            md="8"
             sx={{
               px: { xs: 0, md: 4 },
               order: { xs: 0, md: 1 },

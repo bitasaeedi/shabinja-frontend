@@ -131,7 +131,7 @@ const TableComponent = ({ stays, loading = true }) => {
               variant="contained"
               component={Link}
               endIcon={<AddIcon />}
-              to="/new-stay/start"
+              to={stays?.length > 0 ? "/new-stay/wizard" : "/new-stay/start"}
               sx={{ my: 1 }}
             >
               افزودن اقامتگاه جدید

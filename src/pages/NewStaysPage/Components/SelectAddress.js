@@ -78,12 +78,16 @@ const SelectAddress = () => {
   const isNextDisabled = () => {
     // return false;
     return !(
-      selectedProvince &&
-      selectedCity &&
-      addressInput &&
-      addressInput.trim().length > 0 &&
-      !isNaN(tellInput) &&
-      !isNaN(zipCodeInpute)
+      (
+        selectedProvince &&
+        selectedCity &&
+        addressInput &&
+        addressInput.trim().length > 0 &&
+        tellInput?.toString()?.length > 0 &&
+        zipCodeInpute?.toString()?.length > 0
+      )
+      // !isNaN(tellInput) &&
+      // !isNaN(zipCodeInpute)
     );
   };
 
@@ -166,11 +170,17 @@ const SelectAddress = () => {
                       value: 200,
                       message: "آدرس نمی‌تواند بیش از ۲۰۰ کاراکتر باشد",
                     },
+                    minLength: {
+                      value: 5,
+                      message: "آدرس کوتاه است",
+                    },
                   }}
-                  render={({ field, fieldState }) => (
+                  render={({ field, fieldState: { error } }) => (
                     <TextField
                       size="small"
                       {...field}
+                      error={!!error}
+                      helperText={error?.message}
                       // label="آدرس دقیق"
                       multiline
                       rows={2}
@@ -180,41 +190,85 @@ const SelectAddress = () => {
                 />
               </InputeContainer>
 
-              {/*  کد پستی */}
-              <InputeContainer label={"کد پستی "}>
+              {/* Postal Code */}
+              <InputeContainer label={"کد پستی"}>
                 <Controller
                   name="zipCod"
                   control={control}
                   rules={{
-                    required: " الزامی است",
-                    // maxLength: {},
+                    required: "الزامی است",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "فقط عدد مجاز است",
+                    },
+                    minLength: {
+                      value: 10,
+                      message: "کد پستی باید 10 رقمی باشد",
+                    },
+                    maxLength: {
+                      value: 10,
+                      message: "کد پستی باید 10 رقمی باشد",
+                    },
                   }}
-                  render={({ field, fieldState }) => (
+                  render={({ field, fieldState: { error } }) => (
                     <TextField
                       size="small"
                       {...field}
-                      // label="کد پستی"
                       fullWidth
+                      error={!!error}
+                      helperText={error?.message}
+                      inputProps={{
+                        maxLength: 10,
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: error ? "red" : "",
+                          },
+                        },
+                      }}
                     />
                   )}
                 />
               </InputeContainer>
 
-              {/*  شماره تماس */}
-              <InputeContainer label={"شماره تلفن ثابت "}>
+              {/* Phone Number */}
+              <InputeContainer label={"شماره تلفن ثابت"}>
                 <Controller
                   name="tell"
                   control={control}
                   rules={{
-                    required: " الزامی است",
-                    // maxLength: {},
+                    required: "الزامی است",
+                    pattern: {
+                      value: /^[0-9]+$/,
+                      message: "فقط عدد مجاز است",
+                    },
+                    minLength: {
+                      value: 8,
+                      message: "شماره تلفن باید حداقل 8 رقمی باشد",
+                    },
+                    maxLength: {
+                      value: 11,
+                      message: "شماره تلفن باید حداکثر 11 رقمی باشد",
+                    },
                   }}
-                  render={({ field, fieldState }) => (
+                  render={({ field, fieldState: { error } }) => (
                     <TextField
                       size="small"
                       {...field}
-                      // label="شماره تلفن"
                       fullWidth
+                      error={!!error}
+                      helperText={error?.message}
+                      inputProps={{
+                        maxLength: 11,
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: error ? "red" : "",
+                          },
+                        },
+                      }}
                     />
                   )}
                 />
@@ -238,7 +292,7 @@ const SelectAddress = () => {
                 آدرس اقامتگاه
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                آدرس دقیق اقامتگاه تنها پس از قطعی شدن رزرو برای میهمان ارسال
+                آدرس دقیق اقامتگاه تنها پس از قطعی شدن رزرو برای مهمان ارسال
                 میگردد.
               </Typography>
             </CardContent>

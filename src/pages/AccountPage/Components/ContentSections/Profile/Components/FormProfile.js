@@ -59,7 +59,7 @@ const FormProfile = () => {
     mode: "onChange",
   });
 
-  const password = watch("password", "");
+  const password = watch("newpassword", "");
 
   useEffect(() => {
     handleGetUserInfo();
@@ -78,7 +78,7 @@ const FormProfile = () => {
         setValue("lastName", profile.lastName || "");
         setValue("nation", profile.nationalCode || "");
         setValue("sms", profile.mobile || "");
-        setValue("email", profile.email || "");
+        setValue("myemail", profile.email || "");
         setValue("birthday", shamsiObject?.fullshamsi || "");
         setValue("aboutMe", profile.aboutMe || "");
       }
@@ -188,10 +188,10 @@ const FormProfile = () => {
       const result = await UserUpdateApi({
         firstName: data.name,
         lastName: data.lastName,
-        password: data.password || undefined,
+        password: data.newpassword || undefined,
         nationalCode: data.nation,
         mobile: data.sms,
-        email: data.email,
+        email: data.myemail,
         birthDay: data.birthday,
       });
 
@@ -394,6 +394,9 @@ const FormProfile = () => {
                     size="small"
                     InputLabelProps={{ shrink: true }}
                     sx={{ mb: 2 }}
+                    inputProps={{
+                      autocomplete: "my-name",
+                    }}
                   />
                 )}
               />
@@ -425,6 +428,9 @@ const FormProfile = () => {
                     size="small"
                     InputLabelProps={{ shrink: true }}
                     sx={{ mb: 2 }}
+                    inputProps={{
+                      autocomplete: "lastName",
+                    }}
                   />
                 )}
               />
@@ -489,7 +495,7 @@ const FormProfile = () => {
             {/* Email */}
             <Grid item xs={12} md={6}>
               <Controller
-                name="email"
+                name="myemail"
                 control={control}
                 rules={{ validate: validateEmail }}
                 render={({ field }) => (
@@ -499,9 +505,21 @@ const FormProfile = () => {
                     fullWidth
                     error={!!errors.email}
                     helperText={errors.email?.message}
+                    inputProps={
+                      {
+                        // autocomplete: "my-email",
+                      }
+                    }
                     size="small"
                     InputLabelProps={{ shrink: true }}
-                    sx={{ mb: 2 }}
+                    sx={{
+                      mb: 2,
+                      "& input:-webkit-autofill": {
+                        "-webkit-box-shadow":
+                          "0 0 0 100px white inset !important",
+                        "-webkit-text-fill-color": "inherit !important",
+                      },
+                    }}
                   />
                 )}
               />
@@ -535,7 +553,7 @@ const FormProfile = () => {
             {/* Password */}
             <Grid item xs={12} md={6}>
               <Controller
-                name="password"
+                name="newpassword"
                 control={control}
                 rules={{ validate: validatePassword }}
                 render={({ field }) => (
@@ -548,6 +566,9 @@ const FormProfile = () => {
                     helperText={errors.password?.message}
                     size="small"
                     InputLabelProps={{ shrink: true }}
+                    inputProps={{
+                      autocomplete: "new-password",
+                    }}
                     sx={{ mb: 2 }}
                     InputProps={{
                       endAdornment: (

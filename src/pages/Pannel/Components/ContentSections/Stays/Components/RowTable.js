@@ -103,9 +103,9 @@ const RowTable = ({ stay, index }) => {
               color={stay.statusTourTitle === "تایید" ? "green" : "error"}
               sx={{
                 fontSize: { xs: "0.75rem", sm: "0.85rem" },
-                backgroundColor:
-                  stay.statusTourTitle === "تایید" ? "#e8f5e9" : "#ffebee",
-                color: stay.statusTourTitle === "تایید" ? "#2e7d32" : "#c62828",
+                // backgroundColor:
+                //   stay.statusTourTitle === "تایید" ? "#e8f5e9" : "#ffebee",
+                // color: stay.statusTourTitle === "تایید" ? "#2e7d32" : "#c62828",
                 borderRadius: "4px",
                 padding: { xs: "2px 0px", sm: "4px 0px" },
                 textAlign: "center",

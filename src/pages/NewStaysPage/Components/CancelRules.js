@@ -41,14 +41,19 @@ const CancelRules = () => {
     setSelectedOption(event.target.value);
   };
   useEffect(() => {
-    setSelectedOption(manageStepsContext?.hostInfoUpdating?.cancelReservation); // 0 or 1 or 2
+    if (manageStepsContext?.hostInfoUpdating?.cancelReservation) {
+      setSelectedOption(
+        manageStepsContext?.hostInfoUpdating?.cancelReservation || 0
+      );
+    }
+    // 0 or 1 or 2
   }, [manageStepsContext?.hostInfoUpdating?.cancelReservation]);
   // cancelReservation
-  const isNextDisabled = () => selectedOption === "";
+  const isNextDisabled = () => isNaN(selectedOption);
 
   const onSubmit = async () => {
     setLoading(true);
-    if (selectedOption && manageStepsContext?.stayCodeToComplete) {
+    if (!isNaN(selectedOption) && manageStepsContext?.stayCodeToComplete) {
       const res = await manageStepsContext?.handleUpdateStay({
         cancelReservation: selectedOption,
       });

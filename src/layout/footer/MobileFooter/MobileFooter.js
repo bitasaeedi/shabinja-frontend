@@ -32,13 +32,13 @@ const MobileFooter = () => {
       // disabled: true, // No navigation for this button
       color: "initial",
     },
-    {
-      label: "پشتیبانی",
-      icon: <HeadsetMicIcon fontSize="small" />,
-      action: () => navigate("/account/support"),
-      disabled: false,
-      color: "primary.main",
-    },
+    // {
+    //   label: "پشتیبانی",
+    //   icon: <HeadsetMicIcon fontSize="small" />,
+    //   action: () => navigate("/account/support"),
+    //   disabled: false,
+    //   color: "primary.main",
+    // },
     {
       label: "خانه",
       icon: <Home fontSize="small" />,

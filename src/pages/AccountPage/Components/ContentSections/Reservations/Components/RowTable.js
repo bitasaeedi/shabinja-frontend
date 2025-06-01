@@ -144,20 +144,7 @@ const RowTable = ({ stay, index }) => {
               ویرایش مشخصات
             </MenuItem>
 
-            <MenuItem
-              component={Link}
-              to={`/edit-calendar/${stay.guid}`}
-              onClick={handleClose}
-              sx={{
-                fontSize: "14px",
-                fontWeight: 400,
-                color: "#333",
-                "&:hover": { backgroundColor: "#f5f5f5" },
-              }}
-            >
-              <EventIcon sx={{ mr: 1, fontSize: "18px", color: "#999" }} />
-              تقویم نرخ
-            </MenuItem>
+          
 
             <MenuItem
               onClick={() => setOpenConfirm(true)}

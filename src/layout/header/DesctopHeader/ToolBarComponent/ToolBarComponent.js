@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Box,
   Divider,
   IconButton,
@@ -30,6 +31,7 @@ import CheckTokenExpiration from "../../../../components/checkTokenExpiration/Ch
 import { HostTourSearchTitleApi } from "../../../../api/toureApis";
 import { useState } from "react";
 import SelectCity from "../../../../components/popups/SelectCity/SelectCity";
+import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 
 // Styled components for the search bar
 const Search = styled("div")(({ theme }) => ({
@@ -242,7 +244,7 @@ const ToolBarComponent = ({ isSticky }) => {
           </Tooltip>
 
           {/* دکمه پشتیبانی */}
-          <Tooltip title="پشتیبانی">
+          {/* <Tooltip title="پشتیبانی">
             <IconButton
               sx={{
                 display: { xs: "none", md: "block" },
@@ -254,7 +256,7 @@ const ToolBarComponent = ({ isSticky }) => {
             >
               <HeadsetMicIcon sx={{ fontSize: 20 }} />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <Button
             component={Link}
@@ -285,7 +287,30 @@ const ToolBarComponent = ({ isSticky }) => {
                 variant="contained"
                 disableElevation
                 onClick={handleClick}
-                startIcon={<AccountCircleIcon />}
+                startIcon={
+                  appContext?.userInfo?.imageUrl ? (
+                    <Avatar
+                      sx={{
+                        width: 23,
+                        height: 23,
+                        // margin: "0 auto",
+                        background: "linear-gradient(135deg, #287dfa, #6a11cb)",
+                        fontSize: ".5rem",
+                        color: "white",
+                        // mx: 2,
+                      }}
+                      src={
+                        appContext?.userInfo?.imageUrl
+                          ? DownloadImageApi(appContext?.userInfo?.imageUrl)
+                          : ""
+                      }
+                    >
+                      {appContext?.userInfo?.name[0]}
+                    </Avatar>
+                  ) : (
+                    <AccountCircleIcon />
+                  )
+                }
                 endIcon={
                   <KeyboardArrowDownIcon
                     sx={{

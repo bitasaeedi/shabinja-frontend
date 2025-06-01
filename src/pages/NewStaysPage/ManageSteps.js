@@ -41,6 +41,7 @@ import ShabinjaRules from "./Components/ShabinjaRules";
 import DocumentOfStay from "./Components/DocumentOfStay";
 import DescribGeoStay from "./Components/DescribGeoStay";
 import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
+import { CalculateStepNum } from "./Components/Componnets/CalculateStepNum";
 export const ManageStepsContext = createContext();
 // تنظیمات مراحل
 const stepsConfig = [
@@ -240,6 +241,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     setHostInfoUpdating({
       ...hostResult?.data,
     });
+    console.log(hostResult?.data, "stay info");
     handleFindLastStep(hostResult?.data);
 
     return hostResult;
@@ -248,7 +250,8 @@ const ManageSteps = ({ stayCodeToComplete }) => {
   // پیدا کردن آخرین مرحله
   const handleFindLastStep = async (data) => {
     if (!activeStep) {
-      handleStepChange(1);
+     const result = CalculateStepNum(data)
+      handleStepChange(result || 1);
     }
   };
 
@@ -268,8 +271,9 @@ const ManageSteps = ({ stayCodeToComplete }) => {
       ...hostInfoUpdating,
       ...data,
     };
-    // console.log(myData, "handleUpdateStay", stayCodeToComplete);
+
     const hostResult = await HostTourUpdateApi(myData, stayCodeToComplete);
+    console.log(myData, "handleUpdateStay", stayCodeToComplete, hostResult);
     if (hostResult?.issuccess) {
       await handleGetInfoStay();
       return true;
@@ -406,7 +410,11 @@ const ManageSteps = ({ stayCodeToComplete }) => {
                 sx={{
                   cursor: "pointer",
                 }}
-                onClick={() => handleStepChange(index)}
+                onClick={() => {
+                  if (activeStep > index) {
+                    handleStepChange(index);
+                  }
+                }}
               >
                 {activeStep === index ? (
                   <Typography variant="h6">{step.activeLabel}</Typography>

@@ -18,6 +18,7 @@ import { ManageStepsContext } from "../ManageSteps";
 import InputeContainer from "./Componnets/InputeContainer";
 import SwitchSelect from "../../../components/CheckBoxSelect/SwitchSelect";
 import CounterComponent from "../../../components/CounterComponent/CounterComponent";
+
 const listStairs = [
   { id: 0, label: "ندارد" },
   { id: 10, label: "کمتر از 10" },
@@ -25,6 +26,7 @@ const listStairs = [
   { id: 30, label: "کمتر از 30" },
   { id: 40, label: "بیشتر از 30" },
 ];
+
 const AboutStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [loading, setLoading] = useState(false);
@@ -36,8 +38,7 @@ const AboutStay = () => {
         title: manageStepsContext?.hostInfoUpdating?.title || "",
         description: manageStepsContext?.hostInfoUpdating?.dics || "",
         AllSizeOfTheInfrastructure:
-          manageStepsContext?.hostInfoUpdating?.allSizeOfTheInfrastructure ||
-          "",
+          manageStepsContext?.hostInfoUpdating?.allSizeOfTheInfrastructure || "",
         SizeOfTheInfrastructure:
           manageStepsContext?.hostInfoUpdating?.sizeOfTheInfrastructure || "",
         stair: manageStepsContext?.hostInfoUpdating?.step || "0",
@@ -49,6 +50,7 @@ const AboutStay = () => {
   const description = watch("description");
   const titleWatch = watch("title");
   const stairs = watch("stair");
+
   useEffect(() => {
     setCountFloor(manageStepsContext?.hostInfoUpdating?.floor);
     setGoodForOld(manageStepsContext?.hostInfoUpdating?.disabled);
@@ -61,7 +63,6 @@ const AboutStay = () => {
     }
   };
 
-  // به روز رسانی درباره اقامتگاه
   const onSubmit = async (data) => {
     setLoading(true);
     const {
@@ -80,7 +81,7 @@ const AboutStay = () => {
       disabled: goodForOld,
       floor: countFloor,
     };
-    // console.log(myData, "myData");
+    
     if (manageStepsContext?.stayCodeToComplete) {
       await manageStepsContext?.handleUpdateStay(myData);
       manageStepsContext?.handleNext();
@@ -89,14 +90,23 @@ const AboutStay = () => {
   };
 
   const isNextDisabled = () => {
-    return !(
-      AllSizeOfTheInfrastructureInput &&
-      SizeOfTheInfrastructureInput &&
-      description?.length >= 3 &&
-      titleWatch?.length >= 3 &&
-      stairs >= 0
+    const { errors } = formState;
+    return (
+      !titleWatch ||
+      !description ||
+      !AllSizeOfTheInfrastructureInput ||
+      !SizeOfTheInfrastructureInput ||
+      stairs === undefined 
+      // titleWatch.length < 3 ||
+      // description.length < 10 ||
+      // errors.title ||
+      // errors.description ||
+      // errors.AllSizeOfTheInfrastructure ||
+      // errors.SizeOfTheInfrastructure ||
+      // errors.stair
     );
   };
+
   return (
     <>
       <Grid container spacing={3} sx={{}}>
@@ -114,18 +124,22 @@ const AboutStay = () => {
                 name="title"
                 control={control}
                 rules={{
-                  required: "  الزامی است",
+                  required: "عنوان اقامتگاه الزامی است",
+                  minLength: {
+                    value: 3,
+                    message: "عنوان باید حداقل 3 کاراکتر باشد"
+                  },
                   maxLength: {
                     value: 200,
-                    // message: "توضیحات نمی‌تواند بیش از 1000 کاراکتر باشد",
+                    message: "عنوان نمی‌تواند بیش از 200 کاراکتر باشد"
                   },
+                  validate: (value) => 
+                    !/^\s+$/.test(value) || "عنوان نمی‌تواند فقط شامل فاصله باشد"
                 }}
                 render={({ field, fieldState }) => (
                   <TextField
-                    // sx={{ mb: 2 }}
                     size="small"
                     {...field}
-                    // label="عنوان اقامتگاه"
                     multiline
                     fullWidth
                     error={!!fieldState.error}
@@ -134,77 +148,78 @@ const AboutStay = () => {
                 )}
               />
             </InputeContainer>
+
             {/* "متراژ کل (متر)" */}
             <InputeContainer label={"متراژ کل (متر)"}>
               <Controller
                 name="AllSizeOfTheInfrastructure"
                 control={control}
                 rules={{
-                  required: "الزامی است",
-                  validate: (value) =>
-                    value > 0 || "مقدار باید بزرگتر از صفر باشد",
+                  required: "متراژ کل الزامی است",
+                  validate: {
+                    isNumber: (value) => !isNaN(value) || "لطفاً عدد وارد کنید",
+                    isPositive: (value) => value > 0 || "عدد باید بزرگتر از صفر باشد",
+                    maxValue: (value) => value <= 10000 || "عدد نمی‌تواند بیش از ۱۰۰۰۰ باشد",
+                    buildingNotBigger: (value) => {
+                      const buildingSize = getValues("SizeOfTheInfrastructure");
+                      return !buildingSize || value >= buildingSize || "متراژ کل نمی‌تواند از متراژ ساختمان کمتر باشد";
+                    }
+                  }
                 }}
                 render={({ field, fieldState }) => (
                   <TextField
                     dir="ltr"
-                    // sx={{ mb: 2 }}
                     {...field}
-                    // label="متراژ کل"
                     fullWidth
                     size="small"
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    onChange={(e) =>
-                      handleInputChange(e, "AllSizeOfTheInfrastructure")
-                    }
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">متر</InputAdornment>
-                    //   ),
-                    // }}
+                    onChange={(e) => handleInputChange(e, "AllSizeOfTheInfrastructure")}
                   />
                 )}
               />
             </InputeContainer>
+
             {/* "متراژ ساختمان (متر)" */}
             <InputeContainer label={"متراژ ساختمان (متر)"}>
               <Controller
                 name="SizeOfTheInfrastructure"
                 control={control}
                 rules={{
-                  required: "الزامی است",
-                  validate: (value) =>
-                    value > 0 || "مقدار باید بزرگتر از صفر باشد",
+                  required: "متراژ ساختمان الزامی است",
+                  validate: {
+                    isNumber: (value) => !isNaN(value) || "لطفاً عدد وارد کنید",
+                    isPositive: (value) => value > 0 || "عدد باید بزرگتر از صفر باشد",
+                    maxValue: (value) => value <= 10000 || "عدد نمی‌تواند بیش از ۱۰۰۰۰ باشد",
+                    notBiggerThanTotal: (value) => {
+                      const totalSize = getValues("AllSizeOfTheInfrastructure");
+                      return !totalSize || value <= totalSize || "متراژ ساختمان نمی‌تواند از متراژ کل بیشتر باشد";
+                    }
+                  }
                 }}
                 render={({ field, fieldState }) => (
                   <TextField
-                    // sx={{ mb: 2 }}
                     {...field}
                     dir="ltr"
-                    // label="متراژ زیربنا"
                     fullWidth
                     size="small"
                     error={!!fieldState.error}
                     helperText={fieldState.error?.message}
-                    onChange={(e) =>
-                      handleInputChange(e, "SizeOfTheInfrastructure")
-                    }
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">متر</InputAdornment>
-                    //   ),
-                    // }}
+                    onChange={(e) => handleInputChange(e, "SizeOfTheInfrastructure")}
                   />
                 )}
               />
             </InputeContainer>
+
             {/* پله */}
             <InputeContainer label={"پله"}>
               <Controller
                 name="stair"
                 control={control}
                 rules={{
-                  required: "انتخاب  الزامی است",
+                  required: "انتخاب تعداد پله‌ها الزامی است",
+                  validate: (value) => 
+                    listStairs.some(item => item.id == value) || "لطفاً یک گزینه معتبر انتخاب کنید"
                 }}
                 render={({ field, fieldState }) => (
                   <TextField
@@ -213,9 +228,7 @@ const AboutStay = () => {
                     select
                     fullWidth
                     error={!!fieldState.error}
-                    helperText={
-                      fieldState.error ? fieldState.error.message : ""
-                    }
+                    helperText={fieldState.error?.message}
                   >
                     {listStairs.map((item, index) => (
                       <MenuItem key={index} value={item.id}>
@@ -229,11 +242,7 @@ const AboutStay = () => {
 
             {/* طبقه */}
             <InputeContainer label="طبقه" flexOnMobile={true}>
-              <Box
-                sx={{
-                  width: "100%",
-                }}
-              >
+              <Box sx={{ width: "100%" }}>
                 <CounterComponent
                   count={countFloor}
                   increment={() => setCountFloor(countFloor + 1)}
@@ -246,29 +255,17 @@ const AboutStay = () => {
             </InputeContainer>
 
             {/* مناسب سالمندان  */}
-            <Box
-              sx={{
-                mt: 3,
-                mb: 4,
-              }}
-            >
+            <Box sx={{ mt: 3, mb: 4 }}>
               <SwitchSelect
                 item={{
                   id: 1,
                   title: (
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        fontSize: 16,
-                      }}
-                    >
+                    <Typography variant="h6" sx={{ fontSize: 16 }}>
                       مناسب سالمندان
                     </Typography>
                   ),
                 }}
-                handleSelect={(item, isSelected) =>
-                  setGoodForOld((prev) => !prev)
-                }
+                handleSelect={(item, isSelected) => setGoodForOld((prev) => !prev)}
                 titleActive="بله"
                 titleDisActive="خیر"
                 listSelected={[goodForOld ? 1 : 0]}
@@ -281,18 +278,22 @@ const AboutStay = () => {
                 name="description"
                 control={control}
                 rules={{
-                  required: "وارد کردن توضیحات الزامی است",
+                  required: "توضیحات اقامتگاه الزامی است",
+                  minLength: {
+                    value: 10,
+                    message: "توضیحات باید حداقل 10 کاراکتر باشد"
+                  },
                   maxLength: {
                     value: 1000,
-                    message: "توضیحات نمی‌تواند بیش از 1000 کاراکتر باشد",
+                    message: "توضیحات نمی‌تواند بیش از 1000 کاراکتر باشد"
                   },
+                  validate: (value) => 
+                    !/^\s+$/.test(value) || "توضیحات نمی‌تواند فقط شامل فاصله باشد"
                 }}
                 render={({ field, fieldState }) => (
                   <TextField
-                    // sx={{ mb: 2 }}
                     size="small"
                     {...field}
-                    // label="درباره اقامتگاه"
                     multiline
                     rows={3}
                     fullWidth
@@ -302,63 +303,16 @@ const AboutStay = () => {
                 )}
               />
             </InputeContainer>
-            {/* {"نکات بیشتر"} */}
-            {/* <InputeContainer label={"نکات بیشتر (اختیاری)"}>
-              <Controller
-                name="morePoints"
-                control={control}
-                rules={
-                  {
-                    // required: "وارد کردن توضیحات الزامی است",
-                    // maxLength: {
-                    //   // value: 1000,
-                    //   // message: "توضیحات نمی‌تواند بیش از 1000 کاراکتر باشد",
-                    // },
-                  }
-                }
-                render={({ field, fieldState }) => (
-                  <TextField
-                    size="small"
-                    {...field}
-                    // label="نکات بیشتر"
-                    multiline
-                    rows={3}
-                    fullWidth
-                    error={!!fieldState.error}
-                    helperText={fieldState.error?.message}
-                  />
-                )}
-              />
-            </InputeContainer> */}
           </Box>
         </Grid>
 
         {/* Information Section */}
-        <Grid
-          item
-          xs={12}
-          md={4}
-          sx={{
-            display: { xs: "none", md: "block" },
-          }}
-        >
-          <Card
-            sx={{
-              boxShadow: 4,
-              borderRadius: "8px",
-              position: "sticky",
-              top: 16, // Keeps card sticky for larger screens
-            }}
-          >
+        <Grid item xs={12} md={4} sx={{ display: { xs: "none", md: "block" } }}>
+          <Card sx={{ boxShadow: 4, borderRadius: "8px", position: "sticky", top: 16 }}>
             <CardContent>
               <Typography
                 variant="h6"
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  fontSize: 20,
-                  mb: 1,
-                }}
+                sx={{ display: "flex", alignItems: "center", fontSize: 20, mb: 1 }}
                 gutterBottom
               >
                 <InfoOutlined sx={{ mr: 1 }} />
@@ -367,9 +321,7 @@ const AboutStay = () => {
               <Typography
                 variant="body2"
                 color="text.secondary"
-                sx={{
-                  textAlign: "justify",
-                }}
+                sx={{ textAlign: "justify" }}
               >
                 ‎‏‎بهتر است در توضیحات خود, به فراهم بودن امکانات ‏تفریحی همچون
                 دوچرخه سواری, اسب سواری یا ماهی گیری و قایقرانی در مجاورت
@@ -380,6 +332,7 @@ const AboutStay = () => {
           </Card>
         </Grid>
       </Grid>
+      
       <FixedButtonsSubmit
         handleNext={handleSubmit(onSubmit)}
         handlePrevious={manageStepsContext?.handlePrevious}

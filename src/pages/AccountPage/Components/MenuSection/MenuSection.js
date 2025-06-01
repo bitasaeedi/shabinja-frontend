@@ -55,12 +55,12 @@ const MenuSection = () => {
       pannel: false,
       icon: <HelpOutlineOutlinedIcon />,
     },
-    {
-      label: "پشتیبانی",
-      pannel: true,
-      path: "support",
-      icon: <HeadsetMicIcon />,
-    },
+    // {
+    //   label: "پشتیبانی",
+    //   pannel: true,
+    //   path: "support",
+    //   icon: <HeadsetMicIcon />,
+    // },
   ];
 
   const handleLogout = () => {
@@ -127,7 +127,7 @@ const MenuSection = () => {
           >
             {`${appContext?.userInfo?.name} ${appContext?.userInfo?.lastName}`}
           </Typography>
-          <Typography variant="body2">کاربر ویژه</Typography>
+          <Typography variant="body2">داشبورد کاربری</Typography>
         </Box>
       </Box>
 

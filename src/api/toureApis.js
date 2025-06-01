@@ -271,8 +271,8 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         BedTwo: updateData?.bedTwo, //1, /// تعداد تخت خواب دونفره
         BedOld: updateData?.bedOld, //1, /// تعداد تخت خواب سنتی
         BathRoom: updateData?.bathRoom, //1, ///تعداد حمام
-        OtherItemTourIds: updateData?.otherItemTourIds, //["1", "2"], ////سایر امکانات برحسب لیست ای دی
-        RolItemTourIds: updateData?.rolItemTourIds, //["1", "2"], /// قوانین برحسب لیست آی دی
+        OtherItemTourIds: updateData?.otherItemTourIds || [], //["1", "2"], ////سایر امکانات برحسب لیست ای دی
+        RolItemTourIds: updateData?.rolItemTourIds || [], //["1", "2"], /// قوانین برحسب لیست آی دی
         Dics: updateData?.dics, //"توضیحات",
         Loc: updateData?.loc, //"لوکیشن",
         Step: updateData?.step, //"پله ها",
@@ -355,7 +355,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
 export const UploadDocumentsApi = async (updateData, guid) => {
   try {
     const token = localStorage.getItem("access_token");
-    console.log(updateData , "UploadDocumentsApi")
+    console.log(updateData, "UploadDocumentsApi");
     const response = await axios.post(
       `${baseUrl}/HostTour/UploadDocuments`,
       {

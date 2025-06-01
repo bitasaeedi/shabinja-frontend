@@ -38,14 +38,23 @@ const DocumentOfStay = () => {
     setLoading(true);
     const {} = data;
     const myData = {};
-    if (manageStepsContext?.stayCodeToComplete) {
+    if (
+      manageStepsContext?.stayCodeToComplete &&
+      manageStepsContext?.hostInfoUpdating?.fileHost &&
+      manageStepsContext?.hostInfoUpdating?.nationallImage
+    ) {
       // await manageStepsContext?.handleUpdateStay(myData);
       manageStepsContext?.handleNext();
     }
     setLoading(true);
   };
 
-  const isNextDisabled = () => !true;
+  const isNextDisabled = () => {
+    return !(
+      manageStepsContext?.hostInfoUpdating?.fileHost &&
+      manageStepsContext?.hostInfoUpdating?.nationallImage
+    );
+  };
 
   return (
     <>
@@ -54,9 +63,11 @@ const DocumentOfStay = () => {
           item
           xs={12}
           md={8}
-          sx={{
-            display: { xs: "none", md: "block" },
-          }}
+          sx={
+            {
+              // display: { xs: "none", md: "block" },
+            }
+          }
         >
           <Grid container spacing={3}>
             <HomeDoc />
@@ -67,9 +78,11 @@ const DocumentOfStay = () => {
           item
           xs={12}
           md={4}
-          sx={{
-            display: { xs: "none", md: "block" },
-          }}
+          sx={
+            {
+              // display: { xs: "none", md: "block" },
+            }
+          }
         >
           <Card
             sx={{
@@ -79,7 +92,11 @@ const DocumentOfStay = () => {
               top: 16,
             }}
           >
-            <CardContent>
+            <CardContent
+              sx={{
+                display: { xs: "none", md: "block" },
+              }}
+            >
               <Typography
                 variant="h6"
                 sx={{

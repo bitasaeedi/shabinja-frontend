@@ -56,12 +56,12 @@ const MenuSection = () => {
       pannel: false,
       icon: <HelpOutlineOutlinedIcon />,
     },
-    {
-      label: "پشتیبانی", // Support
-      path: "support",
-      pannel: true,
-      icon: <SupportAgentOutlinedIcon />,
-    },
+    // {
+    //   label: "پشتیبانی", // Support
+    //   path: "support",
+    //   pannel: true,
+    //   icon: <SupportAgentOutlinedIcon />,
+    // },
   ];
 
   const handleLogout = () => {
@@ -133,7 +133,7 @@ const MenuSection = () => {
             {`${appContext?.userInfo?.name} ${appContext?.userInfo?.lastName}`}
             {/* محمد محمدی */}
           </Typography>
-          <Typography variant="body2">کاربر ویژه</Typography>
+          <Typography variant="body2">پنل میربان</Typography>
         </Box>
       </Box>
 

@@ -149,6 +149,25 @@ const UploadImages = () => {
                 از آپلود تصاویر "اسکرین‌شات" اجتناب کنید.
               </Typography>
             </Box>
+
+            <Box
+              component="li"
+              sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}
+            >
+              <Typography
+                sx={{
+                  width: "6px",
+                  height: "6px",
+                  backgroundColor: "text.primary",
+                  borderRadius: "50%",
+                  mt: 0.5,
+                  mr: 1.5,
+                }}
+              ></Typography>
+              <Typography variant="body2" color="text.secondary">
+             از آپلود تصاویر با حجم بالای 200 کیلوبایت، اجتناب کنید.
+              </Typography>
+            </Box>
           </Box>
 
           {/* Drag-and-Drop Area */}
@@ -259,8 +278,7 @@ const UploadImages = () => {
                   textAlign: "justify",
                 }}
               >
-                شما میتوانید با گرفتن و کشیدن عکسها، تصویر اصلی اقامتگاه و ترتیب
-                نمایش آنها را به میل خود تغییر دهید
+             با بارگذاری تصاویر مناسب و واقعی، اقامتگاه خود را به کاربران معرفی کنید.
               </Typography>
             </CardContent>
           </Card>
