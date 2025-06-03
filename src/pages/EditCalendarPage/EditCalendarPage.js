@@ -55,8 +55,13 @@ const EditCalendarPage = () => {
       dontShowMobileHeader: true,
     });
   }, []);
-  const handleChangeDate = (newList) => {
-    setSelectedDays(newList);
+  const handleChangeDate = (listDate) => {
+    const valueOfFilter = listDate[0].shamsiObj?.fullshamsi || undefined;
+    const valueOfFilter2 = listDate[1]?.shamsiObj?.fullshamsi || undefined;
+    setSelectedDays([valueOfFilter, valueOfFilter2]);
+
+    // console.log(newList , "handleChangeDate");
+    // setSelectedDays(newList);
   };
   return (
     <EditCalendarPageContext.Provider
@@ -87,6 +92,7 @@ const EditCalendarPage = () => {
               onChange={handleChangeDate}
               values={selectedDays}
               listDayesWithPrice={priceHostTours}
+              dontDisable={true}
             />
           </Box>
           <Box
@@ -99,6 +105,7 @@ const EditCalendarPage = () => {
               onChange={handleChangeDate}
               values={selectedDays}
               listDayesWithPrice={priceHostTours}
+              dontDisable={true}
             />
           </Box>
           <Box
@@ -111,6 +118,7 @@ const EditCalendarPage = () => {
               onChange={handleChangeDate}
               values={selectedDays}
               listDayesWithPrice={priceHostTours}
+              dontDisable={true}
             />
           </Box>
         </Box>

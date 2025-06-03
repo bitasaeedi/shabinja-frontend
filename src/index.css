@@ -104,7 +104,7 @@ body {
 
 .rmdp-wrapper.custom-calendar .rmdp-day:hover {
   border: 2px solid black !important; 
-  background-color: transparent !important;
+  /* background-color: transparent !important; */
   color: black !important;
 }
 
