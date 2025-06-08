@@ -17,6 +17,8 @@ import { Link } from "react-router-dom";
 import ImageOfCard from "./ImageOfCard";
 import SliderDetailsPage from "../../Sliders/SliderCards";
 const HomeCard = ({ myData = {} }) => {
+ 
+  
   return (
     <Box className=" w-auto pb-0 mb-0">
       <Card

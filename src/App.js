@@ -23,6 +23,7 @@ import RulesPage from "./pages/RulesPage/RulesPage";
 import MagazinePage from "./pages/MagazinePage/MagazinePage";
 import { FavoritDestinationApi } from "./api/toureApis";
 import ModalLogin from "./components/Login/ModalLogin";
+
 // Create Context
 export const AppContext = createContext();
 
@@ -113,7 +114,7 @@ function App() {
   const getListData = async (dataToFilter) => {
     const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
     var list = resultGetFavorit?.data;
-    console.log(list, "FavoritDestinationApi list");
+    // console.log(list, "FavoritDestinationApi list");
     setFavoritDestination(list);
     return list;
   };
@@ -145,6 +146,7 @@ function App() {
               <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
               <Route path="/stay/:staycode" element={<StayPage />} />
               <Route path="/about" element={<AboutUs />} />
+              {/* <Route path="/magazine" element={<Magazine/>} /> */}
               <Route path="/help" element={<QuestionsPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/rules" element={<RulesPage />} />

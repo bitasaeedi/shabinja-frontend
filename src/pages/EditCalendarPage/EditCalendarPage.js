@@ -8,41 +8,54 @@ import { AppContext } from "../../App";
 import MyCalendarsWithPrice from "../../components/MyCalendars/MyCalendarsWithprice";
 import ChangePriceButton from "./ChangePriceButton/ChangePriceButton";
 import PriceChangeIcon from "@mui/icons-material/PriceChange";
+import ChangePrice from "./Components/ChangePrice";
+import LastMin from "./Components/LastMin";
+import InstantBooking from "./Components/InstantBooking";
+import MinMaxDay from "./Components/MinMaxDay";
+import Accessibility from "./Components/Accessibility";
+import Discount from "./Components/Discount"
 
 export const EditCalendarPageContext = createContext();
 
 const listButtons = [
   {
     title: "تغییر قیمت",
-    component: <h1>change price</h1>,
+    component: <h1>تغییر قیمت</h1>,
     icon: <PriceChangeIcon />,
+    element:<ChangePrice/>,
   },
   {
     title: "پر و خالی ",
     component: <h1>پر و خالی</h1>,
     icon: <PriceChangeIcon />,
+    element:<Accessibility/>
   },
   {
     title: "تخفیف عادی",
     component: <h1>تخفیف</h1>,
     icon: <PriceChangeIcon />,
+    element:<Discount/>,
   },
   {
     title: " لحظه اخری",
     component: <h1>لحظه آخری </h1>,
     icon: <PriceChangeIcon />,
+    element:<LastMin/>
   },
   {
     title: "رزرو آنی",
-    component: <h1>change price</h1>,
+    component: <h1>رزرو آنی</h1>,
     icon: <PriceChangeIcon />,
+    element:<InstantBooking/>,
   },
   {
-    title: "حداقل روز رزرو",
-    component: <h1>change price</h1>,
+    title: "حداقل و حداکثر روز رزرو",
+    component: <h1>حداقل و حداکثر روز رزرو</h1>,
     icon: <PriceChangeIcon />,
+    element:<MinMaxDay/>,
   },
 ];
+
 const EditCalendarPage = () => {
   const { staycode } = useParams();
   const appContext = useContext(AppContext);
@@ -55,11 +68,12 @@ const EditCalendarPage = () => {
       dontShowMobileHeader: true,
     });
   }, []);
+  
   const handleChangeDate = (listDate) => {
     const valueOfFilter = listDate[0].shamsiObj?.fullshamsi || undefined;
     const valueOfFilter2 = listDate[1]?.shamsiObj?.fullshamsi || undefined;
     setSelectedDays([valueOfFilter, valueOfFilter2]);
-
+   
     // console.log(newList , "handleChangeDate");
     // setSelectedDays(newList);
   };
@@ -67,6 +81,7 @@ const EditCalendarPage = () => {
     <EditCalendarPageContext.Provider
       value={{
         staycode,
+        selectedDays
       }}
     >
       {/* <Header showMobileHeader={false} /> */}

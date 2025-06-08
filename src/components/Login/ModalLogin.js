@@ -61,7 +61,11 @@ const ModalLogin = ({ open, handleClose }) => {
         {(manageForms === "stepCode" || manageForms === "stepPassword") && (
           <IconButton
             onClick={() => {
-              handleCallBackFinall("stepMobile");
+              if (manageForms === "stepCode") {
+                handleCallBackFinall("stepPassword");
+              } else if (manageForms === "stepPassword") {
+                handleCallBackFinall("stepMobile");
+              }
             }}
             sx={{
               position: "absolute",

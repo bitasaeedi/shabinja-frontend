@@ -34,9 +34,9 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
   const handleGetResponseSendMobile = async (response) => {
     setMobileGettingSms(response?.data?.userName);
 
-    // handleSetManageFormsSteps("stepPassword"); // نمایش فرم دریافت پسورد
+     handleSetManageFormsSteps("stepPassword"); // نمایش فرم دریافت پسورد
 
-    handleSetManageFormsSteps("stepCode"); // نمایش فرم دریافت کد
+   // handleSetManageFormsSteps("stepCode"); // نمایش فرم دریافت کد
   };
 
   // نتیجه دریافت توکن بعد از ارسال کد چهار رقمی

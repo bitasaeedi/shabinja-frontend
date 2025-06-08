@@ -114,6 +114,7 @@ const Home = () => {
       removeShadow: false,
     });
   }, []);
+
   // مقاصد محبوب
   const getListData = async (dataToFilter) => {
     const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
@@ -144,13 +145,16 @@ const Home = () => {
     let list = result?.data;
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
+    console.log("list",list.urlTour)
     return list;
   };
+
   const getCommentsAboutSite = async () => {
     const result = await GetCommentsAboutSiteApi();
     let list = result?.data;
     return list;
   };
+
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
@@ -162,6 +166,7 @@ const Home = () => {
       >
         <Section1 listCategories={listCategories} />
       </Box>
+
       {/* اسلایدر اصلی در حالت موبایل */}
       <Box
         className=" "
@@ -171,6 +176,7 @@ const Home = () => {
       >
         <MobileMainSlider MySliderList={cities.slice(0, 4)} />
       </Box>
+
       {/* جستجو سریع */}
       <Box
         className=" "
@@ -221,48 +227,54 @@ const Home = () => {
           </InViewComponents>
         </Box>
 
-        {/* اقامتگاه های ممتاز */}
-        <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
+      {/*دو اقامتگاه اول */}
+
+        {listTitleSliders?.slice(0,2).map((titleSliders,index)=>{
+          return  <Box key={index} className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
               callApiForGetList({
                 // type: 1,
-                // title: listTitleSliders[0]?.urlTour,
+                title: titleSliders?.urlTour,
               })
             }
           >
             <SwipperSliderPublick
-              // lists={cities}
+             lists={cities}
+              title={titleSliders?.title}
+              linkToSeeMore={`/search/${titleSliders?.urlTour}`}
+            >
+              <HomeCards />
+            </SwipperSliderPublick>
+          </InViewComponents>
+        </Box>
+        })}
+
+  {/* اقامتگاه های ممتاز */}
+        {/* <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents
+            getListData={() =>
+              callApiForGetList({
+                // type: 1,
+                title: listTitleSliders[0]?.urlTour,
+              })
+            }
+          >
+            <SwipperSliderPublick
+             lists={cities}
               title={listTitleSliders[0]?.title}
               linkToSeeMore={`/search/${listTitleSliders[0]?.urlTour}`}
             >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
-        </Box>
-        {/* اقامتگاه های اقتصادی */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-          <InViewComponents
-            getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                // title: listTitleSliders[1]?.urlTour,
-              })
-            }
-          >
-            <SwipperSliderPublick
-              // lists={cities}
-              title={listTitleSliders[1]?.title}
-              linkToSeeMore={`/search/${listTitleSliders[1]?.urlTour}`}
-              slidesPerView={4}
-            >
-              <HomeCards />
-            </SwipperSliderPublick>
-          </InViewComponents>
-        </Box>
+        </Box> */}
+
+
+       
 
         {/* تخفیفات لحظه اخری */}
-        <Box
+        {/* <Box
           className=" "
           sx={{
             // height: 2000,
@@ -288,34 +300,42 @@ const Home = () => {
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
-        </Box>
+        </Box> */}
+
         {/* کارتهای تبلیغاتی */}
-        {/* <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
-        </Box> */}
-        {/* اقامتگاه  های شمال */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+        </Box>
+
+        {/* دو اقامتگاه بعدی */}
+
+        {listTitleSliders?.slice(2,6).map((titleSliders,index)=>{
+          return  <Box key={index} className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
               callApiForGetList({
                 // type: 1,
-                // title: listTitleSliders[3]?.urlTour,
+                title: titleSliders?.urlTour,
               })
             }
           >
             <SwipperSliderPublick
-              lists={cities}
-              title={listTitleSliders[3]?.title}
-              linkToSeeMore={`/search/${listTitleSliders[3]?.urlTour}`}
+             lists={cities}
+              title={titleSliders?.title}
+              linkToSeeMore={`/search/${titleSliders?.urlTour}`}
             >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
+        })}
+
+       
         {/* "اپارتمان‌های روزانه در تهران" */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+
+        {/* <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
               callApiForGetList({
@@ -332,45 +352,54 @@ const Home = () => {
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
-        </Box>
+        </Box> */}
 
         {/* کارتهای تبلیغاتی */}
-        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
+        {/* <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
-        </Box>
+        </Box> */}
+         {/* دو اقامتگاه بعدی */}
+
+         
+
         {/* کارتهای تبلیغاتی */}
-        {/* <Box
+        <Box
           className=" "
           sx={{ marginTop: { xs: 2, md: 1 }, mx: { xs: 2, md: 8 } }}
         >
           <InView>
             <ResponsiveCards />
           </InView>
-        </Box> */}
+        </Box>
 
-        {/* اقامتگاه‌های جنوب */}
-        <Box className=" " sx={{ marginTop: { xs: 2, md: 1 } }}>
+           {/* دو اقامتگاه بعدی */}
+
+           {listTitleSliders?.slice(6,8).map((titleSliders,index)=>{
+          return  <Box key={index} className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
               callApiForGetList({
                 // type: 1,
-                // title: listTitleSliders[5]?.urlTour,
+                title: titleSliders?.urlTour,
               })
             }
           >
             <SwipperSliderPublick
-              lists={cities}
-              title={listTitleSliders[5]?.title}
-              linkToSeeMore={`/search/${listTitleSliders[5]?.urlTour}`}
+             lists={cities}
+              title={titleSliders?.title}
+              linkToSeeMore={`/search/${titleSliders?.urlTour}`}
             >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
+        })}
+
+       
         {/* رزرو‌های فوری */}
-        <Box
+        {/* <Box
           className=""
           sx={{
             py: 4,
@@ -394,7 +423,7 @@ const Home = () => {
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
-        </Box>
+        </Box> */}
 
         {/* === نظرات کاربران */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
@@ -410,45 +439,30 @@ const Home = () => {
             />
           </InViewComponents>
         </Box>
+   {/* دو اقامتگاه بعدی */}
 
-        {/* اقامتگاه‌های بومگردی */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+   {listTitleSliders?.slice(8).map((titleSliders,index)=>{
+          return  <Box key={index} className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
               callApiForGetList({
                 // type: 1,
-                // title: listTitleSliders[7]?.urlTour,
+                title: titleSliders?.urlTour,
               })
             }
           >
             <SwipperSliderPublick
-              lists={cities}
-              title={listTitleSliders[7]?.title}
-              linkToSeeMore={`/search/${listTitleSliders[7]?.urlTour}`}
+             lists={cities}
+              title={titleSliders?.title}
+              linkToSeeMore={`/search/${titleSliders?.urlTour}`}
             >
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
-        {/* ویلاهای اطراف تهران */}
-        <Box className="mb-5 " sx={{ marginTop: { xs: 4, md: 5 } }}>
-          <InViewComponents
-            getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                // title: listTitleSliders[8]?.urlTour,
-              })
-            }
-          >
-            <SwipperSliderPublick
-              lists={cities}
-              title={listTitleSliders[8]?.title}
-              linkToSeeMore={`/search/${listTitleSliders[8]?.urlTour}`}
-            >
-              <HomeCards />
-            </SwipperSliderPublick>
-          </InViewComponents>
-        </Box>
+        })}
+       
+        
 
         {/* میزبان شوید */}
         <Begust />

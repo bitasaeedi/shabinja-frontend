@@ -63,6 +63,7 @@ const ChangePriceButton = ({ item }) => {
         handleClosePopover={handleClosePopover}
       >
         {item?.component}
+        {item?.element}
       </PopOverHandle>
     </>
   );

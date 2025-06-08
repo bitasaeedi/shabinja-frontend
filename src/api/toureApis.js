@@ -6,13 +6,14 @@ const baseUrl = API_URL;
 
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
+  console.log("name: ", searchData);
   try {
-    // console.log(searchData, "searchData HostTourSearchApi");
+    
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
       {
-        // title: searchData?.title || "",
+        title: searchData?.title || "",
         start: searchData?.start
           ? ConvertShamsiToMiladi(searchData?.start)
           : "",
@@ -43,7 +44,7 @@ export const HostTourSearchApi = async (searchData) => {
         },
       }
     );
-    // console.log(response, "response");
+    console.log("response: ",searchData?.type,response);
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);
