@@ -9,7 +9,6 @@ import Header from "./layout/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
 import SearchPage from "./pages/SearchPage/SearchPage";
-
 import StayPage from "./pages/StayPage/StayPage";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import PannelPage from "./pages/Pannel/PannelPage";

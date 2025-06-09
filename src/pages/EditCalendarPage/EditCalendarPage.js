@@ -22,37 +22,37 @@ const listButtons = [
     title: "تغییر قیمت",
     component: <h1>تغییر قیمت</h1>,
     icon: <PriceChangeIcon />,
-    element:<ChangePrice/>,
+    element: (props) => <ChangePrice {...props} />,
   },
   {
     title: "پر و خالی ",
     component: <h1>پر و خالی</h1>,
     icon: <PriceChangeIcon />,
-    element:<Accessibility/>
+    element: (props) => <Accessibility {...props} />,
   },
   {
     title: "تخفیف عادی",
     component: <h1>تخفیف</h1>,
     icon: <PriceChangeIcon />,
-    element:<Discount/>,
+    element: (props) => <Discount {...props} />,
   },
   {
-    title: " لحظه اخری",
+    title: "لحظه آخری",
     component: <h1>لحظه آخری </h1>,
     icon: <PriceChangeIcon />,
-    element:<LastMin/>
+    element: (props) => <LastMin {...props} />,
   },
   {
     title: "رزرو آنی",
     component: <h1>رزرو آنی</h1>,
     icon: <PriceChangeIcon />,
-    element:<InstantBooking/>,
+    element: (props) => <InstantBooking {...props} />,
   },
   {
     title: "حداقل و حداکثر روز رزرو",
     component: <h1>حداقل و حداکثر روز رزرو</h1>,
     icon: <PriceChangeIcon />,
-    element:<MinMaxDay/>,
+    element: (props) => <MinMaxDay {...props} />,
   },
 ];
 
