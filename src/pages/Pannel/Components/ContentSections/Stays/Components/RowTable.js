@@ -32,11 +32,11 @@ const RowTable = ({ stay, index }) => {
   const open = Boolean(anchorEl);
 
   const handleDelete = async () => {
-    setOpenConfirm(false);
     setLoadingDelete(true);
     const result = await HostDeleteOneApi(stay?.guid);
 
     await containerMainContext.handleGetMyTour(true);
+    setOpenConfirm(false);
     setLoadingDelete(false);
   };
 
@@ -177,7 +177,10 @@ const RowTable = ({ stay, index }) => {
             </MenuItem>
 
             <MenuItem
-              onClick={() => setOpenConfirm(true)}
+              onClick={() => {
+                handleClose();
+                setOpenConfirm(true);
+              }}
               sx={{
                 fontSize: "14px",
                 fontWeight: 400,
