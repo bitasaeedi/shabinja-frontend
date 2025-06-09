@@ -22,7 +22,7 @@ const MagazinePage = () => {
         bgcolor: "#f9f9f9",
       }}
     >
-      <h1>مجله شبینحا</h1>
+      <h1>مجله شبینجا</h1>
       <HeaderMag />
       <CardSectins
         data={[
