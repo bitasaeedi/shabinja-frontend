@@ -8,7 +8,6 @@ const baseUrl = API_URL;
 export const HostTourSearchApi = async (searchData) => {
   console.log("name: ", searchData);
   try {
-    
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
@@ -44,7 +43,7 @@ export const HostTourSearchApi = async (searchData) => {
         },
       }
     );
-    console.log("response: ",searchData?.type,response);
+    console.log("response: ", searchData?.type, response);
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);
@@ -557,6 +556,30 @@ export const PriceCalculationApi = async (data) => {
     return response.data;
   } catch (error) {
     console.error("Error :", error?.response?.data || error.message);
+    return error?.response?.data;
+  }
+};
+
+// لیست قیمتهای اقامتگاه
+export const PriceHostTourListApi = async (data) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.get(
+      `${baseUrl}/PriceHostTour/GetAll/4ed67688-a03b-f011-97ca-005056ba6b8c/3`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
     return error?.response?.data;
   }
 };

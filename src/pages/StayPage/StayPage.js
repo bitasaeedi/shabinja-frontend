@@ -5,7 +5,11 @@ import { useParams } from "react-router-dom";
 import ScrollableTabs from "./Components/ScrollableTabs/ScrollableTabs";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
 import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
-import { HostTourSearchApi, HostTourSearchOneApi } from "../../api/toureApis";
+import {
+  HostTourSearchApi,
+  HostTourSearchOneApi,
+  PriceHostTourListApi,
+} from "../../api/toureApis";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import FormReserve from "./Components/FormReserve/FormReserve";
 import { useState } from "react";
@@ -23,7 +27,7 @@ const StayPage = () => {
   const [listDateSelected, setListDateSelected] = useState([]);
   const [infoOfStay, setInfoOfStay] = useState({});
   const [loading, setLoading] = useState(true);
-
+  const [listPrices, setListPrices] = useState([]);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
@@ -36,6 +40,7 @@ const StayPage = () => {
 
   useEffect(() => {
     handleSearchStayInfo();
+    handleGetListPrice()
     setListDateSelected([]);
     window.scroll(0, 0);
   }, [staycode]);
@@ -66,6 +71,12 @@ const StayPage = () => {
     setLoading(false);
     return item;
   };
+
+  const handleGetListPrice = async () => {
+    const result = await PriceHostTourListApi();
+    console.info(result?.data , "handleGetListPrice")
+    setListPrices(result?.data)
+  };
   return (
     <StayPageContext.Provider
       value={{
@@ -74,6 +85,7 @@ const StayPage = () => {
         setListDateSelected: setListDateSelected,
         infoOfStay,
         loading,
+        listPrices,
       }}
     >
       {/* <Header showMobileHeader={false} /> */}
