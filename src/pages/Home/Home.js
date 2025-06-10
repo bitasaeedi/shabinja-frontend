@@ -129,6 +129,7 @@ const Home = () => {
     list = list.reverse();
     console.log(resultGetFavorit?.data, "FavoritDestinationApi list");
     setListCategories(list);
+    console.log("list",list);
     return list;
   };
 

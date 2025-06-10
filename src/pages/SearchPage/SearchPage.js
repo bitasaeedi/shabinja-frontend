@@ -105,7 +105,7 @@ const SearchPage = () => {
   const [searchParams] = useSearchParams();
   const cardListRef = useRef(null);
   const { searchtype } = useParams();
-  const [currentPage, setCurrentPage] = useState(1); // شماره pagination
+  const [currentPage, setCurrentPage] = useState(0); // شماره pagination
   const appContext = useContext(AppContext);
   const [listLocation, setListLocation] = useState([]);
 
