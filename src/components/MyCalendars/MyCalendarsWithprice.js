@@ -28,10 +28,11 @@ const MyCalendarsWithPrice = ({
   values = [],
   numMonth = 2,
   dontDisable = false,
+  listDayesWithPrice = [],
 }) => {
   // State
   const [dateInfoLookup, setDateInfoLookup] = useState({});
-  const listDayesWithPrice = MyDatesPrice(); // Get dates with price data
+  // const listDayesWithPrice = MyDatesPrice(); // Get dates with price data
 
   // Effects
   useEffect(() => {
@@ -107,8 +108,8 @@ const MyCalendarsWithPrice = ({
   const handleDateRangeSelection = (dates) => {
     // If both dates are the same, clear selection
     if (
-      GetMiladiStdFunc(new Date(dates[0].toJSON())) ===
-      GetMiladiStdFunc(new Date(dates[1].toJSON()))
+      GetMiladiStdFunc(new Date(dates[0]?.toJSON())) ===
+      GetMiladiStdFunc(new Date(dates[1]?.toJSON()))
     ) {
       onChange([]);
       return;
@@ -159,7 +160,7 @@ const MyCalendarsWithPrice = ({
 
     // If no initial date is selected, only disable unavailable dates
     if (!values?.length || !values[0]) {
-      return !dateInfo || (dateInfo.is_unavailable && !dontDisable);
+      return !dateInfo || (dateInfo.notAvailable && !dontDisable);
     }
 
     const startDate = new Date(ConvertShamsiToMiladi(values[0]));
@@ -191,7 +192,7 @@ const MyCalendarsWithPrice = ({
     }
 
     // Disable unavailable dates
-    if (dateInfo?.is_unavailable) {
+    if (dateInfo?.notAvailable) {
       return !dontDisable;
     }
 
@@ -217,7 +218,7 @@ const MyCalendarsWithPrice = ({
   const findFirstUnavailableDate = (sortedDates, startDate) => {
     for (const dateStr of sortedDates) {
       const date = new Date(dateStr);
-      if (date > startDate && dateInfoLookup[dateStr]?.is_unavailable) {
+      if (date > startDate && dateInfoLookup[dateStr]?.notAvailable) {
         return dateStr;
       }
     }
@@ -252,7 +253,7 @@ const MyCalendarsWithPrice = ({
     }
 
     if (dateInfo) {
-      if (dateInfo.is_holiday) {
+      if (dateInfo.holiday) {
         style.color = "red";
         style.fontWeight = "bold";
       }
@@ -261,7 +262,7 @@ const MyCalendarsWithPrice = ({
         style.fontWeight = "bold";
       }
 
-      if (dateInfo.is_instant) {
+      if (dateInfo.instantBooking) {
         style.fontWeight = "bold";
       }
     }
@@ -294,14 +295,15 @@ const MyCalendarsWithPrice = ({
         const price = dateInfo?.price;
 
         const isSelected = checkIfDateIsSelected(dateKey, values);
-        
+
         const todayDate = new Date(today);
         todayDate.setHours(0, 0, 0, 0);
-        
+
         const dateToCompare = new Date(date);
         dateToCompare.setHours(0, 0, 0, 0);
-        
-        const finalDisable = isDisabled || todayDate > dateToCompare || !dateInfo;
+
+        const finalDisable =
+          isDisabled || todayDate > dateToCompare || !dateInfo;
         const style = getDateStyle(
           dateKey,
           isWeekend,
@@ -363,7 +365,7 @@ const checkIfDateIsSelected = (dateKey, values) => {
  */
 const renderDateCell = (date, dateInfo, price, today, isDisabled) => {
   return (
-    <div style={{ position: "relative" }}>
+    <div style={{ position: "relative",  width:"100%"   }}>
       {renderUnavailablePattern(dateInfo, price, isDisabled, today, date)}
       <div>{date.day}</div>
       {renderDateMetaInfo(price, dateInfo, today, date)}
@@ -375,7 +377,7 @@ const renderDateCell = (date, dateInfo, price, today, isDisabled) => {
  * Render diagonal pattern for unavailable dates
  */
 const renderUnavailablePattern = (dateInfo, price, isDisabled, today, date) => {
-  if (!dateInfo?.is_unavailable || !price || !isDisabled || today > date) {
+  if (!dateInfo?.notAvailable || !price || !isDisabled || today > date) {
     return null;
   }
 
@@ -414,7 +416,11 @@ const renderUnavailablePattern = (dateInfo, price, isDisabled, today, date) => {
  */
 const renderDateMetaInfo = (price, dateInfo, today, date) => {
   if (price) {
-    return <small style={{ fontSize: "10px" }}>{Math.floor(price / 10000)} هزار</small>;
+    return (
+      <small style={{ fontSize: "10px" }}>
+        {Math.floor(price / 10).toLocaleString()}
+      </small>
+    );
   }
 
   if (!dateInfo && today <= date) {

@@ -561,12 +561,12 @@ export const PriceCalculationApi = async (data) => {
 };
 
 // لیست قیمتهای اقامتگاه
-export const PriceHostTourListApi = async (data) => {
+export const PriceHostTourListApi = async (id) => {
   try {
     const token = localStorage.getItem("access_token");
 
     const response = await axios.get(
-      `${baseUrl}/PriceHostTour/GetAll/4ed67688-a03b-f011-97ca-005056ba6b8c/3`,
+      `${baseUrl}/PriceHostTour/GetAll/${id}/4`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

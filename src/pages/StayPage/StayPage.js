@@ -54,7 +54,7 @@ const StayPage = () => {
 
   const handleChangeDate = (listDate) => {
     // if (listDate.length === 2) {
-    const valueOfFilter = listDate[0].shamsiObj?.fullshamsi || undefined;
+    const valueOfFilter = listDate[0]?.shamsiObj?.fullshamsi || undefined;
     const valueOfFilter2 = listDate[1]?.shamsiObj?.fullshamsi || undefined;
     setListDateSelected([valueOfFilter, valueOfFilter2]);
     // }
@@ -73,7 +73,7 @@ const StayPage = () => {
   };
 
   const handleGetListPrice = async () => {
-    const result = await PriceHostTourListApi();
+    const result = await PriceHostTourListApi(staycode);
     console.info(result?.data , "handleGetListPrice")
     setListPrices(result?.data)
   };

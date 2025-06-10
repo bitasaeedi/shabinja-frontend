@@ -143,7 +143,7 @@ const Home = () => {
   // لست عنوان اسلایدر ها
   const getListTitleSliders = async () => {
     const result = await GetListTitleSlidersApi();
-    let list = result?.data;
+    let list = result?.data || [];
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
     console.log("list",list.urlTour)

@@ -233,7 +233,7 @@ const ScrollableTabs = () => {
               numMonth={2}
               onChange={stayPageContext.handleChangeDate}
               values={stayPageContext.listDateSelected}
-              listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
+              listDayesWithPrice={stayPageContext?.listPrices || []}
               // listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours?.filter(
               //   (_, index) => index !== 8 && index !== 9 && index !== 20
               // )}
