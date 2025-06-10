@@ -13,7 +13,8 @@ import LastMin from "./Components/LastMin";
 import InstantBooking from "./Components/InstantBooking";
 import MinMaxDay from "./Components/MinMaxDay";
 import Accessibility from "./Components/Accessibility";
-import Discount from "./Components/Discount"
+import Discount from "./Components/Discount";
+import { PriceHostTourListApi } from "../../api/toureApis";
 
 export const EditCalendarPageContext = createContext();
 
@@ -68,20 +69,29 @@ const EditCalendarPage = () => {
       dontShowMobileHeader: true,
     });
   }, []);
-  
+
+  useEffect(() => {
+    handleGetListPrice();
+  }, [staycode]);
+
   const handleChangeDate = (listDate) => {
     const valueOfFilter = listDate[0].shamsiObj?.fullshamsi || undefined;
     const valueOfFilter2 = listDate[1]?.shamsiObj?.fullshamsi || undefined;
     setSelectedDays([valueOfFilter, valueOfFilter2]);
-   
+
     // console.log(newList , "handleChangeDate");
     // setSelectedDays(newList);
+  };
+
+  const handleGetListPrice = async () => {
+    const result = await PriceHostTourListApi(staycode); 
+    setPriceHostTours(result?.data);
   };
   return (
     <EditCalendarPageContext.Provider
       value={{
         staycode,
-        selectedDays
+        selectedDays,
       }}
     >
       {/* <Header showMobileHeader={false} /> */}

@@ -77,7 +77,7 @@ function MobilePopOverDateSelect({ anchorEl, handleClosePopover }) {
           numMonth={1}
           onChange={stayPageContext.handleChangeDate}
           values={stayPageContext.listDateSelected}
-          listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
+          listDayesWithPrice={stayPageContext?.listPrices}
         />
       </Box>
 

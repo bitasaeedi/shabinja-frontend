@@ -152,8 +152,8 @@ const MyCalendarsWithPrice = ({
      * @param {boolean} doNotCheck - Skip some validation checks
      * @returns {boolean} Whether the date should be disabled
      */
-    if (!dateToCheck) return true;
     if (dontDisable) return false;
+    if (!dateToCheck) return true;
 
     const dateInfo = dateInfoLookup[dateToCheck];
     const currentDate = new Date(dateToCheck);
@@ -303,7 +303,7 @@ const MyCalendarsWithPrice = ({
         dateToCompare.setHours(0, 0, 0, 0);
 
         const finalDisable =
-          isDisabled || todayDate > dateToCompare || !dateInfo;
+          isDisabled || todayDate > dateToCompare || (!dateInfo && !dontDisable) ;
         const style = getDateStyle(
           dateKey,
           isWeekend,
@@ -365,7 +365,7 @@ const checkIfDateIsSelected = (dateKey, values) => {
  */
 const renderDateCell = (date, dateInfo, price, today, isDisabled) => {
   return (
-    <div style={{ position: "relative",  width:"100%"   }}>
+    <div style={{ position: "relative", width: "100%" }}>
       {renderUnavailablePattern(dateInfo, price, isDisabled, today, date)}
       <div>{date.day}</div>
       {renderDateMetaInfo(price, dateInfo, today, date)}

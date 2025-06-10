@@ -74,7 +74,6 @@ const StayPage = () => {
 
   const handleGetListPrice = async () => {
     const result = await PriceHostTourListApi(staycode);
-    console.info(result?.data , "handleGetListPrice")
     setListPrices(result?.data)
   };
   return (

@@ -29,7 +29,7 @@ const DesctopSelectDate = ({
     <MyCalendarsWithprice
       onChange={onChange}
       values={values}
-      listDayesWithPrice={stayPageContext?.infoOfStay?.priceHostTours}
+      listDayesWithPrice={stayPageContext?.listPrices}
     />
   );
 

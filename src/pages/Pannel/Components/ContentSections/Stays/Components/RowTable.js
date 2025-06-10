@@ -163,7 +163,7 @@ const RowTable = ({ stay, index }) => {
 
             <MenuItem
               component={Link}
-              to={`/edit-calendar/${stay.guid}`}
+              to={`/edit-calendar/${stay.id}`}
               onClick={handleClose}
               sx={{
                 fontSize: "14px",
