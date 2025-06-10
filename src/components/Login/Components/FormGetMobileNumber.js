@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect,  useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -9,14 +9,12 @@ import {
   Box,
   Link,
   CircularProgress,
-  Snackbar,
-  Alert,
 } from "@mui/material";
 import AppShortcutIcon from "@mui/icons-material/AppShortcut";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 import { ApiCheckAndSms } from "../../../api/LoginApis";
 
-const FormGetMobileNumber = ({ callBack }) => {
+const FormGetMobileNumber = ({ callBack ,getPhoneNumber}) => {//کال بک بررسی می کنه اگر شماره فرستاده شده باشه میره صحفه بعد
   const [loading, setLoading] = useState(false);
   const {
     register,
@@ -24,11 +22,14 @@ const FormGetMobileNumber = ({ callBack }) => {
     formState: { errors },
     setFocus,
   } = useForm();
+
+  //alert
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
     message: "خطای نامشخص",
   });
+
   const handleMangeAlert = (show, status, message) => {
     setShowAlertSetting({
       show: show || false,
@@ -39,24 +40,28 @@ const FormGetMobileNumber = ({ callBack }) => {
 
   // ارسال شماره موبایل حهت دریافت پیامک
   const onSubmit = async (data) => {
-    setLoading(true);
 
-    var resultCheckSms = {
-    };
-    resultCheckSms = await ApiCheckAndSms({
-      UserName: data?.phone,
-    });
-    // console.log(resultCheckSms, "resultCheckSms");
-    setLoading(false);
-    if (resultCheckSms?.issuccess) {
-      callBack(resultCheckSms);
-    } else {
-      handleMangeAlert(
-        true,
-        resultCheckSms?.issuccess,
-        resultCheckSms?.message
-      );
-    }
+    getPhoneNumber(data?.phone)
+    callBack(data?.phone,"stepPassword")
+    // setLoading(true);
+
+    // var resultCheckSms = {
+    // };
+    // resultCheckSms = await ApiCheckAndSms({
+    //   UserName: data?.phone,
+    // });
+  
+    // console.log("resultCheckSms",resultCheckSms);
+    // setLoading(false);
+    // if (resultCheckSms?.issuccess) {
+    //  callBack(resultCheckSms);
+    // } else {
+    //   handleMangeAlert(
+    //     true,
+    //     resultCheckSms?.issuccess,
+    //     resultCheckSms?.message
+    //   );
+    // }
   };
 
   useEffect(() => {
@@ -83,8 +88,8 @@ const FormGetMobileNumber = ({ callBack }) => {
             color="textSecondary"
             sx={{
               mt: 1,
-              textAlign: "center", // Centers the text
-              width: "100%", // Ensure it takes full width to center properly
+              textAlign: "center", 
+              width: "100%", 
             }}
           >
             برای ورود به شبینجا شماره همراه خود را وارد کنید.
@@ -180,6 +185,7 @@ const FormGetMobileNumber = ({ callBack }) => {
           </Button>
         </Grid>
       </form>
+
       {showAlertSetting?.show && (
         <MyAlertMui
           message={showAlertSetting?.message || ""}

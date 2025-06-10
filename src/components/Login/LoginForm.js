@@ -10,6 +10,7 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
   const [mobileGettingSms, setMobileGettingSms] = useState("");
   const [countdown, setCountdown] = useState(starttimer);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState();
   // Start countdown timer
   useEffect(() => {
     if (countdown > 0) {
@@ -20,6 +21,9 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
     }
   }, [countdown]);
 
+  function getPhoneNumber(number) {
+    setPhoneNumber(number);
+  }
   // ارسال محدد کد پیامکی
   const handleResendCode = async () => {
     setIsResendEnabled(false); // Disable the "Resend Code" button again
@@ -31,12 +35,10 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
   };
 
   // اجرا شدن در صورت ارسال موفق شماره موبایل حهت دریافت پیامک
-  const handleGetResponseSendMobile = async (response) => {
+  const handleGetResponseSendMobile = async (response,step) => {
     setMobileGettingSms(response?.data?.userName);
-
-     handleSetManageFormsSteps("stepPassword"); // نمایش فرم دریافت پسورد
-
-   // handleSetManageFormsSteps("stepCode"); // نمایش فرم دریافت کد
+  
+     handleSetManageFormsSteps(step); // نمایش فرم دریافت کد
   };
 
   // نتیجه دریافت توکن بعد از ارسال کد چهار رقمی
@@ -67,7 +69,10 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
         {/* <Slide direction="left" in={manageForms === "stepMobile"} timeout={500}> */}
         <div>
           {manageForms === "stepMobile" && (
-            <FormGetMobileNumber callBack={handleGetResponseSendMobile} />
+            <FormGetMobileNumber
+              callBack={handleGetResponseSendMobile}
+              getPhoneNumber={getPhoneNumber}
+            /> // if code was send this will be true
           )}
         </div>
         {/* </Slide> */}
@@ -78,10 +83,11 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
               <FormGetCode
                 callBack={handleGetResponseSendCode}
                 mobileGettingSms={mobileGettingSms}
-                handleSetManageFormsSteps={handleSetManageFormsSteps}
+                handleSetManageFormsSteps={handleSetManageFormsSteps} //change step
                 handleResendCode={handleResendCode}
                 countdown={countdown}
                 isResendEnabled={isResendEnabled}
+                phoneNumber={phoneNumber}
               />
             )}
           </div>
@@ -95,7 +101,8 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
           <div>
             {manageForms === "stepPassword" && (
               <FormGetPass
-                callBack={handleGetResponseSendCode}
+                phoneNumber={phoneNumber}
+                callBack={handleGetResponseSendMobile}
                 mobileGettingSms={mobileGettingSms}
                 handleSetManageFormsSteps={handleSetManageFormsSteps}
               />

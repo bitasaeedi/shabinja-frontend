@@ -24,6 +24,7 @@ const FormGetPass = ({
   callBack,
   handleSetManageFormsSteps,
   mobileGettingSms,
+  phoneNumber
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -33,6 +34,8 @@ const FormGetPass = ({
     formState: { errors },
     setFocus,
   } = useForm();
+
+  //alert
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
@@ -51,7 +54,7 @@ const FormGetPass = ({
     setLoading(true);
     var resultGetToken = {};
     resultGetToken = await ApiGetTokenShabinja({
-      username: mobileGettingSms,
+      username: phoneNumber,
       password: data?.pass,
     });
     // console.log(mobileGettingSms, data?.pass, "resultGetToken");
@@ -70,15 +73,34 @@ const FormGetPass = ({
       localStorage.setItem("role", role);
       localStorage.setItem("guid", guid);
       localStorage.setItem("user_id", id);
-      callBack(resultGetToken);
+      callBack(resultGetToken,"finish");
     }
     setLoading(false);
   };
+  const onSubmit2 = async (data) => {
+
+    var resultCheckSms = {
+    };
+    resultCheckSms = await ApiCheckAndSms({
+      UserName: phoneNumber,
+    });
+  
+    console.log("resultCheckSms",resultCheckSms);
+    if (resultCheckSms?.issuccess) {
+     callBack(resultCheckSms,"stepCode");
+    } else {
+      handleMangeAlert(
+        true,
+        resultCheckSms?.issuccess,
+        resultCheckSms?.message
+      );
+    }
+  };
 
   useEffect(() => {
-    // handleSubmit(onSubmit)();
-    // setFocus("pass");
+    
   }, []);
+
 
   return (
     <>
@@ -148,7 +170,7 @@ const FormGetPass = ({
             <Button
               variant="text"
               color="primary"
-              onClick={() => handleSetManageFormsSteps("stepCode")}
+              onClick={() => onSubmit2()}
               size="small"
             >
               ورود با کد یک‌بار مصرف

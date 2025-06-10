@@ -11,7 +11,6 @@ import {
   useMediaQuery,
   useTheme,
   Box,
-  Typography,
 } from "@mui/material";
 import LoginForm from "./LoginForm";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -24,6 +23,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 const ModalLogin = ({ open, handleClose }) => {
+
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [manageForms, setManageForms] = useState("stepMobile"); // stepMobile, stepCode, stepPass
@@ -103,7 +103,7 @@ const ModalLogin = ({ open, handleClose }) => {
       </DialogTitle>
       <DialogContent className="m-0 p-0 w-100">
         <LoginForm
-          handleCallBack={handleCallBackFinall}
+          handleCallBack={handleCallBackFinall} //برای بستن فرم
           manageForms={manageForms}
         />
       </DialogContent>

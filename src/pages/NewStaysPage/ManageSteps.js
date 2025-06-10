@@ -422,6 +422,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
                   <Typography>{step.label}</Typography>
                 )}
               </StepLabel>
+              
               <StepContent
                 sx={{
                   px: { xs: 1, md: 2 },
