@@ -7,19 +7,23 @@ import { ApiCheckAndSms } from "../../api/LoginApis";
 import FormGetNameUser from "./Components/FormGetNameUser";
 const starttimer = 120;
 const LoginForm = ({ handleCallBack, manageForms }) => {
+
   const [mobileGettingSms, setMobileGettingSms] = useState("");
   const [countdown, setCountdown] = useState(starttimer);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
   // Start countdown timer
+
   useEffect(() => {
-    if (countdown > 0) {
-      const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
-      return () => clearInterval(timer);
-    } else {
-      setIsResendEnabled(true); // Enable the "Resend Code" button when countdown reaches zero
+    if(manageForms==="stepCode"){
+      if (countdown > 0) {
+        const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
+        return () => clearInterval(timer);
+      } else {
+        setIsResendEnabled(true); // Enable the "Resend Code" button when countdown reaches zero
+      }
     }
-  }, [countdown]);
+  }, [countdown,manageForms]);
 
   function getPhoneNumber(number) {
     setPhoneNumber(number);
