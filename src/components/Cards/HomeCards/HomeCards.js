@@ -21,6 +21,16 @@ const HomeCard = ({ myData = {} }) => {
   
   return (
     <Box className=" w-auto pb-0 mb-0">
+       <Link
+          to={`/stay/${myData?.id}`}
+          style={{
+            textDecoration: "none",
+            display: "block",
+            width: "100%",
+            color: "inherit",
+          }}
+          target="_blank"
+        >
       <Card
         sx={{
           width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
@@ -45,16 +55,7 @@ const HomeCard = ({ myData = {} }) => {
         </SliderDetailsPage>
 
         {/* Card Content */}
-        <Link
-          to={`/stay/${myData?.id}`}
-          style={{
-            textDecoration: "none",
-            display: "block",
-            width: "100%",
-            color: "inherit",
-          }}
-          target="_blank"
-        >
+       
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}
             <Box
@@ -201,8 +202,8 @@ const HomeCard = ({ myData = {} }) => {
             /> */}
             </Box>
           </CardContent>
-        </Link>
-      </Card>
+        
+      </Card></Link>
     </Box>
   );
 };
