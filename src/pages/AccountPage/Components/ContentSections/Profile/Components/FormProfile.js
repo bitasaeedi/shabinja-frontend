@@ -48,6 +48,7 @@ const FormProfile = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [showPassField, setShowPassField] = useState(false);
 
   const {
     control,
@@ -550,6 +551,27 @@ const FormProfile = () => {
               />
             </Grid>
 
+            {/* show password Button */}
+            <Grid item xs={12} sx={{ mb: 1 }}>
+              <Box display="flex" justifyContent="flex-start">
+                <Button
+                onClick={()=>setShowPassField(!showPassField)}
+                  type="button"
+                  variant="contained"
+                  sx={{
+                    backgroundColor: "#287dfa",
+                    color: "white",
+                    minWidth: 120,
+                    wordSpacing: "1px",
+                    "&:hover": { backgroundColor: "#106DF6" },
+                  }}
+                >
+                  تغییر رمز عبور
+                </Button>
+              </Box>
+            </Grid>
+
+            {showPassField ? <>
             {/* Password */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -626,6 +648,8 @@ const FormProfile = () => {
                 )}
               />
             </Grid>
+            </>:""}
+            
 
             {/* Submit Button */}
             <Grid item xs={12} sx={{ mt: 2 }}>
@@ -634,10 +658,10 @@ const FormProfile = () => {
                   type="submit"
                   variant="contained"
                   sx={{
-                    backgroundColor: "black",
+                    backgroundColor: "#287dfa",
                     color: "white",
                     minWidth: 120,
-                    "&:hover": { backgroundColor: "#333" },
+                    "&:hover": { backgroundColor: "#106DF6" },
                   }}
                   disabled={loadingForm}
                   startIcon={
