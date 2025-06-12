@@ -5,7 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
 import { sendChangeRequest } from "./SendChangeRequest";
 
-export default function Accessibility({miladiDate,staycode,handleClosePopover}) {
+export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
 
   const [loading, setLoading] = useState(false);
   const [showAlertSetting, setShowAlertSetting] = useState({
@@ -23,7 +23,7 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
       message,
     });
   };
-  
+ 
   // api
   const handleChange = async () => {
     if (
@@ -31,7 +31,7 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
       miladiDate.length < 2 ||
       !miladiDate[0] ||
       !miladiDate[1]
-    ) {
+    )  {
       return setValidText("بازه تاریخی انتخاب نشده است");
     }
 
@@ -40,8 +40,8 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
 //post api
     const result= await sendChangeRequest({
       HostTourGuid: staycode,
-      State: 1,
-      NotAvailable: true,
+      State: 6,
+      InstantBooking: true,
       Start: miladiDate[0],
       End: miladiDate[1],
     });
@@ -65,7 +65,6 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
     }
   };
 
-  
   return (
     <>
       <Box
@@ -80,7 +79,7 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
         }}
       >
         <Typography variant="h6">
-          آیا مطمئنید که می خواهید پر وو خالی را انجام دهید؟
+          آیا می خواهید ایام پیک داشته باشید؟
         </Typography>
 
         <Box
@@ -118,7 +117,10 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
           <Button onClick={()=>{handleClosePopover()}} variant="contained" color="error" startIcon={<CloseIcon />}>
             لغو
           </Button>
+
         </Box>
+
+        {/* show error */}
         <Typography
           color="error"
           sx={{ width: "100%", direction: "ltr" }}
@@ -141,6 +143,6 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
           />
         )}
       </Box>
-    </>
+      </>
   );
 }

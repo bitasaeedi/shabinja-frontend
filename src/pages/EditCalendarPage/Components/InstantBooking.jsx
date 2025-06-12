@@ -39,7 +39,7 @@ export default function InstantBooking({miladiDate,staycode,handleClosePopover})
 //post api
     const result= await sendChangeRequest({
       HostTourGuid: staycode,
-      State: 0,
+      State: 4,
       InstantBooking: true,
       Start: miladiDate[0],
       End: miladiDate[1],

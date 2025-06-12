@@ -54,7 +54,7 @@ export default function MinMaxDay({miladiDate,staycode,handleClosePopover}) {
 //post api
     const result= await sendChangeRequest({
       HostTourGuid: staycode,
-      State: 0,
+      State: 5,
       MinimumBookingDay: min,
       MaximumBookingDay: max,
       Start: miladiDate[0],

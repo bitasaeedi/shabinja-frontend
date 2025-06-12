@@ -14,6 +14,7 @@ import InstantBooking from "./Components/InstantBooking";
 import MinMaxDay from "./Components/MinMaxDay";
 import Accessibility from "./Components/Accessibility";
 import Discount from "./Components/Discount";
+import PeakDays from "./Components/PeakDays";
 import { PriceHostTourListApi } from "../../api/toureApis";
 
 export const EditCalendarPageContext = createContext();
@@ -54,6 +55,12 @@ const listButtons = [
     component: <h1>حداقل و حداکثر روز رزرو</h1>,
     icon: <PriceChangeIcon />,
     element: (props) => <MinMaxDay {...props} />,
+  },
+  {
+    title: "ایام پیک",
+    component: <h1>ایام پیک</h1>,
+    icon: <PriceChangeIcon />,
+    element: (props) => <PeakDays {...props} />,
   },
 ];
 
@@ -150,21 +157,28 @@ const EditCalendarPage = () => {
 
         <Box sx={{}}>
           <Grid container>
-            {listButtons?.map((buttonDetails, index) => (
+            {listButtons?.map((buttonDetails, index) => {
+               const isLastOddItem = index === listButtons.length - 1;
+               console.log("is" ,isLastOddItem);
+               
+              return(
+              
               <Grid
                 item
-                xs="6"
-                md="4"
+                xs={isLastOddItem ? 12 : 6}
+                md={isLastOddItem ? 12 : 4}
                 key={index}
+                b={isLastOddItem ? '1px solid blue' : ' 1px solid red'}
                 sx={{
                   display: "flex",
                   justifyContent: "center",
                   my: 1,
+                  
                 }}
               >
                 <ChangePriceButton item={buttonDetails} />
               </Grid>
-            ))}
+            )})}
           </Grid>
         </Box>
       </Box>

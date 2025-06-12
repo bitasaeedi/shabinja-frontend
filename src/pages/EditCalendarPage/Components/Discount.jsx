@@ -56,7 +56,7 @@ export default function Discount({miladiDate,staycode,handleClosePopover}) {
 //post api
     const result= await sendChangeRequest({
       HostTourGuid: staycode,
-      State: 0,
+      State: 2,
       MonthlyDiscount: monthlyDiscount,
       WeeklyDiscount: weeklyDiscount,
       Start: miladiDate[0],
