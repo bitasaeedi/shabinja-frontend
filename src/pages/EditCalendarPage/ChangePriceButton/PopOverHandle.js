@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
-const PopOverHandle = ({ anchorEl, handleClosePopover, children }) => {
+const PopOverHandle = ({ anchorEl, handleClosePopover, children,popWidth,vertical }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
 
@@ -60,11 +60,11 @@ const PopOverHandle = ({ anchorEl, handleClosePopover, children }) => {
       //   anchorEl={anchorEl}
       onClose={handleClosePopover}
       anchorOrigin={{
-        vertical: "center",
+        vertical: vertical,
         horizontal: "center",
       }}
       transformOrigin={{
-        vertical: "center",
+        vertical: vertical,
         horizontal: "center",
       }}
       PaperProps={{
@@ -77,7 +77,7 @@ const PopOverHandle = ({ anchorEl, handleClosePopover, children }) => {
         sx={{
           borderRadius: "8px",
           padding: "18px 16px",
-          width: "500px",
+          width: popWidth,
         }}
       >
         {children}

@@ -77,6 +77,8 @@ const ChangePriceButton = ({ item }) => {
       <PopOverHandle
         anchorEl={anchorEl}
         handleClosePopover={handleClosePopover}
+        popWidth={500}
+        vertical={"center"}
       >
         {item?.component}
         {item?.element({

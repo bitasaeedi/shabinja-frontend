@@ -151,7 +151,7 @@ export default function LastMin({miladiDate,staycode,handleClosePopover}) {
         }}
       >
         <TextField
-          label="همان لحظه"
+          label="همان روز"
           variant="outlined"
           fullWidth
           value={charterNow}

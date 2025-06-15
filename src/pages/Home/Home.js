@@ -130,7 +130,7 @@ const Home = () => {
     list = list.reverse();
     console.log(resultGetFavorit?.data, "FavoritDestinationApi list");
     setListCategories(list);
-    console.log("list",list);
+    //console.log("list",list);
     return list;
   };
 
@@ -147,7 +147,7 @@ const Home = () => {
     let list = result?.data || [];
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
-    console.log("list",list.urlTour)
+    //console.log("list",list.urlTour)
     return list;
   };
 

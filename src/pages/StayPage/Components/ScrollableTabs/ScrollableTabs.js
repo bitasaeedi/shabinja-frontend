@@ -31,7 +31,7 @@ const ScrollableTabs = () => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          console.log("Entry:", entry.target, entry.isIntersecting);
+          // console.log("Entry:", entry.target, entry.isIntersecting);
           if (entry.isIntersecting) {
             const sectionIndex = Object.keys(sectionRefs).findIndex(
               (key) => sectionRefs[key].current === entry.target
@@ -264,7 +264,7 @@ const ScrollableTabs = () => {
               }}
               color="textSecondary"
             >
-              {`+${"400،000"} تومان / بیشتر از ${4} نفر`}
+              {`${stayPageContext.infoOfStay?.otherPrice} تومان / بیشتر از ${stayPageContext.infoOfStay?.minCapacity} نفر`}
             </Typography>
           </Box>
         </Box>

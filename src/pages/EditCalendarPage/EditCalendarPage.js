@@ -209,9 +209,11 @@ const EditCalendarPage = () => {
         <PopOverHandle
           anchorEl={anchorEl}
           handleClosePopover={handleClosePopover}
+          popWidth={800}
+          vertical={"top"}
         >
           {"مشاهده مقادیر"}
-          <ShowValues/>
+          <ShowValues staycode={staycode}/>
         </PopOverHandle>
 
       </Box>

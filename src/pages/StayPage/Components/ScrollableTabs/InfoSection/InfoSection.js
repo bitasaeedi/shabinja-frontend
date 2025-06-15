@@ -99,7 +99,7 @@ const InfoSection = () => {
               fontSize: { xs: 14, md: 16 },
             }}
           >
-            {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ارسلان انوشیروان`}
+            {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.title}`}
           </Typography>
         </Box>
         <Box>

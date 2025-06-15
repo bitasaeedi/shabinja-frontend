@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -14,7 +14,42 @@ import XIcon from "@mui/icons-material/X";
 import { Link } from "react-router-dom";
 import logo_with_name from "../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../../images/shabinja_logo_with_name_white.png";
+import axios from "axios";
+import API_URL from "../../../config/apiConfig";
+const baseUrl = API_URL;
+
 const DesctopFooter = () => {
+  const [footerLinks, setFooterLinks] = useState();
+
+  const handleLinks = async (data) => {
+    try {
+      const token = localStorage.getItem("access_token");
+      console.log("my data", data);
+
+      const response = await axios.get(
+        `${baseUrl}/QuickLinkShbinja/GetAll`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setFooterLinks(response?.data)
+      console.log("links",response?.data);
+      
+      return true;
+    } catch (error) {
+      console.log(error?.response);
+
+      return false;
+    }
+  };
+
+  useEffect(()=>{
+    handleLinks();
+  },[])
+
   return (
     <Box
       component="footer"
@@ -425,7 +460,8 @@ const DesctopFooter = () => {
             mt={2}
             sx={{ color: "#666" }}
           >
-            © تمامی حقوق مادی و معنوی این سایت متعلق به شرکت توسعه تجارت استوار زاگرس می‌باشد
+            © تمامی حقوق مادی و معنوی این سایت متعلق به شرکت توسعه تجارت استوار
+            زاگرس می‌باشد
           </Typography>
         </Box>
       </Container>

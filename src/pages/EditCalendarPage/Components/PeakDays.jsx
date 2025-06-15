@@ -41,7 +41,6 @@ export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
     const result= await sendChangeRequest({
       HostTourGuid: staycode,
       State: 6,
-      InstantBooking: true,
       Start: miladiDate[0],
       End: miladiDate[1],
     });

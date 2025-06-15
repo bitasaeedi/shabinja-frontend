@@ -9,7 +9,7 @@ const OffStay = () => {
   useEffect(() => {
     const textList = stayPageContext.infoOfStay?.rolItemTourIds || "";
     var list = textList.split(",");
-    setRuleItemsList(list);
+    setRuleItemsList(list);    
   }, [stayPageContext.infoOfStay]);
 
   return (
@@ -29,7 +29,7 @@ const OffStay = () => {
           <Stack className="border rounded px-2 py-2 " sx={{ minWidth: 120 }}>
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h6" sx={{ fontSize: 14, color: "red" }}>
-                % 15
+                % {stayPageContext?.infoOfStay?.discountWeeky}
                 <Typography
                   component={"span"}
                   variant="h6"
@@ -52,7 +52,7 @@ const OffStay = () => {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h6" sx={{ fontSize: 14, color: "red" }}>
-                % 20
+                % {stayPageContext?.infoOfStay?.discountMonth}
                 <Typography
                   component={"span"}
                   variant="h6"
