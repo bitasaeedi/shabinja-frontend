@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -16,6 +16,8 @@ import Accessibility from "./Components/Accessibility";
 import Discount from "./Components/Discount";
 import PeakDays from "./Components/PeakDays";
 import { PriceHostTourListApi } from "../../api/toureApis";
+import PopOverHandle from "./ChangePriceButton/PopOverHandle";
+import ShowValues from "./Components/ShowValues";
 
 export const EditCalendarPageContext = createContext();
 
@@ -69,6 +71,7 @@ const EditCalendarPage = () => {
   const appContext = useContext(AppContext);
   const [selectedDays, setSelectedDays] = useState([]);
   const [priceHostTours, setPriceHostTours] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     appContext.setShowfooter(false);
@@ -91,9 +94,19 @@ const EditCalendarPage = () => {
   };
 
   const handleGetListPrice = async () => {
-    const result = await PriceHostTourListApi(staycode); 
+    const result = await PriceHostTourListApi(staycode);
     setPriceHostTours(result?.data);
   };
+
+  // show values
+  const handleButtonClick = (event) => {
+    setAnchorEl(event.currentTarget); // Open popover only if not active
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <EditCalendarPageContext.Provider
       value={{
@@ -104,7 +117,8 @@ const EditCalendarPage = () => {
       {/* <Header showMobileHeader={false} /> */}
       <Box
         sx={{
-          height: { xs: 9, md: 100 }, // Adjust header space for xs and md screens
+          height: { xs: 9, md: 100 },
+          // Adjust header space for xs and md screens
         }}
       ></Box>
       <Box
@@ -158,29 +172,48 @@ const EditCalendarPage = () => {
         <Box sx={{}}>
           <Grid container>
             {listButtons?.map((buttonDetails, index) => {
-               const isLastOddItem = index === listButtons.length - 1;
-               console.log("is" ,isLastOddItem);
-               
-              return(
-              
-              <Grid
-                item
-                xs={isLastOddItem ? 12 : 6}
-                md={isLastOddItem ? 12 : 4}
-                key={index}
-                b={isLastOddItem ? '1px solid blue' : ' 1px solid red'}
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  my: 1,
-                  
-                }}
-              >
-                <ChangePriceButton item={buttonDetails} />
-              </Grid>
-            )})}
+              const isLastOddItem = index === listButtons.length - 1;
+
+              return (
+                <Grid
+                  item
+                  xs={isLastOddItem ? 12 : 6}
+                  md={isLastOddItem ? 12 : 4}
+                  key={index}
+                  b={isLastOddItem ? "1px solid blue" : " 1px solid red"}
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    my: 1,
+                  }}
+                >
+                  <ChangePriceButton item={buttonDetails} />
+                </Grid>
+              );
+            })}
           </Grid>
         </Box>
+        {/* show values */}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: "2rem",
+          }}
+        >
+          <Button variant="contained" onClick={handleButtonClick}>
+            مشاهده مقادیر
+          </Button>
+        </Box>
+
+        <PopOverHandle
+          anchorEl={anchorEl}
+          handleClosePopover={handleClosePopover}
+        >
+          {"مشاهده مقادیر"}
+          <ShowValues/>
+        </PopOverHandle>
+
       </Box>
     </EditCalendarPageContext.Provider>
   );

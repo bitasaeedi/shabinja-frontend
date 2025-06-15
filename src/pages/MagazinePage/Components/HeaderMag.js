@@ -41,15 +41,39 @@ const PrevArrow = ({ onClick, disabled }) => (
     disabled={disabled}
   >
     <ArrowBackIosIcon
-      sx={{ fontSize: "16px", color: disabled ? "#999" : "#000" }}
+      sx={{
+        fontSize: "16px",
+        color: disabled ? "#999" : "#000",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     />
   </IconButton>
 );
 
+// const slides = [
+//   "https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+//   "https://storage.jajiga.com/mag/2025/03/%D8%A7%D9%86%D8%B2%D9%84%DB%8C-%D8%AF%D8%B1-%D8%B4%D8%A8-1200x500.jpg",
+//   "https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+// ];
 const slides = [
-  "https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
-  "https://storage.jajiga.com/mag/2025/03/%D8%A7%D9%86%D8%B2%D9%84%DB%8C-%D8%AF%D8%B1-%D8%B4%D8%A8-1200x500.jpg",
-  "https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+  {
+    src:"https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+    title:"کوهسار مقصد ییلاقی محبوب نزدیک تهران",
+    text:"قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است."
+  },
+  {
+    src:"https://storage.jajiga.com/mag/2025/03/%D8%A7%D9%86%D8%B2%D9%84%DB%8C-%D8%AF%D8%B1-%D8%B4%D8%A8-1200x500.jpg",
+    title:"کوهسار مقصد ییلاقی محبوب نزدیک تهران",
+    text:"قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است."
+  },
+  {
+    src:"https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+    title:"کوهسار مقصد ییلاقی محبوب نزدیک تهران",
+    text:"قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است."
+  },
 ];
 
 const HeaderMag = () => {
@@ -88,7 +112,6 @@ const HeaderMag = () => {
             bottom: "10%",
             right: "10%",
             zIndex: 1000,
-            //   bgcolor: "red",
           }}
         >
           <Box
@@ -96,11 +119,13 @@ const HeaderMag = () => {
             sx={
               {
                 // display: { xs: "none", md: "flex" },
+                // bgcolor:'red',
               }
             }
           >
             <NextArrow onClick={handlePrevClick} disabled={isPrevDisabled} />
           </Box>
+
           <Box
             sx={
               {
@@ -112,9 +137,9 @@ const HeaderMag = () => {
           </Box>
         </Box>
 
-        {slides.map((src, index) => (
+        {slides.map((slide, index) => (
           <SwiperSlide key={index}>
-          <ShowImageHeader index={index} image={src}/>
+            <ShowImageHeader index={index} slide={slide} />
           </SwiperSlide>
         ))}
       </Swiper>

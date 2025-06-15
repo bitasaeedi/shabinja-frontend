@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../App";
 import CardSectins from "./CardSectins/CardSectins";
 import HeaderMag from "./Components/HeaderMag";
+import HeroSlider from "./Components/HeroSlider";
 
 const MagazinePage = () => {
   const appContext = useContext(AppContext);
@@ -17,27 +18,19 @@ const MagazinePage = () => {
   }, []);
 
   return (
-    <Box
-      sx={{
-        bgcolor: "#f9f9f9",
-      }}
-    >
-      <h1>مجله شبینجا</h1>
-      <HeaderMag />
-      <CardSectins
-        data={[
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-          { id: 4 },
-          { id: 4 },
-        ]}
-      />
-    </Box>
+    <>
+      <Box
+        sx={{
+          minHeight:'80vh',
+          bgcolor: "#f9f9f9",
+        }}
+      >
+
+        {/* slider */}
+        <HeaderMag/>
+
+      </Box>
+    </>
   );
 };
 

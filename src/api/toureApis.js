@@ -155,10 +155,8 @@ export const HostTourSearchOneApi = async (stayCode) => {
         },
       }
     );
-    // console.log(response, "response");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
-    console.log("Error:", error?.response?.data);
     return error?.response?.data;
   }
 };

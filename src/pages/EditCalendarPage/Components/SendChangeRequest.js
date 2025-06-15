@@ -6,15 +6,13 @@ export  const sendChangeRequest = async (data) => {
 
     try {
       const token = localStorage.getItem("access_token");
+      console.log("my data",data);
+      
       const response = await axios.post(
         `${baseUrl}/PriceHostTour`,
         {
-          HostTourGuid: data?.HostTourGuid ,
+          HostTourid: data?.HostTourGuid ,
           State: data?.State ,
-          WeekendPrice: data?.WeekendPrice || 0,
-          WeekdayPrice: data?.WeekdayPrice || 0,
-          AutumPrice: data?.AutumPrice || 0,
-          OtherPrice: data?.OtherPrice || 0,
           PriceBase: data?.PriceBase || 0,
           Start: data?.Start || 0,
           End: data?.End || 0,
