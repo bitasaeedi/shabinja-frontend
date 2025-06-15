@@ -13,6 +13,7 @@ import { CancelRules } from "./CancelRules/CancelRules";
 import OffStay from "./OffStay/OffStay";
 import LocationStay from "./LocationStay/LocationStay";
 import UserStayInfo from "./UserStayInfo/UserStayInfo";
+import ToRial from "../../../../components/ToRial/ToRial";
 
 const ScrollableTabs = () => {
   const stayPageContext = useContext(StayPageContext);
@@ -226,6 +227,8 @@ const ScrollableTabs = () => {
               color="textSecondary"
             >
               لطفا تاریخ ورود و خروج خود را انتخاب کنید
+              <br />
+              نرخ‌ها به تومان هستند
             </Typography>
           </Box>
           <Box sx={{ display: { xs: "none", lg: "flex" } }}>
@@ -264,7 +267,15 @@ const ScrollableTabs = () => {
               }}
               color="textSecondary"
             >
+<<<<<<< Updated upstream
               {`${stayPageContext.infoOfStay?.otherPrice} تومان / بیشتر از ${stayPageContext.infoOfStay?.minCapacity} نفر`}
+=======
+              {`+${ToRial(
+                stayPageContext?.infoOfStay?.otherPrice || 0
+              )} ریال / بیشتر از ${
+                stayPageContext?.infoOfStay?.minCapacity || 0
+              } نفر`}
+>>>>>>> Stashed changes
             </Typography>
           </Box>
         </Box>

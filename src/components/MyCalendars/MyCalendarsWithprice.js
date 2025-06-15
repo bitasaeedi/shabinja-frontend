@@ -322,7 +322,7 @@ const MyCalendarsWithPrice = ({
             height: "100%",
             padding: 0,
           },
-          children: renderDateCell(date, dateInfo, price, today, isDisabled),
+          children: renderDateCell(date, dateInfo, price, today, isDisabled , dontDisable),
         };
       }}
     />
@@ -363,12 +363,12 @@ const checkIfDateIsSelected = (dateKey, values) => {
  * @param {boolean} isDisabled - Whether the date is disabled
  * @returns {JSX.Element} Date cell content
  */
-const renderDateCell = (date, dateInfo, price, today, isDisabled) => {
+const renderDateCell = (date, dateInfo, price, today, isDisabled , dontDisable) => {
   return (
     <div style={{ position: "relative", width: "100%" }}>
       {renderUnavailablePattern(dateInfo, price, isDisabled, today, date)}
       <div>{date.day}</div>
-      {renderDateMetaInfo(price, dateInfo, today, date)}
+      {renderDateMetaInfo(price, dateInfo, today, date , dontDisable)}
     </div>
   );
 };
@@ -414,7 +414,7 @@ const renderUnavailablePattern = (dateInfo, price, isDisabled, today, date) => {
 /**
  * Render price or "coming soon" text for a date
  */
-const renderDateMetaInfo = (price, dateInfo, today, date) => {
+const renderDateMetaInfo = (price, dateInfo, today, date, dontDisable) => {
   if (price) {
     return (
       <small style={{ fontSize: "10px" }}>
@@ -423,7 +423,7 @@ const renderDateMetaInfo = (price, dateInfo, today, date) => {
     );
   }
 
-  if (!dateInfo && today <= date) {
+  if (!dateInfo && today <= date && !dontDisable) {
     return <small style={{ fontSize: "10px" }}>بزودی</small>;
   }
 

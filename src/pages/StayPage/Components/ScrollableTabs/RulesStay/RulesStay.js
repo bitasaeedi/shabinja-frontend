@@ -41,7 +41,7 @@ const RulesStay = () => {
               <Typography
                 variant="h6"
                 sx={{ fontSize: 15 }}
-              >{`${3} ${"عصر"}`}</Typography>
+              >{`${stayPageContext.infoOfStay?.start} `}</Typography>
             </Box>
           </Stack>
           <Stack
@@ -62,7 +62,7 @@ const RulesStay = () => {
               <Typography
                 variant="h6"
                 sx={{ fontSize: 15 }}
-              >{`${12} ${"ظهر"}`}</Typography>
+              >{`${stayPageContext.infoOfStay?.end} `}</Typography>
             </Box>
           </Stack>
         </Grid>

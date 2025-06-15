@@ -7,6 +7,7 @@ import {
   Box,
   Rating,
   Skeleton,
+  IconButton,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import API_URL from "../../../config/apiConfig";
@@ -16,10 +17,12 @@ import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import SliderDetailsPage from "../../Sliders/SliderCards";
 import ImageOfCardDetails from "./ImageOfCardDetails";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   // List of image URLs
   // State to manage image loading
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
@@ -28,6 +31,10 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   useEffect(() => {
     // console.log(myData, "myData");
   }, []);
+
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+  };
 
   return (
     <Box className=" w-auto pb-0 mb-0">
@@ -52,6 +59,19 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
         }}
         // className="border"
       >
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            color: isLiked ? "red" : "white",
+            zIndex: 100,
+          }}
+          onClick={handleLikeClick}
+        >
+          {isLiked ? <Favorite /> : <FavoriteBorder />}
+        </IconButton>
+
         <SliderDetailsPage
           lists={myData?.images?.map((item) => ({
             url: item,

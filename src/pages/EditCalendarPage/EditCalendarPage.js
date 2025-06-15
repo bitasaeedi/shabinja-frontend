@@ -16,8 +16,12 @@ import Accessibility from "./Components/Accessibility";
 import Discount from "./Components/Discount";
 import PeakDays from "./Components/PeakDays";
 import { PriceHostTourListApi } from "../../api/toureApis";
+<<<<<<< Updated upstream
 import PopOverHandle from "./ChangePriceButton/PopOverHandle";
 import ShowValues from "./Components/ShowValues";
+=======
+import moment from "moment-jalaali";
+>>>>>>> Stashed changes
 
 export const EditCalendarPageContext = createContext();
 
@@ -85,7 +89,7 @@ const EditCalendarPage = () => {
   }, [staycode]);
 
   const handleChangeDate = (listDate) => {
-    const valueOfFilter = listDate[0].shamsiObj?.fullshamsi || undefined;
+    const valueOfFilter = listDate[0]?.shamsiObj?.fullshamsi || undefined;
     const valueOfFilter2 = listDate[1]?.shamsiObj?.fullshamsi || undefined;
     setSelectedDays([valueOfFilter, valueOfFilter2]);
 
@@ -94,6 +98,7 @@ const EditCalendarPage = () => {
   };
 
   const handleGetListPrice = async () => {
+<<<<<<< Updated upstream
     const result = await PriceHostTourListApi(staycode);
     setPriceHostTours(result?.data);
   };
@@ -107,6 +112,34 @@ const EditCalendarPage = () => {
     setAnchorEl(null);
   };
 
+=======
+    const now = moment();
+    const numMonth = now.jMonth() + 1; // jMonth() returns 0-11, so +1 to get 1-12
+
+    // Calculate months with overflow
+    const months = [
+      numMonth,
+      numMonth + 1 > 12 ? numMonth + 1 - 12 : numMonth + 1,
+      numMonth + 2 > 12 ? numMonth + 2 - 12 : numMonth + 2,
+    ];
+
+    const result = await PriceHostTourListApi(staycode, months[0]);
+    const result2 = await PriceHostTourListApi(staycode, months[1]);
+    const result3 = await PriceHostTourListApi(staycode, months[2]);
+
+    var month1 = result?.data || [];
+    var month2 = result2?.data || [];
+    var month3 = result3?.data || [];
+    
+    const myList = [...month1, ...month2, ...month3];
+    setPriceHostTours(myList);
+  };
+
+  // const handleGetListPrice = async () => {
+  //   const result = await PriceHostTourListApi(staycode);
+  //   setPriceHostTours(result?.data);
+  // };
+>>>>>>> Stashed changes
   return (
     <EditCalendarPageContext.Provider
       value={{
@@ -137,7 +170,7 @@ const EditCalendarPage = () => {
               numMonth={3}
               onChange={handleChangeDate}
               values={selectedDays}
-              listDayesWithPrice={priceHostTours}
+              listDayesWithPrice={priceHostTours || []}
               dontDisable={true}
             />
           </Box>
@@ -150,7 +183,7 @@ const EditCalendarPage = () => {
               numMonth={2}
               onChange={handleChangeDate}
               values={selectedDays}
-              listDayesWithPrice={priceHostTours}
+              listDayesWithPrice={priceHostTours || []}
               dontDisable={true}
             />
           </Box>
@@ -163,7 +196,7 @@ const EditCalendarPage = () => {
               numMonth={1}
               onChange={handleChangeDate}
               values={selectedDays}
-              listDayesWithPrice={priceHostTours}
+              listDayesWithPrice={priceHostTours || []}
               dontDisable={true}
             />
           </Box>

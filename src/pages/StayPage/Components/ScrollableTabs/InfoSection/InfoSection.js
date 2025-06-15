@@ -31,7 +31,7 @@ const InfoSection = () => {
             <Skeleton variant="text" width={200} height={30} />
             <Skeleton variant="text" width={250} height={20} sx={{ mt: 1 }} />
           </Box>
-          <Skeleton variant="circular" width={50} height={50} />
+          {/* <Skeleton variant="circular" width={50} height={50} /> */}
         </Box>
 
         {/* نوع اجاره */}
@@ -99,18 +99,22 @@ const InfoSection = () => {
               fontSize: { xs: 14, md: 16 },
             }}
           >
+<<<<<<< Updated upstream
             {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.title}`}
+=======
+            {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.fullName}`}
+>>>>>>> Stashed changes
           </Typography>
         </Box>
         <Box>
-          <Avatar
+          {/* <Avatar
             sx={{
               width: 50,
               height: 50,
             }}
           >
             ی
-          </Avatar>
+          </Avatar> */}
         </Box>
       </Box>
 

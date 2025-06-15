@@ -20,7 +20,7 @@ import TitleStay from "./Components/TitleStay/TitleStay";
 import Header from "../../layout/header/Header";
 import Commentswiper from "../../components/Sliders/Commentswiper";
 import { AppContext } from "../../App";
-
+import moment from "moment-jalaali";
 export const StayPageContext = createContext();
 const StayPage = () => {
   const { staycode } = useParams();
@@ -40,7 +40,7 @@ const StayPage = () => {
 
   useEffect(() => {
     handleSearchStayInfo();
-    handleGetListPrice()
+    handleGetListPrice();
     setListDateSelected([]);
     window.scroll(0, 0);
   }, [staycode]);
@@ -66,15 +66,31 @@ const StayPage = () => {
     setInfoOfStay({});
     const resultGetTour = await HostTourSearchOneApi(staycode);
     var item = resultGetTour?.data;
-    // console.log(item, "item handleSearchStayInfo");
+    console.log(item, "item handleSearchStayInfo");
     setInfoOfStay(item);
     setLoading(false);
     return item;
   };
 
   const handleGetListPrice = async () => {
-    const result = await PriceHostTourListApi(staycode);
-    setListPrices(result?.data)
+    const now = moment();
+    const numMonth = now.jMonth() + 1; // jMonth() returns 0-11, so +1 to get 1-12
+
+    // Calculate months with overflow
+    const months = [
+      numMonth,
+      numMonth + 1 > 12 ? numMonth + 1 - 12 : numMonth + 1,
+      numMonth + 2 > 12 ? numMonth + 2 - 12 : numMonth + 2,
+    ];
+
+    const result = await PriceHostTourListApi(staycode, months[0]);
+    const result2 = await PriceHostTourListApi(staycode, months[1]);
+    const result3 = await PriceHostTourListApi(staycode, months[2]);
+    var month1 = result?.data || [];
+    var month2 = result2?.data || [];
+    var month3 = result3?.data || [];
+    const myList = [...month1, ...month2, ...month3];
+    setListPrices(myList);
   };
   return (
     <StayPageContext.Provider

@@ -7,6 +7,8 @@ import {
   Box,
   Rating,
   Skeleton,
+  Tooltip,
+  IconButton,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import API_URL from "../../../config/apiConfig";
@@ -16,21 +18,15 @@ import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import ImageOfCard from "./ImageOfCard";
 import SliderDetailsPage from "../../Sliders/SliderCards";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 const HomeCard = ({ myData = {} }) => {
- 
-  
+  const [isLiked, setIsLiked] = useState(false);
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
     <Box className=" w-auto pb-0 mb-0">
-       <Link
-          to={`/stay/${myData?.id}`}
-          style={{
-            textDecoration: "none",
-            display: "block",
-            width: "100%",
-            color: "inherit",
-          }}
-          target="_blank"
-        >
       <Card
         sx={{
           width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
@@ -42,6 +38,7 @@ const HomeCard = ({ myData = {} }) => {
           pb: 0,
           mb: 1,
           backgroundColor: "transparent",
+          position: "relative",
         }}
         // className="border"
       >
@@ -53,9 +50,32 @@ const HomeCard = ({ myData = {} }) => {
         >
           <ImageOfCard />
         </SliderDetailsPage>
+        <Tooltip title={isLiked ? "حذف از پسندها" : "افزدن به پسندها"}>
+          <IconButton
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: 8,
+              color: isLiked ? "red" : "white",
+              zIndex: 100,
+            }}
+            onClick={handleLikeClick}
+          >
+            {isLiked ? <Favorite /> : <FavoriteBorder />}
+          </IconButton>
+        </Tooltip>
 
         {/* Card Content */}
-       
+        <Link
+          to={`/stay/${myData?.id}`}
+          style={{
+            textDecoration: "none",
+            display: "block",
+            width: "100%",
+            color: "inherit",
+          }}
+          target="_blank"
+        >
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}
             <Box
@@ -202,8 +222,8 @@ const HomeCard = ({ myData = {} }) => {
             /> */}
             </Box>
           </CardContent>
-        
-      </Card></Link>
+        </Link>
+      </Card>
     </Box>
   );
 };

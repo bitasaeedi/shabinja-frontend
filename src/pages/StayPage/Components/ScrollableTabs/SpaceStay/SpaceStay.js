@@ -140,7 +140,7 @@ export const SpaceStay = () => {
             }}
             color="textSecondary"
           >
-            {`${"جنگلی"} `}
+            {`${stayPageContext?.infoOfStay?.typeHostLocdDbTitle} `}
           </Typography>
         </Grid>
 
@@ -161,7 +161,7 @@ export const SpaceStay = () => {
             }}
             color="textSecondary"
           >
-            {`${"1"} تخت`}
+            {`${stayPageContext?.infoOfStay?.bed} تخت`}
           </Typography>
         </Grid>
         <Grid item xs="6" sx={{ display: "flex", mt: 1 }}>
@@ -181,7 +181,7 @@ export const SpaceStay = () => {
             }}
             color="textSecondary"
           >
-            {`${"2"} تخت`}
+            {`${stayPageContext?.infoOfStay?.bedTwo} تخت`}
           </Typography>
         </Grid>
         <Grid item xs="6" sx={{ display: "flex", mt: 1 }}>
@@ -201,7 +201,7 @@ export const SpaceStay = () => {
             }}
             color="textSecondary"
           >
-            {`${"2"} اتاق `}
+            {`${stayPageContext?.infoOfStay?.room} اتاق `}
           </Typography>
         </Grid>
         <Grid item xs="6" sx={{ display: "flex", mt: 1 }}>
@@ -221,7 +221,7 @@ export const SpaceStay = () => {
             }}
             color="textSecondary"
           >
-            {`${"2"} عدد`}
+            {`${stayPageContext?.infoOfStay?.bedOld} عدد`}
           </Typography>
         </Grid>
       </Grid>

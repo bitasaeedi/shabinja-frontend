@@ -6,15 +6,13 @@ import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
 const ImageOfCardDetails = ({ url, title }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
   };
 
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked);
-  };
+ 
 
   return (
     <>
@@ -53,17 +51,7 @@ const ImageOfCardDetails = ({ url, title }) => {
           // loading="lazy"
           style={{ display: isImageLoaded ? "block" : "none" }}
         />
-        <IconButton
-          sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            color: isLiked ? "red" : "white",
-          }}
-          onClick={handleLikeClick}
-        >
-          {isLiked ? <Favorite /> : <FavoriteBorder />}
-        </IconButton>
+
       </Box>
     </>
   );

@@ -1,4 +1,5 @@
 import axios from "axios";
+import moment from "moment-jalaali";
 import { ConvertShamsiToMiladi } from "../components/DateFunctions/DateFunctions";
 import API_URL from "../config/apiConfig";
 import SUB_API_URL from "../config/apiConfig";
@@ -532,18 +533,23 @@ export const MyReservationsApi = async (data) => {
 };
 
 //محاسبه قیمت
-export const PriceCalculationApi = async (data) => {
+export const PriceCalculationApi = async (
+  staycode,
+  startDateshamsi,
+  endDateshamsi,
+  count = 0
+) => {
   try {
     const token = localStorage.getItem("access_token");
-
-    const response = await axios.post(
-      `${baseUrl}/HostTour/PriceCalculation`,
-      {
-        id: data?.id,
-        start: ConvertShamsiToMiladi(data?.start),
-        end: ConvertShamsiToMiladi(data?.end),
-        conut: data?.conut,
-      },
+    var startMiladi = moment(startDateshamsi, "jYYYY/jMM/jDD").format(
+      "YYYY-MM-DD"
+    );
+    // var endMiladi = moment(endDateshamsi, "jYYYY/jMM/jDD").format("YYYY-MM-DD");
+    var endMiladi = moment(endDateshamsi, "jYYYY/jMM/jDD")
+      .subtract(1, "days")
+      .format("YYYY-MM-DD");
+    const response = await axios.get(
+      `${baseUrl}/HostTourPriceCalculation/${staycode}/${startMiladi}/${endMiladi}/${count}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -559,12 +565,12 @@ export const PriceCalculationApi = async (data) => {
 };
 
 // لیست قیمتهای اقامتگاه
-export const PriceHostTourListApi = async (id) => {
+export const PriceHostTourListApi = async (id, numMonth) => {
   try {
     const token = localStorage.getItem("access_token");
 
     const response = await axios.get(
-      `${baseUrl}/PriceHostTour/GetAll/${id}/4`,
+      `${baseUrl}/PriceHostTour/GetAll/${id}/${numMonth}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

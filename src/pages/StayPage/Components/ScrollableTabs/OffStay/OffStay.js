@@ -29,7 +29,11 @@ const OffStay = () => {
           <Stack className="border rounded px-2 py-2 " sx={{ minWidth: 120 }}>
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h6" sx={{ fontSize: 14, color: "red" }}>
+<<<<<<< Updated upstream
                 % {stayPageContext?.infoOfStay?.discountWeeky}
+=======
+                % {stayPageContext.infoOfStay?.discountWeeky}
+>>>>>>> Stashed changes
                 <Typography
                   component={"span"}
                   variant="h6"
@@ -43,7 +47,7 @@ const OffStay = () => {
               <Typography
                 variant="body2"
                 sx={{ fontSize: 14 }}
-              >{`بیش از ${6} شب`}</Typography>
+              >{`بیش از ${7} شب`}</Typography>
             </Box>
           </Stack>
           <Stack
@@ -52,7 +56,11 @@ const OffStay = () => {
           >
             <Box sx={{ textAlign: "center" }}>
               <Typography variant="h6" sx={{ fontSize: 14, color: "red" }}>
+<<<<<<< Updated upstream
                 % {stayPageContext?.infoOfStay?.discountMonth}
+=======
+                % {stayPageContext.infoOfStay?.discountMonth}
+>>>>>>> Stashed changes
                 <Typography
                   component={"span"}
                   variant="h6"
@@ -66,7 +74,7 @@ const OffStay = () => {
               <Typography
                 variant="body2"
                 sx={{ fontSize: 14 }}
-              >{`بیش از ${25} شب`}</Typography>
+              >{`بیش از ${30} شب`}</Typography>
             </Box>
           </Stack>
         </Grid>

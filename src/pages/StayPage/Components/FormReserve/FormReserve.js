@@ -20,6 +20,7 @@ import { useTheme } from "@mui/material/styles";
 import MobilePopOverDateSelect from "../MobileForm/components/MobilePopOverDateSelect";
 import { PriceCalculationApi } from "../../../../api/toureApis";
 import ToRial from "../../../../components/ToRial/ToRial";
+import moment from "moment-jalaali";
 const FormReserve = () => {
   const theme = useTheme();
   const stayPageContext = useContext(StayPageContext);
@@ -86,22 +87,26 @@ const FormReserve = () => {
 
   const calculatePrice = async (data) => {
     // getValues("entryDate") && getValues("exitDate") &&
-    if (count > 0) {
+    var start = getValues("entryDate");
+    var end = getValues("exitDate");
+    console.log(start, end, "calculate ");
+    if (count > 0 && start && end) {
       setCalculating(true);
       setCalculatedPrice(null);
-      const myData = {
-        id: stayPageContext?.infoOfStay?.id,
-        start: getValues("entryDate"),
-        end: getValues("exitDate"),
-        conut: count,
-      };
 
-      const response = await PriceCalculationApi(myData);
+      const response = await PriceCalculationApi(
+        stayPageContext?.infoOfStay?.id,
+        start,
+        end,
+        count
+      );
       console.log(response, "PriceCalculationApi");
 
-      setCalculatedPrice({ price: 12000 });
+      setCalculatedPrice(response?.data);
 
       setCalculating(false);
+    } else {
+      setCalculatedPrice(null);
     }
   };
 
@@ -114,6 +119,17 @@ const FormReserve = () => {
       border: "none",
     },
   };
+
+  const calculateNights = (shamsiEntryDate, shamsiExitDate) => {
+    // Convert Shamsi dates to Miladi moment objects
+    const entryDate = moment(shamsiEntryDate, 'jYYYY/jMM/jDD');
+    const exitDate = moment(shamsiExitDate, 'jYYYY/jMM/jDD');
+
+    // Calculate difference in days (nights = days - 1)
+    const nights = exitDate.diff(entryDate, "days");
+
+    return nights > 0 ? nights : 0;
+};
 
   return (
     <>
@@ -139,7 +155,7 @@ const FormReserve = () => {
               padding: "0 5px",
             }}
           >
-            12،000 تومان
+            12،000 ریال
           </Typography>
           <Typography
             variant="span"
@@ -367,15 +383,22 @@ const FormReserve = () => {
                   sx={{
                     color: "white",
                     fontSize: 18,
+                    backgroundColor: "#212121", // Ensures dark background
                     "&:hover": {
-                      opacity: 0.8, // optional: reduces opacity when hovered
+                      opacity: 0.8,
+                      backgroundColor: "#212121", // Maintain dark background on hover
                     },
                     "&:active": {
-                      // backgroundColor: "#106df6", // background color when clicked
-                      transform: "scale(0.98)", // optional: makes the button slightly smaller on click
+                      transform: "scale(0.98)",
+                      backgroundColor: "#212121", // Maintain dark background when clicked
+                    },
+                    "&.Mui-disabled": {
+                      backgroundColor: "#424242", // Slightly lighter dark color when disabled
+                      color: "rgba(255, 255, 255, 0.5)", // Semi-transparent white text
+                      cursor: "not-allowed", // Show not-allowed cursor
                     },
                   }}
-                  // size="small"
+                  disabled={!(calculatedPrice?.totalPrice > 0)}
                 >
                   تایید
                 </Button>
@@ -388,7 +411,7 @@ const FormReserve = () => {
           sx={{
             mt: 2,
             fontSize: 13,
-            display: calculatedPrice?.price > 0 ? "block" : "none",
+            display: calculatedPrice?.totalPrice > 0 ? "block" : "none",
           }}
         >
           {/*  */}
@@ -400,11 +423,17 @@ const FormReserve = () => {
             }}
           >
             <Box>
-              <Typography>2 شب اقامت</Typography>
+              <Typography>
+                {calculateNights(getValues("entryDate"), getValues("exitDate"))}
+                شب اقامت
+              </Typography>
             </Box>
             <Box>
               {" "}
-              <Typography> {ToRial(calculatedPrice?.price)} تومان </Typography>
+              <Typography>
+                {" "}
+                {ToRial(calculatedPrice?.totalPrice)} ریال{" "}
+              </Typography>
             </Box>
           </Box>
           {/*  */}
@@ -421,7 +450,10 @@ const FormReserve = () => {
             </Box>
             <Box>
               {" "}
-              <Typography> {ToRial(calculatedPrice?.price)} تومان </Typography>
+              <Typography>
+                {" "}
+                {ToRial(calculatedPrice?.totalPrice)} ریال{" "}
+              </Typography>
             </Box>
           </Box>
         </Box>

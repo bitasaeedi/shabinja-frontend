@@ -10,7 +10,7 @@ const UserStayInfo = () => {
   return (
     <Box>
       {/* <Divider sx={{ my: 2, bgcolor: "#ddd" }} /> */}
-      <Box sx={{ display: "flex", alignItems: "center" , mt:4 }}>
+      <Box sx={{ display: "flex", alignItems: "center", mt: 4 }}>
         <Avatar
           sx={{
             width: 40,
@@ -26,10 +26,10 @@ const UserStayInfo = () => {
             mx: 1,
           }}
         >
-          پدرام محمدی
+          {stayPageContext?.infoOfStay?.fullName}
         </Typography>
       </Box>
-      <Grid container spacing={1} sx={{ mt: 1 }}>
+      {/* <Grid container spacing={1} sx={{ mt: 1 }}>
         <Grid item xs="12" sx={{ display: "flex", alignItems: "center" }}>
           <Box>
             <StarBorderRoundedIcon sx={{ fontSize: 25 }} />{" "}
@@ -81,7 +81,7 @@ const UserStayInfo = () => {
             </Typography>
           </Box>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Box>
   );
 };
