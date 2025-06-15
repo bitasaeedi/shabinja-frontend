@@ -99,11 +99,7 @@ const InfoSection = () => {
               fontSize: { xs: 14, md: 16 },
             }}
           >
-<<<<<<< Updated upstream
-            {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.title}`}
-=======
             {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.fullName}`}
->>>>>>> Stashed changes
           </Typography>
         </Box>
         <Box>

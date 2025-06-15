@@ -16,12 +16,9 @@ import Accessibility from "./Components/Accessibility";
 import Discount from "./Components/Discount";
 import PeakDays from "./Components/PeakDays";
 import { PriceHostTourListApi } from "../../api/toureApis";
-<<<<<<< Updated upstream
 import PopOverHandle from "./ChangePriceButton/PopOverHandle";
 import ShowValues from "./Components/ShowValues";
-=======
 import moment from "moment-jalaali";
->>>>>>> Stashed changes
 
 export const EditCalendarPageContext = createContext();
 
@@ -97,12 +94,6 @@ const EditCalendarPage = () => {
     // setSelectedDays(newList);
   };
 
-  const handleGetListPrice = async () => {
-<<<<<<< Updated upstream
-    const result = await PriceHostTourListApi(staycode);
-    setPriceHostTours(result?.data);
-  };
-
   // show values
   const handleButtonClick = (event) => {
     setAnchorEl(event.currentTarget); // Open popover only if not active
@@ -112,7 +103,7 @@ const EditCalendarPage = () => {
     setAnchorEl(null);
   };
 
-=======
+  const handleGetListPrice = async () => {
     const now = moment();
     const numMonth = now.jMonth() + 1; // jMonth() returns 0-11, so +1 to get 1-12
 
@@ -130,7 +121,7 @@ const EditCalendarPage = () => {
     var month1 = result?.data || [];
     var month2 = result2?.data || [];
     var month3 = result3?.data || [];
-    
+
     const myList = [...month1, ...month2, ...month3];
     setPriceHostTours(myList);
   };
@@ -139,7 +130,7 @@ const EditCalendarPage = () => {
   //   const result = await PriceHostTourListApi(staycode);
   //   setPriceHostTours(result?.data);
   // };
->>>>>>> Stashed changes
+
   return (
     <EditCalendarPageContext.Provider
       value={{
@@ -246,9 +237,8 @@ const EditCalendarPage = () => {
           vertical={"top"}
         >
           {"مشاهده مقادیر"}
-          <ShowValues staycode={staycode}/>
+          <ShowValues staycode={staycode} />
         </PopOverHandle>
-
       </Box>
     </EditCalendarPageContext.Provider>
   );

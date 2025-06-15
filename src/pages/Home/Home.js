@@ -129,11 +129,6 @@ const Home = () => {
     list = list.reverse();
     // console.log(resultGetFavorit?.data, "FavoritDestinationApi list");
     setListCategories(list);
-<<<<<<< Updated upstream
-    //console.log("list",list);
-=======
-    console.log("list", list);
->>>>>>> Stashed changes
     return list;
   };
 
@@ -150,11 +145,6 @@ const Home = () => {
     let list = result?.data || [];
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
-<<<<<<< Updated upstream
-    //console.log("list",list.urlTour)
-=======
-    console.log("list", list.urlTour);
->>>>>>> Stashed changes
     return list;
   };
 

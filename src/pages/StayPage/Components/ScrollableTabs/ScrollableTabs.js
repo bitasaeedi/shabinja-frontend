@@ -267,15 +267,11 @@ const ScrollableTabs = () => {
               }}
               color="textSecondary"
             >
-<<<<<<< Updated upstream
-              {`${stayPageContext.infoOfStay?.otherPrice} تومان / بیشتر از ${stayPageContext.infoOfStay?.minCapacity} نفر`}
-=======
-              {`+${ToRial(
-                stayPageContext?.infoOfStay?.otherPrice || 0
+              {`${ToRial(
+                stayPageContext.infoOfStay?.otherPrice
               )} ریال / بیشتر از ${
-                stayPageContext?.infoOfStay?.minCapacity || 0
+                stayPageContext.infoOfStay?.minCapacity
               } نفر`}
->>>>>>> Stashed changes
             </Typography>
           </Box>
         </Box>
