@@ -39,9 +39,10 @@ const PopOverHandle = ({ anchorEl, handleClosePopover, children,popWidth,vertica
           alignItems: "center",
           justifyContent: "center",
           flexDirection: "column",
+          
         }}
       >
-        <Typography>عنوان</Typography>
+        <Typography sx={{color:"white"}}>عنوان</Typography>
         <Box
           sx={{
             backgroundColor: "#f1f1f1",
@@ -52,7 +53,15 @@ const PopOverHandle = ({ anchorEl, handleClosePopover, children,popWidth,vertica
         ></Box>
       </Box>
 
-      {children}
+      <Box
+        sx={{
+          padding:" 0 1rem",
+          minHeight:"250px",
+        }}
+      >
+        {children ? children :"اطلاعاتی یافت نشد."}ّ
+      </Box>
+     
     </SwipeableDrawer>
   ) : (
     <Popover

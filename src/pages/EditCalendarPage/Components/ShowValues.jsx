@@ -199,8 +199,10 @@ export default function ShowValues({ staycode }) {
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-between",
+            flexWrap:"wrap",
+            justifyContent: "center",
             mt: 3,
+            gap:"6px"
           }}
         >
           {listButtons.map((btn, index) => {

@@ -35,8 +35,8 @@ const DesctopFooter = () => {
           },
         }
       );
-      setFooterLinks(response?.data)
-      console.log("links",response?.data);
+      setFooterLinks(response?.data?.data)
+      console.log("links",response?.data?.data);
       
       return true;
     } catch (error) {
@@ -66,7 +66,9 @@ const DesctopFooter = () => {
         {/* Logo and Quick Links Section */}
 
         <Grid container spacing={2}>
-          <Grid item xs={6} md={2}>
+          {footerLinks?.map((link,index)=>{
+            return <Grid item xs={6} md={2}>
+
             <Typography
               variant="h6"
               fontWeight="bold"
@@ -76,64 +78,30 @@ const DesctopFooter = () => {
                 textAlign: { xs: "start", md: "center" },
               }}
             >
-              ویلاهای شمال
+              {link.category}
             </Typography>
+
             <Box
               sx={{
                 display: "flex",
                 justifyContent: { xs: "space-between", md: "space-around" },
               }}
             >
+    
               <Stack spacing={1}>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
+
+              {link.list?.map((list)=>{
+                return  <Link to={list.urlTour} className="react-router-link">
+                <Typography sx={{}}>{list.title}</Typography>
+              </Link>
+              })}
+
               </Stack>
             </Box>
+
           </Grid>
-          <Grid item xs={6} md={2}>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              gutterBottom
-              sx={{
-                // color: "#0d47a1",
-                textAlign: { xs: "end", md: "center" },
-              }}
-            >
-              ویلاهای جنوب
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "flex-end", md: "space-around" },
-              }}
-            >
-              <Stack spacing={1}>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{}}> اجاره ویلا در مازندران</Typography>
-                </Link>
-              </Stack>
-            </Box>
-          </Grid>
+          })}
+         
           <Grid item xs={12} md={4}>
             <Typography
               variant="h6"
