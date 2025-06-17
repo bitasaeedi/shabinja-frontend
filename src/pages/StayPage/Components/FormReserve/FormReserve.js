@@ -122,14 +122,14 @@ const FormReserve = () => {
 
   const calculateNights = (shamsiEntryDate, shamsiExitDate) => {
     // Convert Shamsi dates to Miladi moment objects
-    const entryDate = moment(shamsiEntryDate, 'jYYYY/jMM/jDD');
-    const exitDate = moment(shamsiExitDate, 'jYYYY/jMM/jDD');
+    const entryDate = moment(shamsiEntryDate, "jYYYY/jMM/jDD");
+    const exitDate = moment(shamsiExitDate, "jYYYY/jMM/jDD");
 
     // Calculate difference in days (nights = days - 1)
     const nights = exitDate.diff(entryDate, "days");
 
     return nights > 0 ? nights : 0;
-};
+  };
 
   return (
     <>
@@ -411,7 +411,7 @@ const FormReserve = () => {
           sx={{
             mt: 2,
             fontSize: 13,
-            display: calculatedPrice?.totalPrice > 0 ? "block" : "none",
+            display: calculatedPrice?.mainPrice > 0 ? "block" : "none",
           }}
         >
           {/*  */}
@@ -430,15 +430,59 @@ const FormReserve = () => {
             </Box>
             <Box>
               {" "}
-              <Typography>
-                {" "}
-                {ToRial(calculatedPrice?.totalPrice)} ریال{" "}
-              </Typography>
+              <Typography> {ToRial(calculatedPrice?.price)} ریال </Typography>
             </Box>
           </Box>
           {/*  */}
+
+          {/* نفرات اضافه */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              color: "#999",
+            }}
+          >
+            <Box>
+              <Typography>
+                {count - stayPageContext.infoOfStay?.minCapacity > 0
+                  ? count - stayPageContext.infoOfStay?.minCapacity
+                  : 0}{" "}
+                نفر اضافه
+              </Typography>
+            </Box>
+            <Box>
+              {" "}
+              <Typography>
+                {" "}
+                {ToRial(calculatedPrice?.extraPersonPrice)} ریال{" "}
+              </Typography>
+            </Box>
+          </Box>
+
+          {/* نفرات اضافه */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              color: "#999",
+            }}
+          >
+            <Box>
+              <Typography>مبلغ تخفیف </Typography>
+            </Box>
+            <Box>
+              {" "}
+              <Typography>
+                {" "}
+                {ToRial(calculatedPrice?.totalDiscountPrice)} ریال{" "}
+              </Typography>
+            </Box>
+          </Box>
+
           <Divider sx={{ my: 1 }} />
-          {/*  */}
+
+          {/* جکمع */}
           <Box
             sx={{
               display: "flex",
@@ -446,13 +490,13 @@ const FormReserve = () => {
             }}
           >
             <Box>
-              <Typography>جمع مبلغ قابل پرداخت</Typography>
+              <Typography> مبلغ قابل پرداخت</Typography>
             </Box>
             <Box>
               {" "}
               <Typography>
                 {" "}
-                {ToRial(calculatedPrice?.totalPrice)} ریال{" "}
+                {ToRial(calculatedPrice?.mainPrice)} ریال{" "}
               </Typography>
             </Box>
           </Box>

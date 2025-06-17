@@ -3,6 +3,30 @@ import React, { useContext } from "react";
 import { StayPageContext } from "../../../StayPage";
 
 export const CancelRules = () => {
+  const options = [
+    {
+      id: 0,
+      title: "سیاست آسان ",
+      text: "با انتخاب قوانین آسان بسته به زمان کنسلی 10 تا 20 درصد از کل مبلغ رزرو از میهمان یا میزبان دریافت میشود.",
+    },
+    {
+      id: 1,
+      title: " سیاست متعادل ",
+      text: "با انتخاب قوانین متعادل بسته به زمان کنسلی از 20 تا 40 درصد از کل مبلغ رزرو از میهمان یا میزبان خسارت دریافت میشود.",
+    },
+    {
+      id: 2,
+      title: "سیساست سخت‌گیرانه",
+      text: "با انتخاب قوانین سخت‌گیرانه بسته به زمان کنسلی، تا 70 درصد از کل مبلغ رزرو به عنوان خسارت دریافت میشود.",
+
+      text: "در صورتی که رزرو حداقل 5  روز کامل از تاریخ ورود لغو گردد; مبلغ صورتحساب پس از کسر حداکثر 25 درصد صورتحساب به میهمان عودت داده میشود، در غیر اینصورت اجاره شب اول بعلاوه حداکثر 60 درصد شبهای باقیمانده کسر میگردد.",
+      // در صورتی که رزرو، حداقل 5 روز کامل از تاریخ ورود لغو گردد؛ مبلغ
+      // صورتحساب پس از کسر حداکثر 25 درصد صورتحساب به میهمان عودت می‌شود. در
+      // غیر اینصورت اجاره شب اول بعلاوه حداکثر 60 درصد شب‌های باقیمانده کسر
+      // می‌گردد.
+    },
+  ];
+
   const stayPageContext = useContext(StayPageContext);
 
   // Check if data is still loading
@@ -27,7 +51,7 @@ export const CancelRules = () => {
             variant="body2"
             sx={{
               fontSize: { xs: fontSizeText, md: fontSizeText },
-            //   ml: 1,
+              //   ml: 1,
               textAlign: "justify",
             }}
           >
@@ -36,12 +60,16 @@ export const CancelRules = () => {
               variant="h6"
               sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-              سیاست سختگیرانه :
+              {options[stayPageContext.infoOfStay?.cancelReservation]?.title} :
+              {/* سیاست سختگیرانه : */}
             </Typography>
+            {options[stayPageContext.infoOfStay?.cancelReservation]?.text}
+            {/* 
             در صورتی که رزرو، حداقل 5 روز کامل از تاریخ ورود لغو گردد؛ مبلغ
             صورتحساب پس از کسر حداکثر 25 درصد صورتحساب به میهمان عودت می‌شود. در
             غیر اینصورت اجاره شب اول بعلاوه حداکثر 60 درصد شب‌های باقیمانده کسر
-            می‌گردد.
+            می‌گردد. 
+            */}
           </Typography>
         </Grid>
       </Grid>

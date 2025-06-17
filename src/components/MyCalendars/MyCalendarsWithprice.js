@@ -418,7 +418,7 @@ const renderDateMetaInfo = (price, dateInfo, today, date, dontDisable) => {
   if (price) {
     return (
       <small style={{ fontSize: "10px" }}>
-        {Math.floor(price / 10).toLocaleString()}
+        {Math.floor(price / 1).toLocaleString()}
       </small>
     );
   }
