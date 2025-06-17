@@ -1,11 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
-import { Home, AccountCircle, ShoppingBag } from "@mui/icons-material";
+import {
+  Home,
+  AccountCircle,
+  ShoppingBag,
+  Visibility,
+} from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import DrawerComponent from "../../../components/drawer/DrawerComponent";
 import { AppContext } from "../../../App";
+
+
 
 const MobileFooter = () => {
   const appContext = useContext(AppContext);
@@ -24,7 +31,8 @@ const MobileFooter = () => {
   };
 
   // Menu button configuration
-  const menuItems = [
+  
+const menuItems = [
     {
       label: "منو",
       icon: <MenuIcon fontSize="small" />,
@@ -35,7 +43,7 @@ const MobileFooter = () => {
     {
       label: "پشتیبانی",
       icon: <HeadsetMicIcon fontSize="small" />,
-      action: () => navigate("/account/support"),
+      action: () => {window.Goftino.open();},
       disabled: false,
       color: "primary.main",
     },
@@ -45,6 +53,15 @@ const MobileFooter = () => {
       action: () => navigate("/"),
       disabled: false,
       color: "primary.main",
+      isElevated: true,
+    },
+    {
+      label: "خانه",
+      icon: <Home fontSize="small" />,
+      action: () => navigate("/"),
+      disabled: true,
+      color: "white",
+      unvisibilie: true,
     },
     {
       label:
@@ -111,7 +128,7 @@ const MobileFooter = () => {
             width: "100%",
             justifyContent: "space-around",
             padding: "0", // Reduce padding to save space
-            position:"relative",
+            position: "relative",
           }}
         >
           {menuItems.map((item, index) => (
@@ -122,14 +139,21 @@ const MobileFooter = () => {
               onClick={item.action} // Use action from configuration
               disabled={item.disabled} // Prevent navigation on disabled
               sx={{
+                color: item.unvisibilie ? "white" : "rgba(0, 0, 0, 0.6)",
+                zIndex: item.unvisibilie ? "0" : "10",
                 "&.Mui-selected": { color: item.color }, // Customize selected color
                 minWidth: 0, // Prevent stretching
                 ".MuiBottomNavigationAction-label": {
                   whiteSpace: "nowrap", // Prevent label from wrapping
                   overflow: "hidden", // Optional: Hide overflow if text exceeds space
                   textOverflow: "ellipsis", // Optional: Add ellipsis for overflowing text
-                  position:item.label==="خانه" ?"": "",
                 },
+                boxShadow: item.isElevated ? "3" : "0",
+                position: item.isElevated ? "absolute" : "",
+                top: item.isElevated ? "-1.3rem" : "",
+                backgroundColor: item.isElevated ? "white" : "",
+                borderRadius: item.isElevated ? "50%" : "",
+                padding: item.isElevated ? ".4rem 1.1rem" : "",
               }}
             />
           ))}

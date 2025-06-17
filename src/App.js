@@ -22,6 +22,8 @@ import RulesPage from "./pages/RulesPage/RulesPage";
 import MagazinePage from "./pages/MagazinePage/MagazinePage";
 import { FavoritDestinationApi } from "./api/toureApis";
 import ModalLogin from "./components/Login/ModalLogin";
+import { GoftinoSnippet } from "@mohsen007/react-goftino";
+const GOFTINO_KEY = "FnQe1u";
 
 // Create Context
 export const AppContext = createContext();
@@ -82,6 +84,13 @@ function App() {
   const [favoritDestination, setFavoritDestination] = useState([]);
 
   const [openModalLogin, setOpenModalLogin] = useState(false);
+  const [hideButton, setHideButton] = useState(false);
+
+  //  goftino
+
+  function handleGofino() {
+    setHideButton(!hideButton);
+  }
 
   const handleModalClose = () => {
     setOpenModalLogin(false);
@@ -137,8 +146,21 @@ function App() {
             // login modal
             handleShowModal,
             handleModalClose,
+            handleGofino,
           }}
         >
+          <GoftinoSnippet
+            goftinoKey={GOFTINO_KEY}
+            onReady={() => {
+              window.Goftino.setWidget({
+                hasIcon: false,
+              });
+            }}
+            onClose={() => {
+              setHideButton(false);
+            }}
+          />
+          
           <Router>
             <Header />
             <Routes>
