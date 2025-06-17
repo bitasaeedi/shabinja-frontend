@@ -32,13 +32,13 @@ const MobileFooter = () => {
       // disabled: true, // No navigation for this button
       color: "initial",
     },
-    // {
-    //   label: "پشتیبانی",
-    //   icon: <HeadsetMicIcon fontSize="small" />,
-    //   action: () => navigate("/account/support"),
-    //   disabled: false,
-    //   color: "primary.main",
-    // },
+    {
+      label: "پشتیبانی",
+      icon: <HeadsetMicIcon fontSize="small" />,
+      action: () => navigate("/account/support"),
+      disabled: false,
+      color: "primary.main",
+    },
     {
       label: "خانه",
       icon: <Home fontSize="small" />,
@@ -111,6 +111,7 @@ const MobileFooter = () => {
             width: "100%",
             justifyContent: "space-around",
             padding: "0", // Reduce padding to save space
+            position:"relative",
           }}
         >
           {menuItems.map((item, index) => (
@@ -127,6 +128,7 @@ const MobileFooter = () => {
                   whiteSpace: "nowrap", // Prevent label from wrapping
                   overflow: "hidden", // Optional: Hide overflow if text exceeds space
                   textOverflow: "ellipsis", // Optional: Add ellipsis for overflowing text
+                  position:item.label==="خانه" ?"": "",
                 },
               }}
             />

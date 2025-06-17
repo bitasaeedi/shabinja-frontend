@@ -133,7 +133,7 @@ const MenuSection = () => {
             {`${appContext?.userInfo?.name} ${appContext?.userInfo?.lastName}`}
             {/* محمد محمدی */}
           </Typography>
-          <Typography variant="body2">پنل میربان</Typography>
+          <Typography variant="body2">پنل میزبان</Typography>
         </Box>
       </Box>
 
