@@ -23,6 +23,7 @@ import MagazinePage from "./pages/MagazinePage/MagazinePage";
 import { FavoritDestinationApi } from "./api/toureApis";
 import ModalLogin from "./components/Login/ModalLogin";
 import { GoftinoSnippet } from "@mohsen007/react-goftino";
+import { useMediaQuery } from "@mui/material";
 const GOFTINO_KEY = "FnQe1u";
 
 // Create Context
@@ -76,6 +77,7 @@ const theme = createTheme({
 });
 
 function App() {
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [isLoginMain, setIsLoginMain] = useState(false);
   const [showFooter, setShowfooter] = useState(true);
   const [showHeader, setShowHeader] = useState(true);
@@ -153,7 +155,7 @@ function App() {
             goftinoKey={GOFTINO_KEY}
             onReady={() => {
               window.Goftino.setWidget({
-                hasIcon: false,
+                hasIcon:isMobile? false:true,
               });
             }}
             onClose={() => {
