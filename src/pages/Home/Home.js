@@ -296,11 +296,11 @@ const Home = () => {
         </Box>
 
         {/* کارتهای تبلیغاتی */}
-        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
+        {/* <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
-        </Box>
+        </Box> */}
 
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
@@ -342,22 +342,22 @@ const Home = () => {
         </Box>
 
         {/* کارتهای تبلیغاتی */}
-        {/* <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
-        </Box> */}
+        </Box>
         {/* دو اقامتگاه بعدی */}
 
         {/* کارتهای تبلیغاتی */}
-        <Box
+        {/* <Box
           className=" "
           sx={{ marginTop: { xs: 2, md: 1 }, mx: { xs: 2, md: 8 } }}
         >
           <InView>
             <ResponsiveCards />
           </InView>
-        </Box>
+        </Box> */}
 
         {/* رزرو‌های فوری */}
         <Box

@@ -7,13 +7,13 @@ const baseUrl = API_URL;
 
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
- // console.log("name: ", searchData);
+  // console.log("name: ", searchData);
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
       {
-        title: searchData?.title || "",
+        title: searchData?.title === "all" ? "" : searchData?.title || "",
         start: searchData?.start
           ? ConvertShamsiToMiladi(searchData?.start)
           : "",
