@@ -12,8 +12,6 @@ import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import DrawerComponent from "../../../components/drawer/DrawerComponent";
 import { AppContext } from "../../../App";
 
-
-
 const MobileFooter = () => {
   const appContext = useContext(AppContext);
   const location = useLocation();
@@ -31,8 +29,8 @@ const MobileFooter = () => {
   };
 
   // Menu button configuration
-  
-const menuItems = [
+
+  const menuItems = [
     {
       label: "منو",
       icon: <MenuIcon fontSize="small" />,
@@ -43,7 +41,9 @@ const menuItems = [
     {
       label: "پشتیبانی",
       icon: <HeadsetMicIcon fontSize="small" />,
-      action: () => {window.Goftino.open();},
+      action: () => {
+        window.Goftino.open();
+      },
       disabled: false,
       color: "primary.main",
     },
@@ -52,7 +52,7 @@ const menuItems = [
       icon: <Home fontSize="small" />,
       action: () => navigate("/"),
       disabled: false,
-      color: "primary.main",
+      color: "white",
       isElevated: true,
     },
     {
@@ -110,14 +110,17 @@ const menuItems = [
     <>
       <Box
         sx={{
+          borderTopLeftRadius:"40px",
+          borderTopRightRadius:"40px",
           display: { xs: "flex", md: "none" },
           position: "fixed",
           bottom: 0,
           left: 0,
           right: 0,
-          zIndex: 1000,
-          backgroundColor: "#fff",
+          zIndex: 100,
+          backgroundColor: "#1f1f1f",
           boxShadow: "0 -2px 5px rgba(0,0,0,0.1)",
+         
         }}
       >
         <BottomNavigation
@@ -139,8 +142,11 @@ const menuItems = [
               onClick={item.action} // Use action from configuration
               disabled={item.disabled} // Prevent navigation on disabled
               sx={{
-                color: item.unvisibilie ? "white" : "rgba(0, 0, 0, 0.6)",
-                zIndex: item.unvisibilie ? "0" : "10",
+                color:
+                  item.unvisibilie || item.isElevated
+                    ? "white"
+                    : "rgba(0, 0, 0, 0.6)",
+                zIndex: item.unvisibilie ? "0" : "1000",
                 "&.Mui-selected": { color: item.color }, // Customize selected color
                 minWidth: 0, // Prevent stretching
                 ".MuiBottomNavigationAction-label": {
@@ -148,10 +154,13 @@ const menuItems = [
                   overflow: "hidden", // Optional: Hide overflow if text exceeds space
                   textOverflow: "ellipsis", // Optional: Add ellipsis for overflowing text
                 },
-                boxShadow: item.isElevated ? "3" : "0",
+                border: item.isElevated ? "6px solid white" : "",
+                //boxShadow: item.isElevated ? "3" : "0",
                 position: item.isElevated ? "absolute" : "",
-                top: item.isElevated ? "-1.3rem" : "",
-                backgroundColor: item.isElevated ? "white" : "",
+                top: item.isElevated ? "-1.2rem" : "",
+                background: item.isElevated
+                  ? "linear-gradient(135deg, #287dfa, #6a11cb);"
+                  : "",
                 borderRadius: item.isElevated ? "50%" : "",
                 padding: item.isElevated ? ".4rem 1.1rem" : "",
               }}
