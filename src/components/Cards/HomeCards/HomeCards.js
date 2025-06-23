@@ -27,55 +27,56 @@ const HomeCard = ({ myData = {} }) => {
 
   return (
     <Box className=" w-auto pb-0 mb-0">
-      <Card
-        sx={{
-          width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
-          borderRadius: 3,
-          // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-          boxShadow: "none !important",
-          overflow: "hidden",
-          direction: "rtl",
-          pb: 0,
-          mb: 1,
-          backgroundColor: "transparent",
-          position: "relative",
+      <Link
+        to={`/stay/${myData?.id}`}
+        style={{
+          textDecoration: "none",
+          display: "block",
+          width: "100%",
+          color: "inherit",
         }}
-        // className="border"
+        target="_blank"
       >
-        <SliderDetailsPage
-          lists={myData?.images.map((item) => ({
-            url: item,
-            title: item,
-          }))}
-        >
-          <ImageOfCard />
-        </SliderDetailsPage>
-        <Tooltip title={isLiked ? "حذف از پسندها" : "افزدن به پسندها"}>
-          <IconButton
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              color: isLiked ? "red" : "white",
-              zIndex: 100,
-            }}
-            onClick={handleLikeClick}
-          >
-            {isLiked ? <Favorite /> : <FavoriteBorder />}
-          </IconButton>
-        </Tooltip>
-
-        {/* Card Content */}
-        <Link
-          to={`/stay/${myData?.id}`}
-          style={{
-            textDecoration: "none",
-            display: "block",
-            width: "100%",
-            color: "inherit",
+        <Card
+          sx={{
+            width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
+            borderRadius: 3,
+            // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+            boxShadow: "none !important",
+            overflow: "hidden",
+            direction: "rtl",
+            pb: 0,
+            mb: 1,
+            backgroundColor: "transparent",
+            position: "relative",
           }}
-          target="_blank"
+          // className="border"
         >
+          <SliderDetailsPage
+            lists={myData?.images.map((item) => ({
+              url: item,
+              title: item,
+            }))}
+          >
+            <ImageOfCard />
+          </SliderDetailsPage>
+          <Tooltip title={isLiked ? "حذف از پسندها" : "افزدن به پسندها"}>
+            <IconButton
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                color: isLiked ? "red" : "white",
+                zIndex: 100,
+              }}
+              onClick={handleLikeClick}
+            >
+              {isLiked ? <Favorite /> : <FavoriteBorder />}
+            </IconButton>
+          </Tooltip>
+
+          {/* Card Content */}
+
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}
             <Box
@@ -222,8 +223,8 @@ const HomeCard = ({ myData = {} }) => {
             /> */}
             </Box>
           </CardContent>
-        </Link>
-      </Card>
+        </Card>{" "}
+      </Link>
     </Box>
   );
 };
