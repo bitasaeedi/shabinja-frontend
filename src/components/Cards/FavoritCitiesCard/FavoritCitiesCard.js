@@ -38,7 +38,6 @@ const FavoritCitiesCard = ({ myData = {} }) => {
             boxShadow: "none", // Remove shadow
             backgroundColor: "transparent", // Remove background color
             overflow: "hidden",
-            // direction: "rtl",
             pb: 0,
           }}
           // className="px-1"
@@ -49,7 +48,7 @@ const FavoritCitiesCard = ({ myData = {} }) => {
               variant="rectangular"
               width="100%"
               sx={{
-                height: { xs: 130, sm: 140, md: 200 },
+                height: {  xs: 180, sm: 200, md: 220 },
                 borderRadius: 3,
               }}
             />
@@ -58,7 +57,7 @@ const FavoritCitiesCard = ({ myData = {} }) => {
           <CardMedia
             component="img"
             sx={{
-              height: { xs: 130, sm: 150, md: 200 },
+              height: { xs: 180, sm: 200, md: 220 },
               objectFit: "cover",
               borderRadius: 3,
             }}

@@ -1,11 +1,5 @@
 import {
   Box,
-  Container,
-  Grid,
-  TextField,
-  Toolbar,
-  Typography,
-  Button,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
@@ -145,6 +139,8 @@ const Home = () => {
     let list = result?.data || [];
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
+    console.log("filter",list);
+    
     return list;
   };
 
@@ -203,23 +199,39 @@ const Home = () => {
               deafultSkeleton={"favorit"}
               title={"مقاصد محبوب"}
               // slidesPerView={7}
-              breakpoints={{
-                0: {
-                  slidesPerView: 2,
-                },
-                330: {
-                  slidesPerView: 2,
-                },
-                480: {
-                  slidesPerView: 3,
-                },
-                768: {
-                  slidesPerView: 4,
-                },
-                1024: {
-                  slidesPerView: 5,
-                },
-              }}
+              breakpoints={                
+                {
+                  0: { slidesPerView: 2.1, spaceBetween: 8 },   
+                  340: { slidesPerView: 2.3, spaceBetween: 5 },
+                  400: { slidesPerView: 2.5, spaceBetween: 5 },
+                  450: { slidesPerView: 2.8, spaceBetween: 5 },
+                  520: { slidesPerView: 3.2, spaceBetween: 5 },
+                  600: { slidesPerView: 3.45, spaceBetween: 10 },
+                  700: { slidesPerView: 3.85, spaceBetween: 10 },
+                  820: { slidesPerView: 4.25, spaceBetween: 10 },
+                  1024: { slidesPerView: 4.5, spaceBetween: 10 },
+                  1300: { slidesPerView: 4.6, spaceBetween: 10 },
+                  1450: { slidesPerView: 5.5, spaceBetween: 20 },
+                }
+
+              //   {
+              //   0: {
+              //     slidesPerView: 2,
+              //   },
+              //   330: {
+              //     slidesPerView: 2,
+              //   },
+              //   480: {
+              //     slidesPerView: 3,
+              //   },
+              //   768: {
+              //     slidesPerView: 4,
+              //   },
+              //   1024: {
+              //     slidesPerView: 5,
+              //   },
+              // }
+              }
             >
               <FavoritCitiesCard />
             </SwipperSliderPublick>

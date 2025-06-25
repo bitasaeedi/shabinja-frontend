@@ -109,6 +109,8 @@ const MainSearchForm = () => {
 
 
   const onSubmit = (data) => {
+    console.log("sele",selectedCity);
+    
     if (selectedCity.titleEn) {
       if (data.entryDate && !data.exitDate) {
         const exitDateInput = document.querySelector('input[name="exitDate"]');

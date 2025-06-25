@@ -19,10 +19,16 @@ import { Link } from "react-router-dom";
 import ImageOfCard from "./ImageOfCard";
 import SliderDetailsPage from "../../Sliders/SliderCards";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import FavoritesPopOver from "../../FavoritesPopOver/FavoritesPopOver";
 const HomeCard = ({ myData = {} }) => {
+
   const [isLiked, setIsLiked] = useState(false);
   const handleLikeClick = () => {
     setIsLiked(!isLiked);
+  };
+
+  const handleClose = () => {
+    setIsLiked(null);
   };
 
   return (
@@ -224,6 +230,7 @@ const HomeCard = ({ myData = {} }) => {
           </CardContent>
         </Link>
       </Card>
+      <FavoritesPopOver isLiked={isLiked}  handleClose={handleClose} popWidth={400} vertical={"top"}/>
     </Box>
   );
 };

@@ -10,9 +10,10 @@ const ManageFavorites = () => {
   const callApiForGetList = async (dataToFilter) => {
     const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data?.items;
-    // console.log(list, "resultGetTours list");
+     console.log("resultGetTours list",list);
     return list;
   };
+  callApiForGetList()
   return (
     <Box>
       <Typography
@@ -20,13 +21,13 @@ const ManageFavorites = () => {
         align="right"
         gutterBottom
         sx={{
-          fontSize: "24px",
+          fontSize: "18px",
           display: { xs: "none", md: "flex" },
         }}
       >
         پسندها
       </Typography>
-      <Box
+      {/* <Box
         sx={{
           // minHeight: 600,
           py: { xs: 1, md: 3 },
@@ -140,7 +141,19 @@ const ManageFavorites = () => {
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
+      </Box> */}
+
+      <Box
+        sx={{
+          // minHeight: 600,
+          py: { xs: 1, md: 3 },
+        }}
+        className="shadow borde rounded"
+      >
+        
       </Box>
+
+
     </Box>
   );
 };

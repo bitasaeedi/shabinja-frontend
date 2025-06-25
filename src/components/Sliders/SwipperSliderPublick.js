@@ -239,7 +239,7 @@ const SwipperSliderPublick = ({
           breakpoints
           ? breakpoints
           : {
-          0: { slidesPerView: 1.1, spaceBetween: 8 },   // کمی بیش از 1 تا نیم‌اسلاید دیده شود
+          0: { slidesPerView: 1.1, spaceBetween: 8 },  
           480: { slidesPerView: 1.3, spaceBetween: 8 },
           600: { slidesPerView: 1.5, spaceBetween: 10 },
           720: { slidesPerView: 2, spaceBetween: 12 },

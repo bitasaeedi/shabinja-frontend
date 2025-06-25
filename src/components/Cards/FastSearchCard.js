@@ -32,6 +32,7 @@ const FastSearchCard = ({ myData = {} }) => {
                 width: 25,
                 height: 25,
               },
+              
               objectFit: "cover",
               borderRadius: "0px 0px 10px 10px",
             }}

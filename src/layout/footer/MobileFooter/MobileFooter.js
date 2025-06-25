@@ -137,7 +137,7 @@ const MobileFooter = () => {
           {menuItems.map((item, index) => (
             <BottomNavigationAction
               key={index}
-              label={item.label}
+              label={item.isElevated?"":item.label}
               icon={item.icon}
               onClick={item.action} // Use action from configuration
               disabled={item.disabled} // Prevent navigation on disabled
@@ -154,15 +154,15 @@ const MobileFooter = () => {
                   overflow: "hidden", // Optional: Hide overflow if text exceeds space
                   textOverflow: "ellipsis", // Optional: Add ellipsis for overflowing text
                 },
-                border: item.isElevated ? "6px solid white" : "",
+                border: item.isElevated ? "6px solid rgba(255,255,255,.7)" : "",
                 //boxShadow: item.isElevated ? "3" : "0",
                 position: item.isElevated ? "absolute" : "",
-                top: item.isElevated ? "-1.2rem" : "",
+                top: item.isElevated ? "-1.4rem" : "",
                 background: item.isElevated
                   ? "linear-gradient(135deg, #287dfa, #6a11cb);"
                   : "",
                 borderRadius: item.isElevated ? "50%" : "",
-                padding: item.isElevated ? ".4rem 1.1rem" : "",
+                padding: item.isElevated ? "1rem 1.1rem" : "",
               }}
             />
           ))}
