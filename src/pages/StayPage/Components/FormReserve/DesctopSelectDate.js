@@ -1,53 +1,54 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-
-import "./myCalendar.css";
-import MyCalendarsWithprice from "../../../../components/MyCalendars/MyCalendarsWithprice";
+import React, { useEffect, useRef } from "react";
 import { Box } from "@mui/material";
-import { StayPageContext } from "../../StayPage";
+import MyCalendarsWithprice from "../../../../components/MyCalendars/MyCalendarsWithprice";
+import "./myCalendar.css";
 
 const DesctopSelectDate = ({
   anchorEl,
   handleClosePopover,
   onChange,
   values,
+  listDayesWithPrice = [],
+  centerPage = false,
+  headerComponent = <></>,
 }) => {
   const calendarRef = useRef();
-  const stayPageContext = useContext(StayPageContext);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (calendarRef.current && !calendarRef.current.contains(event.target)) {
-        handleClosePopover(); // Close the popup if clicked outside
+        handleClosePopover();
       }
     };
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [handleClosePopover]);
 
-  const CalendarComponent = (
-    <MyCalendarsWithprice
-      onChange={onChange}
-      values={values}
-      listDayesWithPrice={stayPageContext?.listPrices}
-    />
-  );
-
   return (
     <Box
+      ref={calendarRef}
       sx={{
-        position: "absolute",
-        top: 60,
-        right: 0,
+        position: centerPage ? "fixed" : "absolute",
+        top: centerPage ? "50%" : "60px",
+        left: centerPage ? "50%" : "unset",
+        right: centerPage ? "unset" : 0,
+        transform: centerPage ? "translate(-50%, -50%)" : "none",
         backgroundColor: "#fff",
         boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
         borderRadius: "8px",
-        zIndex: "9000 !important",
-        // transform: "translate(90%, 0)",
+        zIndex: 9000,
+        p: 2,
       }}
-      ref={calendarRef}
     >
-      {CalendarComponent}
+      {headerComponent}
+      <MyCalendarsWithprice
+        onChange={onChange}
+        values={values}
+        listDayesWithPrice={listDayesWithPrice}
+      />
     </Box>
   );
 };

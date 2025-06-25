@@ -28,6 +28,9 @@ function SelectDatePopOver({
   valueDefault = [],
   anchorEl,
   handleClosePopover,
+  listDayesWithPrice,
+  centerPage = false,
+  headerComponent = <></>,
 }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
@@ -50,6 +53,9 @@ function SelectDatePopOver({
       handleClosePopover={handleClosePopover}
       onChange={onChange}
       values={values}
+      listDayesWithPrice={listDayesWithPrice}
+      centerPage={centerPage}
+      headerComponent={headerComponent}
     />
   );
 }

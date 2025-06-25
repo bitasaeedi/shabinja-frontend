@@ -24,6 +24,7 @@ import { FavoritDestinationApi } from "./api/toureApis";
 import ModalLogin from "./components/Login/ModalLogin";
 import { GoftinoSnippet } from "@mohsen007/react-goftino";
 import { useMediaQuery } from "@mui/material";
+import ReservationStay from "./pages/ReservationStay/ReservationStay";
 const GOFTINO_KEY = "FnQe1u";
 
 // Create Context
@@ -155,14 +156,14 @@ function App() {
             goftinoKey={GOFTINO_KEY}
             onReady={() => {
               window.Goftino.setWidget({
-                hasIcon:isMobile? false:true,
+                hasIcon: isMobile ? false : true,
               });
             }}
             onClose={() => {
               setHideButton(false);
             }}
           />
-          
+
           <Router>
             <Header />
             <Routes>
@@ -178,6 +179,10 @@ function App() {
               <Route path="/account/:section" element={<AccountPage />} />
               <Route path="/pannel/:section" element={<PannelPage />} />
               <Route path="/new-stay/:step" element={<NewStaysPage />} />
+              <Route
+                path="/book/:stepName/:code"
+                element={<ReservationStay />}
+              />
               <Route
                 path="/edit-calendar/:staycode"
                 element={<EditCalendarPage />}

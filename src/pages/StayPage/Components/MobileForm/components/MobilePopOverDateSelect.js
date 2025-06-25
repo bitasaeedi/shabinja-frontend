@@ -22,9 +22,13 @@ import CloseIcon from "@mui/icons-material/Close";
 import { StayPageContext } from "../../../StayPage";
 import MyCalendarsWithPrice from "../../../../../components/MyCalendars/MyCalendarsWithprice";
 
-
-
-function MobilePopOverDateSelect({ anchorEl, handleClosePopover }) {
+function MobilePopOverDateSelect({
+  anchorEl,
+  handleClosePopover,
+  onChange = () => {},
+  values = [],
+  listDayesWithPrice = [],
+}) {
   const stayPageContext = useContext(StayPageContext);
   const calendarRef = useRef();
 
@@ -75,9 +79,9 @@ function MobilePopOverDateSelect({ anchorEl, handleClosePopover }) {
       >
         <MyCalendarsWithPrice
           numMonth={1}
-          onChange={stayPageContext.handleChangeDate}
-          values={stayPageContext.listDateSelected}
-          listDayesWithPrice={stayPageContext?.listPrices}
+          onChange={onChange}
+          values={values}
+          listDayesWithPrice={listDayesWithPrice}
         />
       </Box>
 
