@@ -86,10 +86,12 @@ const StayPage = () => {
     const result = await PriceHostTourListApi(staycode, months[0]);
     const result2 = await PriceHostTourListApi(staycode, months[1]);
     const result3 = await PriceHostTourListApi(staycode, months[2]);
+
     var month1 = result?.data || [];
     var month2 = result2?.data || [];
     var month3 = result3?.data || [];
     const myList = [...month1, ...month2, ...month3];
+    console.log(myList, "prices");
     setListPrices(myList);
   };
   return (

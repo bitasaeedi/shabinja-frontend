@@ -587,3 +587,36 @@ export const PriceHostTourListApi = async (id, numMonth) => {
     return error?.response?.data;
   }
 };
+
+// ث3بت درخواست رزرو با ارسال مشخصات
+export const RequestToReserveApi = async (data) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.post(
+      `${baseUrl}/HostTourOrder/Create`,
+      {
+        userId: "",
+        hostTourId: "",
+        startDate: "",
+        endDate: "",
+        personCount: "",
+        fullName: "",
+        mobile: "",
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
+    return error?.response?.data;
+  }
+};

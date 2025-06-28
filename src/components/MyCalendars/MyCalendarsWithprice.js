@@ -40,7 +40,7 @@ const MyCalendarsWithPrice = ({
      * Create a lookup table for date information with standardized date format
      */
     const createDateInfoLookup = () => {
-      const lookup = listDayesWithPrice.reduce((acc, item) => {
+      const lookup = listDayesWithPrice?.reduce((acc, item) => {
         const stdDate = GetMiladiStdFunc(item.date);
         acc[stdDate] = item;
         return acc;
@@ -160,7 +160,11 @@ const MyCalendarsWithPrice = ({
 
     // If no initial date is selected, only disable unavailable dates
     if (!values?.length || !values[0]) {
-      return !dateInfo || (dateInfo.notAvailable && !dontDisable);
+      return (
+        !dateInfo ||
+        (dateInfo.notAvailable && !dontDisable) ||
+        (!dateInfo?.price && !dontDisable)
+      );
     }
 
     const startDate = new Date(ConvertShamsiToMiladi(values[0]));
@@ -192,7 +196,11 @@ const MyCalendarsWithPrice = ({
     }
 
     // Disable unavailable dates
-    if (dateInfo?.notAvailable) {
+    if (
+      !dateInfo ||
+      (dateInfo.notAvailable && !dontDisable) ||
+      (!dateInfo?.price && !dontDisable)
+    ) {
       return !dontDisable;
     }
 
@@ -218,7 +226,11 @@ const MyCalendarsWithPrice = ({
   const findFirstUnavailableDate = (sortedDates, startDate) => {
     for (const dateStr of sortedDates) {
       const date = new Date(dateStr);
-      if (date > startDate && dateInfoLookup[dateStr]?.notAvailable) {
+      if (
+        date > startDate &&
+        (dateInfoLookup[dateStr]?.notAvailable ||
+          !dateInfoLookup[dateStr]?.price)
+      ) {
         return dateStr;
       }
     }
@@ -303,7 +315,10 @@ const MyCalendarsWithPrice = ({
         dateToCompare.setHours(0, 0, 0, 0);
 
         const finalDisable =
-          isDisabled || todayDate > dateToCompare || (!dateInfo && !dontDisable) ;
+          isDisabled ||
+          todayDate > dateToCompare ||
+          (!dateInfo && !dontDisable);
+
         const style = getDateStyle(
           dateKey,
           isWeekend,
@@ -322,7 +337,14 @@ const MyCalendarsWithPrice = ({
             height: "100%",
             padding: 0,
           },
-          children: renderDateCell(date, dateInfo, price, today, isDisabled , dontDisable),
+          children: renderDateCell(
+            date,
+            dateInfo,
+            price,
+            today,
+            isDisabled,
+            dontDisable
+          ),
         };
       }}
     />
@@ -363,12 +385,19 @@ const checkIfDateIsSelected = (dateKey, values) => {
  * @param {boolean} isDisabled - Whether the date is disabled
  * @returns {JSX.Element} Date cell content
  */
-const renderDateCell = (date, dateInfo, price, today, isDisabled , dontDisable) => {
+const renderDateCell = (
+  date,
+  dateInfo,
+  price,
+  today,
+  isDisabled,
+  dontDisable
+) => {
   return (
     <div style={{ position: "relative", width: "100%" }}>
       {renderUnavailablePattern(dateInfo, price, isDisabled, today, date)}
       <div>{date.day}</div>
-      {renderDateMetaInfo(price, dateInfo, today, date , dontDisable)}
+      {renderDateMetaInfo(price, dateInfo, today, date, dontDisable)}
     </div>
   );
 };

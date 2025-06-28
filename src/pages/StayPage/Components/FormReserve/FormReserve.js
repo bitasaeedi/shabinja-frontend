@@ -21,6 +21,7 @@ import MobilePopOverDateSelect from "../MobileForm/components/MobilePopOverDateS
 import { PriceCalculationApi } from "../../../../api/toureApis";
 import ToRial from "../../../../components/ToRial/ToRial";
 import moment from "moment-jalaali";
+import { useNavigate } from "react-router-dom";
 const FormReserve = () => {
   const theme = useTheme();
   const stayPageContext = useContext(StayPageContext);
@@ -31,6 +32,7 @@ const FormReserve = () => {
   const [calculatedPrice, setCalculatedPrice] = useState(null);
   const [calculating, setCalculating] = useState(false);
   const counterRef = useRef();
+  const navigate = useNavigate();
 
   const increment = () => {
     const newCount = count + 1;
@@ -63,7 +65,28 @@ const FormReserve = () => {
 
   // Handle form submission
   const onSubmit = (data) => {
-    console.log(data);
+    const stayCode = stayPageContext?.infoOfStay?.id || 12;
+    const myData = {
+      start: "1404/03/04",
+      end: "1404/04/01",
+      count: count,
+    };
+
+    const queryParams = Object.fromEntries(
+      Object.entries({
+        start: myData.start,
+        end: myData.end,
+        count: myData.count,
+      }).filter(([_, value]) => value != null && value !== "")
+    );
+
+    // Convert to query string
+    const queryString = new URLSearchParams(queryParams).toString();
+
+    const url = `/book/preview/${stayCode}?${queryString}`;
+
+    // Navigate to the constructed URL
+    navigate(url);
   };
 
   const handleDateClick = (event, field) => {
@@ -273,6 +296,7 @@ const FormReserve = () => {
                   valueDefault={stayPageContext.listDateSelected}
                   anchorEl={anchorEl}
                   handleClosePopover={handleClosePopover}
+                  listDayesWithPrice={stayPageContext?.listPrices}
                 />
               )}
             </Grid>
@@ -340,6 +364,9 @@ const FormReserve = () => {
                         padding: 0,
                         borderColor: "#000",
                       }}
+                      disabled={
+                        count >= stayPageContext.infoOfStay?.maxCapacity
+                      }
                     >
                       +
                     </Button>
@@ -358,7 +385,7 @@ const FormReserve = () => {
                     <Button
                       variant="outlined"
                       onClick={decrement}
-                      disabled={count <= 0 ? true : false}
+                      disabled={count <= 1 ? true : false}
                       sx={{
                         fontSize: 16,
                         minWidth: "20px",
@@ -398,7 +425,7 @@ const FormReserve = () => {
                       cursor: "not-allowed", // Show not-allowed cursor
                     },
                   }}
-                  disabled={!(calculatedPrice?.totalPrice > 0)}
+                  // disabled={!(calculatedPrice?.totalPrice > 0)}
                 >
                   تایید
                 </Button>
@@ -541,6 +568,9 @@ const FormReserve = () => {
         <MobilePopOverDateSelect
           anchorEl={anchorEl}
           handleClosePopover={handleClosePopover}
+          onChange={stayPageContext.handleChangeDate}
+          values={stayPageContext.listDateSelected}
+          listDayesWithPrice={stayPageContext?.listPrices}
         />
       )}
     </>
