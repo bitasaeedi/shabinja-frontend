@@ -129,7 +129,7 @@ const Home = () => {
   const callApiForGetList = async (dataToFilter) => {
     const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data?.items || [];
-    // console.log(list, "resultGetTours list");
+    console.log(list, "resultGetTours list");
     return list;
   };
 

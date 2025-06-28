@@ -20,6 +20,7 @@ import ImageOfCard from "./ImageOfCard";
 import SliderDetailsPage from "../../Sliders/SliderCards";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import FavoritesPopOver from "../../FavoritesPopOver/FavoritesPopOver";
+
 const HomeCard = ({ myData = {} }) => {
 
   const [isLiked, setIsLiked] = useState(false);
@@ -56,20 +57,23 @@ const HomeCard = ({ myData = {} }) => {
         >
           <ImageOfCard myData={myData} />
         </SliderDetailsPage>
-        <Tooltip title={isLiked ? "حذف از پسندها" : "افزدن به پسندها"}>
-          <IconButton
+        
+        {/* <Tooltip 
+        disablePortal
+        sx={{zIndex:1}} title={isLiked ? "حذف از پسندها" : "افزدن به پسندها"}>*/}
+          <IconButton 
             sx={{
               position: "absolute",
               top: 8,
               right: 8,
               color: isLiked ? "red" : "white",
-              zIndex: 100,
+              zIndex: 10,
             }}
             onClick={handleLikeClick}
           >
-            {isLiked ? <Favorite /> : <FavoriteBorder />}
+            {myData.isFavorite ? <Favorite /> : <FavoriteBorder />}
           </IconButton>
-        </Tooltip>
+        {/* </Tooltip> */}
 
         {/* Card Content */}
         <Link
@@ -230,7 +234,7 @@ const HomeCard = ({ myData = {} }) => {
           </CardContent>
         </Link>
       </Card>
-      <FavoritesPopOver isLiked={isLiked}  handleClose={handleClose} popWidth={400} vertical={"top"}/>
+      <FavoritesPopOver isLiked={isLiked}  handleClose={handleClose} id={myData.id} />
     </Box>
   );
 };

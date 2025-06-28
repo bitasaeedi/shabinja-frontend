@@ -10,6 +10,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
 import SearchPage from "./pages/SearchPage/SearchPage";
 import StayPage from "./pages/StayPage/StayPage";
+import Favorites from "./pages/AccountPage/Components/ContentSections/Favorites/Favorites";
 import AccountPage from "./pages/AccountPage/AccountPage";
 import PannelPage from "./pages/Pannel/PannelPage";
 import NewStaysPage from "./pages/NewStaysPage/NewStaysPage";
@@ -17,6 +18,7 @@ import EditCalendarPage from "./pages/EditCalendarPage/EditCalendarPage";
 import { UserSearchOneApi } from "./api/Users.api";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import QuestionsPage from "./pages/QuestionsPage/QuestionsPage";
+import EachCategory from "./pages/AccountPage/Components/ContentSections/Favorites/Components/EachCategory";
 import ContactPage from "./pages/ContactPage/ContactPage";
 import RulesPage from "./pages/RulesPage/RulesPage";
 import MagazinePage from "./pages/MagazinePage/MagazinePage";
@@ -155,14 +157,14 @@ function App() {
             goftinoKey={GOFTINO_KEY}
             onReady={() => {
               window.Goftino.setWidget({
-                hasIcon:isMobile? false:true,
+                hasIcon: isMobile ? false : true,
               });
             }}
             onClose={() => {
               setHideButton(false);
             }}
           />
-          
+
           <Router>
             <Header />
             <Routes>
@@ -176,6 +178,9 @@ function App() {
               <Route path="/mag" element={<MagazinePage />} />
               <Route path="/search/:searchtype" element={<SearchPage />} />
               <Route path="/account/:section" element={<AccountPage />} />
+              <Route path="/account/favorites/:id" element={<Favorites/>}/>
+                {/* <Route path=":id" element={<EachCategory />} />
+              </Route> */}
               <Route path="/pannel/:section" element={<PannelPage />} />
               <Route path="/new-stay/:step" element={<NewStaysPage />} />
               <Route

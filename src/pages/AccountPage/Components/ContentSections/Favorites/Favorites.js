@@ -1,15 +1,37 @@
-import React, { useState } from "react";
-import { Box, IconButton, SwipeableDrawer, Typography, useMediaQuery } from "@mui/material";
-import ManageFavorites from "./Components/ManageFavorites";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  Box,
+  IconButton,
+  SwipeableDrawer,
+  Typography,
+  useMediaQuery,
+  useTheme,
+  Grid,
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
-const Profile = ({ anchor, isMobile }) => {
+import ShowAllCategories from "./Components/ShowAllCategories";
+import { AppContext } from "../../../../../App";
+import MenuSection from "../../MenuSection/MenuSection";
+import EachCategory from "./Components/EachCategory";
+
+const Favorites = ({ anchor }) => {
+  const { id } = useParams();
+  const appContext = useContext(AppContext);
+
+ 
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [openDrawer, setOpenDrawer] = useState(anchor); // Manage drawer state
+
+
   const navigate = useNavigate();
+
   const handleClose = () => {
     navigate("/account/menu");
     setOpenDrawer(false);
   };
+
 
   return isMobile ? (
     <SwipeableDrawer
@@ -49,11 +71,76 @@ const Profile = ({ anchor, isMobile }) => {
         </Box>
       </Box>
 
-      <ManageFavorites />
+      <Box>
+        <Typography
+          variant="h6"
+          align="right"
+          gutterBottom
+          sx={{
+            fontSize: "18px",
+            display: { xs: "none", md: "flex" },
+          }}
+        >
+          پسندها
+        </Typography>
+
+        <Box
+          sx={{
+            // minHeight: 600,
+            py: { xs: 1, md: 3 },
+          }}
+          className="shadow borde rounded"
+        >
+          <ShowAllCategories />
+        </Box>
+      </Box>
     </SwipeableDrawer>
   ) : (
-    <ManageFavorites />
+    <Box>
+      <Box
+        sx={{
+          width: { xs: "100%", md: "90%" },
+          margin: "0 auto",
+          padding: { xs: 2, md: 0 },
+          mb: 4,
+        }}
+      >
+        <Box sx={{ height: { xs: 0, md: 80 } }}></Box>
+        <Grid container spacing={2} sx={{ mt: 0 }}>
+          {/* Left section: Menu */}
+          <Grid item xs={12} md={4} lg={3}>
+            <MenuSection />
+          </Grid>
+
+          {/* Right section: Dynamic content */}
+          <Grid item xs={12} md={8} lg={9}>
+            <Typography
+              variant="h6"
+              align="right"
+              gutterBottom
+              sx={{
+                fontSize: "18px",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              پسندها
+            </Typography>
+
+            <Box
+              sx={{
+                // minHeight: 600,
+                py: { xs: 1, md: 3 },
+              }}
+              className="shadow borde rounded"
+            >
+
+              {id ==="all"  ?  <ShowAllCategories/>:<EachCategory id={id} /> }
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
   );
 };
 
-export default Profile;
+export default Favorites;

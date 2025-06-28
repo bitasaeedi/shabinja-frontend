@@ -39,7 +39,7 @@ const MenuSection = () => {
     },
     {
       label: "پسندها",
-      path: "favorites",
+      path: "favorites/all",
       pannel: true,
       icon: <FavoriteBorderOutlinedIcon />,
     },

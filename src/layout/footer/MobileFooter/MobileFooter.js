@@ -163,6 +163,23 @@ const MobileFooter = () => {
                   : "",
                 borderRadius: item.isElevated ? "50%" : "",
                 padding: item.isElevated ? "1rem 1.1rem" : "",
+                ...(item.isElevated && {
+                  position: "absolute",
+                  top: "-1.6rem",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+          
+                  // شیشه‌ای با بلور
+                  backgroundColor: "rgba(255,255,255,0.1)",
+                  backdropFilter: "blur(6px)",
+                  WebkitBackdropFilter: "blur(6px)",
+          
+                  // حاشیه‌ی تقریباً ۳px
+                  border: "3px solid rgba(255,255,255,0.3)",
+                  borderRadius: "50%",
+                  padding: "0.8rem",
+                  zIndex: 101,
+                }),
               }}
             />
           ))}
