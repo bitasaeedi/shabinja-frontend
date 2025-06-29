@@ -61,13 +61,11 @@ export default function EachCategory() {
   useEffect(() => {
     const segments = location.pathname.split("/");
     setId(segments[segments.length - 1]);
-    console.log("id", segments[segments.length - 1]);
   }, [location]);
 
   useEffect(() => {
     if (id) {
       fetchCategoryList();
-      console.log("id", id);
     }
   }, [isOpen, id]);
 
@@ -160,6 +158,7 @@ export default function EachCategory() {
               images: item.images,
               guid: item.guid,
               isLiked: true,
+              id: item.id,
             };
 
             return (

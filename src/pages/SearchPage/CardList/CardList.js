@@ -23,7 +23,7 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
       <Grid
         container
         // spacing={3}
-        justifyContent="center"
+        justifyContent="flex-start"
         className=" mx-0 px-0"
       >
         {(loading ? Array.from({ length: itemsPerPage }) : data).map(
@@ -33,7 +33,8 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
               xs={showMap ? 12 : 12}
               sm={showMap ? 12 : 12}
               md={showMap ? 12 : 6}
-              lg={showMap ? 6 : 3}
+              lg={showMap ? 6 : 4}
+              xl={showMap ? 6 : 3}
               key={index}
               sx={{ display: "flex", justifyContent: "center", mb: 1 }}
             >
