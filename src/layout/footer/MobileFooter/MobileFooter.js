@@ -28,14 +28,11 @@ const MobileFooter = () => {
     setMobileOpen(!mobileOpen); // Toggle the drawer open/close
   };
 
-  // Menu button configuration
-
   const menuItems = [
     {
       label: "منو",
       icon: <MenuIcon fontSize="small" />,
       action: handleDrawerToggle,
-      // disabled: true, // No navigation for this button
       color: "initial",
     },
     {
@@ -110,8 +107,8 @@ const MobileFooter = () => {
     <>
       <Box
         sx={{
-          borderTopLeftRadius:"40px",
-          borderTopRightRadius:"40px",
+          borderTopLeftRadius: "40px",
+          borderTopRightRadius: "40px",
           display: { xs: "flex", md: "none" },
           position: "fixed",
           bottom: 0,
@@ -120,7 +117,6 @@ const MobileFooter = () => {
           zIndex: 100,
           backgroundColor: "#1f1f1f",
           boxShadow: "0 -2px 5px rgba(0,0,0,0.1)",
-         
         }}
       >
         <BottomNavigation
@@ -130,65 +126,55 @@ const MobileFooter = () => {
           sx={{
             width: "100%",
             justifyContent: "space-around",
-            padding: "0", // Reduce padding to save space
+            padding: "0",
             position: "relative",
           }}
         >
           {menuItems.map((item, index) => (
             <BottomNavigationAction
               key={index}
-              label={item.isElevated?"":item.label}
+              label={item.isElevated ? "" : item.label}
               icon={item.icon}
-              onClick={item.action} // Use action from configuration
-              disabled={item.disabled} // Prevent navigation on disabled
+              onClick={item.action}
+              disabled={item.disabled}
               sx={{
                 color:
                   item.unvisibilie || item.isElevated
                     ? "white"
                     : "rgba(0, 0, 0, 0.6)",
                 zIndex: item.unvisibilie ? "0" : "1000",
-                "&.Mui-selected": { color: item.color }, // Customize selected color
-                minWidth: 0, // Prevent stretching
+                "&.Mui-selected": { color: item.color },
+                minWidth: 0,
                 ".MuiBottomNavigationAction-label": {
-                  whiteSpace: "nowrap", // Prevent label from wrapping
-                  overflow: "hidden", // Optional: Hide overflow if text exceeds space
-                  textOverflow: "ellipsis", // Optional: Add ellipsis for overflowing text
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
                 },
-                border: item.isElevated ? "6px solid rgba(255,255,255,.7)" : "",
-                //boxShadow: item.isElevated ? "3" : "0",
-                position: item.isElevated ? "absolute" : "",
-                top: item.isElevated ? "-1.4rem" : "",
-                background: item.isElevated
-                  ? "linear-gradient(135deg, #287dfa, #6a11cb);"
-                  : "",
-                borderRadius: item.isElevated ? "50%" : "",
-                padding: item.isElevated ? "1rem 1.1rem" : "",
                 ...(item.isElevated && {
                   position: "absolute",
-                  top: "-1.6rem",
+                  top: "-2.3rem",
                   left: "50%",
                   transform: "translateX(-50%)",
-          
-                  // شیشه‌ای با بلور
-                  backgroundColor: "rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(6px)",
-                  WebkitBackdropFilter: "blur(6px)",
-          
-                  // حاشیه‌ی تقریباً ۳px
-                  border: "3px solid rgba(255,255,255,0.3)",
+                  backgroundColor: "#f7931e", // نارنجی
                   borderRadius: "50%",
-                  padding: "0.8rem",
+                  padding: "1rem",
                   zIndex: 101,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                  border: "4px solid rgba(255,255,255,0.8)",
+                  "& .MuiSvgIcon-root": {
+                    color: "#fff",
+                    fontSize: "1.8rem",
+                  },
                 }),
               }}
             />
           ))}
         </BottomNavigation>
       </Box>
-      {/* Drawer Component */}
+
       <DrawerComponent
-        mobileOpen={mobileOpen} // Pass the mobileOpen state to the DrawerComponent
-        handleDrawerToggle={handleDrawerToggle} // Pass the toggle function to close/open drawer
+        mobileOpen={mobileOpen}
+        handleDrawerToggle={handleDrawerToggle}
       />
     </>
   );

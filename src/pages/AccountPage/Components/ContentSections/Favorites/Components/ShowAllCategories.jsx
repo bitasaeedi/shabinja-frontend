@@ -36,7 +36,7 @@ export default function ShowAllCategories() {
     <>
       <Box
         sx={{
-          margin: "0 3rem",
+          margin: "1rem 3rem",
         }}
       >
         <Grid container spacing={4}>
@@ -46,7 +46,7 @@ export default function ShowAllCategories() {
                   item
                   xs={12}
                   sm={6}
-                  md={4}
+                  lg={4}
                   key={index}
                   onClick={() => {
                     navigate(`/account/favorites/${list.id}`);
@@ -64,7 +64,7 @@ export default function ShowAllCategories() {
                 </Grid>
               ))
             : Array.from({ length: 6 }).map((_, index) => (
-                <Grid item xs={12} sm={6} md={4} key={index}>
+                <Grid item xs={12} sm={6} lg={4} key={index}>
                  <StackedImageSkeleton/>
                 </Grid>
               ))}

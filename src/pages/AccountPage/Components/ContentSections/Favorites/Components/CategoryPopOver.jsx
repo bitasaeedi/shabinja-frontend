@@ -5,6 +5,8 @@ import {
   Popover,
   TextField,
   Typography,
+  useTheme,
+  useMediaQuery,
 } from "@mui/material";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
@@ -31,6 +33,8 @@ export default function CategoryPopOver({
   categoryInfo,
 }) {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   const [name, setName] = useState("");
   const [showAlertSetting, setShowAlertSetting] = useState({
@@ -52,7 +56,7 @@ export default function CategoryPopOver({
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        `${baseUrl}/UserFavoriteCategory/${guid}`,
+        `${baseUrl}/UserFavoriteCategory/Delete/${guid}`,{},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -135,13 +139,13 @@ export default function CategoryPopOver({
           sx: {
             mt: 10,
             zIndex: 2000,
-            padding: "25px 30px",
+            padding: "20px",
           },
         }}
       >
         <Box
           sx={{
-            width: "370px",
+            width: isMobile?"300px":"370px",
             display: "flex",
             flexDirection: "column",
             // alignItems: "center",

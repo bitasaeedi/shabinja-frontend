@@ -46,6 +46,7 @@ export const UserUpdateApi = async (data) => {
         cityId: 429,
         provinceId: 1,
         image: data?.image,
+        shaba: data.shaba,
       },
       {
         headers: {

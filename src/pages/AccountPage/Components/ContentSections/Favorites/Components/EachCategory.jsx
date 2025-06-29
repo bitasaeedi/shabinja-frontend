@@ -58,14 +58,13 @@ export default function EachCategory() {
     }
   };
 
-
   useEffect(() => {
     fetchCategoryList();
   }, [isOpen]);
 
   return (
     <>
-      <Box ml={2}>
+      <Box mx={2} >
         {/* menu  */}
         <Box mr={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <IconButton
@@ -126,7 +125,7 @@ export default function EachCategory() {
 
         {/* show items */}
         {categoryItem ? (
-          <Typography variant="h5">
+          <Typography variant="h5" >
             {categoryItem[0]?.userFavoriteCategoryTitle}
           </Typography>
         ) : (
@@ -135,8 +134,14 @@ export default function EachCategory() {
 
         <Grid
           container
-          spacing={2}
-          sx={{ margin: 0, justifyContent: "space-between" }}
+          gap={"1.5rem"}
+          sx={{
+            margin: "2.5rem 0 1rem",
+            justifyContent: "space-around",
+            alignItems: "flex-start", // اگه محتواها ارتفاع متفاوت دارن
+            flexWrap: "wrap",
+            width:"100%"
+          }}
         >
           {categoryItem?.map((item, i) => {
             const categoryProps = {
@@ -149,7 +154,13 @@ export default function EachCategory() {
             };
 
             return (
-              <Grid item xs={12} md={6} key={i} sx={{ maxWidth: "40%" }}>
+              <Grid
+                item
+                key={i}
+                sx={{
+                  flex: "0 0 auto", 
+                }}
+              >
                 <HomeCard myData={categoryProps} />
               </Grid>
             );
@@ -164,9 +175,7 @@ export default function EachCategory() {
             handleClose={handleClosePopOver}
             categoryInfo={categoryItem[0]}
           />
-        ) : (
-          null
-        )}
+        ) : null}
       </Box>
     </>
   );

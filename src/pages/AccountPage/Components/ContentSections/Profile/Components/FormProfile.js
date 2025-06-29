@@ -72,6 +72,7 @@ const FormProfile = () => {
       appContext?.handleGetInfoUser();
       const userData = await UserSearchOneApi();
       const profile = userData?.data;
+      console.log(profile, "prof");
 
       if (profile) {
         const shamsiObject = GetShamsiDateDetails(profile.birthDay);
@@ -82,6 +83,7 @@ const FormProfile = () => {
         setValue("myemail", profile.email || "");
         setValue("birthday", shamsiObject?.fullshamsi || "");
         setValue("aboutMe", profile.aboutMe || "");
+        setValue("shaba", profile.shaba || "");
       }
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -194,6 +196,7 @@ const FormProfile = () => {
         mobile: data.sms,
         email: data.myemail,
         birthDay: data.birthday,
+        shaba: data.shaba,
       });
 
       handleManageAlert(
@@ -551,11 +554,52 @@ const FormProfile = () => {
               />
             </Grid>
 
+            {/* shaba */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="shaba"
+                control={control}
+                rules={{
+                  required: "شماره شبا الزامی است",
+                  validate: (value) => {
+                    const cleaned = value.replace(/\s/g, "");
+                    if (!/^IR\d{24}$/.test(cleaned)) {
+                      return "شماره شبا باید با IR شروع شده و 24 رقم داشته باشد";
+                    }
+                    return true;
+                  },
+                }}
+                render={({ field }) => (
+                  <InputMask
+                    mask="IR99 9999 9999 9999 9999 9999 99"
+                    maskChar=" "
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    inputRef={field.ref}
+                  >
+                    {(inputProps) => (
+                      <TextField
+                        {...inputProps}
+                        label="شماره شبا"
+                        fullWidth
+                        error={!!errors.shaba}
+                        helperText={errors.shaba?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                      />
+                    )}
+                  </InputMask>
+                )}
+              />
+            </Grid>
+
             {/* show password Button */}
             <Grid item xs={12} sx={{ mb: 1 }}>
               <Box display="flex" justifyContent="flex-start">
                 <Button
-                onClick={()=>setShowPassField(!showPassField)}
+                  onClick={() => setShowPassField(!showPassField)}
                   type="button"
                   variant="contained"
                   sx={{
@@ -571,85 +615,92 @@ const FormProfile = () => {
               </Box>
             </Grid>
 
-            {showPassField ? <>
-            {/* Password */}
-            <Grid item xs={12} md={6}>
-              <Controller
-                name="newpassword"
-                control={control}
-                rules={{ validate: validatePassword }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="رمز عبور جدید (اختیاری)"
-                    fullWidth
-                    type={showPassword ? "text" : "password"}
-                    error={!!errors.password}
-                    helperText={errors.password?.message}
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    inputProps={{
-                      autocomplete: "new-password",
-                    }}
-                    sx={{ mb: 2 }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() => setShowPassword(!showPassword)}
-                            edge="end"
-                          >
-                            {showPassword ? <VisibilityOff /> : <Visibility />}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
+            {showPassField ? (
+              <>
+                {/* Password */}
+                <Grid item xs={12} md={6}>
+                  <Controller
+                    name="newpassword"
+                    control={control}
+                    rules={{ validate: validatePassword }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="رمز عبور جدید (اختیاری)"
+                        fullWidth
+                        type={showPassword ? "text" : "password"}
+                        error={!!errors.password}
+                        helperText={errors.password?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        inputProps={{
+                          autocomplete: "new-password",
+                        }}
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() => setShowPassword(!showPassword)}
+                                edge="end"
+                              >
+                                {showPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
                   />
-                )}
-              />
-            </Grid>
+                </Grid>
 
-            {/* Confirm Password */}
-            <Grid item xs={12} md={6}>
-              <Controller
-                name="passwordrepeat"
-                control={control}
-                rules={{ validate: validateConfirmPassword }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="تکرار رمز عبور"
-                    fullWidth
-                    type={showConfirmPassword ? "text" : "password"}
-                    error={!!errors.passwordrepeat}
-                    helperText={errors.passwordrepeat?.message}
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    sx={{ mb: 2 }}
-                    InputProps={{
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={() =>
-                              setShowConfirmPassword(!showConfirmPassword)
-                            }
-                            edge="end"
-                          >
-                            {showConfirmPassword ? (
-                              <VisibilityOff />
-                            ) : (
-                              <Visibility />
-                            )}
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                    }}
+                {/* Confirm Password */}
+                <Grid item xs={12} md={6}>
+                  <Controller
+                    name="passwordrepeat"
+                    control={control}
+                    rules={{ validate: validateConfirmPassword }}
+                    render={({ field }) => (
+                      <TextField
+                        {...field}
+                        label="تکرار رمز عبور"
+                        fullWidth
+                        type={showConfirmPassword ? "text" : "password"}
+                        error={!!errors.passwordrepeat}
+                        helperText={errors.passwordrepeat?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <IconButton
+                                onClick={() =>
+                                  setShowConfirmPassword(!showConfirmPassword)
+                                }
+                                edge="end"
+                              >
+                                {showConfirmPassword ? (
+                                  <VisibilityOff />
+                                ) : (
+                                  <Visibility />
+                                )}
+                              </IconButton>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
                   />
-                )}
-              />
-            </Grid>
-            </>:""}
-            
+                </Grid>
+              </>
+            ) : (
+              ""
+            )}
 
             {/* Submit Button */}
             <Grid item xs={12} sx={{ mt: 2 }}>

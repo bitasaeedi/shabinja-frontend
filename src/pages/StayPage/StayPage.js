@@ -43,6 +43,7 @@ const StayPage = () => {
     handleGetListPrice();
     setListDateSelected([]);
     window.scroll(0, 0);
+    console.log("stayCode", staycode);
   }, [staycode]);
 
   // دریافت لیست اسلایدر
@@ -194,7 +195,16 @@ const StayPage = () => {
 
       {/* اقامتگاه های مشابه */}
       <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents getListData={() => callApiForGetList({})}>
+        <InViewComponents
+          getListData={() =>
+            callApiForGetList({
+              typeHost: [infoOfStay?.typeHostDbTitle],
+              city: [infoOfStay?.cityTitle],
+            })
+          }
+
+          id={infoOfStay?.id}
+        >
           <SwipperSliderPublick
             // lists={cities}
             title={"اقامتگاه‌های مشابه"}

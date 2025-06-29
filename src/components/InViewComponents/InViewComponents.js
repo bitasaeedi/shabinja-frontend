@@ -7,14 +7,30 @@ const InViewComponents = ({
   children,
   skeletonComponent,
   favoritSkeleton,
+  id,
 }) => {
   const [listData, setListData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const checkSimilarity = (result) => {
+
+    const filteredResult = result.filter(r => r.id !== id);
+
+    console.log("similarity: ",id , result , filteredResult);
+    
+    return filteredResult
+
+  };
+
   const onChangeFunction = async () => {
     setLoading(true);
     const result = await getListData();
-    setListData(result || []);
+    if(id){
+      setListData(checkSimilarity(result) || []);
+    }
+    else{
+      setListData(result || []);
+    }
     setLoading(false);
   };
 

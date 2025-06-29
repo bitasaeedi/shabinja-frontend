@@ -22,7 +22,7 @@ const Favorites = ({ anchor }) => {
  
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const [openDrawer, setOpenDrawer] = useState(anchor); // Manage drawer state
+  const [openDrawer, setOpenDrawer] = useState(true); // Manage drawer state
 
 
   const navigate = useNavigate();
@@ -34,6 +34,30 @@ const Favorites = ({ anchor }) => {
 
 
   return isMobile ? (
+
+    
+  <>
+
+<Box>
+      <Box
+        sx={{
+          width: { xs: "100%", md: "90%" },
+          margin: "0 auto",
+          padding: { xs: 2, md: 0 },
+          mb: 4,
+        }}
+      >
+        <Box sx={{ height: { xs: 0, md: 80 } }}></Box>
+        <Grid container spacing={2} sx={{ mt: 0 }}>
+          {/* Left section: Menu */}
+          <Grid item xs={12} md={4} lg={3}>
+            <MenuSection />
+          </Grid>
+          
+        </Grid>
+      </Box>
+    </Box>
+  
     <SwipeableDrawer
       anchor="bottom"
       open={openDrawer}
@@ -41,7 +65,7 @@ const Favorites = ({ anchor }) => {
       onOpen={() => setOpenDrawer(true)}
       PaperProps={{
         sx: {
-          maxHeight: "92vh",
+          maxHeight: "70vh",
           display: "flex",
           flexDirection: "column",
           borderRadius: "12px 12px 0 0", // Rounded top corners
@@ -84,17 +108,33 @@ const Favorites = ({ anchor }) => {
           پسندها
         </Typography>
 
-        <Box
-          sx={{
-            // minHeight: 600,
-            py: { xs: 1, md: 3 },
-          }}
-          className="shadow borde rounded"
-        >
-          <ShowAllCategories />
-        </Box>
+        <Grid item xs={12} md={8} lg={9}>
+            <Typography
+              variant="h6"
+              align="right"
+              gutterBottom
+              sx={{
+                fontSize: "18px",
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              پسندها
+            </Typography>
+
+            <Box
+              sx={{
+                // minHeight: 600,
+                py: { xs: 1, md: 3 },
+              }}
+              className="shadow borde rounded"
+            >
+
+              {id ==="all"  ?  <ShowAllCategories/>:<EachCategory id={id} /> }
+            </Box>
+          </Grid>
       </Box>
     </SwipeableDrawer>
+  </>
   ) : (
     <Box>
       <Box

@@ -17,7 +17,8 @@ const StackedImageWrapper = styled(Box)(({ theme }) => ({
     width: "100%",
     height: "100%",
     boxShadow: "0 0 5px 2px rgba(0, 0, 0, 0.2)",
-    backgroundColor: "#e8e8e8",
+    backgroundColor: "#fff",
+    border:"1px solid #e8e8e8",
     transform: "rotate(8deg)", //-5
     zIndex: -2,
   },
@@ -35,7 +36,8 @@ const StackedImage = styled("img")({
   position: "relative",
   zIndex: 1,
   padding: ".2rem",
-  backgroundColor: "#e8e8e8",
+  backgroundColor: "#fff",
+  border:"1px solid #c9c8c8",
   transform: "rotate(0deg)", //1,
   cursor: "pointer",
 });
@@ -53,7 +55,6 @@ const StackedDiv = styled("div")({
 });
 
 export default function StackedImageComponent({ imgSrc }) {
-  console.log("img", imgSrc);
 
   return (
     <>
