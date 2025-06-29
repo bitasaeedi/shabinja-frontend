@@ -178,10 +178,8 @@ function App() {
               <Route path="/rules" element={<RulesPage />} />
               <Route path="/mag" element={<MagazinePage />} />
               <Route path="/search/:searchtype" element={<SearchPage />} />
-              <Route path="/account/:section" element={<AccountPage />} />
-              <Route path="/account/favorites/:id" element={<Favorites/>}/>
-                {/* <Route path=":id" element={<EachCategory />} />
-              </Route> */}
+              <Route path="/account/:section/*" element={<AccountPage />} />
+              {/* <Route path="/account/favorites/:id" element={<Favorites/>}/> */}
               <Route path="/pannel/:section" element={<PannelPage />} />
               <Route path="/new-stay/:step" element={<NewStaysPage />} />
               <Route

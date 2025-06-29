@@ -52,10 +52,10 @@ const AccountPage = () => {
             <Grid item xs={12} md={8} lg={9}>
               {section === "profile" && <Profile anchor isMobile={isMobile} />}
             
-              {/* {section === "favorites" && (
+              {section === "favorites" && (
                 <Favorites anchor isMobile={isMobile} />
               )}
-               */}
+              
 
               {section === "reservations" && (
                 <Reservations anchor isMobile={isMobile} />

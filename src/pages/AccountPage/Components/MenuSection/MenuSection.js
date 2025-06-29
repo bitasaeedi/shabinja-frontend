@@ -152,13 +152,13 @@ const MenuSection = () => {
                 fontWeight: "bold",
               },
             }}
-            selected={section === item.path}
+            selected={section ===  item.path.split("/")[0]}
           >
             <ListItemIcon
               sx={{
                 minWidth: 36,
                 color:
-                  section === item.path ? "primary.main" : "text.secondary",
+                  section ===  item.path.split("/")[0]? "primary.main" : "text.secondary",
               }}
             >
               {item.icon}

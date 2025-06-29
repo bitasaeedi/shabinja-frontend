@@ -15,16 +15,17 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import HomeCard from "../../../../../../components/Cards/HomeCards/HomeCards";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import CategoryPopOver from "./CategoryPopOver";
 const baseUrl = API_URL;
 
 export default function EachCategory() {
-  const { id } = useParams();
+  const location = useLocation();
   const [anchorEl, setAnchorEl] = useState(null); //open menu
   const [isOpen, setIsOpen] = useState(false); //open module
   const [type, setType] = useState(""); //edit , delete
   const [categoryItem, setCategoryItem] = useState();
+  const [id, setId] = useState();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -57,14 +58,22 @@ export default function EachCategory() {
       return error?.response?.data;
     }
   };
+  useEffect(() => {
+    const segments = location.pathname.split("/");
+    setId(segments[segments.length - 1]);
+    console.log("id", segments[segments.length - 1]);
+  }, [location]);
 
   useEffect(() => {
-    fetchCategoryList();
-  }, [isOpen]);
+    if (id) {
+      fetchCategoryList();
+      console.log("id", id);
+    }
+  }, [isOpen, id]);
 
   return (
     <>
-      <Box mx={2} >
+      <Box mx={2}>
         {/* menu  */}
         <Box mr={4} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <IconButton
@@ -125,7 +134,7 @@ export default function EachCategory() {
 
         {/* show items */}
         {categoryItem ? (
-          <Typography variant="h5" >
+          <Typography variant="h5">
             {categoryItem[0]?.userFavoriteCategoryTitle}
           </Typography>
         ) : (
@@ -140,7 +149,7 @@ export default function EachCategory() {
             justifyContent: "space-around",
             alignItems: "flex-start", // اگه محتواها ارتفاع متفاوت دارن
             flexWrap: "wrap",
-            width:"100%"
+            width: "100%",
           }}
         >
           {categoryItem?.map((item, i) => {
@@ -158,7 +167,7 @@ export default function EachCategory() {
                 item
                 key={i}
                 sx={{
-                  flex: "0 0 auto", 
+                  flex: "0 0 auto",
                 }}
               >
                 <HomeCard myData={categoryProps} />
