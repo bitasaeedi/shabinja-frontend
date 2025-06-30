@@ -133,7 +133,7 @@ const SliderDetailsPage = ({ lists, children }) => {
         modules={[Pagination, Navigation, Keyboard]} //Autoplay
         spaceBetween={0}
         loop={false}
-        lazy={true}
+       // lazy={true}
         style={{
           height: "100%",
         }}
