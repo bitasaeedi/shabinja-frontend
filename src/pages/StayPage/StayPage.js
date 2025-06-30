@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect } from "react";
 import ImageSection from "./Components/ImageSection/ImageSection";
 import { useParams } from "react-router-dom";
@@ -14,11 +14,7 @@ import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import FormReserve from "./Components/FormReserve/FormReserve";
 import { useState } from "react";
 import MobileForm from "./Components/MobileForm/MobileForm";
-import { Button } from "bootstrap";
-
 import TitleStay from "./Components/TitleStay/TitleStay";
-import Header from "../../layout/header/Header";
-import Commentswiper from "../../components/Sliders/Commentswiper";
 import { AppContext } from "../../App";
 import moment from "moment-jalaali";
 export const StayPageContext = createContext();

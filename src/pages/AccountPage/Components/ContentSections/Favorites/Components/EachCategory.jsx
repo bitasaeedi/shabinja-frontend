@@ -158,7 +158,7 @@ export default function EachCategory() {
               images: item.images,
               guid: item.guid,
               isLiked: true,
-              id: item.id,
+              id: item.hostTourId,
             };
 
             return (
