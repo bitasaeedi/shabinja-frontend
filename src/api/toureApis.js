@@ -20,8 +20,8 @@ export const HostTourSearchApi = async (searchData) => {
         end: searchData?.end ? ConvertShamsiToMiladi(searchData?.end) : "",
         count: searchData?.count || 0,
         Room: searchData?.room || 0,
-        minprice: searchData?.minprice || 0,
-        maxprice: searchData?.maxprice || 0,
+        minprice: parseFloat(searchData?.minprice) * 10 || 0,
+        maxprice: parseFloat(searchData?.maxprice) * 10 || 0,
         skip: searchData?.skip || 0,
         take: searchData?.take || 10,
         sort: searchData?.sort || 0, //ترتیب مرتب کردن
@@ -592,17 +592,26 @@ export const PriceHostTourListApi = async (id, numMonth) => {
 export const RequestToReserveApi = async (data) => {
   try {
     const token = localStorage.getItem("access_token");
+    var startMiladi = moment(data?.start, "jYYYY/jMM/jDD").format("YYYY-MM-DD");
+    // var endMiladi = moment(endDateshamsi, "jYYYY/jMM/jDD").format("YYYY-MM-DD");
+    var endMiladi = moment(data?.end, "jYYYY/jMM/jDD")
+      .subtract(1, "days")
+      .format("YYYY-MM-DD");
 
+    const myData = {
+      hostTourId: data?.hostTourId,
+      startDate: startMiladi,
+      endDate: endMiladi,
+      personCount: data?.personCount,
+      fullName: data?.fullName,
+      mobile: data?.mobile,
+    };
+    console.log(myData, "RequestToReserveApi");
     const response = await axios.post(
       `${baseUrl}/HostTourOrder/Create`,
       {
-        userId: "",
-        hostTourId: "",
-        startDate: "",
-        endDate: "",
-        personCount: "",
-        fullName: "",
-        mobile: "",
+        // userId: 1,
+        ...myData,
       },
       {
         headers: {

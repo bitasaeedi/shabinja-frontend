@@ -22,7 +22,9 @@ const InfoOfUser = ({}) => {
   });
 
   useEffect(() => {
-    handleSubmit()();
+    if (stepName === "preview") {
+      handleSubmit()();
+    }
   }, [stepName]);
 
   const validateMobile = (value) => {
@@ -76,7 +78,11 @@ const InfoOfUser = ({}) => {
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
+                          // if (!errors.name) {
                           handleChangeInputs({ name: e.target.value });
+                          // } else {
+                          //   handleChangeInputs({ name: null });
+                          // }
                         }}
                         variant="outlined"
                         placeholder="نام"
@@ -117,7 +123,11 @@ const InfoOfUser = ({}) => {
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
+                          // if (!errors.lastName) {
                           handleChangeInputs({ lastName: e.target.value });
+                          // } else {
+                          //   handleChangeInputs({ lastName: null });
+                          // }
                         }}
                         //   label="نام خانوادگی"
                         variant="outlined"
@@ -149,7 +159,11 @@ const InfoOfUser = ({}) => {
                         {...field}
                         onChange={(e) => {
                           field.onChange(e);
+                          // if (validateMobile) {
                           handleChangeInputs({ sms: e.target.value });
+                          // } else {
+                          //   handleChangeInputs({ sms: null });
+                          // }
                         }}
                         dir="ltr"
                         variant="outlined"

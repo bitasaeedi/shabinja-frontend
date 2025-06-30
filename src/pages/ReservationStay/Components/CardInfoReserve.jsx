@@ -4,49 +4,79 @@ import {
   Card,
   Divider,
   Grid,
+  Skeleton,
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useContext } from "react";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import { CalculateNights } from "../../../components/DateFunctions/DateFunctions";
+import ToRial from "../../../components/ToRial/ToRial";
+import { ReservationStayContext } from "../ReservationStay";
 
 const CardInfoReserve = () => {
+  const {
+    paramsValues,
+    infoOfReserve = {},
+    inputeValue = {},
+    handleRequestToReserve,
+    infoOfStay = {},
+    loadingPrices,
+  } = useContext(ReservationStayContext);
+
+  const nights = CalculateNights(paramsValues?.start, paramsValues?.end);
+
+  const renderPriceRow = (label, value, isLoading) => (
+    <Grid container>
+      <Grid item xs={6}>
+        <Typography variant="body2">{label}</Typography>
+      </Grid>
+      <Grid item xs={6} textAlign="end">
+        {isLoading ? (
+          <Skeleton width={80} height={20} />
+        ) : (
+          <Typography variant="body2">{ToRial(value)} ریال</Typography>
+        )}
+      </Grid>
+    </Grid>
+  );
+
   return (
     <Card
       sx={{
-        padding: { xs: 2, sm: 3, md: 4 },
+        p: { xs: 2, sm: 3, md: 4 },
         borderRadius: 2,
         boxShadow: { xs: "none", md: "0px 4px 12px rgba(0, 0, 0, 0.1)" },
         width: { xs: "100%", md: 380 },
-        backgroundColor: "greay.200",
-        // display: { xs: "none", md: "block" },
+        // backgroundColor: "grey.100",
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs={4} md={3} sx={{ display: { xs: "none", md: "block" } }}>
-          <Box
-            component="img"
-            src="https://cdn.jabama.com/image/jabama-images/1479505/74d96e42-b2ff-4d0e-b6c5-aff3361d7f54.jpeg"
-            alt="Apartment"
-            sx={{
-              width: "100%",
-              height: "auto",
-              borderRadius: 1,
-              objectFit: "cover",
-              backgroundColor: "grey.200",
-            }}
-          />
+        <Grid item xs="auto" sx={{ display: { xs: "none", md: "block" } }}>
+          {loadingPrices ? (
+            <Skeleton variant="rectangular" width={100} height={120} sx={{ borderRadius: 1 }} />
+          ) : (
+            <Box
+              component="img"
+              src={DownloadImageApi(infoOfStay?.img?.file?.url)}
+              alt="Apartment"
+              sx={{
+                width: 100,
+                height: 120,
+                borderRadius: 1,
+                objectFit: "cover",
+                backgroundColor: "grey.200",
+              }}
+            />
+          )}
         </Grid>
-        <Grid item xs={12} md={9}>
+        <Grid item xs={12} md>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
-            آپارتمان یک خوابه جکوزی دار شادمان ستارخان
+            {loadingPrices ? <Skeleton width={150} height={28} /> : infoOfStay?.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
-            <Box component="span" display="flex" alignItems="center">
-              <Box component="span" mr={0.5}>
-                📍
-              </Box>
-              تهران
-            </Box>
+          <Typography variant="body2" color="text.secondary" display="flex" alignItems="center">
+            <Box mr={0.5}>📍</Box>
+            {loadingPrices ? <Skeleton width={100} height={20} /> : infoOfStay?.address}
           </Typography>
         </Grid>
       </Grid>
@@ -58,90 +88,78 @@ const CardInfoReserve = () => {
       </Typography>
 
       <Stack spacing={2} sx={{ color: "text.secondary", mb: 2 }}>
-        {/* Price Item 1 */}
+        {/* شب‌های اقامت */}
         <Grid container>
           <Grid item xs={6}>
-            <Box display="flex" alignItems="center">
-              <Typography variant="body2">1 شب</Typography>
-              <Typography variant="body2" mx={1}>
-                ×
-              </Typography>
-              <Typography variant="body2">272,222 تومان</Typography>
-            </Box>
+            <Typography variant="body2">
+              {loadingPrices ? <Skeleton width={60} height={20} /> : `${nights} شب اقامت`}
+            </Typography>
           </Grid>
           <Grid item xs={6} textAlign="end">
-            <Typography variant="body2">272,000 تومان</Typography>
+            {loadingPrices ? (
+              <Skeleton width={80} height={20} />
+            ) : (
+              <Typography variant="body2">{ToRial(infoOfReserve?.price)} ریال</Typography>
+            )}
           </Grid>
         </Grid>
 
-        {/* Price Item 2 */}
-        <Grid container>
-          <Grid item xs={6}>
-            <Box display="flex" alignItems="center">
-              <Typography variant="body2">1 شب</Typography>
-              <Typography variant="body2" mx={1}>
-                ×
-              </Typography>
-              <Typography variant="body2">272,222 تومان</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6} textAlign="end">
-            <Typography variant="body2">272,000 تومان</Typography>
-          </Grid>
-        </Grid>
+        {/* نفرات اضافه */}
+        {renderPriceRow("نفرات اضافه", infoOfReserve?.extraPersonPrice, loadingPrices)}
 
-        {/* Service Fee */}
-        <Grid container>
-          <Grid item xs={6}>
-            <Typography variant="body2">هزینه خدمات</Typography>
-          </Grid>
-          <Grid item xs={6} textAlign="end">
-            <Typography variant="body2">100,000 تومان</Typography>
-          </Grid>
-        </Grid>
+        {/* تخفیف */}
+        {renderPriceRow("تخفیف", infoOfReserve?.totalDiscountPrice, loadingPrices)}
       </Stack>
 
       <Divider sx={{ my: 2 }} />
 
-      <Grid container spacing={2} mt={1}>
+      <Grid container spacing={2}>
         <Grid item xs={6}>
           <Typography variant="subtitle1" fontWeight="bold">
             جمع مبلغ قابل پرداخت
           </Typography>
         </Grid>
         <Grid item xs={6} textAlign="end">
-          <Typography variant="subtitle1" fontWeight="bold">
-            1,000,000 تومان
-          </Typography>
+          {loadingPrices ? (
+            <Skeleton width={100} height={28} />
+          ) : (
+            <Typography variant="subtitle1" fontWeight="bold">
+              {ToRial(infoOfReserve?.mainPrice)} ریال
+            </Typography>
+          )}
         </Grid>
 
         <Grid item xs={12} mt={2}>
-          <Button
-            type="submit"
-            variant="contained"
-            color="dark"
-            fullWidth
-            sx={{
-              color: "white",
-              fontSize: 18,
-              backgroundColor: "#212121", // Ensures dark background
-              "&:hover": {
-                opacity: 0.8,
-                backgroundColor: "#212121", // Maintain dark background on hover
-              },
-              "&:active": {
-                transform: "scale(0.98)",
-                backgroundColor: "#212121", // Maintain dark background when clicked
-              },
-              "&.Mui-disabled": {
-                backgroundColor: "#424242", // Slightly lighter dark color when disabled
-                color: "rgba(255, 255, 255, 0.5)", // Semi-transparent white text
-                cursor: "not-allowed", // Show not-allowed cursor
-              },
-            }}
-          >
-            ثبت درخواست رزرو
-          </Button>
+          {loadingPrices ? (
+            <Skeleton variant="rectangular" width="100%" height={44} sx={{ borderRadius: 1 }} />
+          ) : (
+            <Button
+              type="submit"
+              onClick={handleRequestToReserve}
+              variant="contained"
+              fullWidth
+              sx={{
+                fontSize: 18,
+                backgroundColor: "#212121",
+                color: "white",
+                "&:hover": {
+                  backgroundColor: "#212121",
+                  opacity: 0.85,
+                },
+                "&:active": {
+                  transform: "scale(0.98)",
+                },
+                "&.Mui-disabled": {
+                  backgroundColor: "#424242",
+                  color: "rgba(255,255,255,0.5)",
+                  cursor: "not-allowed",
+                },
+              }}
+              disabled={!inputeValue?.name || !inputeValue?.lastName}
+            >
+              ثبت درخواست رزرو
+            </Button>
+          )}
         </Grid>
       </Grid>
     </Card>

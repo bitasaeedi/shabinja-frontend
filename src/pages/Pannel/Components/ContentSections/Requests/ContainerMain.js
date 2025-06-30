@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TableComponent from "./Components/TableComponent";
 import { MyHostTourSearchApi } from "../../../../../api/toureApis";
+import { ListRequestReserveApi } from "../../../../../api/PannelApis";
 
 export const ContainerMainContext = createContext();
 const ContainerMain = () => {
@@ -18,15 +19,10 @@ const ContainerMain = () => {
     if (!dontShowLoading) {
       setLoading(true);
     }
-    const searchTab = {
-      tabValue: tabValue,
-    };
-    const result = { data: [] }; //await MyHostTourSearchApi(searchTab);
-    if (tabValue === 1) {
-      setStays([]);
-    } else {
-      setStays(result?.data || []);
-    }
+
+    const result = await ListRequestReserveApi(tabValue);
+    console.log(result, "result");
+    setStays(result?.data || [{ title: "qweqwe", id: "1" }]);
 
     setLoading(false);
   };

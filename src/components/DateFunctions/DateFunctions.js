@@ -1,4 +1,5 @@
 import jalaali from "jalaali-js";
+import moment from "moment-jalaali";
 
 export const GetMiladiStdFunc = (dateMiladi) => {
   const d = new Date(dateMiladi);
@@ -66,4 +67,15 @@ export const ConvertShamsiToMiladi = (shamsiDate) => {
 export const ShamsiToMoreShamsiDetails = (shamsi) => {
   const miladi = ConvertShamsiToMiladi(shamsi);
   return GetShamsiDateDetails(miladi);
+};
+
+export const CalculateNights = (shamsiEntryDate, shamsiExitDate) => {
+  // Convert Shamsi dates to Miladi moment objects
+  const entryDate = moment(shamsiEntryDate, "jYYYY/jMM/jDD");
+  const exitDate = moment(shamsiExitDate, "jYYYY/jMM/jDD");
+
+  // Calculate difference in days (nights = days - 1)
+  const nights = exitDate.diff(entryDate, "days");
+
+  return nights > 0 ? nights : 0;
 };

@@ -28,7 +28,9 @@ const modalStyle = {
 const ButtonEditCount = () => {
   const [open, setOpen] = useState(false);
   const [count, setCount] = useState(0);
-  const { handleSetParams, paramsValues } = useContext(ReservationStayContext);
+  const { handleSetParams, paramsValues, infoOfStay } = useContext(
+    ReservationStayContext
+  );
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -89,6 +91,24 @@ const ButtonEditCount = () => {
 
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <IconButton
+                disabled={count >= infoOfStay?.maxCount}
+                onClick={increment}
+                sx={{
+                  border: "1px solid",
+                  borderColor: "grey.400",
+                  borderRadius: 1,
+                  p: 1,
+                }}
+              >
+                <Add fontSize="small" />
+              </IconButton>
+              <Typography
+                variant="h6"
+                sx={{ minWidth: "40px", textAlign: "center" }}
+              >
+                {count}
+              </Typography>
+              <IconButton
                 onClick={decrement}
                 disabled={count <= 1}
                 sx={{
@@ -99,25 +119,6 @@ const ButtonEditCount = () => {
                 }}
               >
                 <Remove fontSize="small" />
-              </IconButton>
-
-              <Typography
-                variant="h6"
-                sx={{ minWidth: "40px", textAlign: "center" }}
-              >
-                {count}
-              </Typography>
-
-              <IconButton
-                onClick={increment}
-                sx={{
-                  border: "1px solid",
-                  borderColor: "grey.400",
-                  borderRadius: 1,
-                  p: 1,
-                }}
-              >
-                <Add fontSize="small" />
               </IconButton>
             </Box>
           </Box>

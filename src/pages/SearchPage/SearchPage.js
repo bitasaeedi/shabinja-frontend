@@ -13,6 +13,7 @@ import {
   useMediaQuery,
   Modal,
   IconButton,
+  Skeleton,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
@@ -24,6 +25,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { HostTourSearchApi } from "../../api/toureApis";
 import Header from "../../layout/header/Header";
 import { AppContext } from "../../App";
+import NotFoundComponent from "./components/NotFoundComponent";
 
 const filterList = [
   {
@@ -258,12 +260,23 @@ const SearchPage = () => {
                 {typeHome?.label}
                 {/* {searchtype} */}
               </Typography>
-              <CardList
+              {loadingSearch || listCards?.length > 0 ? (
+                <CardList
+                  data={listCards}
+                  showMap={showMap}
+                  toggleMap={toggleMap}
+                  loading={loadingSearch}
+                />
+              ) : (
+                <NotFoundComponent />
+              )}
+
+              {/* <CardList
                 data={listCards || []}
                 showMap={showMap}
                 toggleMap={toggleMap}
                 loading={loadingSearch}
-              />
+              /> */}
             </Box>
           </Grid>
 
