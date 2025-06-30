@@ -32,7 +32,24 @@ import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
-
+  const listTabs = [
+    {
+      name: "جدید",
+      valueFilter: 0,
+    },
+    {
+      name: "تایید شده",
+      valueFilter: 1,
+    },
+    {
+      name: "پرداخت شده",
+      valueFilter: 2,
+    },
+    {
+      name: "منقضی شده",
+      valueFilter: 3,
+    },
+  ];
   const NoValueComponent = () => {
     return (
       <Box
@@ -90,9 +107,13 @@ const TableComponent = ({ stays, loading = true }) => {
               },
             }}
           >
-            <Tab label="همه" />
-            <Tab label="فعال" />
-            <Tab label="درحال تکمبل" />
+            {listTabs?.map((item, index) => (
+              <Tab label={item?.name} key={index} value={item?.valueFilter} />
+            ))}
+
+            {/* <Tab label="تایید شده" />
+            <Tab label="پرداخت موفق" />
+            <Tab label="منقضی شده" /> */}
           </Tabs>
         </Box>
         {(!stays || stays.length === 0) && !loading ? (

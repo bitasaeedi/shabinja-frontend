@@ -10,15 +10,20 @@ import React, { useContext, useEffect, useState } from "react";
 import SelectDatePopOver from "../../StayPage/Components/FormReserve/SelectDatePopOver";
 import MobilePopOverDateSelect from "../../StayPage/Components/MobileForm/components/MobilePopOverDateSelect";
 import { ReservationStayContext } from "../ReservationStay";
-import MyDatesPrice from "../../../myDatas/MyDatesPrice";
+
 import { Close } from "@mui/icons-material"; // Using icons for better UX
+import { PriceHostTourListApi } from "../../../api/toureApis";
+import moment from "moment-jalaali";
 
 const ButtonForEditDates = () => {
   const theme = useTheme();
-  const { handleSetParams, paramsValues } = useContext(ReservationStayContext);
+  const { handleSetParams, paramsValues, code, stepName } = useContext(
+    ReservationStayContext
+  );
 
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [listPrices, setListPrices] = useState([]);
 
   const [valuesDate, setValuesDate] = useState([]);
   const handleDateClick = (event) => {
@@ -28,6 +33,12 @@ const ButtonForEditDates = () => {
   const handleClosePopover = () => {
     setAnchorEl(null);
   };
+
+  useEffect(() => {
+    if (code && stepName === "preview") {
+      handleGetListPrice();
+    }
+  }, [code, stepName]);
 
   useEffect(() => {
     setValuesDate([paramsValues?.start, paramsValues?.end]);
@@ -46,6 +57,29 @@ const ButtonForEditDates = () => {
     }
   };
 
+  const handleGetListPrice = async () => {
+    const now = moment();
+    const numMonth = now.jMonth() + 1; // jMonth() returns 0-11, so +1 to get 1-12
+
+    // Calculate months with overflow
+    const months = [
+      numMonth,
+      numMonth + 1 > 12 ? numMonth + 1 - 12 : numMonth + 1,
+      numMonth + 2 > 12 ? numMonth + 2 - 12 : numMonth + 2,
+    ];
+
+    const result = await PriceHostTourListApi(code, months[0]);
+    const result2 = await PriceHostTourListApi(code, months[1]);
+    const result3 = await PriceHostTourListApi(code, months[2]);
+
+    var month1 = result?.data || [];
+    var month2 = result2?.data || [];
+    var month3 = result3?.data || [];
+    const myList = [...month1, ...month2, ...month3];
+    setListPrices(myList);
+    console.log(month1, "month1");
+  };
+
   return (
     <>
       <Box sx={{ position: "relative" }}>
@@ -62,7 +96,7 @@ const ButtonForEditDates = () => {
             valueDefault={valuesDate}
             //   anchorEl={anchorEl}
             handleClosePopover={handleClosePopover}
-            listDayesWithPrice={MyDatesPrice()}
+            listDayesWithPrice={listPrices}
             centerPage={true}
             headerComponent={
               <Box
@@ -89,7 +123,7 @@ const ButtonForEditDates = () => {
           handleClosePopover={handleClosePopover}
           onChange={handleChangeDates}
           values={valuesDate}
-          listDayesWithPrice={MyDatesPrice()}
+          listDayesWithPrice={listPrices}
         />
       )}
     </>

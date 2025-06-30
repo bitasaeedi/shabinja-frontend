@@ -2,15 +2,35 @@ import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { StayPageContext } from "../../../StayPage";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { GetRollesList } from "../../../../../api/PublicApis";
+import RowRules from "./RowRules";
 
 const RulesStay = () => {
   const [ruleItemsList, setRuleItemsList] = useState([]);
+  const [allRules, setAllRules] = useState([]);
   const stayPageContext = useContext(StayPageContext);
+
   useEffect(() => {
+    handleGetAllItems();
     const textList = stayPageContext.infoOfStay?.rolItemTourIds || "";
-    var list = textList.split(",");
+    const list = textList.split(",");
     setRuleItemsList(list);
   }, [stayPageContext.infoOfStay]);
+
+  // useEffect(() => {
+  //   const textList = stayPageContext.infoOfStay?.rolItemTourIds || "";
+  //   var list = textList.split(",");
+  //   setRuleItemsList(list);
+  // }, [stayPageContext.infoOfStay]);
+
+  const handleGetAllItems = async () => {
+    try {
+      const result = await GetRollesList();
+      setAllRules(result?.data || []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
   return (
     <Box>
@@ -67,19 +87,9 @@ const RulesStay = () => {
           </Stack>
         </Grid>
 
-        {ruleItemsList.map((item, index) => (
+        {allRules.map((item, index) => (
           <Grid item xs={12} md={12} key={index}>
-            <Box>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontSize: { xs: 14, md: 16 },
-                  mt: 1,
-                }}
-              >
-                {item}
-              </Typography>
-            </Box>
+            <RowRules item={item} ruleItemsList={ruleItemsList} />
           </Grid>
         ))}
       </Grid>

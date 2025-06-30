@@ -20,8 +20,9 @@ import { useTheme } from "@mui/material/styles";
 import MobilePopOverDateSelect from "../MobileForm/components/MobilePopOverDateSelect";
 import { PriceCalculationApi } from "../../../../api/toureApis";
 import ToRial from "../../../../components/ToRial/ToRial";
-import moment from "moment-jalaali";
+
 import { useNavigate } from "react-router-dom";
+import { CalculateNights } from "../../../../components/DateFunctions/DateFunctions";
 const FormReserve = () => {
   const theme = useTheme();
   const stayPageContext = useContext(StayPageContext);
@@ -65,10 +66,10 @@ const FormReserve = () => {
 
   // Handle form submission
   const onSubmit = (data) => {
-    const stayCode = stayPageContext?.infoOfStay?.id || 12;
+    const stayCode = stayPageContext?.infoOfStay?.id;
     const myData = {
-      start: "1404/03/04",
-      end: "1404/04/01",
+      start: getValues("entryDate"),
+      end: getValues("exitDate"),
       count: count,
     };
 
@@ -143,16 +144,16 @@ const FormReserve = () => {
     },
   };
 
-  const calculateNights = (shamsiEntryDate, shamsiExitDate) => {
-    // Convert Shamsi dates to Miladi moment objects
-    const entryDate = moment(shamsiEntryDate, "jYYYY/jMM/jDD");
-    const exitDate = moment(shamsiExitDate, "jYYYY/jMM/jDD");
+  // const calculateNights = (shamsiEntryDate, shamsiExitDate) => {
+  //   // Convert Shamsi dates to Miladi moment objects
+  //   const entryDate = moment(shamsiEntryDate, "jYYYY/jMM/jDD");
+  //   const exitDate = moment(shamsiExitDate, "jYYYY/jMM/jDD");
 
-    // Calculate difference in days (nights = days - 1)
-    const nights = exitDate.diff(entryDate, "days");
+  //   // Calculate difference in days (nights = days - 1)
+  //   const nights = exitDate.diff(entryDate, "days");
 
-    return nights > 0 ? nights : 0;
-  };
+  //   return nights > 0 ? nights : 0;
+  // };
 
   return (
     <>
@@ -425,7 +426,7 @@ const FormReserve = () => {
                       cursor: "not-allowed", // Show not-allowed cursor
                     },
                   }}
-                  // disabled={!(calculatedPrice?.totalPrice > 0)}
+                  disabled={!(calculatedPrice?.mainPrice > 0)}
                 >
                   تایید
                 </Button>
@@ -451,7 +452,7 @@ const FormReserve = () => {
           >
             <Box>
               <Typography>
-                {calculateNights(getValues("entryDate"), getValues("exitDate"))}
+                {CalculateNights(getValues("entryDate"), getValues("exitDate"))}
                 شب اقامت
               </Typography>
             </Box>

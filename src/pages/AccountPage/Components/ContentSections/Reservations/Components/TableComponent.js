@@ -34,6 +34,17 @@ import { SearchOff } from "@mui/icons-material";
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
 
+  const listTabs = [
+    {
+      name: "جاری",
+      valueFilter: 0,
+    },
+    {
+      name: "قبلی",
+      valueFilter: 1,
+    },
+  ];
+
   const NoValueComponent = () => {
     return (
       <Box
@@ -91,28 +102,26 @@ const TableComponent = ({ stays, loading = true }) => {
               },
             }}
           >
-            <Tab label="جاری" />
-            <Tab label="درانتظار پرداخت" />
-            <Tab label="گذشته" />
+            {listTabs?.map((item, index) => (
+              <Tab label={item?.name} key={index} value={item?.valueFilter} />
+            ))}
           </Tabs>
         </Box>
         {(!stays || stays.length === 0) && !loading ? (
           <NoValueComponent />
         ) : (
-          <Table>
-            <TableHead>
-              <HeaderTable />
-            </TableHead>
-            <TableBody>
-              {loading
-                ? [1, 2, 3, 4, 5].map((_, index) => (
-                    <SkeltonRowTables count={4} />
-                  ))
-                : stays.map((stay, index) => (
-                    <RowTable stay={stay} key={index} index={index} />
-                  ))}
-            </TableBody>
-          </Table>
+          <>
+            <Box sx={{ width: "100%", p: 2 }}>
+              {" "}
+              {loading ? (
+                <Box>loading</Box>
+              ) : (
+                stays.map((stay, index) => (
+                  <CardStays stay={stay} key={index} index={index} />
+                ))
+              )}
+            </Box>
+          </>
         )}
       </TableContainer>
 

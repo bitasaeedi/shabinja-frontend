@@ -9,12 +9,14 @@ import ButtonEditCount from "./ButtonEditCount";
 import InfoOfUser from "./InfoOfUser";
 import { ReservationStayContext } from "../ReservationStay";
 import moment from "moment-jalaali";
+import { PriceHostTourListApi } from "../../../api/toureApis";
 const ShowInfoOfReserve = () => {
   moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
 
-  const { handleSetParams, infoOfReserve, paramsValues  , } = useContext(
+  const { handleSetParams, infoOfReserve, paramsValues,  } = useContext(
     ReservationStayContext
   );
+
 
   const handleShowDateLikeStr = (shamsidate) => {
     const mStartDate = moment(shamsidate, "jYYYY/jMM/jDD");
@@ -22,6 +24,7 @@ const ShowInfoOfReserve = () => {
     return formattedStart; // Outputs: 5 تیر
   };
 
+ 
 
   return (
     <Box sx={{ mt: 4 }}>

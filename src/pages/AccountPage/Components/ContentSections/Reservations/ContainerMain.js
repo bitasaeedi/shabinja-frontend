@@ -2,9 +2,7 @@ import React, { useState, useEffect, createContext } from "react";
 import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TableComponent from "./Components/TableComponent";
-import {
-  MyReservationsApi,
-} from "../../../../../api/toureApis";
+import { MyReservationsApi } from "../../../../../api/toureApis";
 
 export const ContainerMainContext = createContext();
 const ContainerMain = () => {
@@ -24,11 +22,9 @@ const ContainerMain = () => {
       tabValue: tabValue,
     };
     const result = await MyReservationsApi(searchTab);
-    if (tabValue === 1) {
-      setStays([]);
-    } else {
-      setStays(result?.data || []);
-    }
+    const listReserve = result?.data || [{}, {}, {}];
+    console.log(listReserve, "listReserve");
+    setStays(listReserve);
 
     setLoading(false);
   };
