@@ -239,11 +239,14 @@ const SwipperSliderPublick = ({
           breakpoints
           ? breakpoints
           : {
-          0: { slidesPerView: 1.1, spaceBetween: 8 },  
-          480: { slidesPerView: 1.3, spaceBetween: 8 },
+          0: { slidesPerView: .93, spaceBetween: 2 },  
+          350: { slidesPerView: 1, spaceBetween: 2 },  
+          390: { slidesPerView: 1.1, spaceBetween: 2 },  
+          460: { slidesPerView: 1.3, spaceBetween: 8 },
+          540: { slidesPerView: 1.4, spaceBetween: 8 },
           600: { slidesPerView: 1.5, spaceBetween: 10 },
           720: { slidesPerView: 2, spaceBetween: 12 },
-          1024: { slidesPerView: 2.25, spaceBetween: 10 },
+          1026: { slidesPerView: 2.25, spaceBetween: 10 },
           1120: { slidesPerView: 2.45, spaceBetween: 10 },
           1300: { slidesPerView: 2.8, spaceBetween: 20 },
           1370: { slidesPerView: 2.9, spaceBetween: 20 },

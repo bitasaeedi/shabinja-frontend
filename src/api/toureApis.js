@@ -44,7 +44,7 @@ export const HostTourSearchApi = async (searchData) => {
         },
       }
     );
-    console.log("type response: ", searchData?.type, response);
+    // console.log("type response: ", searchData?.type, response);
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("type Error:", error?.response);

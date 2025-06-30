@@ -168,6 +168,35 @@ body {
   margin: 5px !important;
 }
 
+/* map */
+
+.leaflet-control-zoom {
+  background-color: unset !important;
+  border-radius: 8px;
+  box-shadow: none !important;
+  overflow: hidden;
+  border: none !important;
+}
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  background-color: white !important;
+  border: none;
+}
+
+.leaflet-control-zoom-in:hover,
+.leaflet-control-zoom-out:hover {
+  background-color: #eee !important;
+}
+
+.leaflet-bar a{
+  box-shadow: none !important ;
+}
+.leaflet-touch .leaflet-bar a:last-child {
+  border-bottom-left-radius: 4px !important;
+  border-bottom-right-radius: 4px !important;
+}
+
 
 
 

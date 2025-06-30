@@ -155,7 +155,7 @@ const MobileFooter = () => {
                   top: "-2.3rem",
                   left: "50%",
                   transform: "translateX(-50%)",
-                  backgroundColor: "#f7931e", // نارنجی
+                  backgroundColor: "#287dfa", 
                   borderRadius: "50%",
                   padding: "1rem",
                   zIndex: 101,
