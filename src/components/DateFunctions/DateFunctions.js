@@ -79,3 +79,10 @@ export const CalculateNights = (shamsiEntryDate, shamsiExitDate) => {
 
   return nights > 0 ? nights : 0;
 };
+
+export const HandleShowDateLikeStr = (shamsidate) => {
+  moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
+  const mStartDate = moment(shamsidate, "jYYYY/jMM/jDD");
+  const formattedStart = mStartDate.format("jD jMMMM");
+  return formattedStart; // Outputs: 5 تیر
+};

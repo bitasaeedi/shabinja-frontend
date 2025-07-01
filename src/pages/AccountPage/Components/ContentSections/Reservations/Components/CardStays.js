@@ -9,7 +9,9 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import { HandleShowDateLikeStr } from "../../../../../../components/DateFunctions/DateFunctions";
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
+import ToRial from "../../../../../../components/ToRial/ToRial";
 
 const CardStays = ({ stay }) => {
   const handleDelete = () => {};
@@ -51,14 +53,14 @@ const CardStays = ({ stay }) => {
             <Grid item sx={{}}>
               <Box>
                 <Typography variant="h6" fontWeight="bold" gutterBottom>
-                  آپارتمان یک خوابه جکوزی دار شادمان ستارخان
+                  {stay?.hostTourTitle}
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
                   <Box component="span" display="flex" alignItems="center">
                     <Box component="span" mr={0.5}>
                       📍
                     </Box>
-                    تهران
+                    {stay?.hostTourCityTitle}
                   </Box>
                 </Typography>
               </Box>
@@ -83,7 +85,7 @@ const CardStays = ({ stay }) => {
                     fontWeight={"bold"}
                     sx={{ fontSize: 14 }}
                   >
-                    2 نفر
+                    {stay?.personCount} نفر
                   </Typography>
                 </Box>
 
@@ -101,7 +103,9 @@ const CardStays = ({ stay }) => {
                     fontWeight={"bold"}
                     sx={{ fontSize: 14 }}
                   >
-                    12 تا 16 تیر
+                    {`${HandleShowDateLikeStr(
+                      stay?.start
+                    )} - ${HandleShowDateLikeStr(stay?.end)}`}
                   </Typography>
                 </Box>
               </Box>
@@ -149,7 +153,7 @@ const CardStays = ({ stay }) => {
                 fontWeight={"bold"}
                 sx={{ fontSize: 16 }}
               >
-                یاسر زروندی
+                {stay?.HostTourUserFullName}
               </Typography>
             </Box>
 
@@ -169,7 +173,7 @@ const CardStays = ({ stay }) => {
                   fontWeight={"bold"}
                   sx={{ fontSize: 20 }}
                 >
-                  480000
+                  {ToRial(stay?.price)}
                 </Typography>
               </Box>
 

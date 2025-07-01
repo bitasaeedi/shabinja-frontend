@@ -23,7 +23,7 @@ const ContainerMain = () => {
     };
     const result = await MyReservationsApi(searchTab);
     const listReserve = result?.data || [{}, {}, {}];
-    console.log(listReserve, "listReserve");
+    console.log(listReserve, "listReserve" , result);
     setStays(listReserve);
 
     setLoading(false);

@@ -7,7 +7,7 @@ const baseUrl = API_URL;
 
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
-   console.log("name: ", searchData);
+  console.log("name: ", searchData);
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
@@ -513,14 +513,11 @@ export const MyReservationsApi = async (data) => {
   try {
     const token = localStorage.getItem("access_token");
 
-    const response = await axios.get(
-      `${baseUrl}/HostTour/ListPriceiIsPayForuser`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await axios.get(`${baseUrl}/HostTourOrder/ListForUser/0`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
     return response.data;
   } catch (error) {
