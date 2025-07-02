@@ -7,13 +7,11 @@ import React, {
 } from "react";
 import {
   Box,
-  Button,
   Grid,
   Typography,
   useMediaQuery,
   Modal,
   IconButton,
-  Skeleton,
 } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
@@ -23,7 +21,6 @@ import MyMap from "../../components/MyMap/MyMap";
 import MapSection from "./components/MapSection";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HostTourSearchApi } from "../../api/toureApis";
-import Header from "../../layout/header/Header";
 import { AppContext } from "../../App";
 import NotFoundComponent from "./components/NotFoundComponent";
 
@@ -157,6 +154,8 @@ const SearchPage = () => {
       city: filters?.cities?.split(",") || [],
       locations: listLocation, // لیست نقاط برای جستجو
     };
+    console.log("filter: ", filtersParams);
+    
 
     const result = await HostTourSearchApi(filtersParams);
     setListCards(result?.data?.items);
@@ -203,6 +202,9 @@ const SearchPage = () => {
     // }));
     // console.log(newList, "newList");
     // setListCards(newList);
+
+    console.log("pay:", list);
+    
     setListLocation(list || []);
   };
 

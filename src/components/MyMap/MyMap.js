@@ -1,10 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  useMap,
-  useMapEvent
-} from "react-leaflet";
+import { MapContainer, TileLayer, useMap, useMapEvent } from "react-leaflet";
 import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
@@ -27,6 +22,18 @@ const HandleDoubleClick = ({ onDoubleClick }) => {
     const { lat, lng } = e.latlng;
     onDoubleClick(lat, lng);
   });
+  return null;
+};
+
+const SetMapRef = ({ mapRef }) => {
+  const map = useMap();
+
+  useEffect(() => {
+    if (map) {
+      mapRef.current = map;
+    }
+  }, [map]);
+
   return null;
 };
 
@@ -86,17 +93,42 @@ const MyMap = ({
     returnNewPositionOnDrag(lat, lng, id);
   };
 
+  //جستجو در این منطقه
   const handleSearchInArea = () => {
+    if (!mapRef.current) return;
+  
     setLoadingFindPoint(true);
+  
     const map = mapRef.current;
-    if (map) {
-      const bounds = map.getBounds();
-      const zoom = map.getZoom();
-      const visiblePoints = generatePointsWithinBounds(bounds, zoom);
-      onPolygonDrawn(visiblePoints);
-    }
+    const center = map.getCenter();
+    const zoom = map.getZoom();
+  
+    const trianglePoints = generateTrianglePoints(center.lat, center.lng, zoom);
+  
+    console.log("tri",trianglePoints);
+    
+    // ارسال مثلث به والد
+    onPolygonDrawn(trianglePoints);
+  
+    setLoadingFindPoint(false);
   };
-
+  
+  
+  
+  const generateTrianglePoints = (centerLat, centerLng, zoom) => {
+    // هر چی زوم بالاتر، مثلث کوچکتر باشه
+    const zoomFactor = 0.005 * Math.pow(2, 8 - zoom); // عدد قابل تنظیمه
+  
+    const height = Math.sqrt(3) * zoomFactor;
+    const halfWidth = zoomFactor;
+  
+    return [
+      { lat: centerLat + (2 / 3) * height, lng: centerLng },
+      { lat: centerLat - (1 / 3) * height, lng: centerLng - halfWidth },
+      { lat: centerLat - (1 / 3) * height, lng: centerLng + halfWidth },
+    ];
+  };
+  
   const generatePointsWithinBounds = (bounds, zoom) => {
     const { _northEast: ne, _southWest: sw } = bounds;
     const centerLat = (ne.lat + sw.lat) / 2;
@@ -105,16 +137,16 @@ const MyMap = ({
     return generateTrianglePoints(centerLat, centerLng, size);
   };
 
-  const generateTrianglePoints = (centerLat, centerLng, size = 0.01) => {
-    const height = Math.sqrt(3) * size;
-    const halfWidth = size;
+  // const generateTrianglePoints = (centerLat, centerLng, size = 0.01) => {
+  //   const height = Math.sqrt(3) * size;
+  //   const halfWidth = size;
 
-    return [
-      { lat: centerLat + (2 / 3) * height, lng: centerLng },
-      { lat: centerLat - (1 / 3) * height, lng: centerLng - halfWidth },
-      { lat: centerLat - (1 / 3) * height, lng: centerLng + halfWidth },
-    ];
-  };
+  //   return [
+  //     { lat: centerLat + (2 / 3) * height, lng: centerLng },
+  //     { lat: centerLat - (1 / 3) * height, lng: centerLng - halfWidth },
+  //     { lat: centerLat - (1 / 3) * height, lng: centerLng + halfWidth },
+  //   ];
+  // };
 
   const handleMarkerSelect = (id) => {
     setActiveMarkerId(id);
@@ -131,10 +163,12 @@ const MyMap = ({
       scrollWheelZoom={scrollWheelZoomBool}
       className="rounded"
       style={{ height: "100%", width: "100%", margin: "0", padding: "0" }}
-      whenCreated={(mapInstance) => {
-        mapRef.current = mapInstance;
-      }}
+      // whenCreated={(mapInstance) => { // برای ورژن جدید کار نمی کند
+      //   console.log("نقشه ساخته شد:", mapInstance);
+      //   mapRef.current = mapInstance;
+      // }}
     >
+      <SetMapRef mapRef={mapRef} />
       {center.length === 2 && <ChangeMapView center={center} />}
       {dragable && returnNewPositionOnDrag && (
         <HandleDoubleClick
