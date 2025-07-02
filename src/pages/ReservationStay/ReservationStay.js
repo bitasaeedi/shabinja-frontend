@@ -195,7 +195,7 @@ const ReservationStay = () => {
             <Box sx={{ px: { xs: 0, md: 4 } }}>
               <StepperReserve
                 errorTab={false}
-                activeStep={1}
+                activeStep={0}
                 steps={["ثبت درخواست", "تایید میزبان", "پرداخت", "تحویل کلید"]}
               />
 

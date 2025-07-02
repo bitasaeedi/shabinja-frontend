@@ -179,7 +179,7 @@ const FormReserve = () => {
               padding: "0 5px",
             }}
           >
-            12،000 ریال
+            12،000 تومان
           </Typography>
           <Typography
             variant="span"
@@ -458,7 +458,7 @@ const FormReserve = () => {
             </Box>
             <Box>
               {" "}
-              <Typography> {ToRial(calculatedPrice?.price)} ریال </Typography>
+              <Typography> {ToRial(calculatedPrice?.price)} تومان </Typography>
             </Box>
           </Box>
           {/*  */}
@@ -483,7 +483,7 @@ const FormReserve = () => {
               {" "}
               <Typography>
                 {" "}
-                {ToRial(calculatedPrice?.extraPersonPrice)} ریال{" "}
+                {ToRial(calculatedPrice?.extraPersonPrice)} تومان{" "}
               </Typography>
             </Box>
           </Box>
@@ -503,7 +503,7 @@ const FormReserve = () => {
               {" "}
               <Typography>
                 {" "}
-                {ToRial(calculatedPrice?.totalDiscountPrice)} ریال{" "}
+                {ToRial(calculatedPrice?.totalDiscountPrice)} تومان{" "}
               </Typography>
             </Box>
           </Box>
@@ -524,7 +524,7 @@ const FormReserve = () => {
               {" "}
               <Typography>
                 {" "}
-                {ToRial(calculatedPrice?.mainPrice)} ریال{" "}
+                {ToRial(calculatedPrice?.mainPrice)} تومان{" "}
               </Typography>
             </Box>
           </Box>

@@ -67,7 +67,7 @@ const RowTable = ({ stay, index }) => {
               // color: "#9e9e9e",
             }}
           >
-            {stay.title}
+            {stay?.hostTourTitle}
           </Typography>
         </TableCell>
         <TableCell align="left">
