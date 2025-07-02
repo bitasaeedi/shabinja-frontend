@@ -7,15 +7,45 @@ import {
   Divider,
   Grid,
   Typography,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
 import { HandleShowDateLikeStr } from "../../../../../../components/DateFunctions/DateFunctions";
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
 import ToRial from "../../../../../../components/ToRial/ToRial";
-
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 const CardStays = ({ stay }) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   const handleDelete = () => {};
 
+  const stepsList = [
+    {
+      stepNum: 0,
+      title: "ثبت درخواست",
+    },
+    {
+      stepNum: 1,
+      title: "تایید میزبان ",
+    },
+    {
+      stepNum: 2,
+      title: "پرداخت ",
+    },
+    {
+      stepNum: 3,
+      title: "تحویل کلید ",
+    },
+  ];
   return (
     <Card
       sx={{
@@ -38,7 +68,7 @@ const CardStays = ({ stay }) => {
             >
               <Box
                 component="img"
-                src="https://cdn.jabama.com/image/jabama-images/1479505/74d96e42-b2ff-4d0e-b6c5-aff3361d7f54.jpeg"
+                src={DownloadImageApi(stay?.image)}
                 alt="Apartment"
                 sx={{
                   width: 180,
@@ -115,8 +145,8 @@ const CardStays = ({ stay }) => {
           <Grid container>
             <Grid item xs="12" sx={{ mt: 2 }}>
               <StepperReserve
-                errorTab={true}
-                activeStep={2}
+                errorTab={stay?.expired}
+                activeStep={stay?.state + 1 || 0}
                 steps={["ثبت درخواست", "تایید میزبان", "پرداخت", "تحویل کلید"]}
               />
             </Grid>
@@ -140,21 +170,58 @@ const CardStays = ({ stay }) => {
           >
             {/* میزبان */}
             <Box sx={{ display: { xs: "none", md: "block" } }}>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ fontSize: 12 }}
-              >
-                میزبان
-              </Typography>
-              <Typography
-                variant="subtitle1"
-                // color="text.secondary"
-                fontWeight={"bold"}
-                sx={{ fontSize: 16 }}
-              >
-                {stay?.HostTourUserFullName}
-              </Typography>
+              <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                {/* اسم میزبان */}
+                <Box>
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontSize: 16 }}
+                  >
+                    میزبان
+                  </Typography>
+                  <Typography
+                    variant="subtitle1"
+                    // color="text.secondary"
+                    fontWeight={"bold"}
+                    sx={{ fontSize: 20 }}
+                  >
+                    {stay?.hostTourUserFullName}
+                  </Typography>
+                </Box>
+                {/* گزینه های بیشتر */}
+                <Box>
+                  <Button
+                    id="basic-button"
+                    aria-controls={open ? "basic-menu" : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? "true" : undefined}
+                    onClick={handleClick}
+                  >
+                    <MoreVertIcon />
+                  </Button>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    slotProps={{
+                      list: {
+                        "aria-labelledby": "basic-button",
+                      },
+                    }}
+                  >
+                    <MenuItem
+                      onClick={() => {
+                        handleClose();
+                      }}
+                    >
+                      مشاهده
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>لغو </MenuItem>
+                  </Menu>
+                </Box>
+              </Box>
             </Box>
 
             {/* پرداخت */}
@@ -201,7 +268,17 @@ const CardStays = ({ stay }) => {
                   },
                 }}
               >
-                پرداخت
+                {stay?.state === 1 // تایید میزبان
+                  ? "پرداخت"
+                  : stay?.state === 0 //
+                  ? "نامشخص "
+                  : stay?.state === 3
+                  ? "نامشخص"
+                  : stay?.state === 4
+                  ? "نامشخص"
+                  : stay?.state === 5
+                  ? "نامشخص"
+                  : "نامشخص"}
               </Button>
             </Box>
           </Box>

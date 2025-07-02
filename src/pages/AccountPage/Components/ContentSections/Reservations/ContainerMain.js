@@ -17,12 +17,9 @@ const ContainerMain = () => {
   const handleGetMyReserve = async (dontShowLoading) => {
     if (!dontShowLoading) {
       setLoading(true);
-    }
-    const searchTab = {
-      tabValue: tabValue,
     };
-    const result = await MyReservationsApi(searchTab);
-    const listReserve = result?.data || [{}, {}, {}];
+    const result = await MyReservationsApi(tabValue);
+    const listReserve = result?.data || [];
     console.log(listReserve, "listReserve" , result);
     setStays(listReserve);
 

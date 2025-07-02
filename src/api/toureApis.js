@@ -509,15 +509,18 @@ export const HostDeleteOneApi = async (guid) => {
 };
 
 // رزروهای من
-export const MyReservationsApi = async (data) => {
+export const MyReservationsApi = async (status) => {
   try {
     const token = localStorage.getItem("access_token");
 
-    const response = await axios.get(`${baseUrl}/HostTourOrder/ListForUser/0`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await axios.get(
+      `${baseUrl}/HostTourOrder/ListForUser/${status}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     return response.data;
   } catch (error) {

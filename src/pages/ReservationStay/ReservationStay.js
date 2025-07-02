@@ -83,17 +83,44 @@ const ReservationStay = () => {
       params?.count
     );
     const exitEdData = result?.data;
-    setInfoOfReserve(exitEdData);
+    const infoDataReserve = {
+      price: exitEdData?.price,
+      extraPersonPric: exitEdData?.extraPersonPric,
+      totalDiscountPrice: exitEdData?.totalDiscountPrice,
+      mainPrice: exitEdData?.mainPrice,
+    };
+    setInfoOfReserve(infoDataReserve);
     setLoadingPrices(false);
     return exitEdData;
   };
 
   //  اطلاعات رزرو
   const handleGetInfoOfReserve = () => {
+    setLoadingPrices(true);
     const result = {};
     //  result = apirequest(code)
-    const exitEdData = {};
+
+    var myData = result?.data;
+
+    // اطلاعات رزرو و قیمت
+    const exitEdData = {
+      price: myData?.price,
+      extraPersonPric: myData?.extraPersonPric,
+      totalDiscountPrice: myData?.totalDiscountPrice,
+      mainPrice: myData?.mainPrice,
+    };
     setInfoOfReserve(exitEdData);
+
+    // اطلاعات اقامکتگاه
+    const mystay = {
+      title: myData?.title,
+      address: myData?.address,
+      img: myData?.hostImages[0],
+      minCount: myData?.minCapacity,
+      maxCount: myData?.maxCapacity,
+    };
+    setInfoOfStay(mystay);
+    setLoadingPrices(false);
   };
 
   // جستجوی مشخصات سرچ
@@ -198,8 +225,8 @@ const ReservationStay = () => {
                 activeStep={0}
                 steps={["ثبت درخواست", "تایید میزبان", "پرداخت", "تحویل کلید"]}
               />
+              {stepName === "preorder" && <WaitingToPay />}
 
-              {/* <WaitingToPay /> */}
               <ShowInfoOfReserve />
             </Box>
           </Grid>

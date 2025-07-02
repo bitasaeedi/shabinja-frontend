@@ -35,7 +35,7 @@ const CardInfoReserve = () => {
         {isLoading ? (
           <Skeleton width={80} height={20} />
         ) : (
-          <Typography variant="body2">{ToRial(value)} تومان</Typography>
+          <Typography variant="body2">{ToRial(value || 0)} تومان</Typography>
         )}
       </Grid>
     </Grid>
@@ -99,7 +99,7 @@ const CardInfoReserve = () => {
             {loadingPrices ? (
               <Skeleton width={80} height={20} />
             ) : (
-              <Typography variant="body2">{ToRial(infoOfReserve?.price)} تومان</Typography>
+              <Typography variant="body2">{ToRial(infoOfReserve?.price || 0)} تومان</Typography>
             )}
           </Grid>
         </Grid>

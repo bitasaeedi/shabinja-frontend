@@ -13,18 +13,13 @@ import { PriceHostTourListApi } from "../../../api/toureApis";
 const ShowInfoOfReserve = () => {
   moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
 
-  const { handleSetParams, infoOfReserve, paramsValues,  } = useContext(
-    ReservationStayContext
-  );
-
+  const { paramsValues, stepName } = useContext(ReservationStayContext);
 
   const handleShowDateLikeStr = (shamsidate) => {
     const mStartDate = moment(shamsidate, "jYYYY/jMM/jDD");
     const formattedStart = mStartDate.format("jD jMMMM");
     return formattedStart; // Outputs: 5 تیر
   };
-
- 
 
   return (
     <Box sx={{ mt: 4 }}>
@@ -55,7 +50,7 @@ const ShowInfoOfReserve = () => {
           </Box>
         </Box>
         <Box textAlign="end">
-          <ButtonForEditDates />
+          {stepName === "preview" && <ButtonForEditDates />}
         </Box>
       </Box>
 
@@ -68,9 +63,7 @@ const ShowInfoOfReserve = () => {
       >
         <Box>
           <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
-            <Box>
-              <PeopleAltOutlinedIcon />
-            </Box>
+            <Box>{stepName === "preview" && <PeopleAltOutlinedIcon />}</Box>
 
             <Box display="column" alignItems="center">
               <Typography variant="subtitle1" color={"grey"}>
@@ -84,7 +77,7 @@ const ShowInfoOfReserve = () => {
           </Box>
         </Box>
         <Box textAlign="end">
-          <ButtonEditCount />
+          {stepName === "preview" && <ButtonEditCount />}
         </Box>
       </Box>
       {/* اطلاعات مسافر */}
