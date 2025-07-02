@@ -83,7 +83,7 @@ export default function AverageRate({ rates }) {
               >
                 <Typography
                   variant="body2"
-                  sx={{ fontSize: { xs: ".78rem", sm: ".85rem" } }}
+                  sx={{ fontSize: { xs: ".78rem", sm: ".9rem" } }}
                 >
                   {item.title}
                 </Typography>
