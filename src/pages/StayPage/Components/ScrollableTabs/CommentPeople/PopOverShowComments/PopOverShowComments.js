@@ -13,21 +13,17 @@ import {
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import CommentCardOfStay from "../../../../../../components/Cards/CommentCardOfStay/CommentCardOfStay";
-import { HostTourSearchCommentApi } from "../../../../../../api/toureApis";
-const PopOverShowComments = ({ anchorEl, handleClosePopover, stayId }) => {
+const PopOverShowComments = ({ comments,anchorEl, handleClosePopover, stayId }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm")); // Adjust for mobile
-  const [commentsList, setCommentsList] = useState([]);
+  // const [commentsList, setCommentsList] = useState([]);
 
-  useEffect(() => {
-    handleGetComments();
-  }, [stayId]);
-
-  const handleGetComments = async () => {
-    const result = await HostTourSearchCommentApi(stayId);
-    // console.log(result?.data, "result?.data?.items ");
-    setCommentsList(result?.data?.items || []);
-  };
+ 
+  // const handleGetComments = async () => {
+  //   const result = await HostTourSearchCommentApi(stayId);
+  //   // console.log(result?.data, "result?.data?.items ");
+  //   setCommentsList(result?.data?.items || []);
+  // };
   return isMobile ? (
     <SwipeableDrawer
       anchor="bottom"
@@ -72,7 +68,7 @@ const PopOverShowComments = ({ anchorEl, handleClosePopover, stayId }) => {
         }}
       >
         <Grid container spacing={1}>
-          {commentsList.map((item, index) => (
+          {comments?.map((item, index) => (
             <Grid item xs={12} md={6} key={index}>
               <CommentCardOfStay
                 // showReplyes={true}
@@ -145,7 +141,7 @@ const PopOverShowComments = ({ anchorEl, handleClosePopover, stayId }) => {
           mt: 2,
         }}
       >
-        {commentsList.map((item, index) => (
+        {comments?.map((item, index) => (
           <Grid item xs={12} md={12} key={index}>
             <CommentCardOfStay
               // showReplyes={true}

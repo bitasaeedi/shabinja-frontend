@@ -16,7 +16,7 @@ const InViewComponents = ({
 
     const filteredResult = result.filter(r => r.id !== id);
 
-    console.log("similarity: ",id , result , filteredResult);
+   // console.log("similarity: ",id , result , filteredResult);
     
     return filteredResult
 

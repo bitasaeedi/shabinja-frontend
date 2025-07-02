@@ -39,7 +39,6 @@ const StayPage = () => {
     handleGetListPrice();
     setListDateSelected([]);
     window.scroll(0, 0);
-    console.log("stayCode", staycode);
   }, [staycode]);
 
   // دریافت لیست اسلایدر
@@ -167,14 +166,14 @@ const StayPage = () => {
                 lg={4}
                 sx={{
                   position: "relative",
-                  display: { xs: "none", md: "block" }, // Hide on xs screens
+                  display: { xs: "none", md: "block" }, 
                   // zIndex: "9000 !important",
                 }}
               >
                 <Box
                   sx={{
                     position: "sticky",
-                    top: 70, // Sticky offset from the top
+                    top: 70, 
                     height: 500,
                     width: "100%",
                     zIndex: "200 !important",

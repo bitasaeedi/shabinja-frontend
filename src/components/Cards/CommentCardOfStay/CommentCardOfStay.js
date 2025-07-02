@@ -28,76 +28,85 @@ const CommentCardOfStay = ({ comment, showReplyes, index }) => {
       }}
       className="border"
     >
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "flex-start",
-          gap: 1,
-          justifyContent: "start",
-        }}
-      >
-        <Avatar
-          sx={{
-            width: 45,
-            height: 45,
-            fontSize: 16,
-          }}
-          src={
-            comment?.userImage?.url
-              ? DownloadImageApi(comment?.userImage?.url)
-              : undefined
-          }
-        >
-          {comment?.userFirstName?.[0] || "ی"}
-        </Avatar>
-
-        <Box sx={{ flexGrow: 1 }}>
-          <Typography
-            variant="h6"
-            //   fontWeight="bold"
-            sx={{
-              fontSize: 14,
-            }}
-          >
-            {comment?.userFirstName || "بی‌نام"}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ mb: 1, fontSize: 12 }}
-          >
-            {comment?.created
-              ? `${getDaysAgo(comment.created)} روز قبل`
-              : "نامشخص"}
-          </Typography>
-        </Box>
-      </Box>
-      <Box>
-        <Typography
-          variant="body2"
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box
           sx={{
             display: "flex",
-            alignItems: "center",
-            mb: 1,
-            fontSize: 12,
-            mt: 0,
+            alignItems: "flex-start",
+            gap: 1,
+            justifyContent: "start",
           }}
         >
+          <Avatar
+            sx={{
+              width: 45,
+              height: 45,
+              fontSize: 16,
+            }}
+            src={
+              comment?.userImage?.url
+                ? DownloadImageApi(comment?.userImage?.url)
+                : undefined
+            }
+          >
+            {comment?.userFirstName?.[0] || "ی"}
+          </Avatar>
+
+          <Box sx={{ flexGrow: 1 }}>
+            {/* name */}
+            <Typography
+              variant="h6"
+              //   fontWeight="bold"
+              sx={{
+                fontSize: 14,
+              }}
+            >
+              {comment?.userFirstName || "کاربر"} {comment?.userLastName}
+            </Typography>
+
+            {/* date */}
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ mb: 1, fontSize: 12 }}
+            >
+              {comment?.date}
+            </Typography>
+          </Box>
+        </Box>
+        <Box sx={{ display: "flex" , gap:"4px"}}>
+          <Typography variant="body2" sx={{fontSize:".7rem"}}>{comment?.rate}/5</Typography>
           <Rating
             name="read-only"
-            value={comment?.place}
+            value={comment?.rate}
             readOnly
             size="small"
             sx={{ mr: 1, color: index < 5 ? "gold" : "gold", fontSize: 14 }}
           />
+        </Box>
+      </Box>
+
+      <Box>
+        {/* rate */}
+        <Typography
+          variant="body2"
+          sx={{
+            mb: ".3rem",
+            fontSize: 12,
+            mt: ".4rem",
+          }}
+        >
+          {/* service lang */}
           <span>{comment?.servicelang} شب اقامت در اقامتگاه</span>
         </Typography>
-        <Typography variant="body1" sx={{ fontSize: 13, mt: 2 }}>
-          {comment?.dics}
-          {/* فقط میتونم بگم یه کارت پستال بی نظیر بود. از میزبان بزرگوار بخاطر
+
+        {/* comment */}
+        <Typography variant="body1" sx={{ fontSize: 13, mt: 1.2 }}>
+          {/* {comment?.dics} */}
+          فقط میتونم بگم یه کارت پستال بی نظیر بود. از میزبان بزرگوار بخاطر
           فراهم همچین ویلای بسیار تمیز و بی نظیری تشکر میکنم فقط .سیستم گرمایش
           مناسب نبود و فضا سرد بود سیستم tv مشکل داشت و تمیزی تختخواب قابل پسند
-          نبود */}
+          نبود
         </Typography>
       </Box>
 

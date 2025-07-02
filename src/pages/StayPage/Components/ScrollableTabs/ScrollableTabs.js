@@ -14,6 +14,7 @@ import OffStay from "./OffStay/OffStay";
 import LocationStay from "./LocationStay/LocationStay";
 import UserStayInfo from "./UserStayInfo/UserStayInfo";
 import ToRial from "../../../../components/ToRial/ToRial";
+import PostComments from "./PostComments/PostComments";
 
 const ScrollableTabs = () => {
   const stayPageContext = useContext(StayPageContext);
@@ -310,6 +311,19 @@ const ScrollableTabs = () => {
           <UserStayInfo />
         </Box>
 
+        {/* ثبت کامنت */}
+        {stayPageContext?.infoOfStay?.hasOrder ? (
+          <Box
+            sx={{
+              pt: 4,
+            }}
+          >
+            <PostComments id={stayPageContext?.infoOfStay?.id} />
+          </Box>
+        ) : (
+          ""
+        )}
+
         {/* نظرات */}
         <Box
           ref={sectionRefs.section6}
@@ -317,7 +331,7 @@ const ScrollableTabs = () => {
             py: 4,
           }}
         >
-          <CommentPeople />
+          <CommentPeople id={stayPageContext?.infoOfStay?.id} />
         </Box>
       </Box>
     </Box>
