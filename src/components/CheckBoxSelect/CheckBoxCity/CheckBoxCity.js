@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Box, Checkbox, FormControlLabel, Grid } from "@mui/material";
+import { Box, Checkbox, FormControlLabel, Grid, IconButton } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 
 const CheckBoxCity = ({
   item,
@@ -10,6 +12,7 @@ const CheckBoxCity = ({
 }) => {
   const [checked, setChecked] = useState(false);
   const [indeterminate, setIndeterminate] = useState(false);
+  const [expanded, setExpanded] = useState(false); 
 
   useEffect(() => {
     if (isCity) {
@@ -33,6 +36,7 @@ const CheckBoxCity = ({
     }
   }, [listSelected, item, isCity]);
 
+  
   const handleChange = (event) => {
     const isChecked = event.target.checked;
 
@@ -44,6 +48,10 @@ const CheckBoxCity = ({
     }
   };
 
+  const handleToggleExpand = () => {
+    setExpanded((prev) => !prev);
+  };
+
   return (
     <Box
       sx={{
@@ -51,23 +59,31 @@ const CheckBoxCity = ({
         borderTop: isCity || index === 0 ? "" : "2px dashed #eeeeee",
       }}
     >
-      <FormControlLabel
-        control={
-          <Checkbox
-            checked={checked}
-            indeterminate={indeterminate}
-            onChange={handleChange}
-            sx={{
-              color: "#eeeeee",
-              "&.Mui-checked": {
-                color: "black",
-              },
-            }}
-          />
-        }
-        label={item?.title}
-      />
-      {item?.cities && (
+      <Box sx={{ display: "flex", alignItems: "center" , justifyContent:"space-between"}}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={checked}
+              indeterminate={indeterminate}
+              onChange={handleChange}
+              sx={{
+                color: "#eeeeee",
+                "&.Mui-checked": {
+                  color: "black",
+                },
+              }}
+            />
+          }
+          label={item?.title}
+        />
+        {!isCity && item?.cities?.length > 0 && (
+          <IconButton onClick={handleToggleExpand} size="small">
+            {expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+          </IconButton>
+        )}
+      </Box>
+
+      {!isCity && expanded && item?.cities && (
         <Box sx={{ marginLeft: 4 }}>
           <Grid container>
             {item?.cities.map((subItem, index2) => (

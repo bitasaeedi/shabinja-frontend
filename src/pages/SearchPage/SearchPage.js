@@ -69,27 +69,13 @@ const filterList = [
     // value: [],
     label: "cities",
   },
+  {
+    // value: [],
+    label: "provinces",
+  },
 ];
 // Create Context
 export const SearchPageContext = createContext();
-
-const MAP_POINTS = [
-  { id: 1, lat: 36.022227982837855, lng: 51.339111328125 },
-  { id: 2, lat: 35.502612740567194, lng: 51.039111328125 },
-  { id: 3, lat: 35.502612740567194, lng: 51.639111328125 },
-  { id: 4, lat: 36.25940141440749, lng: 57.53540039062501 },
-  { id: 5, lat: 35.91299125289372, lng: 57.335400390625004 },
-  { id: 6, lat: 35.91299125289372, lng: 57.73540039062501 },
-  { id: 7, lat: 36.91475604864165, lng: 55.54412841796876 },
-  { id: 8, lat: 36.2219357256141, lng: 55.14412841796876 },
-  { id: 9, lat: 36.2219357256141, lng: 55.944128417968756 },
-  { id: 10, lat: 37.16455550723973, lng: 54.46472167968751 },
-  { id: 11, lat: 36.64494026496907, lng: 54.16472167968751 },
-  { id: 12, lat: 36.64494026496907, lng: 54.764721679687504 },
-  { id: 13, lat: 36.76204391593001, lng: 59.58160400390626 },
-  { id: 14, lat: 36.06922359290246, lng: 59.18160400390626 },
-  { id: 15, lat: 36.06922359290246, lng: 59.981604003906256 },
-];
 
 const SearchPage = () => {
   const location = useLocation();
@@ -150,12 +136,11 @@ const SearchPage = () => {
       typeHostLoc: filters?.typeHostLoc?.split(",") || [], // نوع منطقه
       otherItemTour: filters?.features?.split(",") || [],
       rate: filters?.scores?.split(",") || [],
-      // province: searchData?.province ,
+      province: filters?.province?.split(",") || [],
       city: filters?.cities?.split(",") || [],
       locations: listLocation, // لیست نقاط برای جستجو
     };
     console.log("filter: ", filtersParams);
-    
 
     const result = await HostTourSearchApi(filtersParams);
     setListCards(result?.data?.items);
@@ -176,7 +161,7 @@ const SearchPage = () => {
     var listFiltersWithValues = [];
     filterList.forEach((filter) => {
       const params = new URLSearchParams(window.location.search);
-      const valueOfFilterSeted = params.get(filter.label);
+      const valueOfFilterSeted = params.get(filter.label);      
       if (valueOfFilterSeted) {
         countFilterActive += 1;
         listFiltersWithValues.push({
@@ -194,6 +179,7 @@ const SearchPage = () => {
     setListFiltersInUrl(listFiltersWithValues);
   };
 
+  // for map
   const onPolygonDrawn = (list = []) => {
     // var newList = list.map((item, ind) => ({
     //   id: ind + 1,
@@ -204,7 +190,7 @@ const SearchPage = () => {
     // setListCards(newList);
 
     console.log("pay:", list);
-    
+
     setListLocation(list || []);
   };
 

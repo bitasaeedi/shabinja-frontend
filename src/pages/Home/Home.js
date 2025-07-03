@@ -279,7 +279,7 @@ const Home = () => {
         </Box>
 
         {/* تخفیفات لحظه اخری */}
-        <Box
+        {/* <Box
           className=" "
           sx={{
             // height: 2000,
@@ -287,7 +287,7 @@ const Home = () => {
             marginTop: { xs: 4, md: 5 },
             background: "linear-gradient(180deg, #e0f7fa 0%, #b3e5fc 100%)", // Light blue gradient
           }}
-        >
+        > */}
           <InViewComponents
             getListData={() =>
               callApiForGetList({
@@ -305,7 +305,7 @@ const Home = () => {
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
-        </Box>
+        {/* </Box> */}
 
         {/* کارتهای تبلیغاتی */}
         {/* <Box className=" " sx={{ marginTop: { xs: 2, md: 2 } }}>

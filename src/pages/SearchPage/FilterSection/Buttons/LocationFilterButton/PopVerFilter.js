@@ -23,6 +23,7 @@ const PopVerFilter = ({ anchorEl, handleClosePopover, callBackFunc }) => {
   const searchPageContext = useContext(SearchPageContext);
   const [selectedListCity, setSelectedListCity] = useState([]);
   const [listProvince, setListProvince] = useState([]);
+
   useEffect(() => {
     setListProvince(searchPageContext?.resutSearchTours?.provinces || []);
   }, [searchPageContext?.resutSearchTours?.provinces]);
@@ -44,6 +45,7 @@ const PopVerFilter = ({ anchorEl, handleClosePopover, callBackFunc }) => {
       list?.length > 0 ? selectedListCity.map((item) => item) : null;
     callBackFunc(value);
   };
+  
   return isMobile ? (
     <SwipeableDrawer
       anchor="bottom"
@@ -107,6 +109,8 @@ const PopVerFilter = ({ anchorEl, handleClosePopover, callBackFunc }) => {
           <CloseIcon />
         </IconButton>
       </Box>
+
+      
       <Box
         sx={{
           width: "100%",
@@ -140,6 +144,8 @@ const PopVerFilter = ({ anchorEl, handleClosePopover, callBackFunc }) => {
               handleChangeListSelected={setSelectedListCity}
             />
           </Box>
+
+
           {/* <hr /> */}
           <Box
             sx={{
