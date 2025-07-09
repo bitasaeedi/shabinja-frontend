@@ -3,7 +3,8 @@ import React, { useContext, useEffect } from "react";
 import { AppContext } from "../../App";
 import CardSectins from "./CardSectins/CardSectins";
 import HeaderMag from "./Components/HeaderMag";
-import HeroSlider from "./Components/HeroSlider";
+import CardsPart from "./Components/CardsPart";
+import MainPart from "./Components/MainPart";
 
 const MagazinePage = () => {
   const appContext = useContext(AppContext);
@@ -21,13 +22,16 @@ const MagazinePage = () => {
     <>
       <Box
         sx={{
-          minHeight:'80vh',
           bgcolor: "#f9f9f9",
+          border:"1px solid #f9f9f9"
         }}
       >
 
         {/* slider */}
         <HeaderMag/>
+
+        {/* sidebar , ... */}
+        <MainPart/>
 
       </Box>
     </>

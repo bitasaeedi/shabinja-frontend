@@ -4,7 +4,12 @@ import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import Home from "./pages/Home/Home";
 import { createContext, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Header from "./layout/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
@@ -27,6 +32,7 @@ import ModalLogin from "./components/Login/ModalLogin";
 import { GoftinoSnippet } from "@mohsen007/react-goftino";
 import { useMediaQuery } from "@mui/material";
 import ReservationStay from "./pages/ReservationStay/ReservationStay";
+
 const GOFTINO_KEY = "FnQe1u";
 
 // Create Context
@@ -78,6 +84,16 @@ const theme = createTheme({
     },
   },
 });
+
+export function ScrollToTop() {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+
+  return null;
+}
 
 function App() {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -167,19 +183,19 @@ function App() {
           />
 
           <Router>
+            <ScrollToTop />
             <Header />
             <Routes>
               <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
               <Route path="/stay/:staycode" element={<StayPage />} />
               <Route path="/about" element={<AboutUs />} />
-              {/* <Route path="/magazine" element={<Magazine/>} /> */}
+              {/* <Route path="/magazine" element={<MagazinePage/>} /> */}
               <Route path="/help" element={<QuestionsPage />} />
               <Route path="/contact" element={<ContactPage />} />
               <Route path="/rules" element={<RulesPage />} />
               <Route path="/mag" element={<MagazinePage />} />
               <Route path="/search/:searchtype" element={<SearchPage />} />
               <Route path="/account/:section/*" element={<AccountPage />} />
-              {/* <Route path="/account/favorites/:id" element={<Favorites/>}/> */}
               <Route path="/pannel/:section" element={<PannelPage />} />
               <Route path="/new-stay/:step" element={<NewStaysPage />} />
               <Route
