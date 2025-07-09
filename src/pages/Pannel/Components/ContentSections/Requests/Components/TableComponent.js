@@ -69,10 +69,10 @@ const TableComponent = ({ stays, loading = true }) => {
       >
         <SearchOff sx={{ fontSize: 60, color: "#aaa", mb: 2 }} />
         <Typography variant="h6" gutterBottom>
-          هیچ رزروی برای نمایش وجود ندارد
+          هیچ درخواست رزروی برای نمایش وجود ندارد
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          لطفاً فیلترهای جستجوی خود را بررسی کنید یا یک رزرو جدید اضافه کنید.
+          لطفاً فیلترهای جستجوی خود را بررسی کنید.
         </Typography>
       </Box>
     );

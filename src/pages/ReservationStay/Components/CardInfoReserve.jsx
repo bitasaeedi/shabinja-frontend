@@ -212,7 +212,8 @@ const CardInfoReserve = () => {
                 inputeValue?.sms?.toString()?.length != 11 ||
                 !inputeValue?.sms ||
                 infoOfReserve?.state === 1 ||
-                infoOfReserve?.state >= 3
+                infoOfReserve?.state >= 3 ||
+                !(paramsValues?.count > 0)
               }
             >
               {infoOfReserve?.state === 0
