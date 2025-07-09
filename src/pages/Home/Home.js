@@ -1,6 +1,4 @@
-import {
-  Box,
-} from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
@@ -139,8 +137,8 @@ const Home = () => {
     let list = result?.data || [];
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
-    console.log("filter",list);
-    
+    console.log("filter", list);
+
     return list;
   };
 
@@ -148,6 +146,44 @@ const Home = () => {
     const result = await GetCommentsAboutSiteApi();
     let list = result?.data;
     return list;
+  };
+
+  const setFilters = (url) => {
+    let filters = {};
+    if (url?.includes("?")) {
+     
+      const queryString = url.split("?")[1];
+      const params = new URLSearchParams(queryString);
+
+      params.forEach((value, key) => {
+        filters[key] = isNaN(value) ? value : Number(value);
+      });
+
+    } else {
+      return { title: url }; //like kurdestan
+    }
+    const filtersParams = {
+      start: filters?.start, // شمسی
+      end: filters?.end, // شمسی
+      count: filters?.count, //
+      room: filters?.room,
+      minprice: filters?.min,
+      maxprice: filters?.max,
+      skip: 0,
+      take: 20,
+      // sort: filters?.sort,
+      rolItemTour: filters?.rules?.split(",") || [], // قوانین
+      typeHost: filters?.typeHost?.split(",") || [], // نوع اقامتگاه
+      typeHostLoc: filters?.typeHostLoc?.split(",") || [], // نوع منطقه
+      otherItemTour: filters?.features?.split(",") || [],
+      rate: filters?.scores?.split("-") || [],
+      province: filters?.province?.split(",") || [],
+      city: filters?.cities?.split(",") || [],
+      locations: [], // لیست نقاط برای جستجو
+    };
+    
+    return filtersParams
+
   };
 
   return (
@@ -199,9 +235,9 @@ const Home = () => {
               deafultSkeleton={"favorit"}
               title={"مقاصد محبوب"}
               // slidesPerView={7}
-              breakpoints={                
+              breakpoints={
                 {
-                  0: { slidesPerView: 2.1, spaceBetween: 8 },   
+                  0: { slidesPerView: 2.1, spaceBetween: 8 },
                   340: { slidesPerView: 2.3, spaceBetween: 5 },
                   400: { slidesPerView: 2.5, spaceBetween: 5 },
                   450: { slidesPerView: 2.8, spaceBetween: 5 },
@@ -214,23 +250,23 @@ const Home = () => {
                   1450: { slidesPerView: 5.5, spaceBetween: 20 },
                 }
 
-              //   {
-              //   0: {
-              //     slidesPerView: 2,
-              //   },
-              //   330: {
-              //     slidesPerView: 2,
-              //   },
-              //   480: {
-              //     slidesPerView: 3,
-              //   },
-              //   768: {
-              //     slidesPerView: 4,
-              //   },
-              //   1024: {
-              //     slidesPerView: 5,
-              //   },
-              // }
+                //   {
+                //   0: {
+                //     slidesPerView: 2,
+                //   },
+                //   330: {
+                //     slidesPerView: 2,
+                //   },
+                //   480: {
+                //     slidesPerView: 3,
+                //   },
+                //   768: {
+                //     slidesPerView: 4,
+                //   },
+                //   1024: {
+                //     slidesPerView: 5,
+                //   },
+                // }
               }
             >
               <FavoritCitiesCard />
@@ -241,12 +277,9 @@ const Home = () => {
         {/* اقامتگاه های ممتاز */}
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
-            getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                title: listTitleSliders[0]?.urlTour,
-              })
-            }
+            getListData={() => {
+              callApiForGetList({ rate: [1, 2, 3, 4] });
+            }}
           >
             <SwipperSliderPublick
               lists={cities}
@@ -262,10 +295,7 @@ const Home = () => {
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                title: listTitleSliders[1]?.urlTour,
-              })
+              callApiForGetList(setFilters(listTitleSliders[1]?.urlTour))
             }
           >
             <SwipperSliderPublick
@@ -288,23 +318,22 @@ const Home = () => {
             background: "linear-gradient(180deg, #e0f7fa 0%, #b3e5fc 100%)", // Light blue gradient
           }}
         > */}
-          <InViewComponents
-            getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                // title: listTitleSliders[2]?.urlTour,
-              })
-            }
+
+        {/* غرب */}
+        <InViewComponents
+          getListData={() =>
+            callApiForGetList(setFilters(listTitleSliders[2]?.urlTour))
+          }
+        >
+          <SwipperSliderPublick
+            lists={cities}
+            title={listTitleSliders[2]?.title}
+            linkToSeeMore={`/search/${listTitleSliders[2]?.urlTour}`}
+            // showTimer={true}
           >
-            <SwipperSliderPublick
-              lists={cities}
-              title={listTitleSliders[2]?.title}
-              linkToSeeMore={`/search/${listTitleSliders[2]?.urlTour}`}
-              showTimer={true}
-            >
-              <HomeCards />
-            </SwipperSliderPublick>
-          </InViewComponents>
+            <HomeCards />
+          </SwipperSliderPublick>
+        </InViewComponents>
         {/* </Box> */}
 
         {/* کارتهای تبلیغاتی */}
@@ -317,10 +346,7 @@ const Home = () => {
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                //title: listTitleSliders[3]?.urlTour,
-              })
+              callApiForGetList(setFilters(listTitleSliders[3]?.urlTour))
             }
           >
             <SwipperSliderPublick
@@ -337,10 +363,7 @@ const Home = () => {
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
             getListData={() =>
-              callApiForGetList({
-                // type: 1,
-                // title: listTitleSliders[4]?.urlTour,
-              })
+              callApiForGetList(setFilters(listTitleSliders[4]?.urlTour))
             }
           >
             <SwipperSliderPublick
@@ -372,7 +395,7 @@ const Home = () => {
         </Box> */}
 
         {/* رزرو‌های فوری */}
-        <Box
+        {/* <Box
           className=""
           sx={{
             py: 4,
@@ -396,7 +419,7 @@ const Home = () => {
               <HomeCards />
             </SwipperSliderPublick>
           </InViewComponents>
-        </Box>
+        </Box> */}
 
         {/* === نظرات کاربران */}
         <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>

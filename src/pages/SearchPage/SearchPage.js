@@ -140,10 +140,12 @@ const SearchPage = () => {
       city: filters?.cities?.split(",") || [],
       locations: listLocation, // لیست نقاط برای جستجو
     };
-    console.log("filter: ", filtersParams);
 
+    console.log("filter: ", filtersParams);
     const result = await HostTourSearchApi(filtersParams);
     setListCards(result?.data?.items);
+    console.log("slist",result?.data?.items);
+    
     setResultSearchTours(result?.data);
     // setTimeout(() => {
     setLoadingSearch(false);

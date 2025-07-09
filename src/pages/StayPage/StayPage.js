@@ -104,9 +104,9 @@ const StayPage = () => {
       {/* <Header showMobileHeader={false} /> */}
       <Box
         sx={{
-          width: { xs: "100%", md: "80%" }, // 100% for xs and sm, 80% for md and above
-          margin: "0 auto", // Center the container
-          padding: { xs: 2, md: 0 }, // Adjust padding for smaller screens
+          width: { xs: "100%", md: "80%" }, 
+          margin: "0 auto",
+          padding: { xs: 2, md: 0 },
         }}
       >
         <Box
@@ -117,7 +117,7 @@ const StayPage = () => {
           {/* Empty space as header spacer */}
           <Box
             sx={{
-              height: { xs: 9, md: 100 }, // Adjust header space for xs and md screens
+              height: { xs: 9, md: 100 }, 
             }}
           ></Box>
 

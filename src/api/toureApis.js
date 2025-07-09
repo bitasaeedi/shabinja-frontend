@@ -7,7 +7,7 @@ const baseUrl = API_URL;
 
 // سرچ لیست اقامتگاه ها
 export const HostTourSearchApi = async (searchData) => {
-  console.log("name: ", searchData);
+  // console.log("name: ", searchData);
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
@@ -20,8 +20,8 @@ export const HostTourSearchApi = async (searchData) => {
         end: searchData?.end ? ConvertShamsiToMiladi(searchData?.end) : "",
         count: searchData?.count || 0,
         Room: searchData?.room || 0,
-        minprice: parseFloat(searchData?.minprice) * 10 || 0,
-        maxprice: parseFloat(searchData?.maxprice) * 10 || 0,
+        minprice: parseFloat(searchData?.minprice)  || 0,
+        maxprice: parseFloat(searchData?.maxprice)  || 0,
         skip: searchData?.skip || 0,
         take: searchData?.take || 10,
         sort: searchData?.sort || 0, //ترتیب مرتب کردن
@@ -30,13 +30,13 @@ export const HostTourSearchApi = async (searchData) => {
         OtherItemTourId: [],
         AccommodationSpace: [],
         Locations: searchData?.locations || [],
-        Rate: searchData?.rate || [],
-        TypeHost: searchData?.typeHost || [], // نوع اقامتگاه
-        TypeHostLoc: searchData?.typeHostLoc || [],
+        rate: searchData?.rate || [],
+        typeHost: searchData?.typeHost || [], // نوع اقامتگاه
+        typeHostLoc: searchData?.typeHostLoc || [],
         RolItemTour: searchData?.rolItemTour || [],
         OtherItemTour: searchData?.otherItemTour || [],
-        Province: searchData?.province || [],
-        City: searchData?.city || [],
+        province: searchData?.province || [],
+        city: searchData?.city || [],
       },
       {
         headers: {

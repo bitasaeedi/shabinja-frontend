@@ -115,18 +115,22 @@ const Dashboard = ({ anchor, isMobile }) => {
         <Box
           sx={{
             display: "flex",
-            alignItems: "end",
+            alignItems: {md:"center" , lg:"end"},
             justifyContent: "space-between",
+            flexDirection: {  
+              md: "column-reverse",     
+              lg: "row",       
+            },
           }}
         >
-          <Box>
+          <Box sx={{width:{md:"100%",lg:"62%"}}}>
             <Typography variant="h6" sx={{ fontSize: "16px", mb: 1 }}>
               درخواست ها
             </Typography>
             <Requests NoValue={NoValueComponent}/>
           </Box>
 
-          <Profile />
+          <Profile myWidth={"35%"} isMobile={isMobile}/>
         </Box>
 
         {/* row 2 */}

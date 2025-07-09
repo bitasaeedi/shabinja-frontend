@@ -45,9 +45,12 @@ const LocationFilterButton = ({}) => {
     setAnchorEl(null);
   };
 
+
+
+  // change url
   const handleSetSearch = (value) => {
     const params = new URLSearchParams(window.location.search);
-
+    
     if (value) {
       params.set(filter, value);
     } else {
@@ -61,6 +64,7 @@ const LocationFilterButton = ({}) => {
     handleClosePopover();
     searchPageContext.handleSearch();
   };
+  
 
   return (
     <>

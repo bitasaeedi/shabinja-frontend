@@ -15,7 +15,7 @@ const SelectCity = ({
   const handleToggle = () => {
     setIsExpanded((prevState) => !prevState);
   };
-
+  
 
   const handleSelect = (item, isSelected) => {
     if (isSelected) {

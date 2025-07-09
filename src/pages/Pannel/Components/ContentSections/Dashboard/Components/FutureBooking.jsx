@@ -12,27 +12,58 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import SkeltonRowTables from "../../../../../../components/SkeletonComponents/SkeltonRowTables";
+import { useEffect } from "react";
+import API_URL from "../../../../../../config/apiConfig";
+import axios from "axios";
+import moment from "moment-jalaali";
+const baseUrl = API_URL;
 
-const stayList = [
-  {
-    stay: "اقامتگاه اورامان",
-    code: "3451202",
-    guest: "محمد محمدی",
-    info: "سلام، ساعت ورود ...",
-    startDate: "1404/01/01",
-    endDate: "1404/01/05",
-  },
-  {
-    stay: "اقامتگاه اورامان",
-    code: "3451202",
-    guest: "محمد محمدی",
-    info: "سلام، ساعت ورود ...",
-    startDate: "1404/01/01",
-    endDate: "1404/01/05",
-  },
-];
+// const stayList = [
+//   {
+//     stay: "اقامتگاه اورامان",
+//     code: "3451202",
+//     guest: "محمد محمدی",
+//     info: "سلام، ساعت ورود ...",
+//     startDate: "1404/01/01",
+//     endDate: "1404/01/05",
+//   },
+//   {
+//     stay: "اقامتگاه اورامان",
+//     code: "3451202",
+//     guest: "محمد محمدی",
+//     info: "سلام، ساعت ورود ...",
+//     startDate: "1404/01/01",
+//     endDate: "1404/01/05",
+//   },
+// ];
+
 export default function FutureBooking({ isMobile, NoValue }) {
   const [loading, setLoading] = useState(false);
+  const [stayList, setStayList] = useState();
+  const fetchData = async () => {
+    setLoading(true)
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(
+        `${baseUrl}/HostTourOrder/DashboardList/3`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLoading(false)
+      console.log("req", response?.data?.data);
+      setStayList(response?.data?.data);
+    } catch (error) {
+      console.error(error?.response);
+
+      return error?.response;
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <Typography
@@ -77,7 +108,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
                   }}
                   align="center"
                 >
-                  کد اقامتگاه
+                  کد رزرو
                 </TableCell>
                 <TableCell
                   sx={{
@@ -118,29 +149,31 @@ export default function FutureBooking({ isMobile, NoValue }) {
 
             <TableBody>
               {loading ? (
-                [1, 2, 3].map((_, index) => (
+                [1, 2, ].map((_, index) => (
                   <SkeltonRowTables key={index} count={6} />
                 ))
-              ) : stayList.length === 0 ? (
+              ) : stayList?.length === 0 ? (
                 <TableRow>
                   <TableCell colSpan={6} align="center">
                     <NoValue />
                   </TableCell>
                 </TableRow>
               ) : (
-                stayList.map((stay, index) => (
+                stayList?.slice(0,2).map((stay, index) => (
                   <TableRow
                     key={index}
                     sx={{
                       backgroundColor: index % 2 === 0 ? "#fafafa" : "inherit",
                     }}
                   >
-                    <TableCell>{stay.stay}</TableCell>
-                    <TableCell align="center">{stay.code}</TableCell>
-                    <TableCell align="center">{stay.guest}</TableCell>
+                    <TableCell>{stay.hostTourTitle}</TableCell>
+                    <TableCell align="center">{stay.orderNumber}</TableCell>
+                    <TableCell align="center">
+                      {stay.fullName ? stay.fullName : stay.userFullName}
+                    </TableCell>
                     <TableCell align="center">{stay.info}</TableCell>
-                    <TableCell align="center">{stay.startDate}</TableCell>
-                    <TableCell align="center">{stay.endDate}</TableCell>
+                    <TableCell align="center">{moment(stay.start).format("jYYYY/jMM/jDD")}</TableCell>
+                    <TableCell align="center">{moment(stay.end).format("jYYYY/jMM/jDD")}</TableCell>
                   </TableRow>
                 ))
               )}

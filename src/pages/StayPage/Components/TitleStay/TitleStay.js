@@ -12,18 +12,19 @@ const TitleStay = () => {
   const stayPageContext = useContext(StayPageContext);
 
   const [isLiked, setIsLiked] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState("black");
 
   useEffect(() => {
-    setIsFavorite(stayPageContext?.infoOfStay?.isFavorite);
+    setIsFavorite(stayPageContext?.infoOfStay?.isFavorite ? "red" : "black");
   }, [stayPageContext]);
 
   const handleLikeClick = () => {
-    if (!isFavorite) {
-      setIsLiked(!isLiked);
+    if (isFavorite==="black") {
+      setIsLiked(true);
+      setIsFavorite("red")
     } else {
       deleteFromFavorite();
-      isFavorite(false)
+      setIsFavorite("black")
     }
   };
 
@@ -85,9 +86,7 @@ const TitleStay = () => {
             startIcon={
               <FavoriteBorderIcon
                 sx={{
-                  color: stayPageContext?.infoOfStay?.isFavorite
-                    ? "red"
-                    : "white",
+                    color: isFavorite,
                 }}
               />
             }

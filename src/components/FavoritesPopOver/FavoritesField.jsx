@@ -12,6 +12,7 @@ import FolderOffIcon from "@mui/icons-material/FolderOff";
 import { DownloadImageApi } from "../../api/DownloadImageApi";
 import API_URL from "../../config/apiConfig";
 import MyAlertMui from "../MyAlertMui/MyAlertMui";
+import FavoritesFieldSkeleton from "./FavoritesFieldSkeleton";
 const baseUrl = API_URL;
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -61,6 +62,7 @@ export default function FavoritesField({
 
   const [categoryList, setCategoryList] = useState();
   const [showAddInput, setShowAddInput] = useState(false);
+  const [loading,setLoading]=useState(true);
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
@@ -77,6 +79,7 @@ export default function FavoritesField({
 
   //get list
   const fetchCategoryList = async () => {
+    setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(`${baseUrl}/UserFavoriteCategory`, {
@@ -86,9 +89,11 @@ export default function FavoritesField({
       });
       console.log("list response", response.data);
       setCategoryList(response.data.data);
+      setLoading(false);
       return response.data;
     } catch (error) {
       console.log("listError:", error?.response?.data);
+      setLoading(false);
       return error?.response?.data;
     }
   };
@@ -270,7 +275,9 @@ export default function FavoritesField({
             cursor: "pointer",
           }}
         >
-          {categoryList ? (
+          {loading ? (
+            <FavoritesFieldSkeleton />
+          ) : categoryList ? (
             <Box
               sx={{
                 display: "grid",
@@ -299,6 +306,7 @@ export default function FavoritesField({
                       component="img"
                       src={DownloadImageApi(list.image)}
                       alt=""
+                      
                       sx={{
                         width: "50px",
                         height: "50px",

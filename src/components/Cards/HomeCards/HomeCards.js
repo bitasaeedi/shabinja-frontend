@@ -20,12 +20,46 @@ import ImageOfCard from "./ImageOfCard";
 import SliderDetailsPage from "../../Sliders/SliderCards";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import FavoritesPopOver from "../../FavoritesPopOver/FavoritesPopOver";
+import axios from "axios";
+const baseUrl = API_URL;
 
 const HomeCard = ({ myData = {} }) => {
-
   const [isLiked, setIsLiked] = useState(false);
+  const [favColor, setFavColor] = useState("white");
+
+  useEffect(() => {
+    setFavColor(myData.isFavorite ? "red" : "white");
+  }, [myData.isFavorite]);
+
+  const deleteFromFavorite = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.post(
+        `${baseUrl}/UserFavoriteCategoryHostTour/Delete/${myData.guid}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("d response", response.data);
+
+      return response.data;
+    } catch (error) {
+      console.log("listError:", error?.response?.data);
+      return error?.response?.data;
+    }
+  };
+
   const handleLikeClick = () => {
-    setIsLiked(!isLiked);
+    if (favColor==="red") {
+      deleteFromFavorite();
+      setFavColor("white")
+    } else {
+      setFavColor("red")
+      setIsLiked(true);
+    }
   };
 
   const handleClose = () => {
@@ -57,22 +91,22 @@ const HomeCard = ({ myData = {} }) => {
         >
           <ImageOfCard myData={myData} />
         </SliderDetailsPage>
-        
+
         {/* <Tooltip 
         disablePortal
         sx={{zIndex:1}} title={isLiked ? "حذف از پسندها" : "افزدن به پسندها"}>*/}
-          <IconButton 
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              color: isLiked ? "red" : "white",
-              zIndex: 10,
-            }}
-            onClick={handleLikeClick}
-          >
-            {myData.isFavorite ? <Favorite /> : <FavoriteBorder />}
-          </IconButton>
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            color: favColor,
+            zIndex: 10,
+          }}
+          onClick={handleLikeClick}
+        >
+          {favColor ? <Favorite color="red" /> : <FavoriteBorder />}
+        </IconButton>
         {/* </Tooltip> */}
 
         {/* Card Content */}
@@ -234,7 +268,11 @@ const HomeCard = ({ myData = {} }) => {
           </CardContent>
         </Link>
       </Card>
-      <FavoritesPopOver isLiked={isLiked}  handleClose={handleClose} id={myData.id} />
+      <FavoritesPopOver
+        isLiked={isLiked}
+        handleClose={handleClose}
+        id={myData.id}
+      />
     </Box>
   );
 };
