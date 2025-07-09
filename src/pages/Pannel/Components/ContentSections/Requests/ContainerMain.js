@@ -3,7 +3,12 @@ import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TableComponent from "./Components/TableComponent";
 import { MyHostTourSearchApi } from "../../../../../api/toureApis";
-import { ListRequestReserveApi } from "../../../../../api/PannelApis";
+import {
+  AcceptRequestReserveApi,
+  GetListRequestToReserveApi,
+} from "../../../../../api/PannelApis";
+import { TroubleshootOutlined } from "@mui/icons-material";
+import SweetAlert from "../../../../../components/SweetAlert/SweetAlert";
 
 export const ContainerMainContext = createContext();
 const ContainerMain = () => {
@@ -20,9 +25,10 @@ const ContainerMain = () => {
       setLoading(true);
     }
 
-    const result = await ListRequestReserveApi(tabValue);
+    const result = await GetListRequestToReserveApi(tabValue);
+
     console.log(result, "result");
-    setStays(result?.data || [{ title: "qweqwe", id: "1" }]);
+    setStays(result?.data || []);
 
     setLoading(false);
   };
@@ -31,6 +37,12 @@ const ContainerMain = () => {
     setTabValue(newValue);
   };
 
+  const handleAcceptRequest = async (guid) => {
+    setLoading(true);
+    const result = await AcceptRequestReserveApi(guid);
+    SweetAlert(result?.issuccess, result?.message);
+    handleGetMyTour();
+  };
   return (
     <ContainerMainContext.Provider
       value={{
@@ -39,6 +51,7 @@ const ContainerMain = () => {
         loading,
         handleChangeTab,
         tabValue,
+        handleAcceptRequest,
       }}
     >
       <Box

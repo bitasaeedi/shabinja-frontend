@@ -22,6 +22,7 @@ const CardInfoReserve = () => {
     handleRequestToReserve,
     infoOfStay = {},
     loadingPrices,
+    handleGoToPayLink,
   } = useContext(ReservationStayContext);
 
   const nights = CalculateNights(paramsValues?.start, paramsValues?.end);
@@ -41,6 +42,14 @@ const CardInfoReserve = () => {
     </Grid>
   );
 
+  const handleRunButton = () => {
+    if (infoOfReserve?.state === 0) {
+      handleRequestToReserve();
+    } else if (infoOfReserve?.state === 2) {
+      handleGoToPayLink();
+    }
+  };
+
   return (
     <Card
       sx={{
@@ -52,9 +61,20 @@ const CardInfoReserve = () => {
       }}
     >
       <Grid container spacing={2}>
-        <Grid item xs="auto" sx={{ display: { xs: "none", md: "block" } }}>
+        <Grid
+          item
+          xs="auto"
+          sx={{
+            display: { xs: "none", md: "block" },
+          }}
+        >
           {loadingPrices ? (
-            <Skeleton variant="rectangular" width={100} height={120} sx={{ borderRadius: 1 }} />
+            <Skeleton
+              variant="rectangular"
+              width={100}
+              height={120}
+              sx={{ borderRadius: 1 }}
+            />
           ) : (
             <Box
               component="img"
@@ -72,11 +92,24 @@ const CardInfoReserve = () => {
         </Grid>
         <Grid item xs={12} md>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
-            {loadingPrices ? <Skeleton width={150} height={28} /> : infoOfStay?.title}
+            {loadingPrices ? (
+              <Skeleton width={150} height={28} />
+            ) : (
+              infoOfStay?.title
+            )}
           </Typography>
-          <Typography variant="body2" color="text.secondary" display="flex" alignItems="center">
+          <Typography
+            variant="body2"
+            color="text.secondary"
+            display="flex"
+            alignItems="center"
+          >
             <Box mr={0.5}>📍</Box>
-            {loadingPrices ? <Skeleton width={100} height={20} /> : infoOfStay?.address}
+            {loadingPrices ? (
+              <Skeleton width={100} height={20} />
+            ) : (
+              infoOfStay?.address
+            )}
           </Typography>
         </Grid>
       </Grid>
@@ -92,23 +125,37 @@ const CardInfoReserve = () => {
         <Grid container>
           <Grid item xs={6}>
             <Typography variant="body2">
-              {loadingPrices ? <Skeleton width={60} height={20} /> : `${nights} شب اقامت`}
+              {loadingPrices ? (
+                <Skeleton width={60} height={20} />
+              ) : (
+                `${nights} شب اقامت`
+              )}
             </Typography>
           </Grid>
           <Grid item xs={6} textAlign="end">
             {loadingPrices ? (
               <Skeleton width={80} height={20} />
             ) : (
-              <Typography variant="body2">{ToRial(infoOfReserve?.price || 0)} تومان</Typography>
+              <Typography variant="body2">
+                {ToRial(infoOfReserve?.price || 0)} تومان
+              </Typography>
             )}
           </Grid>
         </Grid>
 
         {/* نفرات اضافه */}
-        {renderPriceRow("نفرات اضافه", infoOfReserve?.extraPersonPrice, loadingPrices)}
+        {renderPriceRow(
+          "نفرات اضافه",
+          infoOfReserve?.extraPersonPrice,
+          loadingPrices
+        )}
 
         {/* تخفیف */}
-        {renderPriceRow("تخفیف", infoOfReserve?.totalDiscountPrice, loadingPrices)}
+        {renderPriceRow(
+          "تخفیف",
+          infoOfReserve?.totalDiscountPrice,
+          loadingPrices
+        )}
       </Stack>
 
       <Divider sx={{ my: 2 }} />
@@ -131,11 +178,15 @@ const CardInfoReserve = () => {
 
         <Grid item xs={12} mt={2}>
           {loadingPrices ? (
-            <Skeleton variant="rectangular" width="100%" height={44} sx={{ borderRadius: 1 }} />
+            <Skeleton
+              variant="rectangular"
+              width="100%"
+              height={44}
+              sx={{ borderRadius: 1 }}
+            />
           ) : (
             <Button
-              type="submit"
-              onClick={handleRequestToReserve}
+              onClick={handleRunButton}
               variant="contained"
               fullWidth
               sx={{
@@ -155,9 +206,25 @@ const CardInfoReserve = () => {
                   cursor: "not-allowed",
                 },
               }}
-              disabled={!inputeValue?.name || !inputeValue?.lastName}
+              disabled={
+                !inputeValue?.name ||
+                !inputeValue?.lastName ||
+                inputeValue?.sms?.toString()?.length != 11 ||
+                !inputeValue?.sms ||
+                infoOfReserve?.state === 1 ||
+                infoOfReserve?.state >= 3 ||
+                !(paramsValues?.count > 0)
+              }
             >
-              ثبت درخواست رزرو
+              {infoOfReserve?.state === 0
+                ? "ثبت درخواست رزرو"
+                : infoOfReserve?.state === 1
+                ? "منتظر بمانید"
+                : infoOfReserve?.state === 2
+                ? "پرداخت"
+                : infoOfReserve?.state === 3
+                ? "در تاریخ اعلامی به اقامتگاه بروید"
+                : "نامشخص"}
             </Button>
           )}
         </Grid>

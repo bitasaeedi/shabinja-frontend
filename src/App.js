@@ -130,11 +130,13 @@ function App() {
 
   const handleGetInfoUser = async () => {
     const profile = await UserSearchOneApi();
+    console.log(profile?.data, "profile");
     setUserInfo({
       name: profile?.data?.firstName || "",
       lastName: profile?.data?.lastName || "",
       imageUrl: profile?.data?.image?.url || "",
       userIsHost: true,
+      mobile: profile?.data?.mobile,
       // ...profile?.data,
     });
   };

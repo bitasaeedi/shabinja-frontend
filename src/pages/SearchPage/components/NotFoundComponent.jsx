@@ -55,7 +55,7 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
         sx={{ mb: 3, maxWidth: 500 }}
       >
         ما نتونستیم اقامتگاهی که با فیلتر های شما مطابقت داشته باشد پیدا کنیم
-        لطفا مجدد تلاش کنید
+        لطفابا فیلترهای جدید تلاش کنید
       </Typography>
 
       <Box
@@ -67,7 +67,7 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
         }}
       >
         <Button
-          variant="contained"
+          variant="text"
           onClick={() => navigate("/")}
           sx={{
             px: 3,
@@ -80,7 +80,7 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
           برو به صفحه اصلی
         </Button>
 
-        <Button
+        {/* <Button
           variant="outlined"
           onClick={() => window.location.reload()}
           sx={{
@@ -92,7 +92,7 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
           }}
         >
           تلاش مجدد
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );

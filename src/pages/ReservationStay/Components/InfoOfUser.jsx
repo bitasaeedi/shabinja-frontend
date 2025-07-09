@@ -5,12 +5,14 @@ import { useContext } from "react";
 import { ReservationStayContext } from "../ReservationStay";
 import { useForm, Controller } from "react-hook-form";
 import InputMask from "react-input-mask";
+import { AppContext } from "../../../App";
 
 const InfoOfUser = ({}) => {
   const { infoOfReserve, stepName, handleUpdateInputeValue } = useContext(
     ReservationStayContext
   );
 
+  const { userInfo } = useContext(AppContext);
   const {
     control,
     handleSubmit,
@@ -22,10 +24,18 @@ const InfoOfUser = ({}) => {
   });
 
   useEffect(() => {
+    setValue("sms", userInfo?.mobile);
+    setValue("name", userInfo?.name);
+    setValue("lastName", userInfo?.lastName);
+    handleChangeInputs({
+      sms: userInfo?.mobile,
+      name: userInfo?.name,
+      lastName: userInfo?.lastName,
+    });
     if (stepName === "preview") {
-      handleSubmit()();
+      // handleSubmit(onSubmit);
     }
-  }, [stepName]);
+  }, [stepName, userInfo?.mobile]);
 
   const validateMobile = (value) => {
     if (!value) return "شماره موبایل الزامی است";
@@ -37,6 +47,7 @@ const InfoOfUser = ({}) => {
     handleUpdateInputeValue(newData);
   };
 
+  const onSubmit = () => {};
   return (
     <Box
       display="flex"
@@ -55,7 +66,7 @@ const InfoOfUser = ({}) => {
           </Typography>
 
           {stepName === "preview" ? (
-            <form onSubmit={handleSubmit(() => {})}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
                 {/* Name */}
                 <Grid item xs={12} md={4}>
@@ -194,7 +205,7 @@ const InfoOfUser = ({}) => {
             </form>
           ) : (
             <Typography variant="p" fontWeight="bold">
-              یاسر زروندی - 09934623142
+              {`${infoOfReserve?.fullName} - ${infoOfReserve?.sms}`}
             </Typography>
           )}
         </Box>
