@@ -16,6 +16,7 @@ import { HandleShowDateLikeStr } from "../../../../../../components/DateFunction
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
 import ToRial from "../../../../../../components/ToRial/ToRial";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Link } from "react-router-dom";
 const CardStays = ({ stay }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -64,15 +65,15 @@ const CardStays = ({ stay }) => {
             <Grid
               item
               xs={"auto"}
-              sx={{ display: { xs: "none", md: "block" } }}
+              // sx={{ display: { xs: "none", md: "block" } }}
             >
               <Box
                 component="img"
                 src={DownloadImageApi(stay?.image)}
                 alt="Apartment"
                 sx={{
-                  width: 180,
-                  height: 120,
+                  width: { xs: 80, md: 180 },
+                  height: { xs: 80, md: 120 },
                   // height: "auto",
                   borderRadius: 1,
                   objectFit: "cover",
@@ -80,63 +81,107 @@ const CardStays = ({ stay }) => {
                 }}
               />
             </Grid>
-            <Grid item sx={{}}>
-              <Box>
-                <Typography variant="h6" fontWeight="bold" gutterBottom>
-                  {stay?.hostTourTitle}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  <Box component="span" display="flex" alignItems="center">
-                    <Box component="span" mr={0.5}>
-                      📍
-                    </Box>
-                    {stay?.hostTourCityTitle}
-                  </Box>
-                </Typography>
-              </Box>
+            {/* اطلاعات اقامتگاه */}
+            <Grid xs item sx={{ pr: 1 }}>
               <Box
                 sx={{
-                  mt: 1,
-                  display: "flex ",
+                  width: "100%",
+                  display: "flex",
                   justifyContent: "space-between",
                 }}
               >
                 <Box>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ fontSize: 13 }}
+                  <Box>
+                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                      {stay?.hostTourTitle}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      <Box component="span" display="flex" alignItems="center">
+                        <Box component="span" mr={0.5}>
+                          📍
+                        </Box>
+                        {stay?.hostTourCityTitle}
+                      </Box>
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      mt: 1,
+                      display: "flex ",
+                      justifyContent: "space-between",
+                    }}
                   >
-                    تعداد مهمان
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    // color="text.secondary"
-                    fontWeight={"bold"}
-                    sx={{ fontSize: 14 }}
-                  >
-                    {stay?.personCount} نفر
-                  </Typography>
-                </Box>
+                    <Box>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontSize: 13 }}
+                      >
+                        تعداد مهمان
+                      </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        // color="text.secondary"
+                        fontWeight={"bold"}
+                        sx={{ fontSize: 14 }}
+                      >
+                        {stay?.personCount} نفر
+                      </Typography>
+                    </Box>
 
-                <Box sx={{ borderLeft: "solid 1px gray", pl: 2 }}>
-                  <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ fontSize: 13 }}
-                  >
-                    تاریخ اقامت
-                  </Typography>
-                  <Typography
-                    variant="subtitle1"
-                    // color="text.secondary"
-                    fontWeight={"bold"}
-                    sx={{ fontSize: 14 }}
-                  >
-                    {`${HandleShowDateLikeStr(
-                      stay?.start
-                    )} - ${HandleShowDateLikeStr(stay?.end)}`}
-                  </Typography>
+                    <Box sx={{ borderLeft: "solid 1px gray", pl: 2 }}>
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        sx={{ fontSize: 13 }}
+                      >
+                        تاریخ اقامت
+                      </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        // color="text.secondary"
+                        fontWeight={"bold"}
+                        sx={{ fontSize: 14 }}
+                      >
+                        {`${HandleShowDateLikeStr(
+                          stay?.start
+                        )} - ${HandleShowDateLikeStr(stay?.end)}`}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+                <Box sx={{ display: { md: "none" } }}>
+                  <Box>
+                    <Button
+                      id="basic-button"
+                      aria-controls={open ? "basic-menu" : undefined}
+                      aria-haspopup="true"
+                      aria-expanded={open ? "true" : undefined}
+                      onClick={handleClick}
+                    >
+                      گزینه‌ها
+                      <MoreVertIcon />
+                    </Button>
+                    <Menu
+                      id="basic-menu"
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleClose}
+                      slotProps={{
+                        list: {
+                          "aria-labelledby": "basic-button",
+                        },
+                      }}
+                    >
+                      <MenuItem
+                        component={Link}
+                        to={`/book/preorder/${stay?.orderNumber}`}
+                      >
+                        جزئیات رزرو
+                      </MenuItem>
+                      <MenuItem onClick={handleClose}>لغو </MenuItem>
+                    </Menu>
+                  </Box>
                 </Box>
               </Box>
             </Grid>
@@ -212,11 +257,13 @@ const CardStays = ({ stay }) => {
                     }}
                   >
                     <MenuItem
+                      component={Link}
+                      to={`/book/preorder/${stay?.orderNumber}`}
                       onClick={() => {
                         handleClose();
                       }}
                     >
-                      مشاهده
+                      جزئیات رزرو
                     </MenuItem>
                     <MenuItem onClick={handleClose}>لغو </MenuItem>
                   </Menu>
@@ -267,17 +314,14 @@ const CardStays = ({ stay }) => {
                     cursor: "not-allowed", // Show not-allowed cursor
                   },
                 }}
+                disabled={stay?.state !== 1}
               >
-                {stay?.state === 1 // تایید میزبان
+                {stay?.state === 0
+                  ? "منتظر بمانید"
+                  : stay?.state === 1
                   ? "پرداخت"
-                  : stay?.state === 0 //
-                  ? "نامشخص "
-                  : stay?.state === 3
-                  ? "نامشخص"
-                  : stay?.state === 4
-                  ? "نامشخص"
-                  : stay?.state === 5
-                  ? "نامشخص"
+                  : stay?.state === 2
+                  ? "به اقامتگاه بروید"
                   : "نامشخص"}
               </Button>
             </Box>

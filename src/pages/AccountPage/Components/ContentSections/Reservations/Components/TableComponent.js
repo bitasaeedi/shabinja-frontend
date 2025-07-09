@@ -9,6 +9,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Skeleton,
   Tab,
   Table,
   TableBody,
@@ -114,7 +115,21 @@ const TableComponent = ({ stays, loading = true }) => {
             <Box sx={{ width: "100%", p: 2 }}>
               {" "}
               {loading ? (
-                <Box>loading</Box>
+                <Box sx={{ width: "100%" }}>
+                  {[1, 2, 3, 4].map((item, index) => (
+                    <Box key={index} sx={{ height: 100 }}>
+                      <Skeleton
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          my: 0,
+                          mb: 0,
+                          py: 0,
+                        }}
+                      />
+                    </Box>
+                  ))}
+                </Box>
               ) : (
                 stays.map((stay, index) => (
                   <CardStays stay={stay} key={index} index={index} />

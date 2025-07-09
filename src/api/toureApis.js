@@ -532,6 +532,27 @@ export const MyReservationsApi = async (status) => {
   }
 };
 
+//مشاهده اطلاعات  یک اقامتگاه
+export const GetInfoReserveApi = async (OrderNum) => {
+  try {
+    const token = localStorage.getItem("access_token");
+
+    const response = await axios.get(`${baseUrl}/HostTourOrder/${OrderNum}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(
+      "Error uploading image:",
+      error?.response?.data || error.message
+    );
+    return error?.response?.data;
+  }
+};
+
 //محاسبه قیمت
 export const PriceCalculationApi = async (
   staycode,

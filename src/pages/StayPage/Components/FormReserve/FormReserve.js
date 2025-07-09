@@ -23,7 +23,10 @@ import ToRial from "../../../../components/ToRial/ToRial";
 
 import { useNavigate } from "react-router-dom";
 import { CalculateNights } from "../../../../components/DateFunctions/DateFunctions";
+import { AppContext } from "../../../../App";
 const FormReserve = () => {
+  const { handleShowModal, isLoginMain } = useContext(AppContext);
+
   const theme = useTheme();
   const stayPageContext = useContext(StayPageContext);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
@@ -66,28 +69,32 @@ const FormReserve = () => {
 
   // Handle form submission
   const onSubmit = (data) => {
-    const stayCode = stayPageContext?.infoOfStay?.id;
-    const myData = {
-      start: getValues("entryDate"),
-      end: getValues("exitDate"),
-      count: count,
-    };
+    if (isLoginMain) {
+      const stayCode = stayPageContext?.infoOfStay?.id;
+      const myData = {
+        start: getValues("entryDate"),
+        end: getValues("exitDate"),
+        count: count,
+      };
 
-    const queryParams = Object.fromEntries(
-      Object.entries({
-        start: myData.start,
-        end: myData.end,
-        count: myData.count,
-      }).filter(([_, value]) => value != null && value !== "")
-    );
+      const queryParams = Object.fromEntries(
+        Object.entries({
+          start: myData.start,
+          end: myData.end,
+          count: myData.count,
+        }).filter(([_, value]) => value != null && value !== "")
+      );
 
-    // Convert to query string
-    const queryString = new URLSearchParams(queryParams).toString();
+      // Convert to query string
+      const queryString = new URLSearchParams(queryParams).toString();
 
-    const url = `/book/preview/${stayCode}?${queryString}`;
+      const url = `/book/preview/${stayCode}?${queryString}`;
 
-    // Navigate to the constructed URL
-    navigate(url);
+      // Navigate to the constructed URL
+      navigate(url);
+    } else {
+      handleShowModal();
+    }
   };
 
   const handleDateClick = (event, field) => {

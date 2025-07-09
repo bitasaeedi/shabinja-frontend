@@ -9,6 +9,7 @@ import {
   Grid,
   IconButton,
   Paper,
+  Skeleton,
   Tab,
   Table,
   TableBody,
@@ -24,21 +25,21 @@ import {
 import { Link } from "react-router-dom";
 import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
 import AddIcon from "@mui/icons-material/Add";
-import RowTable from "./RowTable";
 import CardStays from "./CardStays";
-import HeaderTable from "./HeaderTable";
 import SkeltonRowTables from "../../../../../../components/SkeletonComponents/SkeltonRowTables";
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
+
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
+
   const listTabs = [
     {
       name: "جدید",
       valueFilter: 0,
     },
     {
-      name: "تایید شده",
+      name: "تایید میزبان",
       valueFilter: 1,
     },
     {
@@ -50,6 +51,7 @@ const TableComponent = ({ stays, loading = true }) => {
       valueFilter: 3,
     },
   ];
+
   const NoValueComponent = () => {
     return (
       <Box
@@ -60,17 +62,17 @@ const TableComponent = ({ stays, loading = true }) => {
           alignItems: "center",
           height: "100%",
           pt: 4,
-          marginTop: 4,
+          mt: 4,
           textAlign: "center",
+          color: "text.secondary",
         }}
       >
         <SearchOff sx={{ fontSize: 60, color: "#aaa", mb: 2 }} />
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          هیچ درخواستی برای نمایش وجود ندارد
+        <Typography variant="h6" gutterBottom>
+          هیچ رزروی برای نمایش وجود ندارد
         </Typography>
-        <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-          درخواست رزرو به محض ثبت درخواست توسط کاربران در لیست درخواستی های شما
-          نمایش داده خوواهد شد
+        <Typography variant="body2" color="text.secondary">
+          لطفاً فیلترهای جستجوی خود را بررسی کنید یا یک رزرو جدید اضافه کنید.
         </Typography>
       </Box>
     );
@@ -110,31 +112,65 @@ const TableComponent = ({ stays, loading = true }) => {
             {listTabs?.map((item, index) => (
               <Tab label={item?.name} key={index} value={item?.valueFilter} />
             ))}
-
-            {/* <Tab label="تایید شده" />
-            <Tab label="پرداخت موفق" />
-            <Tab label="منقضی شده" /> */}
           </Tabs>
         </Box>
         {(!stays || stays.length === 0) && !loading ? (
           <NoValueComponent />
         ) : (
-          <Table>
-            <TableHead>
-              <HeaderTable />
-            </TableHead>
-            <TableBody>
-              {loading
-                ? [1, 2, 3, 4, 5].map((_, index) => (
-                    <SkeltonRowTables count={4} />
-                  ))
-                : stays.map((stay, index) => (
-                    <RowTable stay={stay} key={index} index={index} />
+          <>
+            <Box sx={{ width: "100%", p: 2 }}>
+              {" "}
+              {loading  ? (
+                <Box sx={{ width: "100%" }}>
+                  {[1, 2, 3, 4].map((item, index) => (
+                    <Box key={index} sx={{ height: 100 }}>
+                      <Skeleton
+                        sx={{
+                          width: "100%",
+                          height: "100%",
+                          my: 0,
+                          mb: 0,
+                          py: 0,
+                        }}
+                      />
+                    </Box>
                   ))}
-            </TableBody>
-          </Table>
+                </Box>
+              ) : (
+                stays.map((stay, index) => (
+                  <CardStays stay={stay} key={index} index={index} />
+                ))
+              )}
+            </Box>
+          </>
         )}
       </TableContainer>
+
+      {!loading && (
+        <Box
+          item
+          xs={12}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 4,
+            position: "sticky",
+            bottom: 0,
+          }}
+        >
+          <Box sx={{}}>
+            {/* <Button
+              variant="contained"
+              component={Link}
+              endIcon={<AddIcon />}
+              to="/new-stay/start"
+              sx={{ my: 1 }}
+            >
+              افزودن اقامتگاه جدید
+            </Button> */}
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 };
