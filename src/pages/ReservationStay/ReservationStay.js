@@ -1,6 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { GetLinkPayReserveApi } from "../../api/PannelApis";
 import {
   HostTourSearchOneApi,
   PriceCalculationApi,
@@ -8,7 +9,8 @@ import {
   GetInfoReserveApi,
 } from "../../api/toureApis";
 
-import { AppContext } from "../../App";
+import { AppContext, SignalRContext } from "../../App";
+import { ConvertToShamsi } from "../../components/DateFunctions/DateFunctions";
 import AskToLogin from "../../components/Login/AskToLogin/AskToLogin";
 import StepperReserve from "../../components/Stepers/StepperReserve";
 import SweetAlert from "../../components/SweetAlert/SweetAlert";
@@ -16,6 +18,8 @@ import CardInfoReserve from "./Components/CardInfoReserve";
 import ShowInfoOfReserve from "./Components/ShowInfoOfReserve";
 
 import WaitingToPay from "./Components/WaitingToPay";
+const moment = require("moment");
+require("moment-jalaali");
 
 export const ReservationStayContext = createContext();
 
@@ -34,6 +38,15 @@ const ReservationStay = () => {
   });
   const [inputeValue, setInputeValues] = useState({});
   const [loadingPrices, setLoadingPrices] = useState(false);
+
+  const [messages, setMessage] = useState([]);
+
+  SignalRContext.useSignalREffect("updateInforeserve", (message) => {
+    console.log(message, "SignalRContext message useSignalREffect");
+    handleGetInfoOfReserve(true);
+    setMessage([...messages, message]);
+  });
+
   useEffect(() => {
     appContext.setShowfooter(true);
     appContext.setSettingHeader({
@@ -48,7 +61,7 @@ const ReservationStay = () => {
       // پیش نمایش قبل از ثبت درخواست
       handleGetPreview();
     } else if (stepName === "preorder") {
-      // پیش نمایش رزرو
+      // Call immediately
       handleGetInfoOfReserve();
     }
   }, [code, stepName]);
@@ -57,7 +70,6 @@ const ReservationStay = () => {
     setInfoOfStay({});
     const resultGetTour = await HostTourSearchOneApi(code);
     var item = resultGetTour?.data;
-    console.log(item, "item");
     const mystay = {
       title: item?.title,
       address: item?.address,
@@ -80,12 +92,19 @@ const ReservationStay = () => {
   const handleGetPreview = async () => {
     setLoadingPrices(true);
     const params = handleFindeParams(); // دریافت مقادیر درون ادرس صفحه
+    const myData = {
+      stayId: params?.stayId,
+      start: params?.start,
+      end: params?.end,
+      count: params?.count,
+    };
     const result = await PriceCalculationApi(
-      params?.stayId,
-      params?.start,
-      params?.end,
-      params?.count
+      myData?.stayId,
+      myData?.start,
+      myData?.end,
+      myData?.count
     );
+
     const exitEdData = result?.data;
     const infoDataReserve = {
       price: exitEdData?.price,
@@ -100,23 +119,24 @@ const ReservationStay = () => {
   };
 
   //  اطلاعات رزرو
-  const handleGetInfoOfReserve = async () => {
-    setLoadingPrices(true);
+  const handleGetInfoOfReserve = async (dontLoading = false) => {
+    setLoadingPrices(!dontLoading);
 
     const result = await GetInfoReserveApi(code);
     var myData = result?.data;
-    console.log(result, "handleGetInfoOfReserve");
+    console.log(infoOfReserve, "infoOfReserve handleGetInfoOfReserve");
     // اطلاعات رزرو و قیمت
     const exitEdData = {
-      price: myData?.facktorPrice,
+      price: myData?.facktorFirstPrice,
       extraPersonPrice: myData?.extraPersonPrice,
       totalDiscountPrice: myData?.facktorDiscount,
-      mainPrice: myData?.price,
+      mainPrice: myData?.facktorPrice,
       state: parseFloat(myData?.state) + 1,
       name: myData?.userFirstName,
       lastname: myData?.userLastName,
       sms: myData?.mobile,
       fullName: myData?.fullName,
+      guid: myData?.guid,
     };
     setInfoOfReserve(exitEdData);
 
@@ -135,10 +155,11 @@ const ReservationStay = () => {
     setInfoOfStay(mystay);
 
     // اطلاعات پارامتر
+
     const myparams = {
       stayId: code,
-      start: myData?.start,
-      end: myData?.end,
+      start: ConvertToShamsi(myData.start),
+      end: ConvertToShamsi(myData.end, 1),
       count: myData?.personCount,
     };
     setParamsValues(myparams);
@@ -173,11 +194,11 @@ const ReservationStay = () => {
     const result = await RequestToReserveApi(dataToSend);
     console.log(result, "RequestToReserveApi");
 
-    if (result?.data?.orderNumber) {
+    if (result?.data?.orderNumber > 0) {
       const url = `/book/preorder/${result?.data?.orderNumber}`;
       navigate(url);
     } else {
-      SweetAlert(result?.issuccess, result?.message);
+      SweetAlert(result?.data?.success, result?.message);
     }
   };
 
@@ -188,12 +209,30 @@ const ReservationStay = () => {
     console.log(newValue, "newValue , ", data);
   };
 
-  const handleGoToPayLink = async () => {};
+  const handleGoToPayLink = async () => {
+    try {
+      const result = await GetLinkPayReserveApi(infoOfReserve?.guid);
+      console.log(result, "handleGoToPayLink");
+
+      if (result?.data?.link) {
+        // For external URLs, use window.location.href
+        window.location.href = result.data.link;
+      } else {
+        console.error("No payment link received");
+        // Optionally show an error message to the user
+        SweetAlert(false, "Payment link not available");
+      }
+    } catch (error) {
+      console.error("Error getting payment link:", error);
+      SweetAlert(false, "Failed to get payment link");
+    }
+  };
   return (
     <>
       {appContext?.isLoginMain ? (
         <ReservationStayContext.Provider
           value={{
+            handleGetInfoOfReserve,
             infoOfReserve,
             stepName,
             code,
@@ -263,7 +302,10 @@ const ReservationStay = () => {
                   {stepName === "preorder" &&
                     (infoOfReserve?.state === 1 ||
                       infoOfReserve?.state === 2) && (
-                      <WaitingToPay activeStep={infoOfReserve?.state} />
+                      <WaitingToPay
+                        activeStep={infoOfReserve?.state}
+                        guid={infoOfReserve?.guid}
+                      />
                     )}
 
                   <ShowInfoOfReserve />

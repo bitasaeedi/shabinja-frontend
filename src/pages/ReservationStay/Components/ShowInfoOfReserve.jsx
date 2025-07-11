@@ -1,4 +1,4 @@
-import { Button, Divider, Typography } from "@mui/material";
+import { Button, Divider, Skeleton, Typography } from "@mui/material";
 import { Box, Grid } from "@mui/system";
 import React, { useContext } from "react";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
@@ -42,9 +42,13 @@ const ShowInfoOfReserve = () => {
               </Typography>
 
               <Typography variant="p" fontWeight="bold">
-                {`${handleShowDateLikeStr(
-                  paramsValues?.start
-                )} - ${handleShowDateLikeStr(paramsValues?.end)}`}
+                {paramsValues?.start ? (
+                  `${handleShowDateLikeStr(
+                    paramsValues?.start
+                  )} - ${handleShowDateLikeStr(paramsValues?.end)}`
+                ) : (
+                  <Skeleton width={100} />
+                )}
               </Typography>
             </Box>
           </Box>
@@ -63,7 +67,7 @@ const ShowInfoOfReserve = () => {
       >
         <Box>
           <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
-            <Box>{stepName === "preview" && <PeopleAltOutlinedIcon />}</Box>
+            <Box> <PeopleAltOutlinedIcon /></Box>
 
             <Box display="column" alignItems="center">
               <Typography variant="subtitle1" color={"grey"}>
@@ -71,7 +75,11 @@ const ShowInfoOfReserve = () => {
               </Typography>
 
               <Typography variant="p" fontWeight="bold">
-                {paramsValues?.count} نفر
+                {paramsValues?.count ? (
+                  <> {paramsValues?.count} نفر</>
+                ) : (
+                  <Skeleton width={100} />
+                )}
               </Typography>
             </Box>
           </Box>

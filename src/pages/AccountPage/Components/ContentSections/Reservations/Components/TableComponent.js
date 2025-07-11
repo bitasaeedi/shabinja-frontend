@@ -23,12 +23,9 @@ import {
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
-import AddIcon from "@mui/icons-material/Add";
-import RowTable from "./RowTable";
+
 import CardStays from "./CardStays";
-import HeaderTable from "./HeaderTable";
-import SkeltonRowTables from "../../../../../../components/SkeletonComponents/SkeltonRowTables";
+
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
 

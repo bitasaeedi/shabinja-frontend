@@ -86,3 +86,29 @@ export const HandleShowDateLikeStr = (shamsidate) => {
   const formattedStart = mStartDate.format("jD jMMMM");
   return formattedStart; // Outputs: 5 تیر
 };
+
+export const ConvertToShamsi = (
+  gregorianDate,
+  addDay = 0,
+  format = "jYYYY/jMM/jDD"
+) => {
+  if (!gregorianDate) {
+    throw new Error("No date provided");
+  }
+
+  // Create moment object from input date
+  let dateMoment = moment(gregorianDate);
+
+  // Check if date is valid
+  if (!dateMoment.isValid()) {
+    throw new Error("Invalid date provided");
+  }
+
+  // Add days if requested
+  if (addDay > 0) {
+    dateMoment = dateMoment.add(addDay, "days");
+  }
+
+  // Convert to Shamsi and format
+  return dateMoment.format(format);
+};

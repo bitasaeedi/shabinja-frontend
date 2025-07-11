@@ -5,7 +5,9 @@ import TableComponent from "./Components/TableComponent";
 import { MyHostTourSearchApi } from "../../../../../api/toureApis";
 import {
   AcceptRequestReserveApi,
+  DeleteRequestReserveApi,
   GetListRequestToReserveApi,
+  RejectRequestReserveApi,
 } from "../../../../../api/PannelApis";
 import { TroubleshootOutlined } from "@mui/icons-material";
 import SweetAlert from "../../../../../components/SweetAlert/SweetAlert";
@@ -27,7 +29,6 @@ const ContainerMain = () => {
 
     const result = await GetListRequestToReserveApi(tabValue);
 
-    console.log(result, "result");
     setStays(result?.data || []);
 
     setLoading(false);
@@ -43,6 +44,20 @@ const ContainerMain = () => {
     SweetAlert(result?.issuccess, result?.message);
     handleGetMyTour();
   };
+
+  const handleReject = async (guid) => {
+    setLoading(true);
+    const result = await RejectRequestReserveApi(guid);
+    SweetAlert(result?.issuccess, result?.message);
+    handleGetMyTour();
+  };
+
+  const handleDeleteRequest = async (guid) => {
+    setLoading(true);
+    const result = await DeleteRequestReserveApi(guid);
+    SweetAlert(result?.issuccess, result?.message);
+    handleGetMyTour();
+  };
   return (
     <ContainerMainContext.Provider
       value={{
@@ -52,6 +67,8 @@ const ContainerMain = () => {
         handleChangeTab,
         tabValue,
         handleAcceptRequest,
+        handleReject,
+        handleDeleteRequest,
       }}
     >
       <Box
