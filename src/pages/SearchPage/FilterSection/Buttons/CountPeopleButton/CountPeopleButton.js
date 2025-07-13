@@ -5,11 +5,13 @@ import { SearchPageContext } from "../../../SearchPage";
 import PeopleOutlineOutlinedIcon from "@mui/icons-material/PeopleOutlineOutlined";
 import PeopleCounter from "../../../../../components/popups/PeopleCounter/PeopleCounter";
 import PopOverCount from "./PopOverCount";
+import { useNavigate } from "react-router-dom";
 
 const filter = "count";
 const label = "تعداد نفرات";
 const startIcon = <PeopleOutlineOutlinedIcon />;
 const CountPeopleButton = ({}) => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
@@ -49,14 +51,20 @@ const CountPeopleButton = ({}) => {
     const params = new URLSearchParams(window.location.search);
 
     if (value) {
-      params.set(filter, value);
+      params.set(filter, value);  
     } else {
       params.delete(filter);
     }
 
     // Update the URL with the new search parameters
     const newSearch = params.toString();
-    window.history.replaceState(null, "", `?${newSearch}`);
+    let path = window.location.pathname;
+
+    if (!path.includes("/all")) {
+      navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, { replace: true });
+    } else {
+      window.history.replaceState(null, "", `?${newSearch}`);
+    }
     isFilterActive();
     handleClosePopover();
     searchPageContext.handleSearch();

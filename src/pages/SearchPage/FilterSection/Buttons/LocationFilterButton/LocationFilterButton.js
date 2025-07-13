@@ -4,18 +4,20 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { SearchPageContext } from "../../../SearchPage";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import PopVerFilter from "./PopVerFilter";
+import { useNavigate } from "react-router-dom";
 
 const filter = "cities";
 const label = "انتخاب شهر";
 const startIcon = <LocationOnOutlinedIcon />;
 const LocationFilterButton = ({}) => {
-  
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
   const [valueOfFilter, setValueOfFilters] = useState(null);
 
   const isFilterActive = () => {
+   
     searchPageContext.isFilterActive();
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter1 = params.get(filter);
@@ -59,7 +61,14 @@ const LocationFilterButton = ({}) => {
 
     // Update the URL with the new search parameters
     const newSearch = params.toString();
-    window.history.replaceState(null, "", `?${newSearch}`);
+    console.log("change url");
+    let path = window.location.pathname;
+
+    if (!path.includes("/all")) {
+      navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, { replace: true });
+    } else {
+      window.history.replaceState(null, "", `?${newSearch}`);
+    }
     isFilterActive();
     handleClosePopover();
     searchPageContext.handleSearch();

@@ -4,10 +4,12 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { SearchPageContext } from "../../../SearchPage";
 import FilterAltOutlinedIcon from "@mui/icons-material/FilterAltOutlined";
 import PopVerFilter from "./PopVerFilter";
+import { useNavigate } from "react-router-dom";
 
 const label = "فیلتر";
 const startIcon = <FilterAltOutlinedIcon />;
 const AllFilterButton = ({}) => {
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
   const [valueOfFilter, setValueOfFilters] = useState(null);
@@ -46,7 +48,13 @@ const AllFilterButton = ({}) => {
       }
       // Update the URL with the new search parameters
       const newSearch = params.toString();
-      window.history.replaceState(null, "", `?${newSearch}`);
+      let path = window.location.pathname;
+
+      if (!path.includes("/all")) {
+        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, { replace: true });
+      } else {
+        window.history.replaceState(null, "", `?${newSearch}`);
+      }
     });
 
     searchPageContext.isFilterActive();

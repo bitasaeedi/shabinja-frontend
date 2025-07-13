@@ -4,11 +4,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { SearchPageContext } from "../../../SearchPage";
 import HomeWorkOutlinedIcon from "@mui/icons-material/HomeWorkOutlined";
 import PopVerFilter from "./PopVerFilter";
+import { useNavigate } from "react-router-dom";
 
 const filter = "typeHost";
 const label = "نوع اقامتگاه";
 const startIcon = <HomeWorkOutlinedIcon />;
 const AccommodationTypeButton = ({}) => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
@@ -53,7 +55,13 @@ const AccommodationTypeButton = ({}) => {
     }
     // Update the URL with the new search parameters
     const newSearch = params.toString();
-    window.history.replaceState(null, "", `?${newSearch}`);
+    let path = window.location.pathname;
+
+    if (!path.includes("/all")) {
+      navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, { replace: true });
+    } else {
+      window.history.replaceState(null, "", `?${newSearch}`);
+    }
 
     isFilterActive();
     handleClosePopover();

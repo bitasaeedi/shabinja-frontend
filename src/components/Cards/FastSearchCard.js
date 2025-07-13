@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DownloadImageApi } from "../../api/DownloadImageApi";
 const FastSearchCard = ({ myData = {} }) => {
+  console.log("myDatafast",myData);
   return (
     <Grid item>
       <Link

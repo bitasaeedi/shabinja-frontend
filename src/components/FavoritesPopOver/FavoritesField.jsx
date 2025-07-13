@@ -153,7 +153,11 @@ export default function FavoritesField({
       console.log("add response", response.data);
       fetchCategoryList();
       setTimeout(() => {
-        handleMangeAlert(true, "success", "اقامتگاه به لیست اضافه شد");
+        handleMangeAlert(true, 
+           response?.data?.issuccess ?
+          "success":"warning",
+          response?.data?.issuccess ?
+          "اقامتگاه به لیست اضافه شد":"این اقامتگاه قبلا به لیستی اضافه شده");
         setTimeout(() => {
         //  handleClose()
         }, 2000);

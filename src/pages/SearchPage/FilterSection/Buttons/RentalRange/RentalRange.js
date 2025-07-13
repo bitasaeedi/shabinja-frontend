@@ -4,11 +4,13 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { SearchPageContext } from "../../../SearchPage";
 import PriceChangeOutlinedIcon from "@mui/icons-material/PriceChangeOutlined";
 import PopVerFilter from "./PopVerFilter";
+import { useNavigate } from "react-router-dom";
 
 const filter = "rentalRange";
 const label = "قیمت هر شب";
 const startIcon = <PriceChangeOutlinedIcon />;
 const RentalRange = ({}) => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
@@ -56,13 +58,23 @@ const RentalRange = ({}) => {
   const handleSetSearch = (list) => {
     const listDate = list || [];
     const params = new URLSearchParams(window.location.search);
+    let path = window.location.pathname;
+
     if (listDate.length === 2) {
       params.set("min", listDate[0]);
       params.set("max", listDate[1]);
 
       // // Update the URL with the new search parameters
       const newSearch = params.toString();
-      window.history.replaceState(null, "", `?${newSearch}`);
+
+      if (!path.includes("/all")) {
+        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
+          replace: true,
+        });
+      } else {
+        window.history.replaceState(null, "", `?${newSearch}`);
+      }
+
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();
@@ -71,7 +83,14 @@ const RentalRange = ({}) => {
       params.delete("min");
       params.delete("max");
       const newSearch = params.toString();
-      window.history.replaceState(null, "", `?${newSearch}`);
+
+      if (!path.includes("/all")) {
+        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
+          replace: true,
+        });
+      } else {
+        window.history.replaceState(null, "", `?${newSearch}`);
+      }
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();
