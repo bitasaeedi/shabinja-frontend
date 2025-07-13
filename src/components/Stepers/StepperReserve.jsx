@@ -95,11 +95,11 @@ const StepperReserve = ({
               }}
               sx={{
                 "& .MuiStepLabel-label": {
-                  fontSize: "0.8rem",
                   fontWeight: 500,
+                  fontSize: { xs: "0.7rem", md: "0.8rem" },
                 },
                 "& .MuiStepLabel-label.Mui-active": {
-                  fontWeight: 600,
+                  fontWeight: { xs: 500, md: 600 },
                   color: errorTab ? "error.main" : "success.main",
                 },
                 "& .MuiStepLabel-label.Mui-completed": {

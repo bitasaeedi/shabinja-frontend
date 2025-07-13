@@ -62,7 +62,7 @@ const filterList = [
     label: "features",
   },
   {
-    value: [],
+    // value: [],
     label: "scores",
   },
   {
@@ -135,7 +135,7 @@ const SearchPage = () => {
       typeHost: filters?.typeHost?.split(",") || [], // نوع اقامتگاه
       typeHostLoc: filters?.typeHostLoc?.split(",") || [], // نوع منطقه
       otherItemTour: filters?.features?.split(",") || [],
-      rate: filters?.scores?.split(",") || [],
+      rate: filters?.scores ? filters?.scores?.split(",") : [],
       province: filters?.province?.split(",") || [],
       city: filters?.cities?.split(",") || [],
       locations: listLocation, // لیست نقاط برای جستجو
@@ -144,7 +144,7 @@ const SearchPage = () => {
     console.log("filter: ", filtersParams);
     const result = await HostTourSearchApi(filtersParams);
     setListCards(result?.data?.items);
-    
+
     setResultSearchTours(result?.data);
     // setTimeout(() => {
     setLoadingSearch(false);
@@ -162,7 +162,7 @@ const SearchPage = () => {
     var listFiltersWithValues = [];
     filterList.forEach((filter) => {
       const params = new URLSearchParams(window.location.search);
-      const valueOfFilterSeted = params.get(filter.label);      
+      const valueOfFilterSeted = params.get(filter.label);
       if (valueOfFilterSeted) {
         countFilterActive += 1;
         listFiltersWithValues.push({

@@ -90,18 +90,15 @@ const CardStays = ({ stay }) => {
           backgroundColor: "greay",
           borderBottom: { xs: "none", md: "none" },
           my: 2,
+          px: 1,
           // border: "solid thin gray"
         }}
       >
-        <Grid container>
+        <Grid container spacing={0}>
           <Grid item xs="12" md="9">
-            <Grid container spacing={2}>
+            <Grid container spacing={0}>
               {/* عکس اقامتگاه */}
-              <Grid
-                item
-                xs={"auto"}
-                // sx={{ display: { xs: "none", md: "block" } }}
-              >
+              <Grid item xs={"auto"}>
                 <Box
                   component="img"
                   src={DownloadImageApi(stay?.image)}
@@ -116,16 +113,18 @@ const CardStays = ({ stay }) => {
                   }}
                 />
               </Grid>
+
               {/* اطلاعاتن اقامتگاه */}
-              <Grid xs item sx={{ pr: 1 }}>
+              <Grid xs item sx={{ pl: 1 }}>
                 <Box
                   sx={{
                     width: "100%",
-                    display: "flex",
-                    justifyContent: "space-between",
+
+                    mx: 0,
                   }}
                 >
                   <Box>
+                    {/* اسم اقامتگاه و ادرس */}
                     <Box>
                       <Typography variant="h6" fontWeight="bold" gutterBottom>
                         {stay?.hostTourTitle}
@@ -143,14 +142,21 @@ const CardStays = ({ stay }) => {
                         </Box>
                       </Typography>
                     </Box>
+                    {/* قسمت مشخصات رزرو */}
                     <Box
                       sx={{
                         mt: 1,
+                        width: "100%",
                         display: "flex ",
-                        justifyContent: "space-between",
+                        mx: 0,
+                        // justifyContent: {
+                        //   xs: "space-between",
+                        //   md: "flex-start",
+                        // },
                       }}
                     >
-                      <Box>
+                      {/* تعداد مهمان */}
+                      <Box sx={{ mr: 1 }}>
                         <Typography
                           variant="body2"
                           color="text.secondary"
@@ -168,7 +174,13 @@ const CardStays = ({ stay }) => {
                         </Typography>
                       </Box>
 
-                      <Box sx={{ borderLeft: "solid 1px gray", pl: 2 }}>
+                      {/* تاریخ اقامت */}
+                      <Box
+                        sx={{
+                          borderLeft: "solid 1px gray",
+                          pl: 2,
+                        }}
+                      >
                         <Typography
                           variant="body2"
                           color="text.secondary"
@@ -190,43 +202,8 @@ const CardStays = ({ stay }) => {
                         </Typography>
                       </Box>
                     </Box>
+                    {/* === */}
                   </Box>
-                  {/* <Box sx={{ display: { md: "none" } }}>
-                  <Box>
-                    <Button
-                      id="basic-button"
-                      aria-controls={open ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
-                    >
-                      گزینه‌ها
-                      <MoreVertIcon />
-                    </Button>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      slotProps={{
-                        list: {
-                          "aria-labelledby": "basic-button",
-                        },
-                      }}
-                    >
-                      <MenuItem
-                        // component={Link}
-                        // to={`/book/preorder/${stay?.orderNumber}`}
-                        onClick={() => {
-                          handleNextLevele();
-                        }}
-                      >
-                        تایید میزبان
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>لغو </MenuItem>
-                    </Menu>
-                  </Box>
-                </Box> */}
                 </Box>
               </Grid>
             </Grid>
@@ -270,7 +247,7 @@ const CardStays = ({ stay }) => {
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      sx={{ fontSize: 16 }}
+                      sx={{ fontSize: 12 }}
                     >
                       میهمان
                     </Typography>
@@ -278,7 +255,7 @@ const CardStays = ({ stay }) => {
                       variant="subtitle1"
                       // color="text.secondary"
                       fontWeight={"bold"}
-                      sx={{ fontSize: 20 }}
+                      sx={{ fontSize: 16 }}
                     >
                       {stay?.fullName}
                     </Typography>
@@ -336,7 +313,7 @@ const CardStays = ({ stay }) => {
                     variant="subtitle1"
                     // color="text.secondary"
                     fontWeight={"bold"}
-                    sx={{ fontSize: 20 }}
+                    sx={{ fontSize: 16 }}
                   >
                     {ToRial(stay?.facktorPrice)}
                     <Typography variant="span" sx={{ mx: 1 }}>
@@ -353,9 +330,10 @@ const CardStays = ({ stay }) => {
                       variant="contained"
                       color="dark"
                       fullWidth
+                      size={"small"}
                       sx={{
                         color: "white",
-                        fontSize: 18,
+                        // fontSize: 16,
                         backgroundColor: "#212121", // Ensures dark background
                         "&:hover": {
                           opacity: 0.8,
@@ -383,8 +361,9 @@ const CardStays = ({ stay }) => {
                       fullWidth
                       sx={{
                         mt: 1,
-                        fontSize: 18,
+                        // fontSize: 18,
                       }}
+                      size={"small"}
                     >
                       رد درخواست
                     </Button>

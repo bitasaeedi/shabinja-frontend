@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import SearchOffIcon from "@mui/icons-material/SearchOff";
 import { useNavigate } from "react-router-dom";
+import { RefreshOutlined } from "@mui/icons-material";
 
 const NotFoundComponent = ({ searchQuery = "" }) => {
   const theme = useTheme();
@@ -68,6 +69,7 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
       >
         <Button
           variant="text"
+          color="secondary"
           onClick={() => navigate("/")}
           sx={{
             px: 3,
@@ -79,9 +81,22 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
         >
           برو به صفحه اصلی
         </Button>
-
-        {/* <Button
-          variant="outlined"
+        <Button
+          variant="text"
+          color="secondary"
+          onClick={() => navigate("/")}
+          sx={{
+            px: 3,
+            py: 1.5,
+            borderRadius: 2,
+            textTransform: "none",
+            fontSize: "1rem",
+          }}
+        >
+          برو به صفحه اصلی
+        </Button>
+        <Button
+          // variant="outlined"
           onClick={() => window.location.reload()}
           sx={{
             px: 3,
@@ -91,8 +106,9 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
             fontSize: "1rem",
           }}
         >
-          تلاش مجدد
-        </Button> */}
+          تازه سازی
+          <RefreshOutlined size={16} />
+        </Button>
       </Box>
     </Box>
   );
