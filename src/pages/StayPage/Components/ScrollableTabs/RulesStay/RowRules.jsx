@@ -8,9 +8,8 @@ import { useState } from "react";
 const RowRules = ({ item, ruleItemsList }) => {
   const [isIncluded, setIsIncluded] = useState(false);
   useEffect(() => {
-    // console.log(item, "isIncluded");
     checkInclude();
-  }, []);
+  }, [ruleItemsList, item]);
   const checkInclude = () => {
     const isIncluded = ruleItemsList.includes(item?.title?.toString());
     setIsIncluded(isIncluded);

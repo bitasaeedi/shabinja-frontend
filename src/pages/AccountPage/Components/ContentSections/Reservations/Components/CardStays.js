@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
-import { HandleShowDateLikeStr } from "../../../../../../components/DateFunctions/DateFunctions";
+import { ConvertToShamsi, HandleShowDateLikeStr } from "../../../../../../components/DateFunctions/DateFunctions";
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
 import ToRial from "../../../../../../components/ToRial/ToRial";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -52,9 +52,9 @@ const CardStays = ({ stay }) => {
       sx={{
         padding: 2,
         borderRadius: 2,
-        boxShadow: { xs: "none", md: "0px 4px 12px rgba(0, 0, 0, 0.1)" },
+        boxShadow: { md: "0px 4px 12px rgba(0, 0, 0, 0.1)" },
         backgroundColor: "greay",
-        borderBottom: { xs: "solid thin gray", md: "none" },
+        borderBottom: { xs: "none", md: "none" },
         my: 2,
         // border: "solid thin gray"
       }}
@@ -91,10 +91,49 @@ const CardStays = ({ stay }) => {
                 }}
               >
                 <Box>
+                  {/* اسم اقامتگاه */}
                   <Box>
-                    <Typography variant="h6" fontWeight="bold" gutterBottom>
-                      {stay?.hostTourTitle}
-                    </Typography>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography variant="h6" fontWeight="bold" gutterBottom>
+                        {stay?.hostTourTitle}
+                      </Typography>
+
+                      <Box sx={{ display: { md: "none" } }}>
+                        <Box>
+                          <Button
+                            id="basic-button"
+                            aria-controls={open ? "basic-menu" : undefined}
+                            aria-haspopup="true"
+                            aria-expanded={open ? "true" : undefined}
+                            onClick={handleClick}
+                          >
+                            <MoreVertIcon />
+                          </Button>
+                          <Menu
+                            id="basic-menu"
+                            anchorEl={anchorEl}
+                            open={open}
+                            onClose={handleClose}
+                            slotProps={{
+                              list: {
+                                "aria-labelledby": "basic-button",
+                              },
+                            }}
+                          >
+                            <MenuItem
+                              component={Link}
+                              to={`/book/preorder/${stay?.orderNumber}`}
+                            >
+                              جزئیات رزرو
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}>لغو </MenuItem>
+                          </Menu>
+                        </Box>
+                      </Box>
+                    </Box>
+
                     <Typography variant="body2" color="text.secondary">
                       <Box component="span" display="flex" alignItems="center">
                         <Box component="span" mr={0.5}>
@@ -104,6 +143,8 @@ const CardStays = ({ stay }) => {
                       </Box>
                     </Typography>
                   </Box>
+
+                  {/* اطلاعات اقامتگاه */}
                   <Box
                     sx={{
                       mt: 1,
@@ -144,43 +185,12 @@ const CardStays = ({ stay }) => {
                         sx={{ fontSize: 14 }}
                       >
                         {`${HandleShowDateLikeStr(
-                          stay?.start
-                        )} - ${HandleShowDateLikeStr(stay?.end)}`}
+                          ConvertToShamsi(stay?.start)
+                        )} - ${HandleShowDateLikeStr(
+                          ConvertToShamsi(stay?.end, 1)
+                        )}`}
                       </Typography>
                     </Box>
-                  </Box>
-                </Box>
-                <Box sx={{ display: { md: "none" } }}>
-                  <Box>
-                    <Button
-                      id="basic-button"
-                      aria-controls={open ? "basic-menu" : undefined}
-                      aria-haspopup="true"
-                      aria-expanded={open ? "true" : undefined}
-                      onClick={handleClick}
-                    >
-                      گزینه‌ها
-                      <MoreVertIcon />
-                    </Button>
-                    <Menu
-                      id="basic-menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                      slotProps={{
-                        list: {
-                          "aria-labelledby": "basic-button",
-                        },
-                      }}
-                    >
-                      <MenuItem
-                        component={Link}
-                        to={`/book/preorder/${stay?.orderNumber}`}
-                      >
-                        جزئیات رزرو
-                      </MenuItem>
-                      <MenuItem onClick={handleClose}>لغو </MenuItem>
-                    </Menu>
                   </Box>
                 </Box>
               </Box>
@@ -287,7 +297,7 @@ const CardStays = ({ stay }) => {
                   fontWeight={"bold"}
                   sx={{ fontSize: 20 }}
                 >
-                  {ToRial(stay?.price)}
+                  {ToRial(stay?.facktorPrice)}
                 </Typography>
               </Box>
 

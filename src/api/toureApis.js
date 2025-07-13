@@ -20,8 +20,8 @@ export const HostTourSearchApi = async (searchData) => {
         end: searchData?.end ? ConvertShamsiToMiladi(searchData?.end) : "",
         count: searchData?.count || 0,
         Room: searchData?.room || 0,
-        minprice: parseFloat(searchData?.minprice)  || 0,
-        maxprice: parseFloat(searchData?.maxprice)  || 0,
+        minprice: parseFloat(searchData?.minprice) || 0,
+        maxprice: parseFloat(searchData?.maxprice) || 0,
         skip: searchData?.skip || 0,
         take: searchData?.take || 10,
         sort: searchData?.sort || 0, //ترتیب مرتب کردن
@@ -631,7 +631,7 @@ export const RequestToReserveApi = async (data) => {
       fullName: data?.fullName,
       mobile: data?.mobile,
     };
-    console.log(myData, "RequestToReserveApi");
+    console.log(myData, "befor request", data);
     const response = await axios.post(
       `${baseUrl}/HostTourOrder/Create`,
       {

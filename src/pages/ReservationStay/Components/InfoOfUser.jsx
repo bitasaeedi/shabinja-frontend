@@ -1,4 +1,4 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import { Box, Grid, Skeleton, TextField, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import BadgeOutlinedIcon from "@mui/icons-material/BadgeOutlined";
 import { useContext } from "react";
@@ -205,7 +205,11 @@ const InfoOfUser = ({}) => {
             </form>
           ) : (
             <Typography variant="p" fontWeight="bold">
-              {`${infoOfReserve?.fullName} - ${infoOfReserve?.sms}`}
+              {infoOfReserve?.fullName ? (
+                `${infoOfReserve?.fullName} - ${infoOfReserve?.sms}`
+              ) : (
+                <Skeleton width={100} />
+              )}
             </Typography>
           )}
         </Box>

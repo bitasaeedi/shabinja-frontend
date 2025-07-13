@@ -33,8 +33,15 @@ import { GoftinoSnippet } from "@mohsen007/react-goftino";
 import { useMediaQuery } from "@mui/material";
 import ReservationStay from "./pages/ReservationStay/ReservationStay";
 
+<<<<<<< Updated upstream
+=======
+import { createSignalRContext } from "react-signalr/signalr";
+
+
+>>>>>>> Stashed changes
 const GOFTINO_KEY = "FnQe1u";
 
+export const SignalRContext = createSignalRContext();
 // Create Context
 export const AppContext = createContext();
 
@@ -152,38 +159,81 @@ function App() {
   return (
     <CacheProvider value={cacheRtl}>
       <ThemeProvider theme={theme}>
-        <AppContext.Provider
-          value={{
-            isLoginMain,
-            setIsLoginMain,
-            showFooter,
-            setShowfooter,
-            handleGetInfoUser,
-            showHeader,
-            setShowHeader,
-            settingHeader,
-            setSettingHeader,
-            userInfo,
-            favoritDestination,
-
-            // login modal
-            handleShowModal,
-            handleModalClose,
-            handleGofino,
-          }}
+        <SignalRContext.Provider
+          // connectEnabled={!!token}
+          // accessTokenFactory={() => token}
+          // dependencies={[token]} 
+          url={"https://example/hub"}
         >
-          <GoftinoSnippet
-            goftinoKey={GOFTINO_KEY}
-            onReady={() => {
-              window.Goftino.setWidget({
-                hasIcon: isMobile ? false : true,
-              });
-            }}
-            onClose={() => {
-              setHideButton(false);
-            }}
-          />
+          <AppContext.Provider
+            value={{
+              isLoginMain,
+              setIsLoginMain,
+              showFooter,
+              setShowfooter,
+              handleGetInfoUser,
+              showHeader,
+              setShowHeader,
+              settingHeader,
+              setSettingHeader,
+              userInfo,
+              favoritDestination,
 
+
+              handleShowModal,
+              handleModalClose,
+              handleGofino,
+            }}
+          >
+            <GoftinoSnippet
+              goftinoKey={GOFTINO_KEY}
+              onReady={() => {
+                window.Goftino.setWidget({
+                  hasIcon: isMobile ? false : true,
+                });
+              }}
+              onClose={() => {
+                setHideButton(false);
+              }}
+            />
+
+            <Router>
+              <Header />
+              <Routes>
+                <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
+                <Route path="/stay/:staycode" element={<StayPage />} />
+                <Route path="/about" element={<AboutUs />} />
+                {/* <Route path="/magazine" element={<Magazine/>} /> */}
+                <Route path="/help" element={<QuestionsPage />} />
+                <Route path="/contact" element={<ContactPage />} />
+                <Route path="/rules" element={<RulesPage />} />
+                <Route path="/mag" element={<MagazinePage />} />
+                <Route path="/search/:searchtype" element={<SearchPage />} />
+                <Route path="/account/:section/*" element={<AccountPage />} />
+                {/* <Route path="/account/favorites/:id" element={<Favorites/>}/> */}
+                <Route path="/pannel/:section" element={<PannelPage />} />
+                <Route path="/new-stay/:step" element={<NewStaysPage />} />
+                <Route
+                  path="/book/:stepName/:code"
+                  element={<ReservationStay />}
+                />
+                <Route
+                  path="/edit-calendar/:staycode"
+                  element={<EditCalendarPage />}
+                />
+                {/* <Route path="*" element={<Home />} /> */}
+              </Routes>
+              <Footer />
+              {openModalLogin && (
+                <ModalLogin
+                  open={openModalLogin}
+                  handleClose={handleModalClose}
+                />
+              )}
+            </Router>
+          </AppContext.Provider>
+        </SignalRContext.Provider>
+=======
           <Router>
             <ScrollToTop />
             <Header />
@@ -219,6 +269,7 @@ function App() {
             )}
           </Router>
         </AppContext.Provider>
+
       </ThemeProvider>
     </CacheProvider>
   );
