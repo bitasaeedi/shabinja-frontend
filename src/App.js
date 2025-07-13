@@ -33,12 +33,8 @@ import { GoftinoSnippet } from "@mohsen007/react-goftino";
 import { useMediaQuery } from "@mui/material";
 import ReservationStay from "./pages/ReservationStay/ReservationStay";
 
-<<<<<<< Updated upstream
-=======
 import { createSignalRContext } from "react-signalr/signalr";
 
-
->>>>>>> Stashed changes
 const GOFTINO_KEY = "FnQe1u";
 
 export const SignalRContext = createSignalRContext();
@@ -162,7 +158,7 @@ function App() {
         <SignalRContext.Provider
           // connectEnabled={!!token}
           // accessTokenFactory={() => token}
-          // dependencies={[token]} 
+          // dependencies={[token]}
           url={"https://example/hub"}
         >
           <AppContext.Provider
@@ -178,7 +174,6 @@ function App() {
               setSettingHeader,
               userInfo,
               favoritDestination,
-
 
               handleShowModal,
               handleModalClose,
@@ -233,43 +228,6 @@ function App() {
             </Router>
           </AppContext.Provider>
         </SignalRContext.Provider>
-=======
-          <Router>
-            <ScrollToTop />
-            <Header />
-            <Routes>
-              <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
-              <Route path="/stay/:staycode" element={<StayPage />} />
-              <Route path="/about" element={<AboutUs />} />
-              {/* <Route path="/magazine" element={<MagazinePage/>} /> */}
-              <Route path="/help" element={<QuestionsPage />} />
-              <Route path="/contact" element={<ContactPage />} />
-              <Route path="/rules" element={<RulesPage />} />
-              <Route path="/mag" element={<MagazinePage />} />
-              <Route path="/search/:searchtype" element={<SearchPage />} />
-              <Route path="/account/:section/*" element={<AccountPage />} />
-              <Route path="/pannel/:section" element={<PannelPage />} />
-              <Route path="/new-stay/:step" element={<NewStaysPage />} />
-              <Route
-                path="/book/:stepName/:code"
-                element={<ReservationStay />}
-              />
-              <Route
-                path="/edit-calendar/:staycode"
-                element={<EditCalendarPage />}
-              />
-              {/* <Route path="*" element={<Home />} /> */}
-            </Routes>
-            <Footer />
-            {openModalLogin && (
-              <ModalLogin
-                open={openModalLogin}
-                handleClose={handleModalClose}
-              />
-            )}
-          </Router>
-        </AppContext.Provider>
-
       </ThemeProvider>
     </CacheProvider>
   );
