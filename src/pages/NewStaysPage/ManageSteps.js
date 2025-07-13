@@ -1,11 +1,9 @@
 import React, { useState, useRef, useEffect, createContext } from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Step from "@mui/material/Step";
 import StepContent from "@mui/material/StepContent";
 import StepLabel from "@mui/material/StepLabel";
 import Stepper from "@mui/material/Stepper";
-import Header from "../../layout/header/Header";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import SelectAddress from "./Components/SelectAddress";
@@ -23,7 +21,6 @@ import {
   GetTypeHostListApi,
   GetTypeHostLocListApi,
   HostTourCreateApi,
-  HostTourSearchOneApi,
   HostTourSearchOneApiForEdit,
   HostTourUpdateApi,
   UploadDocumentsApi,
@@ -39,7 +36,6 @@ import CancelRules from "./Components/CancelRules";
 import OffConditions from "./Components/OffConditions";
 import ShabinjaRules from "./Components/ShabinjaRules";
 import DocumentOfStay from "./Components/DocumentOfStay";
-import DescribGeoStay from "./Components/DescribGeoStay";
 import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
 import { CalculateStepNum } from "./Components/Componnets/CalculateStepNum";
 export const ManageStepsContext = createContext();
@@ -213,7 +209,6 @@ const ManageSteps = ({ stayCodeToComplete }) => {
   const [listTypeHostLoc, setListTypeHostLoc] = useState([]); // نوع منطقه
   const [listTypeHost, setListTypeHost] = useState([]); // نوع اقامتگاه
   const [provinceList, setProvinceList] = useState([]); // استانها
-  const [lastStep, setLastStep] = useState(null);
 
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,

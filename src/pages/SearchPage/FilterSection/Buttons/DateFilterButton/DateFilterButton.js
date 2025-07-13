@@ -5,11 +5,13 @@ import { SearchPageContext } from "../../../SearchPage";
 import DateRangeOutlinedIcon from "@mui/icons-material/DateRangeOutlined";
 import PopOverSelectDate from "./PopOverSelectDate";
 import { ShamsiToMoreShamsiDetails } from "../../../../../components/DateFunctions/DateFunctions";
+import { useNavigate } from "react-router-dom";
 
 const filter = "start";
 const label = "تاریخ رزرو";
 const startIcon = <DateRangeOutlinedIcon />;
 const DateFilterButton = ({}) => {
+  const navigate = useNavigate();
   const [active, setActive] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const searchPageContext = useContext(SearchPageContext);
@@ -57,13 +59,20 @@ const DateFilterButton = ({}) => {
   const handleSetSearch = (listDate) => {
     // console.log("handleSetSearch", listDate);
     const params = new URLSearchParams(window.location.search);
+    let path = window.location.pathname;
     if (listDate.length === 2) {
       params.set("start", listDate[0]?.shamsiObj?.fullshamsi);
       params.set("end", listDate[1]?.shamsiObj?.fullshamsi);
 
       // // Update the URL with the new search parameters
       const newSearch = params.toString();
-      window.history.replaceState(null, "", `?${newSearch}`);
+      if (!path.endsWith("/all")) {
+        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
+          replace: true,
+        });
+      } else {
+        window.history.replaceState(null, "", `?${newSearch}`);
+      }
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();
@@ -72,7 +81,13 @@ const DateFilterButton = ({}) => {
       params.delete("start");
       params.delete("end");
       const newSearch = params.toString();
-      window.history.replaceState(null, "", `?${newSearch}`);
+      if (!path.endsWith("/all")) {
+        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
+          replace: true,
+        });
+      } else {
+        window.history.replaceState(null, "", `?${newSearch}`);
+      }
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();

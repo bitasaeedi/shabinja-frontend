@@ -246,6 +246,8 @@ export const HostTourCreateApi = async (createData) => {
 
 // به روز رسانی اقامتگاه
 export const HostTourUpdateApi = async (updateData, guid) => {
+  console.log("myDaa",updateData);
+  
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
@@ -277,7 +279,9 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         Step: updateData?.step, //"پله ها",
         Floor: updateData?.floor, //"طلبقه ",
         Disabled: updateData?.disabled, //"مناسب سالمندان",
-        CancelReservation: updateData?.cancelReservation, //آسان=0 ,متعادل=1, سختگیرانه=2
+        cancelPercentageFirst: updateData?.cancelPercentageFirst, //آسان=0 ,متعادل=1, سختگیرانه=2
+        CancelPercentageSecond : updateData?.cancelPercentageSecond,
+        CancelPercentageThird: updateData?.cancelPercentageThird,
         DiscountToday: updateData?.discountToday, //"تخفیف امروز ",
         DiscountSecond: updateData?.discountSecond, //"تخفیف فردا ",
         DiscountThrid: updateData?.discountThrid, //"تخفیف پسفردا ",

@@ -46,7 +46,9 @@ export const CalculateStepNum = (infoStay) => {
     rolItemTourIds,
 
     // Step 10 - Cancellation
-    cancelReservation,
+    CancelPercentageFirst,
+    CancelPercentageSecond,
+    CancelPercentageThird,
 
     // Step 11 - Pricing
     priceHostTourBaseSpring,
@@ -120,7 +122,7 @@ export const CalculateStepNum = (infoStay) => {
 
     // Step 10 - Cancellation
     {
-      condition: !cancelReservation,
+      condition: !CancelPercentageFirst || !CancelPercentageSecond || !CancelPercentageThird,
       step: 10,
     },
 
