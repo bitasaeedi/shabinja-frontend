@@ -143,7 +143,7 @@ const StayPage = () => {
                 color="text.secondary"
                 sx={{ marginBottom: 2 }}
               >
-                {`${infoOfStay?.accerss || ""}، ${
+                {`${infoOfStay?.accerss || ""}  ${
                   infoOfStay?.room || ""
                 } اتاق، ${infoOfStay?.minCapacity || ""}تا${
                   infoOfStay?.maxCapacity || ""
@@ -177,7 +177,6 @@ const StayPage = () => {
                     height: 500,
                     width: "100%",
                     zIndex: "200 !important",
-                    // backgroundColor: "#eeeeee",
                   }}
                 >
                   <FormReserve />
@@ -214,8 +213,8 @@ const StayPage = () => {
         sx={{
           position: "sticky",
           bottom: 65,
-          backgroundColor: "rgba(0, 0, 0, 0.6)", // Semi-transparent black
-          backdropFilter: "blur(5px)", // Blur effect
+          backgroundColor: "rgba(0, 0, 0, 0.6)", 
+          backdropFilter: "blur(5px)",
           color: "white",
           alignItems: "center",
           zIndex: "200 !important",

@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, Grid, Skeleton, Typography } from "@mui/material";
-
+import { Box, Grid} from "@mui/material";
 import { StayPageContext } from "../../StayPage";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 import { useParams } from "react-router-dom";

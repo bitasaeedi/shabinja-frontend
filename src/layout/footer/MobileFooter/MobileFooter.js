@@ -158,7 +158,7 @@ const MobileFooter = () => {
                   backgroundColor: "#287dfa", 
                   borderRadius: "50%",
                   padding: "1rem",
-                  zIndex: 101,
+                  zIndex: "10000 !important",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
                   border: "4px solid rgba(255,255,255,0.8)",
                   "& .MuiSvgIcon-root": {

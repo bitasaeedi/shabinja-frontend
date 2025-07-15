@@ -8,6 +8,7 @@ import FavoritesPopOver from "../../../../components/FavoritesPopOver/FavoritesP
 import axios from "axios";
 import API_URL from "../../../../config/apiConfig";
 const baseUrl = API_URL;
+
 const TitleStay = () => {
   const stayPageContext = useContext(StayPageContext);
 
@@ -28,6 +29,22 @@ const TitleStay = () => {
     }
   };
 
+  // share
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: stayPageContext?.infoOfStay?.title || "",
+          text: stayPageContext?.infoOfStay?.title || "",
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("خطا در اشتراک‌گذاری:", error);
+      }
+    } else {
+      alert("مرورگر شما از اشتراک‌گذاری پشتیبانی نمی‌کند.");
+    }
+  };
   const deleteFromFavorite = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -77,6 +94,7 @@ const TitleStay = () => {
               color: "black",
               borderColor: "#ccc",
             }}
+            onClick={handleShare}
           >
             اشتراک‌گذاری
           </Button>
