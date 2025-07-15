@@ -34,6 +34,7 @@ export default function SidebarPart({ myWidth }) {
       <Box
         sx={{
           width: myWidth,
+          minWidth: "310px",
         }}
       >
         {/* sidebar title */}

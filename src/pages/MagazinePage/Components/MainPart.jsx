@@ -2,7 +2,12 @@ import React from "react";
 import SidebarPart from "./SidebarPart";
 import ContentPart from "./ContentPart";
 import { Box } from "@mui/material";
+import { useParams } from "react-router-dom";
+import MagPosts from "./MagPosts";
 export default function MainPart() {
+  const { id } = useParams();
+console.log("id",id);
+
   return (
     <>
       <Box
@@ -15,7 +20,8 @@ export default function MainPart() {
         }}
       >
         {/* content part */}
-        <ContentPart myWidth={"72%"} />
+        {id ? <MagPosts/> : <ContentPart myWidth={"74%"} />}
+        {/* <ContentPart myWidth={"72%"} /> */}
 
         {/* side bar */}
         <SidebarPart myWidth={"24%"} />

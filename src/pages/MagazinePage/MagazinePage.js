@@ -8,7 +8,7 @@ import MainPart from "./Components/MainPart";
 
 const MagazinePage = () => {
   const appContext = useContext(AppContext);
-
+  
   useEffect(() => {
     appContext.setShowfooter(true);
     appContext.setSettingHeader({
