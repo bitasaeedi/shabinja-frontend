@@ -45,8 +45,8 @@ export const CancelRules = () => {
     <Box>
       <Divider sx={{ my: 2, bgcolor: "#ddd" }} />
       <Typography variant="h6">مقررات لغو رزرو</Typography>
-      <Grid container mt={2}>
-        <Grid item xs="12" sx={{ display: "flex", justifyContent: "center" }}>
+      <Grid container mt={2} spacing={2}>
+        <Grid item xs="12" sx={{ display: "flex"}}>
           <Typography
             variant="body2"
             sx={{
@@ -60,16 +60,49 @@ export const CancelRules = () => {
               variant="h6"
               sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-              {options[stayPageContext.infoOfStay?.cancelReservation]?.title} :
-              {/* سیاست سختگیرانه : */}
+               درصد خسارت لغو یک روز قبل از ورود :
             </Typography>
-            {options[stayPageContext.infoOfStay?.cancelReservation]?.text}
-            {/* 
-            در صورتی که رزرو، حداقل 5 روز کامل از تاریخ ورود لغو گردد؛ مبلغ
-            صورتحساب پس از کسر حداکثر 25 درصد صورتحساب به میهمان عودت می‌شود. در
-            غیر اینصورت اجاره شب اول بعلاوه حداکثر 60 درصد شب‌های باقیمانده کسر
-            می‌گردد. 
-            */}
+            {stayPageContext?.infoOfStay?.cancelPercentageFirst} %
+          </Typography>
+        </Grid>
+
+        <Grid item xs="12" sx={{ display: "flex"}}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: { xs: fontSizeText, md: fontSizeText },
+              //   ml: 1,
+              textAlign: "justify",
+            }}
+          >
+            <Typography
+              component="span"
+              variant="h6"
+              sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
+            >
+               درصد خسارت لغو سه روز قبل از ورود :
+            </Typography>
+            {stayPageContext?.infoOfStay?.cancelPercentageSecond} %
+          </Typography>
+        </Grid>
+
+        <Grid item xs="12" sx={{ display: "flex"}}>
+          <Typography
+            variant="body2"
+            sx={{
+              fontSize: { xs: fontSizeText, md: fontSizeText },
+              //   ml: 1,
+              textAlign: "justify",
+            }}
+          >
+            <Typography
+              component="span"
+              variant="h6"
+              sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
+            >
+                درصد خسارت لغو بیشتر از سه روز قبل از ورود :
+            </Typography>
+            {stayPageContext?.infoOfStay?.cancelPercentageThird} %
           </Typography>
         </Grid>
       </Grid>
