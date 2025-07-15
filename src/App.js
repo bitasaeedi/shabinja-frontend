@@ -193,6 +193,7 @@ function App() {
             />
 
             <Router>
+              <ScrollToTop />
               <Header />
               <Routes>
                 <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
@@ -202,7 +203,7 @@ function App() {
                 <Route path="/help" element={<QuestionsPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route path="/rules" element={<RulesPage />} />
-                <Route path="/mag" element={<MagazinePage />} />
+                <Route path="/mag/:id?" element={<MagazinePage />} />
                 <Route path="/search/:searchtype" element={<SearchPage />} />
                 <Route path="/account/:section/*" element={<AccountPage />} />
                 {/* <Route path="/account/favorites/:id" element={<Favorites/>}/> */}
