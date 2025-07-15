@@ -33,7 +33,6 @@ const AllFilterButton = ({}) => {
 
   // این تابع از داخل مودال فراخوانی میشود و لیتس یاز مقادیر فیلتر ارسال میشود تا در url ست شوند
   const handleSetSearch = (listValue = searchPageContext.filterList) => {
-    console.log(listValue, "listValue handleSetSearch AllFilterButton");
     const params = new URLSearchParams(window.location.search);
     listValue.forEach((filter) => {
       if (filter.value) {
@@ -41,7 +40,6 @@ const AllFilterButton = ({}) => {
         const value = Array.isArray(filter.value)
           ? filter.value.join(",")
           : filter.value;
-        console.log(filter.value, "filter.label");
         params.set(filter.label, value);
       } else {
         params.delete(filter.label);
