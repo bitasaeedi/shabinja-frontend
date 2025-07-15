@@ -20,12 +20,12 @@ import FastSearchcomponentMobile from "./Components/FastSearchcomponentMobile/Fa
 import CardComment from "../../components/Cards/CardComment/CardComment";
 import Begust from "./Components/Begust/Begust";
 import Commentswiper from "../../components/Sliders/Commentswiper";
-import Header from "../../layout/header/Header";
 import { AppContext } from "../../App";
 import {
   GetCommentsAboutSiteApi,
   GetListTitleSlidersApi,
 } from "../../api/PublicApis";
+import AdsPopover from "../../components/AdsPopover/AdsPopover";
 const cities = [
   {
     name: "رشت",
@@ -188,6 +188,8 @@ const Home = () => {
 
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
+     
+      {/* <AdsPopover /> */}
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
       <Box
         className=" "
