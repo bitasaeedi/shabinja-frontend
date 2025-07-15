@@ -3,11 +3,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API_URL from "../../../config/apiConfig";
 import DeleteIcon from "@mui/icons-material/Delete";
-import CheckIcon from '@mui/icons-material/Check';
-import jalaali from 'jalaali-js';
+import CheckIcon from "@mui/icons-material/Check";
+import jalaali from "jalaali-js";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
+import ShowValuesSkeleton from "./ShowValuesSkeleton";
 const baseUrl = API_URL;
-
 
 const listButtons = [
   {
@@ -127,7 +127,6 @@ export default function ShowValues({ staycode }) {
     });
   };
 
-
   const getInfos = async () => {
     setLoading(true); // show loading state
     setValuesList([]);
@@ -142,10 +141,10 @@ export default function ShowValues({ staycode }) {
           },
         }
       );
-      
+
       setValuesList(response?.data?.data);
-      console.log(response?.data.data);
-      
+      console.log("valuesList",valuesList.length);
+
       setLoading(false); // hide loading state
     } catch (error) {
       console.log(error?.response);
@@ -154,13 +153,15 @@ export default function ShowValues({ staycode }) {
     }
   };
 
-//change date to shamsi
+  //change date to shamsi
   function toShamsiDate(isoString) {
     const date = new Date(isoString);
     const { jy, jm, jd } = jalaali.toJalaali(date);
-    return `${jy}/${String(jm).padStart(2, '0')}/${String(jd).padStart(2, '0')}`;
+    return `${jy}/${String(jm).padStart(2, "0")}/${String(jd).padStart(
+      2,
+      "0"
+    )}`;
   }
-
 
   const handleDelete = async (guid) => {
     try {
@@ -175,13 +176,12 @@ export default function ShowValues({ staycode }) {
           },
         }
       );
-    getInfos();
-    handleMangeAlert(true, "success", "عملیات با موفقیت انجام شد");
-    return true;
-     
+      getInfos();
+      handleMangeAlert(true, "success", "عملیات با موفقیت انجام شد");
+      return true;
     } catch (error) {
       console.log(error?.response);
-      handleMangeAlert(true, "error", "عملیات با خطا مواجه شد")
+      handleMangeAlert(true, "error", "عملیات با خطا مواجه شد");
 
       return error?.response;
     }
@@ -189,7 +189,6 @@ export default function ShowValues({ staycode }) {
 
   useEffect(() => {
     getInfos();
-    
   }, [activeBtn]);
 
   return (
@@ -199,10 +198,11 @@ export default function ShowValues({ staycode }) {
         <Box
           sx={{
             display: "flex",
-            flexWrap:"wrap",
+            flexWrap: "wrap",
             justifyContent: "center",
             mt: 3,
-            gap:"6px"
+            gap: "6px",
+            mb: 3,
           }}
         >
           {listButtons.map((btn, index) => {
@@ -230,132 +230,93 @@ export default function ShowValues({ staycode }) {
         </Box>
 
         {/* infos */}
-
-        { valuesList?.map((info,index)=>{
-          return   <Box key={index} //each request 
-          sx={{
-            my: 2,
-            border: "1px solid #d1d1d1",
-            padding: 2,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems:"center"
-          }}
-        >
-          <Box>
-            <Box 
-               sx={{
-               display: "flex",
-               gap:"7px"
-              }} 
+        {loading ? (
+          <ShowValuesSkeleton />
+        ) : valuesList.length === 0 ? (
+          <Box sx={{ textAlign: "center", my: 8, color: "#888" }}>
+            هیچ داده‌ای برای نمایش وجود ندارد.
+          </Box>
+        ) : (
+          valuesList?.map((info, index) => (
+            <Box
+              key={index}
+              sx={{
+                my: 2,
+                border: "1px solid #d1d1d1",
+                borderRadius: "5px",
+                padding: 3,
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              <Box>تاریخ :</Box>
-              <Box> از {toShamsiDate(info.start)}</Box>
-              <Box> تا {toShamsiDate(info.end)}</Box>
-            </Box>
-            
-            {titlesList[activeBtn]?.map((value, index) => { // each field
-           let apiKey=value.apiKey;
-         
-           if (apiKey==="") return null; 
-            
-              return (
-                  <Box key={index}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1rem",
-                      my: 2,
-                    }}
-                  >
+              <Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    gap: "7px",
+                  }}
+                >
+                  <Box>تاریخ :</Box>
+                  <Box> از {toShamsiDate(info.start)}</Box>
+                  <Box> تا {toShamsiDate(info.end)}</Box>
+                </Box>
 
-                    <Box sx={{ minWidth: "70px" }}>{value.title} :</Box>
-                  
+                {titlesList[activeBtn]?.map((value, index) => {
+                  // each field
+                  let apiKey = value.apiKey;
+
+                  if (apiKey === "") return null;
+
+                  return (
                     <Box
+                      key={index}
                       sx={{
-                        border: "1px solid #d1d1d1",
-                        padding: ".5rem 2rem",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "1rem",
+                        my: 2,
                       }}
                     >
-                    {info[apiKey]}
+                      <Box sx={{ minWidth: "70px" }}>{value.title} :</Box>
+
+                      <Box
+                        sx={{
+                          border: "1px solid #d1d1d1",
+                          padding: ".5rem 2rem",
+                        }}
+                      >
+                        {info[apiKey]}
+                      </Box>
                     </Box>
+                  );
+                })}
+              </Box>
 
-                  </Box>
-              );
-            })}
-          </Box>
-
-          <IconButton onClick={()=>{handleDelete(info.guid)}}>
-            <DeleteIcon />
-          </IconButton>
-        </Box>
-        })}
-
-        {/* <Box  //each request
-          sx={{
-            my: 2,
-            border: "1px solid #d1d1d1",
-            padding: 2,
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Box>
-            <Box 
-               sx={{
-               display: "flex",
-               mb:2,
-               gap:"7px"
-              }} 
-            >
-              <Box>تاریخ :</Box>
-              <Box>از 18/2  تا 20/5</Box>
+              <IconButton
+                onClick={() => {
+                  handleDelete(info.guid);
+                }}
+              >
+                <DeleteIcon />
+              </IconButton>
             </Box>
-            {titlesList[activeBtn].map((value, index) => { // each field
-              return (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1rem",
-                      my: 1,
-                    }}
-                  >
-
-                    <Box sx={{ minWidth: "70px" }}>{value.title} :</Box>
-                  
-                    <Box
-                      sx={{
-                        border: "1px solid #d1d1d1",
-                        padding: ".5rem 2rem",
-                      }}
-                    >
-                      32000
-                    </Box>
-
-                  </Box>
-              );
-            })}
-          </Box>
-
-          <IconButton onClick={handleDelete}>
-            <DeleteIcon />
-          </IconButton>
-        </Box> */}
+          ))
+        )}
       </Box>
       {showAlertSetting?.show && (
-          <MyAlertMui
-            message={showAlertSetting?.message || ""}
-            handleClose={() =>
-              handleMangeAlert(
-                false,
-                showAlertSetting?.status,
-                showAlertSetting?.message
-              )
-            }
-            status={showAlertSetting?.status}
-          />
-        )}
+        <MyAlertMui
+          message={showAlertSetting?.message || ""}
+          handleClose={() =>
+            handleMangeAlert(
+              false,
+              showAlertSetting?.status,
+              showAlertSetting?.message
+            )
+          }
+          status={showAlertSetting?.status}
+        />
+      )}
     </>
   );
 }
