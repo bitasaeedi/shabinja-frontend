@@ -1,5 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { MapContainer, TileLayer, useMap, useMapEvent } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  useMap,
+  useMapEvent,
+  Polygon,
+} from "react-leaflet";
 import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
@@ -55,6 +61,7 @@ const MyMap = ({
   const [center, setCenter] = useState([]);
   const mapRef = useRef(null);
   const [loadingFindPoint, setLoadingFindPoint] = useState(false);
+  const [polygonPoints, setPolygonPoints] = useState([]);
 
   // تغییر موقعیت نقشه هنگام تغییر مرکز
   useEffect(() => {
@@ -96,57 +103,35 @@ const MyMap = ({
   //جستجو در این منطقه
   const handleSearchInArea = () => {
     if (!mapRef.current) return;
-  
+
     setLoadingFindPoint(true);
-  
+
     const map = mapRef.current;
-    const center = map.getCenter();
-    const zoom = map.getZoom();
-  
-    const trianglePoints = generateTrianglePoints(center.lat, center.lng, zoom);
-  
-    console.log("tri",trianglePoints);
-    
-    // ارسال مثلث به والد
-    onPolygonDrawn(trianglePoints);
-  
+    const polygonPoints = getVisibleMapCorners(map); // 5 points for drawing
+    const apiPoints = polygonPoints.slice(0, 4); // 4 unique corners for API
+
+    onPolygonDrawn(apiPoints); // Send only 4 points to API
+    setPolygonPoints(polygonPoints); // Draw 5-point polygon on map
+
     setLoadingFindPoint(false);
   };
-  
-  
-  
-  const generateTrianglePoints = (centerLat, centerLng, zoom) => {
-    // هر چی زوم بالاتر، مثلث کوچکتر باشه
-    const zoomFactor = 0.005 * Math.pow(2, 8 - zoom); // عدد قابل تنظیمه
-  
-    const height = Math.sqrt(3) * zoomFactor;
-    const halfWidth = zoomFactor;
-  
+
+  const getVisibleMapCorners = (map) => {
+    const bounds = map.getBounds();
+    const ne = bounds.getNorthEast();
+    const nw = bounds.getNorthWest();
+    const sw = bounds.getSouthWest();
+    const se = bounds.getSouthEast();
+
+    // Return in order: NW, NE, SE, SW, NW (to close the polygon)
     return [
-      { lat: centerLat + (2 / 3) * height, lng: centerLng },
-      { lat: centerLat - (1 / 3) * height, lng: centerLng - halfWidth },
-      { lat: centerLat - (1 / 3) * height, lng: centerLng + halfWidth },
+      { lat: nw.lat, lng: nw.lng },
+      { lat: ne.lat, lng: ne.lng },
+      { lat: se.lat, lng: se.lng },
+      { lat: sw.lat, lng: sw.lng },
+      { lat: nw.lat, lng: nw.lng }, // repeat first to close
     ];
   };
-  
-  const generatePointsWithinBounds = (bounds, zoom) => {
-    const { _northEast: ne, _southWest: sw } = bounds;
-    const centerLat = (ne.lat + sw.lat) / 2;
-    const centerLng = (ne.lng + sw.lng) / 2;
-    const size = 2;
-    return generateTrianglePoints(centerLat, centerLng, size);
-  };
-
-  // const generateTrianglePoints = (centerLat, centerLng, size = 0.01) => {
-  //   const height = Math.sqrt(3) * size;
-  //   const halfWidth = size;
-
-  //   return [
-  //     { lat: centerLat + (2 / 3) * height, lng: centerLng },
-  //     { lat: centerLat - (1 / 3) * height, lng: centerLng - halfWidth },
-  //     { lat: centerLat - (1 / 3) * height, lng: centerLng + halfWidth },
-  //   ];
-  // };
 
   const handleMarkerSelect = (id) => {
     setActiveMarkerId(id);
@@ -221,6 +206,15 @@ const MyMap = ({
       </Box>
 
       <TileLayer url={standard ? standardMap : satelliteTileUrl} />
+
+      {/* show selected area */}
+      
+      {/* {polygonPoints.length >= 4 && (
+        <Polygon
+          positions={polygonPoints.map(p => [p.lat, p.lng])}
+          pathOptions={{ color: 'red', fillColor: 'red', fillOpacity: 0.3 }}
+        />
+      )} */}
 
       {markers.length <= 2 ? (
         markers.map((marker, index) => (
