@@ -41,9 +41,10 @@ const ReservationStay = () => {
 
   const [messages, setMessage] = useState([]);
 
-  SignalRContext.useSignalREffect("updateInforeserve", (message) => {
+  SignalRContext.useSignalREffect("OrderAccept", (message) => {
     console.log(message, "SignalRContext message useSignalREffect");
-    handleGetInfoOfReserve(true);
+    // refresh api if guid was current guid of reserve
+    handleGetInfoOfReserve(); //true
     setMessage([...messages, message]);
   });
 
