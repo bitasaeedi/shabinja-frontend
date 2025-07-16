@@ -42,9 +42,12 @@ const ReservationStay = () => {
   const [messages, setMessage] = useState([]);
 
   SignalRContext.useSignalREffect("OrderAccept", (message) => {
-    console.log(message, "SignalRContext message useSignalREffect");
+    console.info(message, "SignalRContext message useSignalREffect");
     // refresh api if guid was current guid of reserve
-    handleGetInfoOfReserve(); //true
+    if (message?.orderNumber === code) {
+      handleGetInfoOfReserve(); //true
+    }
+
     setMessage([...messages, message]);
   });
 
@@ -125,7 +128,7 @@ const ReservationStay = () => {
 
     const result = await GetInfoReserveApi(code);
     var myData = result?.data;
-    console.log(infoOfReserve, "infoOfReserve handleGetInfoOfReserve");
+    // console.log(infoOfReserve, "infoOfReserve handleGetInfoOfReserve");
     // اطلاعات رزرو و قیمت
     const exitEdData = {
       price: myData?.facktorFirstPrice,
@@ -193,7 +196,7 @@ const ReservationStay = () => {
       mobile: inputeValue?.sms,
     };
     const result = await RequestToReserveApi(dataToSend);
-    console.log(result, "RequestToReserveApi");
+    // console.log(result, "RequestToReserveApi");
 
     if (result?.data?.orderNumber > 0) {
       const url = `/book/preorder/${result?.data?.orderNumber}`;
@@ -207,13 +210,13 @@ const ReservationStay = () => {
   const handleUpdateInputeValue = (data) => {
     var newValue = { ...inputeValue, ...data };
     setInputeValues(newValue);
-    console.log(newValue, "newValue , ", data);
+    // console.log(newValue, "newValue , ", data);
   };
 
   const handleGoToPayLink = async () => {
     try {
       const result = await GetLinkPayReserveApi(infoOfReserve?.guid);
-      console.log(result, "handleGoToPayLink");
+      // console.log(result, "handleGoToPayLink");
 
       if (result?.data?.link) {
         // For external URLs, use window.location.href

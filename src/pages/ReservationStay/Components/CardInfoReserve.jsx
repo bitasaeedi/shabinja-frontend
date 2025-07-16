@@ -185,8 +185,7 @@ const CardInfoReserve = () => {
               sx={{ borderRadius: 1 }}
             />
           ) : (
-            infoOfReserve?.state === 0 &&
-            infoOfReserve?.state === 2 && (
+            (infoOfReserve?.state === 0 || infoOfReserve?.state === 2) && (
               <Button
                 onClick={handleRunButton}
                 variant="contained"
