@@ -50,6 +50,7 @@ const ReservationStay = () => {
     );
     // refresh api if guid was current guid of reserve
     if (parseFloat(message?.orderNumber) === parseFloat(code)) {
+      console.info("refreshing ...", message?.orderNumber);
       handleGetInfoOfReserve(true); //true
     }
 
