@@ -42,10 +42,15 @@ const ReservationStay = () => {
   const [messages, setMessage] = useState([]);
 
   SignalRContext.useSignalREffect("OrderAccept", (message) => {
-    console.info(message, "SignalRContext message useSignalREffect");
+    console.info(
+      message,
+      "SignalRContext message useSignalREffect",
+      code,
+      parseFloat(message?.orderNumber) === parseFloat(code)
+    );
     // refresh api if guid was current guid of reserve
-    if (message?.orderNumber === code) {
-      handleGetInfoOfReserve(); //true
+    if (parseFloat(message?.orderNumber) === parseFloat(code)) {
+      handleGetInfoOfReserve(true); //true
     }
 
     setMessage([...messages, message]);
@@ -128,7 +133,7 @@ const ReservationStay = () => {
 
     const result = await GetInfoReserveApi(code);
     var myData = result?.data;
-    // console.log(infoOfReserve, "infoOfReserve handleGetInfoOfReserve");
+
     // اطلاعات رزرو و قیمت
     const exitEdData = {
       price: myData?.facktorFirstPrice,
@@ -141,7 +146,14 @@ const ReservationStay = () => {
       sms: myData?.mobile,
       fullName: myData?.fullName,
       guid: myData?.guid,
+      expired: myData?.expired,
     };
+    console.log(
+      exitEdData,
+      "infoOfReserve handleGetInfoOfReserve",
+      "result =>",
+      myData
+    );
     setInfoOfReserve(exitEdData);
 
     // اطلاعات اقامکتگاه

@@ -214,6 +214,7 @@ const CardInfoReserve = () => {
                   !inputeValue?.sms ||
                   infoOfReserve?.state === 1 ||
                   infoOfReserve?.state >= 3 ||
+                  infoOfReserve?.expired ||
                   !(paramsValues?.count > 0)
                 }
               >
