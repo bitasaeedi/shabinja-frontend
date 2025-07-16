@@ -185,47 +185,50 @@ const CardInfoReserve = () => {
               sx={{ borderRadius: 1 }}
             />
           ) : (
-            <Button
-              onClick={handleRunButton}
-              variant="contained"
-              fullWidth
-              sx={{
-                fontSize: 18,
-                backgroundColor: "#212121",
-                color: "white",
-                "&:hover": {
+            infoOfReserve?.state === 0 &&
+            infoOfReserve?.state === 2 && (
+              <Button
+                onClick={handleRunButton}
+                variant="contained"
+                fullWidth
+                sx={{
+                  fontSize: 18,
                   backgroundColor: "#212121",
-                  opacity: 0.85,
-                },
-                "&:active": {
-                  transform: "scale(0.98)",
-                },
-                "&.Mui-disabled": {
-                  backgroundColor: "#424242",
-                  color: "rgba(255,255,255,0.5)",
-                  cursor: "not-allowed",
-                },
-              }}
-              disabled={
-                !inputeValue?.name ||
-                !inputeValue?.lastName ||
-                inputeValue?.sms?.toString()?.length != 11 ||
-                !inputeValue?.sms ||
-                infoOfReserve?.state === 1 ||
-                infoOfReserve?.state >= 3 ||
-                !(paramsValues?.count > 0)
-              }
-            >
-              {infoOfReserve?.state === 0
-                ? "ثبت درخواست رزرو"
-                : infoOfReserve?.state === 1
-                ? "منتظر بمانید"
-                : infoOfReserve?.state === 2
-                ? "پرداخت"
-                : infoOfReserve?.state === 3
-                ? "در تاریخ اعلامی به اقامتگاه بروید"
-                : "نامشخص"}
-            </Button>
+                  color: "white",
+                  "&:hover": {
+                    backgroundColor: "#212121",
+                    opacity: 0.85,
+                  },
+                  "&:active": {
+                    transform: "scale(0.98)",
+                  },
+                  "&.Mui-disabled": {
+                    backgroundColor: "#424242",
+                    color: "rgba(255,255,255,0.5)",
+                    cursor: "not-allowed",
+                  },
+                }}
+                disabled={
+                  !inputeValue?.name ||
+                  !inputeValue?.lastName ||
+                  inputeValue?.sms?.toString()?.length != 11 ||
+                  !inputeValue?.sms ||
+                  infoOfReserve?.state === 1 ||
+                  infoOfReserve?.state >= 3 ||
+                  !(paramsValues?.count > 0)
+                }
+              >
+                {infoOfReserve?.state === 0
+                  ? "ثبت درخواست رزرو"
+                  : infoOfReserve?.state === 1
+                  ? "منتظر بمانید"
+                  : infoOfReserve?.state === 2
+                  ? "پرداخت"
+                  : infoOfReserve?.state === 3
+                  ? "در تاریخ اعلامی به اقامتگاه بروید"
+                  : "نامشخص"}
+              </Button>
+            )
           )}
         </Grid>
       </Grid>

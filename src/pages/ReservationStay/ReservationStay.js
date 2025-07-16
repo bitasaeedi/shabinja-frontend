@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetLinkPayReserveApi } from "../../api/PannelApis";
@@ -291,7 +291,7 @@ const ReservationStay = () => {
               >
                 <Box sx={{ px: { xs: 0, md: 4 } }}>
                   <StepperReserve
-                    errorTab={false}
+                    errorTab={infoOfReserve?.expired}
                     activeStep={infoOfReserve?.state}
                     steps={[
                       "ثبت درخواست",
@@ -300,14 +300,29 @@ const ReservationStay = () => {
                       "تحویل کلید",
                     ]}
                   />
-                  {stepName === "preorder" &&
-                    (infoOfReserve?.state === 1 ||
-                      infoOfReserve?.state === 2) && (
+                  {((stepName === "preorder" && infoOfReserve?.state === 1) ||
+                    infoOfReserve?.state === 2) &&
+                    !infoOfReserve?.expired && (
                       <WaitingToPay
                         activeStep={infoOfReserve?.state}
                         guid={infoOfReserve?.guid}
+                        expired={infoOfReserve?.expired}
                       />
                     )}
+
+                  {infoOfReserve?.expired && (
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography sx={{ color: "red" }}>
+                        رزرو اقامتگاه با خطا مواجه شده است
+                      </Typography>
+                    </Box>
+                  )}
 
                   <ShowInfoOfReserve />
                 </Box>

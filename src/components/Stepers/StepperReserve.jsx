@@ -74,7 +74,7 @@ function StepIcon(props) {
 }
 const mysteps = ["ثبت درخواست", "تایید میزبان", "پرداخت", "تحویل کلید"];
 const StepperReserve = ({
-  errorTab = true,
+  errorTab = false,
   activeStep = 0,
   steps = mysteps,
 }) => {

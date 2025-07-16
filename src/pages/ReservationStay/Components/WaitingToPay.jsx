@@ -21,7 +21,7 @@ const stepValues = {
   },
 };
 
-const WaitingToPay = ({ activeStep = 1, titmer = true, guid }) => {
+const WaitingToPay = ({ activeStep = 1, titmer = true, guid ,expired }) => {
   const [timerSec, setTimerSec] = useState(0);
   const [isTimeOut, setIsTimeOut] = useState(false);
   const { handleGetInfoOfReserve } = useContext(ReservationStayContext);
