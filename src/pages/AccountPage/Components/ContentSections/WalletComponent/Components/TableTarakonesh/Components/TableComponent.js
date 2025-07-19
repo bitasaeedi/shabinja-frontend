@@ -1,13 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
-  Avatar,
   Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
   Paper,
   Tab,
   Table,
@@ -18,15 +11,9 @@ import {
   TableRow,
   Tabs,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
-import AddIcon from "@mui/icons-material/Add";
 import RowTable from "./RowTable";
-import CardStays from "./CardStays";
-import HeaderTable from "./HeaderTable";
 import SkeltonRowTables from "../../../../../../../../components/SkeletonComponents/SkeltonRowTables";
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
@@ -73,6 +60,7 @@ const TableComponent = ({ stays, loading = true }) => {
           mt: 0,
         }}
       >
+        {/* tabs */}
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
             value={containerMainContext?.tabValue}
@@ -118,7 +106,7 @@ const TableComponent = ({ stays, loading = true }) => {
         )}
       </TableContainer>
 
-      {!loading && (
+      {/* {!loading && (
         <Box
           item
           xs={12}
@@ -131,7 +119,7 @@ const TableComponent = ({ stays, loading = true }) => {
           }}
         >
           <Box sx={{}}>
-            {/* <Button
+            <Button
               variant="contained"
               component={Link}
               endIcon={<AddIcon />}
@@ -139,10 +127,11 @@ const TableComponent = ({ stays, loading = true }) => {
               sx={{ my: 1 }}
             >
               افزودن اقامتگاه جدید
-            </Button> */}
+            </Button>
           </Box>
         </Box>
-      )}
+      )} */}
+      
     </Box>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -8,27 +8,61 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
+import API_URL from "../../../../../../config/apiConfig";
+import { AppContext } from "../../../../../../App";
+import { useNavigate } from "react-router-dom";
+const baseUrl = API_URL;
 
-const CreditCard = () => {
+const CreditCard = ({isPayed}) => {
+ const appContext = useContext(AppContext);
+ const navigate = useNavigate();
   const {
     control,
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
-  const [shaba, setShaba] = useState("");
-  const amount = 250000;
 
-  const handleInputChange = (e) => {
-    const inputValue = e.target.value.replace(/,/g, ""); // Remove commas
-    if (/^\d*$/.test(inputValue)) {
-      setShaba(inputValue);
-    }
-  };
+  const [shaba, setShaba] = useState("");
+  const [balance, setBalance] = useState(false);
+  
+  // const handleInputChange = (e) => {
+  //   const inputValue = e.target.value.replace(/,/g, ""); // Remove commas
+  //   if (/^\d*$/.test(inputValue)) {
+  //     setShaba(inputValue);
+  //   }
+  // };
 
   const onSubmit = (data) => {
     console.log("Form Data:", data);
   };
+
+
+  // get shaba data
+  const getDate = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(`${baseUrl}/Wallet/Inventory`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("shaba data", response?.data?.data);
+      setBalance(response?.data?.data);
+      setShaba(response?.data?.data?.cartNumberBank);
+    } catch (error) {
+      console.error(
+        "Error fetch shaba:",
+        error?.response?.data || error.message
+      );
+    }
+  };
+
+  useEffect(() => {
+    getDate();
+  }, [isPayed]);
 
   return (
     <Box>
@@ -36,7 +70,8 @@ const CreditCard = () => {
         {/* Form Section */}
         <Grid item xs={12} order={{ xs: 1, md: 1 }}>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <Grid container>
+            <Grid container sx={{minWidth:"340px"}}>
+              {/* cart */}
               <Grid item xs={12} sx={{ mb: 1 }}>
                 <Typography>شماره شبا</Typography>
                 <Controller
@@ -51,7 +86,10 @@ const CreditCard = () => {
                       inputRef={ref}
                       placeholder="شماره شبا"
                       value={shaba}
-                      onChange={handleInputChange}
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                      // onChange={handleInputChange}
                       sx={{
                         "& .MuiInputBase-input::placeholder": {
                           fontSize: "0.8rem",
@@ -63,19 +101,23 @@ const CreditCard = () => {
                   )}
                 />
               </Grid>
+
+              {/* infos */}
               <Grid item xs={12} md={6}>
                 <Typography variant="h6" sx={{ fontSize: 14 }}>
-                  صاحب حساب: پدرام محمدی
+                  صاحب حساب: {appContext?.userInfo?.name } {appContext?.userInfo?.lastName}
                 </Typography>
                 <Typography variant="body2" sx={{ fontSize: 12 }}>
                   نام بانک: سامان
                 </Typography>
               </Grid>
+
+              {/*  */}
               <Grid
                 item
                 xs={12}
                 md={6}
-                sx={{ display: "flex", justifyContent: "end" }}
+                sx={{ display: "flex", justifyContent: "end", alignItems: "end" }}
               >
                 <Button
                   type="submit"
@@ -87,6 +129,9 @@ const CreditCard = () => {
                     py: 1,
                   }}
                   size="small"
+                  onClick={()=>{
+                    navigate("/account/profile");
+                  }}
                 >
                   ویرایش شبا
                 </Button>
@@ -108,27 +153,50 @@ const CreditCard = () => {
               justifyContent: "space-between",
               color: "#fff",
               background: "linear-gradient(135deg, #287dfa, #6a11cb)",
+              backgroundColor: "linear-gradient(135deg, #287dfa, #6a11cb)",
               boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
             }}
           >
             <Typography variant="h6" fontWeight="bold">
               shabinja.com
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <Typography variant="subtitle2">موجودی کیف پول</Typography>
-              <Box className="d-flex">
-                <Typography variant="body1" fontWeight="bold">
-                  {amount.toLocaleString()}
-                </Typography>
-                <Typography variant="subtitle2" sx={{ pl: "4px" }}>
-                  تومان
-                </Typography>
+
+            <Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography variant="subtitle2">موجودی کیف پول</Typography>
+                <Box className="d-flex">
+                  <Typography variant="body1" fontWeight="bold">
+                    {(balance?.inventory)?.toLocaleString()}
+                  </Typography>
+                  <Typography variant="subtitle2" sx={{ pl: "4px" }}>
+                    تومان
+                  </Typography>
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginTop:".7rem"
+                }}
+              >
+                <Typography variant="subtitle2">موجودی قابل برداشت</Typography>
+                <Box className="d-flex">
+                  <Typography variant="body1" fontWeight="bold">
+                    {(balance?.withdrawableInventory)?.toLocaleString()}
+                  </Typography>
+                  <Typography variant="subtitle2" sx={{ pl: "4px" }}>
+                    تومان
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>

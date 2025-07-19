@@ -2,11 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import {
   Box,
-  Button,
   Grid,
-  TextField,
   Typography,
-  Avatar,
   Divider,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
@@ -18,6 +15,7 @@ import FormAddCredit from "./FormAddCredit";
 import ContainerMain from "./TableTarakonesh/ContainerMain";
 
 const FormWallet = () => {
+
   const {
     register,
     handleSubmit,
@@ -28,6 +26,12 @@ const FormWallet = () => {
   const onSubmit = (data) => {
     console.log(data);
   };
+
+  const [isPayed, setIsPayed] = useState(false);
+
+  function handleIsPayed(value){
+    setIsPayed(value)
+  }
 
   return (
     <Box
@@ -75,7 +79,7 @@ const FormWallet = () => {
               order: { xs: 2, md: 2 },
             }}
           >
-            <CreditCard />
+            <CreditCard isPayed={isPayed}/>
           </Grid>
 
           {/* Vertical Divider */}
@@ -98,6 +102,7 @@ const FormWallet = () => {
                 borderRightWidth: "1px",
               }}
             />
+            
           </Grid>
 
           {/* Form Section */}
@@ -112,9 +117,11 @@ const FormWallet = () => {
               order: { xs: 0, md: 0 }, // Form appears last on mobile and first on desktop
             }}
           >
-            <FormAddCredit />
+            <FormAddCredit  handleIsPayed={handleIsPayed}/>
           </Grid>
+          
         </Grid>
+
         <Grid container>
           <Grid item xs="12">
             <ContainerMain />

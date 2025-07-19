@@ -1,10 +1,13 @@
 import React, { useState, useEffect, createContext } from "react";
-import { Box, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
 import TableComponent from "./Components/TableComponent";
-import { MyReservationsApi } from "../../../../../../../api/toureApis";
+import axios from "axios";
+// import { MyReservationsApi } from "../../../../../../../api/toureApis";
+import API_URL from "../../../../../../../config/apiConfig";
 
 export const ContainerMainContext = createContext();
+const baseUrl = API_URL;
+
 const ContainerMain = () => {
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -14,18 +17,47 @@ const ContainerMain = () => {
     handleGetMyReserve();
   }, [tabValue]);
 
+  // const handleGetMyReserve = async (dontShowLoading) => {
+  //   if (!dontShowLoading) {
+  //     setLoading(true);
+  //   }
+  //   const searchTab = {
+  //     tabValue: tabValue,
+  //   };
+
+  //   const result = { data: [1, 2, 3, 4, 5] }; //await MyReservationsApi(searchTab);
+  //   if (tabValue === 1) {
+  //     setStays([]);
+  //   } else {
+  //     setStays(result?.data || []);
+  //   }
+
+  //   setLoading(false);
+  // };
+
   const handleGetMyReserve = async (dontShowLoading) => {
     if (!dontShowLoading) {
       setLoading(true);
     }
-    const searchTab = {
-      tabValue: tabValue,
-    };
-    const result = { data: [1, 2, 3, 4, 5] }; //await MyReservationsApi(searchTab);
-    if (tabValue === 1) {
-      setStays([]);
-    } else {
-      setStays(result?.data || []);
+
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(`${baseUrl}/Wallet`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("response bardasht", response?.data?.data);
+      setStays(response?.data?.data);
+      
+    } catch (error) {
+      console.error(
+        "Error:",
+        error?.response?.data || error.message
+      );
+      return error?.response?.data;
     }
 
     setLoading(false);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Button,
@@ -8,15 +8,62 @@ import {
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
+import axios from "axios";
+import API_URL from "../../../../../../config/apiConfig";
+import MyAlertMui from "../../../../../../components/MyAlertMui/MyAlertMui";
+const baseUrl = API_URL;
 
-const FormAddCredit = () => {
+const FormAddCredit = ({handleIsPayed}) => {
+
   const {
     control,
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
+
   const [amount, setAmount] = useState("");
+  const [canWithdrawal, setCanWithdrawal] = useState(false);
+
+  // alert
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show,
+      status,
+      message,
+    });
+  };
+
+  //CanWithdrawal
+  const CanWithdrawal = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(`${baseUrl}/Wallet/CanWithdrawal`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log("CanWithdrawal", response?.data?.data);
+      setCanWithdrawal(response?.data?.data);
+    } catch (error) {
+      console.error(
+        "Error fetch CanWithdrawal:",
+        error?.response?.data || error.message
+      );
+    }
+  };
+
+  useEffect(() => {
+    CanWithdrawal();
+  }, []);
 
   const formatAmount = (value) => {
     if (!value) return "";
@@ -40,6 +87,42 @@ const FormAddCredit = () => {
     console.log("Form Data:", { ...data, amount });
   };
 
+  const handleWithdrawal = async () => {
+
+    console.log("canWithdrawal", canWithdrawal);
+    const number = Number(amount.replace(/,/g, ""));
+
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(
+        `${baseUrl}/Wallet/Withdrawal/${number}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Withdrawal", response?.data);
+      if (response?.data?.data === true) {
+        handleIsPayed(true)
+        setTimeout(() => {
+          handleMangeAlert(true, "success", "پرداخت با موفقیت انجام شد");
+        }, 1000);
+      }else{
+        setTimeout(() => {
+          handleMangeAlert(true, "error", "پرداخت انجام نشد");
+        }, 1000);
+      }
+    } catch (error) {
+      console.error(
+        "Error fetch CanWithdrawal:",
+        error?.response?.data || error.message
+      );
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -54,6 +137,7 @@ const FormAddCredit = () => {
               با شارژ موجودی حساب خود می‌توانید با سرعت و سهولت بیشتری خرید کنید
             </Typography>
           </Grid>
+
           <Grid
             item
             xs="12"
@@ -81,6 +165,7 @@ const FormAddCredit = () => {
                 >
                   {value.toLocaleString()}
                 </Typography>
+
                 <Typography
                   variant="body2"
                   sx={{
@@ -94,6 +179,7 @@ const FormAddCredit = () => {
               </Button>
             ))}
           </Grid>
+
           <Grid item xs="12" sx={{ mt: 2 }}>
             <Controller
               name="amount"
@@ -134,6 +220,7 @@ const FormAddCredit = () => {
               )}
             />
           </Grid>
+
           <Grid item xs="12" md={6} sx={{ mt: 4 }}>
             <Button
               type="submit"
@@ -152,6 +239,7 @@ const FormAddCredit = () => {
               افزایش موجودی
             </Button>
           </Grid>
+
           <Grid
             item
             xs="12"
@@ -160,14 +248,19 @@ const FormAddCredit = () => {
           >
             <Button
               // type="submit"
+              onClick={() => {
+                handleWithdrawal();
+              }}
               variant="text"
               color="primary"
               sx={{
                 width: { xs: "100%", md: "auto" },
-                // "&:hover": { backgroundColor: "black", color: "white" }, 
+                // "&:hover": { backgroundColor: "black", color: "white" },
               }}
               disabled={
-                parseInt(amount.replace(/,/g, "")) < 10000 || amount === ""
+                parseInt(amount.replace(/,/g, "")) < 10000 ||
+                amount === "" ||
+                !canWithdrawal
               } // Disable if less than 50,000 or empty
             >
               برداشت از حساب
@@ -175,6 +268,20 @@ const FormAddCredit = () => {
           </Grid>
         </Grid>
       </form>
+
+      {showAlertSetting?.show && (
+        <MyAlertMui
+          message={showAlertSetting?.message || ""}
+          handleClose={() =>
+            handleMangeAlert(
+              false,
+              showAlertSetting?.status,
+              showAlertSetting?.message
+            )
+          }
+          status={showAlertSetting?.status}
+        />
+      )}
     </Box>
   );
 };

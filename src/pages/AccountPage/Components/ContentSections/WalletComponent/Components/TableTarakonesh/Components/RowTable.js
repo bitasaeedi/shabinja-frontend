@@ -1,30 +1,24 @@
 import {
-  Avatar,
   Box,
-  Button,
-  IconButton,
   TableCell,
   TableRow,
   Typography,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  CircularProgress,
-  Menu,
-  MenuItem,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EventIcon from "@mui/icons-material/Event";
 import { ContainerMainContext } from "../ContainerMain";
-import ListIcon from "@mui/icons-material/List";
+import moment from "moment-jalaali";
 
 const RowTable = ({ stay, index }) => {
   const containerMainContext = useContext(ContainerMainContext);
+
+
+  function shamsiDate(date) {
+    return  moment(date).locale('fa').format('jYYYY/jMM/jDD');
+  }
+
+  function getTime(time) {
+    return  moment(time).format('HH:mm');
+  }
 
   return (
     <>
@@ -38,6 +32,7 @@ const RowTable = ({ stay, index }) => {
           },
         }}
       >
+        {/* title */}
         <TableCell align="left">
           <Typography
             sx={{
@@ -45,10 +40,11 @@ const RowTable = ({ stay, index }) => {
               // color: "#9e9e9e",
             }}
           >
-            {stay.title || "برداشت از کیف پول"}
+            {stay?.typeCostDisplay || ""}
           </Typography>
         </TableCell>
 
+        {/* status */}
         <TableCell align="center">
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Typography
@@ -69,15 +65,19 @@ const RowTable = ({ stay, index }) => {
             </Typography>
           </Box>
         </TableCell>
+
+        {/* price */}
         <TableCell align="left">
           <Typography
             sx={{
               fontSize: { xs: "0.75rem", sm: "0.85rem" },
             }}
           >
-            12،000 تومان
+            {Math.abs(stay?.price)?.toLocaleString() || ""} تومان
           </Typography>
         </TableCell>
+
+        {/* code */}
         <TableCell align="left">
           <Typography
             sx={{
@@ -86,25 +86,31 @@ const RowTable = ({ stay, index }) => {
           >
             158784991246
           </Typography>
+
         </TableCell>
+
+        {/* date */}
         <TableCell align="left">
           <Typography
             sx={{
               fontSize: { xs: "0.75rem", sm: "0.85rem" },
             }}
           >
-            1403/12/23
+            {shamsiDate(stay?.created) || ""}
           </Typography>
         </TableCell>
+
+        {/* time */}
         <TableCell align="left">
           <Typography
             sx={{
               fontSize: { xs: "0.75rem", sm: "0.85rem" },
             }}
           >
-            12:25
+            {getTime(stay?.created) || ""}
           </Typography>
         </TableCell>
+
       </TableRow>
     </>
   );

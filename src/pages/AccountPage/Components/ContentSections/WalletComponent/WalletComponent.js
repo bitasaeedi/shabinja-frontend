@@ -4,15 +4,17 @@ import {
   IconButton,
   SwipeableDrawer,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate, useParams } from "react-router-dom";
 import FormWallet from "./Components/FormWallet";
+
 const WalletComponent = ({ anchor, isMobile, nameSection = "account" }) => {
+  
   const [openDrawer, setOpenDrawer] = useState(anchor); // Manage drawer state
   const navigate = useNavigate();
+  
   const handleClose = () => {
     navigate(`/${nameSection}/menu`);
     setOpenDrawer(false);
