@@ -3,7 +3,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { DownloadImageApi } from "../../api/DownloadImageApi";
 const FastSearchCard = ({ myData = {} }) => {
-  console.log("myDatafast",myData);
   return (
     <Grid item>
       <Link
@@ -30,8 +29,8 @@ const FastSearchCard = ({ myData = {} }) => {
             component="img"
             sx={{
               height: {
-                width: 25,
-                height: 25,
+                width: 50,
+                height: 50,
               },
               
               objectFit: "cover",
@@ -46,7 +45,7 @@ const FastSearchCard = ({ myData = {} }) => {
           />
           <Typography
             variant="body2"
-            sx={{ marginTop: 1, fontSize: { xs: 13, md: 17 } }}
+            sx={{ marginTop: "0rem" ,fontSize: { xs: 13, md: 14 } }}
           >
             {myData.title}
           </Typography>
