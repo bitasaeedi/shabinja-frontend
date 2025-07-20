@@ -14,9 +14,8 @@ import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
-import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+import WalletOutlinedIcon from "@mui/icons-material/WalletOutlined";
 import LogoutIcon from "@mui/icons-material/Logout";
 import RemoveStorageLogin from "../../../../components/RemoveStorageLogin/RemoveStorageLogin";
 import { AppContext } from "../../../../App";
@@ -48,7 +47,7 @@ const MenuSection = () => {
       label: "کیف پول", // Wallet
       path: "wallet",
       pannel: true,
-      icon: <AccountBalanceWalletOutlinedIcon />,
+      icon: <WalletOutlinedIcon />,
     },
     {
       label: "سوالات متداول", // Help
