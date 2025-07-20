@@ -15,7 +15,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Divider,
 } from "@mui/material";
+import HourglassEmptyIcon from "@mui/icons-material/HourglassEmpty";
 import EditIcon from "@mui/icons-material/Edit";
 import UploadIcon from "@mui/icons-material/Upload";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -33,7 +35,7 @@ import { AppContext } from "../../../../../../App";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
 import InputMask from "react-input-mask";
 import { Delete } from "@mui/icons-material";
-
+import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 const FormProfile = () => {
   const appContext = useContext(AppContext);
   const [profileImage, setProfileImage] = useState(null);
@@ -554,6 +556,14 @@ const FormProfile = () => {
               />
             </Grid>
 
+            <Box sx={{ width: "100%", mt: 2, mb: 2 }}>
+              <Divider textAlign="left">
+                <Typography variant="subtitle2" color="rgba(0, 0, 0, 0.5)">
+                  اطلاعات بانکی
+                </Typography>
+              </Divider>
+            </Box>
+
             {/* shaba */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -593,6 +603,21 @@ const FormProfile = () => {
                   </InputMask>
                 )}
               />
+            </Grid>
+            <Grid item xs={12} md={6} mt={1}>
+              <Box display="flex" alignItems="center" gap={1}>
+                <HourglassEmptyIcon sx={{ fontSize: 16, color: "#287dfa" }} />
+                <Typography variant="body2" color="#287dfa">
+                  در حال بررسی
+                </Typography>
+              </Box>
+
+{/* برای تایید شده */}
+              {/* <Box display="flex" alignItems="center" gap={1}>
+                <DoneOutlinedIcon sx={{ fontSize: 18, color: "#96b859" }} />
+                <Typography variant="body2" color="#96b859">تایید شده</Typography>
+              </Box> */}
+
             </Grid>
 
             {/* show password Button */}

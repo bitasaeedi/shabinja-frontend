@@ -51,7 +51,7 @@ const ItemsFastSearch = [
     description: "اجاره روستایی",
   },
   {
-    icon: <StarIcon sx={{ fontSize: { xs: 25, md: 35 } }} />,
+    icon: <StarIcon sx={{ fontSize: { xs: 25, md: 35} }} />,
     label: "پیشنهاد ویژه",
   },
 ];

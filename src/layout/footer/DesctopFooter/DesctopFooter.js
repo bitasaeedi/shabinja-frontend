@@ -56,7 +56,7 @@ const DesctopFooter = () => {
       sx={{
         backgroundColor: "#f9f9f9",
         color: "#333",
-        py: 6,
+        py: {xs: 0,md: 6},
         borderTop: "1px solid #ddd",
         zIndex: "100 !important",
         position: "relative", // برای موقعیت‌دهی بهتر
@@ -414,9 +414,10 @@ const DesctopFooter = () => {
             </Grid>
           </Grid>
         </Box>
+
         <Box
-          mt={1}
-          pt={3}
+          mt={{xs: 0,md: 1}}
+          pt={{xs: 0,md: 3}}
           borderTop="1px solid #ddd"
           textAlign="center"
           color="textSecondary"
