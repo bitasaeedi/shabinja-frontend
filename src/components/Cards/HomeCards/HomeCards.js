@@ -83,6 +83,16 @@ const HomeCard = ({ myData = {} }) => {
         }}
         // className="border"
       >
+         <Link
+          to={`/stay/${myData?.id}`}
+          style={{
+            textDecoration: "none",
+            display: "block",
+            width: "100%",
+            color: "inherit",
+          }}
+          target="_blank"
+        >
         <SliderDetailsPage
           lists={myData?.images.map((item) => ({
             url: item,
@@ -110,16 +120,7 @@ const HomeCard = ({ myData = {} }) => {
         {/* </Tooltip> */}
 
         {/* Card Content */}
-        <Link
-          to={`/stay/${myData?.id}`}
-          style={{
-            textDecoration: "none",
-            display: "block",
-            width: "100%",
-            color: "inherit",
-          }}
-          target="_blank"
-        >
+       
           <CardContent className=" px-0 py-2 my-">
             {/* Title */}
             <Box
