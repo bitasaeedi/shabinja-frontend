@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Grid} from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { StayPageContext } from "../../StayPage";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 import { useParams } from "react-router-dom";
 import SliderDetailsPage from "../../../../components/Sliders/SliderDetailsPage";
 import CardImage from "../../../../components/Cards/CardImage/CardImage";
+import SwiperImageOverlay from "./SwiperImageOverlay";
 
 const ImageSection = () => {
   const { staycode } = useParams();
@@ -16,7 +17,7 @@ const ImageSection = () => {
     { id: 4 },
     { id: 5 },
   ]);
-  
+
   const [loadedImages, setLoadedImages] = useState([]);
   const stayPageContext = useContext(StayPageContext);
 
@@ -27,7 +28,11 @@ const ImageSection = () => {
   }, [stayPageContext.infoOfStay]);
 
   return (
-    <Box>
+    <Box
+      sx={{
+        width: "100%",
+      }}
+    >
       {/* Image Grid */}
       <Grid container spacing={2}>
         {/* Main Image Section */}
@@ -35,9 +40,16 @@ const ImageSection = () => {
           item
           xs={12}
           md={6}
-          sx={{ height: { xs: 220, sm: 300, md: "300px", lg: "380px" }, pb: 1 }}
+          sx={{
+            height: { xs: 280, sm: 300, md: "300px", lg: "380px" },
+          }}
         >
           <SliderDetailsPage lists={[...listImages]} />
+          <SwiperImageOverlay
+            onLike={() => console.log("Liked!")}
+            onShare={() => console.log("Shared!")}
+            onNext={() => console.log("Next!")}
+          />
         </Grid>
 
         <Grid

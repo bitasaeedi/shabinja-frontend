@@ -28,10 +28,10 @@ const NextArrow = ({ onClick, disabled, children }) => (
       transform: "translateY(-50%)",
       zIndex: 10,
       backgroundColor: disabled
-        ? "rgba(200, 200, 200, 0.7)"
-        : "rgba(250, 250, 250, 0.99)",
+        ? "rgba(200, 200, 200, 0.3)"
+        : "rgba(250, 250, 250, 0.4)",
       "&:hover": {
-        backgroundColor: "#ddd",
+        backgroundColor: "rgba(250, 250, 250, 0.7)",
       },
     }}
     disabled={disabled}
@@ -39,7 +39,7 @@ const NextArrow = ({ onClick, disabled, children }) => (
     <ArrowBackIosIcon
       sx={{
         fontSize: { xs: "16px", md: "16px" },
-        color: disabled ? "#999" : "#000",
+        color: disabled ? "#999" : "rgba(0, 0, 0, 0.6)",
       }}
     />
   </IconButton>
@@ -55,10 +55,10 @@ const PrevArrow = ({ onClick, disabled }) => (
       transform: "translateY(-50%)",
       zIndex: 10,
       backgroundColor: disabled
-        ? "rgba(200, 200, 200, 0.7)"
-        : "rgba(250, 250, 250, 0.99)",
+        ? "rgba(200, 200, 200, 0.3)"
+        : "rgba(250, 250, 250, 0.4)",
       "&:hover": {
-        backgroundColor: "#ddd",
+        backgroundColor: "rgba(250, 250, 250, 0.7)",
       },
     }}
     disabled={disabled}
@@ -66,13 +66,13 @@ const PrevArrow = ({ onClick, disabled }) => (
     <ArrowForwardIosIcon
       sx={{
         fontSize: { xs: "16px", md: "16x" },
-        color: disabled ? "#999" : "#000",
+        color: disabled ? "#999" : "rgba(0, 0, 0, 0.6)",
       }}
     />
   </IconButton>
 );
 
-const SliderDetailsPage = ({ lists, children }) => {
+const SliderDetailsPage = ({ lists, children}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const swiperRef = useRef(null);
@@ -133,7 +133,7 @@ const SliderDetailsPage = ({ lists, children }) => {
         modules={[Pagination, Navigation, Keyboard]} //Autoplay
         spaceBetween={0}
         loop={false}
-       // lazy={true}
+        // lazy={true}
         style={{
           height: "100%",
         }}

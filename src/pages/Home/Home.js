@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, useMediaQuery } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
@@ -26,6 +26,8 @@ import {
   GetListTitleSlidersApi,
 } from "../../api/PublicApis";
 import AdsPopover from "../../components/AdsPopover/AdsPopover";
+import SubSliderHeader from "./Components/SubSliderHeader";
+import { useTheme } from "@emotion/react";
 const cities = [
   {
     name: "رشت",
@@ -92,6 +94,8 @@ const cities = [
 
 const Home = () => {
   const appContext = useContext(AppContext);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const listFastes = ItemsFastSearch;
   const [listCategories, setListCategories] = useState([]);
   const [listTitleSliders, setListTitleSliders] = useState([]);
@@ -208,7 +212,14 @@ const Home = () => {
         }}
       >
         <MobileMainSlider MySliderList={cities.slice(0, 4)} />
+        
       </Box>
+
+      {isMobile ? (
+        <SubSliderHeader listCategories={listCategories} />
+      ) : (
+        <></>
+      )}
 
       {/* جستجو سریع */}
       <Box

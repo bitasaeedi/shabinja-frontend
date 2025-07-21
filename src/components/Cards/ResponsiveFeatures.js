@@ -100,6 +100,7 @@ const ResponsiveFeatures = () => {
               key={index}
               sx={{
                 display: "flex",
+                justifyContent: "center",
                 alignItems: "center",
                 padding: ".9rem",
                 textAlign: "center",

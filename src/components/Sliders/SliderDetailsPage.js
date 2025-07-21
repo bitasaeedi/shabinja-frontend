@@ -86,8 +86,8 @@ const SliderDetailsPage = ({ lists }) => {
 
   return (
     <Box sx={{ position: "relative", width: "100%", height: "100%" }}>
-      <NextArrow onClick={handleNextClick} disabled={false} />
-      <PrevArrow onClick={handlePrevClick} disabled={false} />
+      {!isMobile && <NextArrow onClick={handleNextClick} disabled={false} />}
+      {!isMobile && <PrevArrow onClick={handlePrevClick} disabled={false} />}
       <Swiper
         ref={swiperRef}
         centeredSlides={true}

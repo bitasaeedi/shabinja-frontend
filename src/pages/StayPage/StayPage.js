@@ -17,13 +17,17 @@ import MobileForm from "./Components/MobileForm/MobileForm";
 import TitleStay from "./Components/TitleStay/TitleStay";
 import { AppContext } from "../../App";
 import moment from "moment-jalaali";
+import StarIcon from '@mui/icons-material/Star';
+
 export const StayPageContext = createContext();
+
 const StayPage = () => {
   const { staycode } = useParams();
   const [listDateSelected, setListDateSelected] = useState([]);
   const [infoOfStay, setInfoOfStay] = useState({});
   const [loading, setLoading] = useState(true);
   const [listPrices, setListPrices] = useState([]);
+  const [mobileInfo, setMobileInfo] = useState({});
   const appContext = useContext(AppContext);
 
   useEffect(() => {
@@ -90,6 +94,11 @@ const StayPage = () => {
     console.log(myList, "prices");
     setListPrices(myList);
   };
+
+  const getMobileInfo = (info) => {
+    setMobileInfo(info);
+  };
+
   return (
     <StayPageContext.Provider
       value={{
@@ -99,14 +108,15 @@ const StayPage = () => {
         infoOfStay,
         loading,
         listPrices,
+        getMobileInfo,
       }}
     >
       {/* <Header showMobileHeader={false} /> */}
       <Box
         sx={{
-          width: { xs: "100%", md: "80%" }, 
+          width: { xs: "100%", md: "80%" },
           margin: "0 auto",
-          padding: { xs: 2, md: 0 },
+          padding: 0,
         }}
       >
         <Box
@@ -117,43 +127,51 @@ const StayPage = () => {
           {/* Empty space as header spacer */}
           <Box
             sx={{
-              height: { xs: 9, md: 100 }, 
+              height: { xs: 0, md: 100 },
             }}
           ></Box>
 
           {/* Image Section */}
-          <Box>
+          <Box
+            sx={{
+              width: "100%",
+            }}
+          >
             <TitleStay />
             <ImageSection />
+
+            {/* mobile info under slider */}
             <Box
               sx={{
                 display: { xs: "flex", md: "none" },
                 flexDirection: "column",
                 // justifyContent: "space-between",
-                alignItems: "start",
+                alignItems: "center",
                 // marginBottom: 2,
                 mt: 2,
+                px: { xs: 2, md: 0 },
               }}
             >
-              <Typography variant="h5" fontWeight="bold">
+              <Typography sx={{width:"100%",textAlign:"center"}} variant="h6" fontWeight="bold">
                 {infoOfStay?.title || ""}
               </Typography>
+
               <Typography
                 variant="body1"
                 color="text.secondary"
                 sx={{ marginBottom: 2 }}
               >
-                {`${infoOfStay?.accerss || ""}  ${
-                  infoOfStay?.room || ""
-                } اتاق، ${infoOfStay?.minCapacity || ""}تا${
-                  infoOfStay?.maxCapacity || ""
-                } نفر`}
+                <StarIcon sx={{ fontSize: 16, color: "#ffd700" }} />
+                {mobileInfo?.rate/20 || 0}
+                <Typography display="inline" variant="body1" color="text.secondary" px={1}>
+                  ({mobileInfo?.countcomment || 0} نظر ثبت شده)
+                </Typography>
               </Typography>
             </Box>
           </Box>
 
           {/* Content Section */}
-          <Box sx={{ mt: 2 }}>
+          <Box sx={{ mt: 2, px: { xs: 2, md: 0 } }}>
             <Grid container spacing={2}>
               <Grid item xs={12} md={7} lg={8} sx={{}}>
                 <ScrollableTabs />
@@ -166,14 +184,14 @@ const StayPage = () => {
                 lg={4}
                 sx={{
                   position: "relative",
-                  display: { xs: "none", md: "block" }, 
+                  display: { xs: "none", md: "block" },
                   // zIndex: "9000 !important",
                 }}
               >
                 <Box
                   sx={{
                     position: "sticky",
-                    top: 70, 
+                    top: 70,
                     height: 500,
                     width: "100%",
                     zIndex: "200 !important",
@@ -196,7 +214,6 @@ const StayPage = () => {
               city: [infoOfStay?.cityTitle],
             })
           }
-
           id={infoOfStay?.id}
         >
           <SwipperSliderPublick
@@ -213,15 +230,16 @@ const StayPage = () => {
         sx={{
           position: "sticky",
           bottom: 65,
-          backgroundColor: "rgba(0, 0, 0, 0.6)", 
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
           backdropFilter: "blur(5px)",
           color: "white",
           alignItems: "center",
-          zIndex: "200 !important",
+          zIndex: "100 !important",
           borderRadius: "5px",
           display: { md: "none" },
           mx: 1,
           height: "70px",
+          marginBottom: "2rem",
         }}
       >
         <MobileForm />

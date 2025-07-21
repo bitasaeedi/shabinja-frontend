@@ -27,8 +27,8 @@ const CardImage = ({ myData = {} }) => {
       sx={{
         width: "100%",
         height: "100%",
-        borderRadius: 3,
-        mx: "1px",
+        borderRadius: { xs: 0, md: 3},
+        mx: { xs: 0, md: 1},
         boxShadow: "none !important",
         overflow: "hidden",
         direction: "rtl",
@@ -59,7 +59,7 @@ const CardImage = ({ myData = {} }) => {
               xs: "100%",
             },
             objectFit: "cover",
-            borderRadius: "0px 0px 10px 10px",
+            borderRadius: { xs: 0, md: "0px 0px 10px 10px"},
           }}
           // `${baseUrl}${myData?.image}`
           image={DownloadImageApi(myData?.file?.url)} // Use the randomly selected image

@@ -138,7 +138,8 @@ const ScrollableTabs = () => {
           sx={{
             minHeight: "20vh",
             // backgroundColor: "lightblue",
-            py: 4,
+            pt: { xs: 1, md: 4 },
+            pb: 4 ,
           }}
         >
           <InfoSection />

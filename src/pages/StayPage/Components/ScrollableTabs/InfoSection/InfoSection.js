@@ -35,7 +35,7 @@ const InfoSection = () => {
         </Box>
 
         {/* نوع اجاره */}
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: { xs: 1, md: 4 } }}>
           <Box
             sx={{
               backgroundColor: "#eeeeee",
