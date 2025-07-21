@@ -29,14 +29,14 @@ const ImageOfCard = ({ url, title, myData }) => {
               variant="rectangular"
               width="100%"
               sx={{
-                height: { xs: 155, sm: 155, md: 195 },
+                height: { xs: 160, sm: 155, md: 205 },
               }}
             />
           )}
           <CardMedia
             component="img"
             sx={{
-              height: { xs: 155, sm: 155, md: 195 },
+              height: { xs: 161, sm: 155, md: 205 },
               objectFit: "cover",
               borderRadius: "0px 0px 10px 10px",
             }}

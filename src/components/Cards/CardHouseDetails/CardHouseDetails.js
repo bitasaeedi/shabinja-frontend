@@ -77,8 +77,9 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
             url: item,
             title: item,
           }))}
+          myData={myData}
         >
-          <ImageOfCardDetails />
+          <ImageOfCardDetails myData={myData} />
         </SliderDetailsPage>
 
         <Link

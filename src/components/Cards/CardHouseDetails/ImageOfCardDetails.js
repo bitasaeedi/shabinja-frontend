@@ -3,19 +3,22 @@ import { FavoriteBorder, Favorite } from "@mui/icons-material";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import { Link } from "react-router-dom";
 
-const ImageOfCardDetails = ({ url, title }) => {
+const ImageOfCardDetails = ({ url, title, myData }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
+  console.log("myData id", myData);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
   };
 
- 
-
   return (
-    <>
+    <Link
+      to={`/stay/${myData?.id}`}
+      style={{ textDecoration: "none", display: "block", width: "100%" }}
+      target="_blank"
+    >
       <Box sx={{ width: "100%", position: "relative" }}>
         {isImageLoaded != true && (
           <Skeleton
@@ -23,11 +26,11 @@ const ImageOfCardDetails = ({ url, title }) => {
             width="100%"
             sx={{
               height: {
-                xs: 150,
-                sm: 180,
-                md: 180,
-                lg: 200,
-                xl: 200,
+                xs: 210,
+                sm: 220,
+                md: 200,
+                lg: 205,
+                xl: 205,
               },
             }}
           />
@@ -36,11 +39,11 @@ const ImageOfCardDetails = ({ url, title }) => {
           component="img"
           sx={{
             height: {
-              xs: 150,
-              sm: 180,
-              md: 180,
-              lg: 200,
-              xl: 200,
+              xs: 210,
+              sm: 220,
+              md: 200,
+              lg: 205,
+              xl: 205,
             },
             objectFit: "cover",
             borderRadius: "0px 0px 10px 10px",
@@ -51,9 +54,8 @@ const ImageOfCardDetails = ({ url, title }) => {
           // loading="lazy"
           style={{ display: isImageLoaded ? "block" : "none" }}
         />
-
       </Box>
-    </>
+    </Link>
   );
 };
 

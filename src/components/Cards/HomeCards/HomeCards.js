@@ -25,10 +25,10 @@ const baseUrl = API_URL;
 
 const HomeCard = ({ myData = {} }) => {
   const [isLiked, setIsLiked] = useState(false);
-  const [favColor, setFavColor] = useState("white");
+  const [favColor, setFavColor] = useState("#ffffff96");
 
   useEffect(() => {
-    setFavColor(myData.isFavorite ? "red" : "white");
+    setFavColor(myData.isFavorite ? "red" : "#ffffff96");
   }, [myData.isFavorite]);
 
   const deleteFromFavorite = async () => {
