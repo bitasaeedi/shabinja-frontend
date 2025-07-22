@@ -75,6 +75,7 @@ const FormProfile = () => {
   const [shabaState, setShabaState] = useState(0);
   const [bankName, setBankName] = useState("");
   const [shabaOwner, setShabaOwner] = useState("");
+  const [shabaValue, setShabaValue] = useState("");
 
   const {
     control,
@@ -90,7 +91,7 @@ const FormProfile = () => {
 
   useEffect(() => {
     handleGetUserInfo();
-  }, []);
+  }, [shabaValue]);
 
   const handleGetUserInfo = async () => {
     try {
@@ -102,6 +103,7 @@ const FormProfile = () => {
       setShabaState(profile?.shabaBankState);
       setBankName(profile?.shabaBankTitle);
       setShabaOwner(profile?.fullNameOtherUserShaba);
+      setShabaValue(profile?.shaba);
 
       if (profile) {
         const shamsiObject = GetShamsiDateDetails(profile.birthDay);
@@ -216,6 +218,7 @@ const FormProfile = () => {
 
   const onSubmit = async (data) => {
     setLoadingForm(true);
+    setShabaValue(data.shaba);
     try {
       const result = await UserUpdateApi({
         firstName: data.name,
@@ -227,7 +230,7 @@ const FormProfile = () => {
         birthDay: data.birthday,
         shaba: data.shaba,
       });
-
+     
       handleManageAlert(
         true,
         result?.issuccess ? "success" : "error",
@@ -644,11 +647,19 @@ const FormProfile = () => {
                   padding: "0 5px 0 20px",
                 }}
               >
-                <Typography variant="body2" color="text.secondary" sx={{fontSize:"12px"}}>
-                صاحب شبا:  {shabaOwner ||null }
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontSize: "12px" }}
+                >
+                  صاحب شبا: {shabaOwner || null}
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary" sx={{fontSize:"12px"}}>
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontSize: "12px" }}
+                >
                   {bankName || "بانک: "}
                 </Typography>
               </Typography>
