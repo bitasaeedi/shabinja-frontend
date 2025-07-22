@@ -155,14 +155,12 @@ const Home = () => {
   const setFilters = (url) => {
     let filters = {};
     if (url?.includes("?")) {
-     
       const queryString = url.split("?")[1];
       const params = new URLSearchParams(queryString);
 
       params.forEach((value, key) => {
         filters[key] = isNaN(value) ? value : Number(value);
       });
-
     } else {
       return { title: url }; //like kurdestan
     }
@@ -185,14 +183,12 @@ const Home = () => {
       city: filters?.cities?.split(",") || [],
       locations: [], // لیست نقاط برای جستجو
     };
-    
-    return filtersParams
 
+    return filtersParams;
   };
 
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
-     
       {/* <AdsPopover /> */}
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
       <Box
@@ -209,17 +205,14 @@ const Home = () => {
         className=" "
         sx={{
           display: { xs: "flex", md: "none" },
+          width: "100%",
+          padding: "0 5px",
         }}
       >
         <MobileMainSlider MySliderList={cities.slice(0, 4)} />
-        
       </Box>
 
-      {isMobile ? (
-        <SubSliderHeader listCategories={listCategories} />
-      ) : (
-        <></>
-      )}
+      {isMobile ? <SubSliderHeader listCategories={listCategories} /> : <></>}
 
       {/* جستجو سریع */}
       <Box
@@ -242,7 +235,7 @@ const Home = () => {
       {/* ================================================== */}
       <Box className="px-0 mx-0">
         {/* title={"مقاصد محبوب"} */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 12 } }}>
+        <Box className=" " sx={{ marginTop: { xs: 2, md: 12 } }}>
           <InViewComponents getListData={() => getListData({})}>
             <SwipperSliderPublick
               deafultSkeleton={"favorit"}
@@ -250,17 +243,19 @@ const Home = () => {
               // slidesPerView={7}
               breakpoints={
                 {
-                  0: { slidesPerView: 2.1, spaceBetween: 8 },
-                  340: { slidesPerView: 2.3, spaceBetween: 5 },
-                  400: { slidesPerView: 2.5, spaceBetween: 5 },
-                  450: { slidesPerView: 2.8, spaceBetween: 5 },
-                  520: { slidesPerView: 3.2, spaceBetween: 5 },
-                  600: { slidesPerView: 3.45, spaceBetween: 10 },
-                  700: { slidesPerView: 3.85, spaceBetween: 10 },
-                  820: { slidesPerView: 4.25, spaceBetween: 10 },
-                  1024: { slidesPerView: 4.5, spaceBetween: 10 },
-                  1300: { slidesPerView: 4.6, spaceBetween: 10 },
-                  1450: { slidesPerView: 5.5, spaceBetween: 20 },
+                  0: { slidesPerView: 2.3, spaceBetween: 8 },
+                  340: { slidesPerView: 2.4, spaceBetween: 5 },
+                  370: { slidesPerView: 2.6, spaceBetween: 5 },
+                  400: { slidesPerView: 2.8, spaceBetween: 5 },
+                  440: { slidesPerView: 3.2, spaceBetween: 5 },
+                  520: { slidesPerView: 3.6, spaceBetween: 5 },
+                  600: { slidesPerView: 3.9, spaceBetween: 10 },
+                  700: { slidesPerView: 4.4, spaceBetween: 10 },
+                  810: { slidesPerView: 5.1, spaceBetween: 10 },
+                  900: { slidesPerView: 4.9, spaceBetween: 10 },
+                  1024: { slidesPerView: 5.45, spaceBetween: 10 },
+                  1300: { slidesPerView: 5.6, spaceBetween: 10 },
+                  1450: { slidesPerView: 5.8, spaceBetween: 20 },
                 }
 
                 //   {
@@ -318,6 +313,7 @@ const Home = () => {
             >
               <HomeCards />
             </SwipperSliderPublick>
+            
           </InViewComponents>
         </Box>
 

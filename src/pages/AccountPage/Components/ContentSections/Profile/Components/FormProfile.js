@@ -36,6 +36,27 @@ import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
 import InputMask from "react-input-mask";
 import { Delete } from "@mui/icons-material";
 import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
+import axios from "axios";
+import API_URL from "../../../../../../config/apiConfig";
+const baseUrl = API_URL;
+const shabaStates = [
+  {
+    text: "در حال بررسی",
+    colorCode: "#287dfa",
+    icon: <HourglassEmptyIcon sx={{ fontSize: 16, color: "#287dfa" }} />,
+  },
+  {
+    text: "تایید شده",
+    colorCode: "#96b859",
+    icon: <DoneOutlinedIcon sx={{ fontSize: 16, color: "#96b859" }} />,
+  },
+  {
+    text: "رد شده",
+    colorCode: "error",
+    icon: <CloseOutlinedIcon color="error" sx={{ fontSize: 16 }} />,
+  },
+];
 const FormProfile = () => {
   const appContext = useContext(AppContext);
   const [profileImage, setProfileImage] = useState(null);
@@ -51,6 +72,9 @@ const FormProfile = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [showPassField, setShowPassField] = useState(false);
+  const [shabaState, setShabaState] = useState(0);
+  const [bankName, setBankName] = useState("");
+  const [shabaOwner, setShabaOwner] = useState("");
 
   const {
     control,
@@ -75,6 +99,9 @@ const FormProfile = () => {
       const userData = await UserSearchOneApi();
       const profile = userData?.data;
       console.log(profile, "prof");
+      setShabaState(profile?.shabaBankState);
+      setBankName(profile?.shabaBankTitle);
+      setShabaOwner(profile?.fullNameOtherUserShaba);
 
       if (profile) {
         const shamsiObject = GetShamsiDateDetails(profile.birthDay);
@@ -565,7 +592,7 @@ const FormProfile = () => {
             </Box>
 
             {/* shaba */}
-            <Grid item xs={12} md={6}>
+            <Grid item xs={12} md={6} sx={{ position: "relative" }}>
               <Controller
                 name="shaba"
                 control={control}
@@ -603,21 +630,41 @@ const FormProfile = () => {
                   </InputMask>
                 )}
               />
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{
+                  position: "absolute",
+                  bottom: -8,
+                  right: 0,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: 1,
+                  width: "100%",
+                  padding: "0 5px 0 20px",
+                }}
+              >
+                <Typography variant="body2" color="text.secondary" sx={{fontSize:"12px"}}>
+                صاحب شبا:  {shabaOwner ||null }
+                </Typography>
+
+                <Typography variant="body2" color="text.secondary" sx={{fontSize:"12px"}}>
+                  {bankName || "بانک: "}
+                </Typography>
+              </Typography>
             </Grid>
+
+            {/* shaba state */}
             <Grid item xs={12} md={6} mt={1}>
               <Box display="flex" alignItems="center" gap={1}>
-                <HourglassEmptyIcon sx={{ fontSize: 16, color: "#287dfa" }} />
-                <Typography variant="body2" color="#287dfa">
-                  در حال بررسی
+                {shabaStates[shabaState].icon}
+                <Typography
+                  variant="body2"
+                  color={shabaStates[shabaState].colorCode}
+                >
+                  {shabaStates[shabaState].text}
                 </Typography>
               </Box>
-
-{/* برای تایید شده */}
-              {/* <Box display="flex" alignItems="center" gap={1}>
-                <DoneOutlinedIcon sx={{ fontSize: 18, color: "#96b859" }} />
-                <Typography variant="body2" color="#96b859">تایید شده</Typography>
-              </Box> */}
-
             </Grid>
 
             {/* show password Button */}

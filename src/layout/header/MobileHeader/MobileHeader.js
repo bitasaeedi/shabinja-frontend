@@ -165,6 +165,7 @@ const MobileHeader = () => {
               <Grid container spacing={0} className="pb-3 w-100">
                 {/* Top Bar: Logo and User Section */}
                 <Grid
+                  xs={4}
                   container
                   alignItems="center"
                   justifyContent="space-between"
@@ -178,7 +179,7 @@ const MobileHeader = () => {
                   <Grid
                     item
                     // xs="auto"
-                    sx={{ display: isSticky ? "none" : "flex", maxWidth: 215 }}
+                    sx={{ display: isSticky ? "none" : "inline", maxWidth: 215 }}
                   >
                     <Link
                       to="/"
@@ -191,23 +192,23 @@ const MobileHeader = () => {
                         alt="Shabinja Logo"
                         className="my-0 py-0 mt-3"
                         sx={{
-                          maxWidth: 90,
+                          maxWidth: 115,
                           width: "auto",
                           height: "auto",
                           objectFit: "contain",
                           cursor: "pointer",
                         }}
                       />
-                      <Box className="my-0 py-0 pt-1">
+                      {/* <Box className="my-0 py-0 pt-1">
                         <Typography variant="body2" sx={{ color: "#9999" }}>
                           اجاره ویلا، سوئیت و اقامتگاه در سراسر ایران
                         </Typography>
-                      </Box>
+                      </Box> */}
                     </Link>
                   </Grid>
 
                   {/* User Section */}
-                  <Grid item xs="auto">
+                  {/* <Grid item xs="auto">
                     {appContext.isLoginMain ? (
                       <div></div>
                     ) : (
@@ -232,11 +233,11 @@ const MobileHeader = () => {
                         <Typography variant="body2">ورود یا ثبت‌نام</Typography>
                       </Button>
                     )}
-                  </Grid>
+                  </Grid> */}
                 </Grid>
 
                 {/* Search Bar */}
-                <Grid item xs={12} className="w-100 mt-3">
+                <Grid item xs={isSticky ? 12 : 8} className="w-100 mt-3">
                   <Box>
                     <Search onClick={(e) => handleDateClick(e, "city")}>
                       <SearchIconWrapper>

@@ -14,6 +14,12 @@ const HomeCardSkeleton = () => (
         pb: 0,
         mb: 1,
         backgroundColor: "transparent",
+        "@media (min-width:400px) and (max-width:460px)": {
+          width: 320,
+        },
+        "@media (min-width:460px) and (max-width:520px)": {
+          width: 330,
+        },
       }}
     >
       {/* Skeleton for Image */}

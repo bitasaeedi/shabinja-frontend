@@ -237,24 +237,29 @@ const SwipperSliderPublick = ({
         onSlideChange={handleSlideChange}
         breakpoints={
           breakpoints
-          ? breakpoints
-          : {
-          0: { slidesPerView: .93, spaceBetween: 2 },  
-          350: { slidesPerView: 1, spaceBetween: 2 },  
-          390: { slidesPerView: 1.1, spaceBetween: 2 },  
-          460: { slidesPerView: 1.3, spaceBetween: 8 },
-          540: { slidesPerView: 1.4, spaceBetween: 8 },
-          600: { slidesPerView: 1.5, spaceBetween: 10 },
-          720: { slidesPerView: 2, spaceBetween: 12 },
-          1026: { slidesPerView: 2.25, spaceBetween: 10 },
-          1120: { slidesPerView: 2.45, spaceBetween: 10 },
-          1300: { slidesPerView: 2.8, spaceBetween: 20 },
-          1370: { slidesPerView: 2.9, spaceBetween: 20 },
-          1450: { slidesPerView: 3, spaceBetween: 20 },
-        }}
+            ? breakpoints
+            : {
+                0: { slidesPerView: 1.05, spaceBetween: 2 },
+                350: { slidesPerView: 1.1, spaceBetween: 2 },
+                375: { slidesPerView: 1.2, spaceBetween: 2 },
+                400: { slidesPerView: 1.1, spaceBetween: 2 },
+                430: { slidesPerView: 1.2, spaceBetween: 8 },
+                510: { slidesPerView: 1.65, spaceBetween: 8 },
+                590: { slidesPerView: 2.05, spaceBetween: 10 },
+                680: { slidesPerView: 2.3, spaceBetween: 12 },
+                740: { slidesPerView: 2.5, spaceBetween: 12 },
+                900: { slidesPerView: 2.4, spaceBetween: 12 },
+                1026: { slidesPerView: 2.65, spaceBetween: 10 },
+                1120: { slidesPerView: 2.9, spaceBetween: 10 },
+                1250: { slidesPerView: 3.15, spaceBetween: 20 },
+                1355: { slidesPerView: 3.35, spaceBetween: 20 },
+                1440: { slidesPerView: 3.5, spaceBetween: 20 },
+                1510: { slidesPerView: 3.6, spaceBetween: 20 },
+              }
+        }
+        // slidesOffsetBefore={deafultSkeleton === "favorit" ? 60 : 80} // adjust px as needed
         style={{
           paddingBottom: "5px",
-          paddingLeft: deafultSkeleton === "favorit" ? "12%" : "17%",
         }}
       >
         {loading !== false

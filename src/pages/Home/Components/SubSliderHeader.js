@@ -14,18 +14,24 @@ const SubSliderHeader = ({ listCategories = [] }) => {
   return (
     <>
       {isMobile ? (
-        <Grid
+        <Box
           sx={{
-            padding: "0 12px",  
+            margin: "0 12px",
           }}
-          container
-          justifyContent="space-around"
-          alignItems="center"
         >
-          {listCategories.map((item, index) => (
-            <FastSearchCardMobile key={index} myData={item} />
-          ))}
-        </Grid>
+          <Grid
+            sx={{}}
+            container
+            spacing={0} // Adds spacing between items properly
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            {listCategories.map((item, index) => (
+              <FastSearchCardMobile key={index} myData={item} />
+            ))}
+          </Grid>
+
+        </Box>
       ) : (
         <>
           <Grid container justifyContent="space-around" alignItems="center">

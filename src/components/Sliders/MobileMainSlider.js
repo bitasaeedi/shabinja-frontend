@@ -61,7 +61,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
 
   return (
     <div
-      className="slider-container p-0 mt-1"
+      className="p-0 mt-1"
       style={{ width: "100%", overflow: "hidden", position: "relative" }}
     >
       <Slider {...settings}>
@@ -70,9 +70,10 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
             <Box
               sx={{
                 width: "100%",
-                height: 0,
+                height: 270,
                 paddingBottom: { xs: "60%", sm: "50%" },
                 position: "relative",
+                borderRadius: "10px",
               }}
             >
               <img
@@ -83,7 +84,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
                   top: 0,
                   left: 0,
                   width: "100%",
-                  height: "100%",
+                  height: "270px",
                   borderRadius: "10px",
                   objectFit: "cover",
                 }}

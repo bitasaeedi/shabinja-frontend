@@ -106,7 +106,7 @@ const SliderDetailsPage = ({ lists, children}) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {isHovered && (
+      {(isHovered || isMobile) && (
         <>
           <NextArrow onClick={handleNextClick} disabled={isNextDisabled} />
           <PrevArrow onClick={handlePrevClick} disabled={isPrevDisabled} />

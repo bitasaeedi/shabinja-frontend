@@ -29,16 +29,22 @@ const ImageOfCard = ({ url, title, myData }) => {
               variant="rectangular"
               width="100%"
               sx={{
-                height: { xs: 160, sm: 155, md: 205 },
+                height: { xs: 185, sm: 155, md: 205 },
+                "@media (min-width:400px) and (max-width:500px)": {
+                  height:210
+                },
               }}
             />
           )}
           <CardMedia
             component="img"
             sx={{
-              height: { xs: 161, sm: 155, md: 205 },
+              height: { xs: 185, sm: 155, md: 205 },
               objectFit: "cover",
               borderRadius: "0px 0px 10px 10px",
+              "@media (min-width:400px) and (max-width:500px)": {
+                height:210
+              },
             }}
             image={DownloadImageApi(url)} // Use the randomly selected image
             alt={title}

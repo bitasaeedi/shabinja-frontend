@@ -53,11 +53,11 @@ const HomeCard = ({ myData = {} }) => {
   };
 
   const handleLikeClick = () => {
-    if (favColor==="red") {
+    if (favColor === "red") {
       deleteFromFavorite();
-      setFavColor("white")
+      setFavColor("white");
     } else {
-      setFavColor("red")
+      setFavColor("red");
       setIsLiked(true);
     }
   };
@@ -70,7 +70,7 @@ const HomeCard = ({ myData = {} }) => {
     <Box className=" w-auto pb-0 mb-0">
       <Card
         sx={{
-          width: { xs: 255, sm: 265, md: 300, lg: 310, xl: 330 },
+          width: { xs: 280, sm: 265, md: 300, lg: 310, xl: 330 },
           borderRadius: 3,
           // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
           boxShadow: "none !important",
@@ -80,6 +80,12 @@ const HomeCard = ({ myData = {} }) => {
           mb: 1,
           backgroundColor: "transparent",
           position: "relative",
+          "@media (min-width:400px) and (max-width:460px)": {
+            width: 320,
+          },
+          "@media (min-width:460px) and (max-width:520px)": {
+            width: 330,
+          },
         }}
         // className="border"
       >

@@ -10,21 +10,27 @@ export default function FastSearchCardMobile({ myData = {} }) {
       <Grid
         item
         xs={3}
-       
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          // border: "1px solid blue",
+        }}
       >
         <Link
           to={`${myData?.linkUrl}`}
-          style={{ textDecoration: "none", display: "block", width: "100%" }}
+          style={{ textDecoration: "none", display: "block", width: "70px" }}
         >
           <Button
             sx={{
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-              justifyContent: "start",
+              justifyContent: "center",
               minWidth: { xs: 70, md: 100 },
-              height: { xs: 90, md: 100 },
-              margin: "5px",
+              height: { xs: 88, md: 100 },
+              margin: "5px 0",
               backgroundColor: "transparent",
               boxShadow: "none",
               color: "#37474f",

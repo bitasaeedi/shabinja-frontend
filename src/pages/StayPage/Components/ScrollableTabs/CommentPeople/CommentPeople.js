@@ -10,6 +10,7 @@ import AverageRate from "./AverageRate";
 const baseUrl = API_URL;
 
 const CommentPeople = ({ id }) => {
+
   const [commentsList, setCommentsList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const stayPageContext = useContext(StayPageContext);
@@ -24,10 +25,9 @@ const CommentPeople = ({ id }) => {
       });
       console.log(response?.data?.data, "show comments response");
       setCommentsList(response?.data?.data);
-      return response.data;
+      stayPageContext?.getMobileInfo(response?.data?.data);
     } catch (error) {
       console.log("show comments Error:", error?.response?.data);
-      return error?.response?.data;
     }
   };
 
