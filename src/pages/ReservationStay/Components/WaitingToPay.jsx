@@ -21,7 +21,13 @@ const stepValues = {
   },
 };
 
-const WaitingToPay = ({ activeStep = 1, titmer = true, guid }) => {
+const WaitingToPay = ({
+  activeStep = 1,
+  titmer = true,
+  guid,
+  expired,
+  finishTimeReserve,
+}) => {
   const [timerSec, setTimerSec] = useState(0);
   const [isTimeOut, setIsTimeOut] = useState(false);
   const { handleGetInfoOfReserve } = useContext(ReservationStayContext);
@@ -46,7 +52,7 @@ const WaitingToPay = ({ activeStep = 1, titmer = true, guid }) => {
       }, 1000);
     } else if (timerSec <= 0) {
       setIsTimeOut(true);
-      handleGetInfoOfReserve();
+      handleGetInfoOfReserve(true);
     }
 
     return () => clearInterval(interval);

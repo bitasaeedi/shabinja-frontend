@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import MagPosts from "./MagPosts";
 export default function MainPart() {
   const { id } = useParams();
-console.log("id",id);
+  console.log("id", id);
 
   return (
     <>
@@ -20,7 +20,7 @@ console.log("id",id);
         }}
       >
         {/* content part */}
-        {id ? <MagPosts/> : <ContentPart myWidth={"74%"} />}
+        {id ? <MagPosts /> : <ContentPart myWidth={"74%"} />}
         {/* <ContentPart myWidth={"72%"} /> */}
 
         {/* side bar */}

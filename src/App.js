@@ -157,7 +157,7 @@ function App() {
           // connectEnabled={!!token}
           // accessTokenFactory={() => token}
           // dependencies={[token]}
-          url={"https://example/hub"}
+          url={"https://apibasegateway.shabinja.com/OrderHub"}
         >
           <AppContext.Provider
             value={{

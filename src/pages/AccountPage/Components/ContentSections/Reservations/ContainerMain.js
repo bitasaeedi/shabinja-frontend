@@ -17,10 +17,16 @@ const ContainerMain = () => {
   const handleGetMyReserve = async (dontShowLoading) => {
     if (!dontShowLoading) {
       setLoading(true);
-    };
-    const result = await MyReservationsApi(tabValue);
+    }
+    var boolValue = null;
+    if (tabValue === 0) {
+      var boolValue = true;
+    } else {
+      var boolValue = false;
+    }
+    const result = await MyReservationsApi(boolValue);
     const listReserve = result?.data || [];
-    console.log(listReserve, "listReserve" , result);
+    console.log(listReserve, "listReserve", result);
     setStays(listReserve);
 
     setLoading(false);

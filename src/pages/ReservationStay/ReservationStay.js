@@ -1,4 +1,4 @@
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GetLinkPayReserveApi } from "../../api/PannelApis";
@@ -41,9 +41,19 @@ const ReservationStay = () => {
 
   const [messages, setMessage] = useState([]);
 
-  SignalRContext.useSignalREffect("updateInforeserve", (message) => {
-    console.log(message, "SignalRContext message useSignalREffect");
-    handleGetInfoOfReserve(true);
+  SignalRContext.useSignalREffect("OrderAccept", (message) => {
+    console.info(
+      message,
+      "SignalRContext message useSignalREffect",
+      code,
+      parseFloat(message?.orderNumber) === parseFloat(code)
+    );
+    // refresh api if guid was current guid of reserve
+    if (parseFloat(message?.orderNumber) === parseFloat(code)) {
+      console.info("refreshing ...", message?.orderNumber);
+      handleGetInfoOfReserve(true); //true
+    }
+
     setMessage([...messages, message]);
   });
 
@@ -124,7 +134,7 @@ const ReservationStay = () => {
 
     const result = await GetInfoReserveApi(code);
     var myData = result?.data;
-    console.log(infoOfReserve, "infoOfReserve handleGetInfoOfReserve");
+
     // اطلاعات رزرو و قیمت
     const exitEdData = {
       price: myData?.facktorFirstPrice,
@@ -137,7 +147,14 @@ const ReservationStay = () => {
       sms: myData?.mobile,
       fullName: myData?.fullName,
       guid: myData?.guid,
+      expired: myData?.expired,
     };
+    console.log(
+      exitEdData,
+      "infoOfReserve handleGetInfoOfReserve",
+      "result =>",
+      myData
+    );
     setInfoOfReserve(exitEdData);
 
     // اطلاعات اقامکتگاه
@@ -192,7 +209,7 @@ const ReservationStay = () => {
       mobile: inputeValue?.sms,
     };
     const result = await RequestToReserveApi(dataToSend);
-    console.log(result, "RequestToReserveApi");
+    // console.log(result, "RequestToReserveApi");
 
     if (result?.data?.orderNumber > 0) {
       const url = `/book/preorder/${result?.data?.orderNumber}`;
@@ -206,13 +223,13 @@ const ReservationStay = () => {
   const handleUpdateInputeValue = (data) => {
     var newValue = { ...inputeValue, ...data };
     setInputeValues(newValue);
-    console.log(newValue, "newValue , ", data);
+    // console.log(newValue, "newValue , ", data);
   };
 
   const handleGoToPayLink = async () => {
     try {
       const result = await GetLinkPayReserveApi(infoOfReserve?.guid);
-      console.log(result, "handleGoToPayLink");
+      // console.log(result, "handleGoToPayLink");
 
       if (result?.data?.link) {
         // For external URLs, use window.location.href
@@ -290,7 +307,7 @@ const ReservationStay = () => {
               >
                 <Box sx={{ px: { xs: 0, md: 4 } }}>
                   <StepperReserve
-                    errorTab={false}
+                    errorTab={infoOfReserve?.expired}
                     activeStep={infoOfReserve?.state}
                     steps={[
                       "ثبت درخواست",
@@ -299,14 +316,29 @@ const ReservationStay = () => {
                       "تحویل کلید",
                     ]}
                   />
-                  {stepName === "preorder" &&
-                    (infoOfReserve?.state === 1 ||
-                      infoOfReserve?.state === 2) && (
+                  {((stepName === "preorder" && infoOfReserve?.state === 1) ||
+                    infoOfReserve?.state === 2) &&
+                    !infoOfReserve?.expired && (
                       <WaitingToPay
                         activeStep={infoOfReserve?.state}
                         guid={infoOfReserve?.guid}
+                        expired={infoOfReserve?.expired}
                       />
                     )}
+
+                  {infoOfReserve?.expired && (
+                    <Box
+                      sx={{
+                        width: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Typography sx={{ color: "red" }}>
+                        رزرو اقامتگاه با خطا مواجه شده است
+                      </Typography>
+                    </Box>
+                  )}
 
                   <ShowInfoOfReserve />
                 </Box>
