@@ -8,23 +8,31 @@ const InViewComponents = ({
   skeletonComponent,
   favoritSkeleton,
   id,
+  stayList
 }) => {
   const [listData, setListData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [provinces, setProvinces] = useState([]);
 
   const checkSimilarity = (result) => {
 
     const filteredResult = result.filter(r => r.id !== id);
 
-   // console.log("similarity: ",id , result , filteredResult);
-    
     return filteredResult
 
   };
 
   const onChangeFunction = async () => {
     setLoading(true);
-    const result = await getListData();
+    let result= {};
+    if(stayList){
+      const allResults= await getListData();
+       result =allResults?.items;
+      setProvinces(allResults?.provinces)
+    }
+    else{
+       result = await getListData();
+    }
     if(id){
       setListData(checkSimilarity(result) || []);
     }
@@ -50,6 +58,7 @@ const InViewComponents = ({
           {listData.length > 0 &&
             React.cloneElement(children, {
               lists: listData || [],
+              provinces: provinces||[],
               // customSettings: customSettings,
               loading: loading,
               favoritSkeleton: favoritSkeleton,

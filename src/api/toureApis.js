@@ -37,6 +37,8 @@ export const HostTourSearchApi = async (searchData) => {
         OtherItemTour: searchData?.otherItemTour || [],
         province: searchData?.province || [],
         city: searchData?.city || [],
+        LastMinuteDiscounts:searchData?.LastMinuteDiscounts || false,
+        InstantBooking:searchData?.InstantBooking || false,
       },
       {
         headers: {
@@ -107,6 +109,42 @@ export const CategoryHostApi = async (searchData) => {
     return error?.response?.data;
   }
 };
+
+// اقامتگاه های لخظه اخری
+// export const LastMinuteDiscounts = async () => {
+
+//   try {
+//     const token = localStorage.getItem("access_token");
+//     const response = await axios.get(`${baseUrl}/HostTour/LastMinuteDiscounts`, {
+//       headers: {
+//         token: token, 
+//       },
+//     });
+
+//     return response?.data; 
+//   } catch (error) {
+//     console.log("Error:", error?.response?.data);
+//     return error?.response?.data;
+//   } 
+// };
+
+// // رزرو فوری
+// export const InstantBooking = async () => {
+
+//   try {
+//     const token = localStorage.getItem("access_token");
+//     const response = await axios.get(`${baseUrl}/HostTour/InstantBooking`, {
+//       headers: {
+//         token: token, 
+//       },
+//     });
+
+//     return response?.data; 
+//   } catch (error) {
+//     console.log("Error:", error?.response?.data);
+//     return error?.response?.data;
+//   } 
+// };
 
 //  سرچ نوع اقامتگاه
 export const GetTypeHostListApi = async (searchData) => {
@@ -201,6 +239,8 @@ export const HostTourSearchOneApiForEdit = async (guid) => {
 
 //  ایجاد یک اقامتگاه جدید
 export const HostTourCreateApi = async (createData) => {
+  console.log("createData", createData);
+  
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
@@ -209,8 +249,8 @@ export const HostTourCreateApi = async (createData) => {
         Title: createData?.title, // "اسم میزبان",
         TypeHostId: createData?.typeHostId, // 1, //نوع اقامت برحسب آی دی
         TypeHostLocId: createData?.typeHostLocId, //1, //منطقه اقامت برحسب آی دی
-        ProvinceId: createData?.provinceId, //1, //استان برحسب آی دی
-        CityId: createData?.cityId, //1, // شهر برحسب استان
+        provinceId: createData?.provinceId, //1, //استان برحسب آی دی
+        cityId: createData?.cityId, //1, // شهر برحسب استان
         Start: createData?.start, //"12:00", // ساعت ورود برحسب رشته
         End: createData?.end, //"17:00", //ساعت خروج بر حسب رشته
         SizeOfTheInfrastructure: createData?.sizeOfTheInfrastructure, //120, // متراژ زیربنا
@@ -226,7 +266,7 @@ export const HostTourCreateApi = async (createData) => {
         RolItemTourIds: createData?.rolItemTourIds, //["1", "2"], /// قوانین برحسب لیست آی دی
         Dics: createData?.dics, //"توضیحات",
         Loc: createData?.loc, //"لوکیشن",
-        Address: createData?.address || "", // آدرس متنی
+        address: createData?.address || "", // آدرس متنی
         tell: createData?.tell || "",
         zipCod: createData?.zipCod || "",
       },

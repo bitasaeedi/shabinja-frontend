@@ -35,9 +35,9 @@ const DesctopFooter = () => {
           },
         }
       );
-      setFooterLinks(response?.data?.data)
-      console.log("links",response?.data?.data);
-      
+      setFooterLinks(response?.data?.data);
+      console.log("links", response?.data?.data);
+
       return true;
     } catch (error) {
       console.log(error?.response);
@@ -46,9 +46,9 @@ const DesctopFooter = () => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     handleLinks();
-  },[])
+  }, []);
 
   return (
     <Box
@@ -56,9 +56,10 @@ const DesctopFooter = () => {
       sx={{
         backgroundColor: "#f9f9f9",
         color: "#333",
-        py: {xs: 0,md: 6},
+        py: { md: 6 },
         borderTop: "1px solid #ddd",
         zIndex: "100 !important",
+        paddingTop: "1.2rem",
         position: "relative", // برای موقعیت‌دهی بهتر
       }}
     >
@@ -66,107 +67,68 @@ const DesctopFooter = () => {
         {/* Logo and Quick Links Section */}
 
         <Grid container spacing={2}>
-          {footerLinks?.map((link,index)=>{
-            return <Grid item xs={6} md={2}>
+          <Box
+            sx={{
+              paddingLeft: "35px",
+              display: "flex",
+              gap: 0,
+              justifyContent: {xs:"space-around",md:"flex-end"},
+              width: { xs: "100%", md: "55%" },
+              height: "100%",
+              pt: 2,
+            }}
+          >
+            {footerLinks?.map((link, index) => {
+              return (
+                <Grid item xs={4} md={4} >
 
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              gutterBottom
-              sx={{
-                // color: "#0d47a1",
-                textAlign: { xs: "start", md: "center" },
-              }}
-            >
-              {link.category}
-            </Typography>
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    gutterBottom
+                    sx={{
+                      // color: "#0d47a1",
+                      textAlign: { xs: "start", md: "start" },
+                    }}
+                  >
+                    {link.category}
+                  </Typography>
 
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "space-between", md: "space-around" },
-              }}
-            >
-    
-              <Stack spacing={1}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: {
+                        xs: "space-between",
+                        md: "space-around",
+                      },
+                    }}
+                  >
+                    <Stack
+                      spacing={1}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        gap: 0,
+                        alignItems: "flex-start",
+                        justifyContent: "center",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    >
+                      {link.list?.map((list) => {
+                        return (
+                          <Link to={list.urlTour} className="react-router-link">
+                            <Typography sx={{}}>{list.title}</Typography>
+                          </Link>
+                        );
+                      })}
+                    </Stack>
+                  </Box>
+                </Grid>
+              );
+            })}
+          </Box>
 
-              {link.list?.map((list)=>{
-                return  <Link to={list.urlTour} className="react-router-link">
-                <Typography sx={{}}>{list.title}</Typography>
-              </Link>
-              })}
-
-              </Stack>
-            </Box>
-
-          </Grid>
-          })}
-         
-          <Grid item xs={12} md={4}>
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              gutterBottom
-              sx={{
-                // color: "#0d47a1",
-                textAlign: { xs: "start", md: "center" },
-              }}
-            >
-              دسترسی سریع
-            </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: { xs: "space-between", md: "space-around" },
-              }}
-            >
-              <Stack spacing={1}>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    شیوه‌های پرداخت امن
-                  </Typography>
-                </Link>
-                <Link to="/help" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    سوالات متداول مسافران
-                  </Typography>
-                </Link>
-
-                <Link to="/rules" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    قوانین و مقررات
-                  </Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    رزرو اقامتگاه
-                  </Typography>
-                </Link>
-              </Stack>
-              <Stack spacing={1} sx={{ textAlign: "center" }}>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    صفحه اصلی
-                  </Typography>
-                </Link>
-                <Link to="/" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    مجله شبینجا
-                  </Typography>
-                </Link>
-                <Link to="/about" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    درباره ما
-                  </Typography>
-                </Link>
-                <Link to="/contact" className="react-router-link">
-                  <Typography sx={{ textAlign: "center" }}>
-                    تماس با ما
-                  </Typography>
-                </Link>
-              </Stack>
-            </Box>
-          </Grid>
           {/* Licenses Section */}
           <Grid item xs={12} md={4}>
             <Typography
@@ -318,7 +280,7 @@ const DesctopFooter = () => {
           // borderTop="1px solid #ddd"
           textAlign="center"
           color="textSecondary"
-          sx={{ pb: { xs: 5, md: 0 } }}
+          sx={{ pb: { xs: 3, md: 0 } }}
         >
           <Grid container>
             {/* تلفن */}
@@ -416,12 +378,12 @@ const DesctopFooter = () => {
         </Box>
 
         <Box
-          mt={{xs: 0,md: 1}}
-          pt={{xs: 0,md: 3}}
+          mt={{ xs: 0, md: 1 }}
+          pt={{ xs: 0, md: 3 }}
           borderTop="1px solid #ddd"
           textAlign="center"
           color="textSecondary"
-          sx={{ pb: { xs: 5, md: 0 } }}
+          sx={{ pb: { xs: 2, md: 0 } }}
         >
           <Typography
             variant="caption"

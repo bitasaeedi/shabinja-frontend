@@ -5,7 +5,15 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
 import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
-import { Box, Button, IconButton, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Tabs,
+  Typography,
+} from "@mui/material";
+import { Tab } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CardSkeletonComment from "../Cards/CardComment/CardSkeletonComment";
@@ -61,6 +69,9 @@ const SwipperSliderPublick = ({
   widthSize,
   linkToSeeMore,
   showTimer = false,
+  provinces,
+  handleChangeProvince,
+  selectedCity,
 }) => {
   const swiperRef = useRef(null);
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
@@ -72,6 +83,7 @@ const SwipperSliderPublick = ({
     s: "00",
   });
 
+  console.log(selectedCity, "selectedCity");
   // تابع برای محاسبه زمان باقی‌مانده تا پایان روز
   const calculateTimeRemaining = () => {
     const now = new Date();
@@ -154,12 +166,13 @@ const SwipperSliderPublick = ({
       </Box>
     );
   };
+
   return (
     <Box
       sx={{
         width: widthSize || { xs: "90%", md: "80%" },
         margin: "auto",
-        padding: "10px 0",
+        py: { xs: "10px ", md: "20px" },
       }}
     >
       <Box
@@ -181,6 +194,7 @@ const SwipperSliderPublick = ({
             </Box>
           )}
         </Box>
+
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {/* نمایش تایمر معکوس */}
           {showTimer && (
@@ -227,6 +241,52 @@ const SwipperSliderPublick = ({
           </Box>
         </Box>
       </Box>
+
+      {/* city tabs */}
+
+      {showTimer && (
+        <Box sx={{ marginBottom: ".5rem" }}>
+          <Tabs
+            value={selectedCity}
+            onChange={(e, value) => {
+              handleChangeProvince(value)
+            }}
+            sx={{
+              "& .MuiTabs-indicator": {
+                display: "none",
+              },
+              "& .MuiTabs-flexContainer": {
+                gap: 0.5, // یا هر عددی برای فاصله بین تب‌ها
+              },
+            }}
+          >
+            
+            <Tab
+              sx={{
+                paddingX: 0,
+                minWidth: "70px",
+              }}
+              disableRipple
+              label="تمامی شهرها"
+              value={"تمامی شهرها"}
+            />
+
+            {provinces?.map((item, index) => (
+              <Tab
+                key={index}
+                sx={{
+                  paddingX: 0,
+                  minWidth: "70px",
+                }}
+                disableRipple
+                label={item?.title}
+                value={item?.title}
+              />
+            ))}
+
+          </Tabs>
+        </Box>
+      )}
 
       <Swiper
         ref={swiperRef}
