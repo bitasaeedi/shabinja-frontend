@@ -73,7 +73,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
                 height: 270,
                 paddingBottom: { xs: "60%", sm: "50%" },
                 position: "relative",
-                borderRadius: "10px",
+               // borderRadius: "10px",
               }}
             >
               <img
@@ -85,7 +85,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
                   left: 0,
                   width: "100%",
                   height: "270px",
-                  borderRadius: "10px",
+                //  borderRadius: "10px",
                   objectFit: "cover",
                 }}
               />

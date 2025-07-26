@@ -13,7 +13,7 @@ import {
   Modal,
   IconButton,
 } from "@mui/material";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import FilterSection from "./FilterSection/FilterSection";
 import CardList from "./CardList/CardList";
@@ -79,6 +79,7 @@ export const SearchPageContext = createContext();
 
 const SearchPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [typeHome, setTypeHome] = useState({});
   const [showMap, setShowMap] = useState(false);
   const [active, setActive] = useState(false);
@@ -156,6 +157,11 @@ const SearchPage = () => {
     window.scroll(0, 0);
   };
 
+  // Handler to navigate to /search/all
+  const handleSearchAreaClick = () => {
+    navigate("/search/all");
+  };
+
   // بررسی اینکه ایا گزینه فیلتر فعال باشد یا خیر
   const isFilterActive = () => {
     var countFilterActive = 0;
@@ -220,7 +226,8 @@ const SearchPage = () => {
           sx={{
             flexDirection: "row",
             padding: "16px",
-            marginTop: { xs: "9px", md: "65px" },
+            marginTop: { xs: "9px", md: "75px" },
+           
           }}
           className=" "
         >
@@ -245,10 +252,11 @@ const SearchPage = () => {
               }}
               className=" "
             >
-              <Typography variant="h5" sx={{ marginBottom: 2 }}>
+              <Typography variant="h5">
                 {typeHome?.label}
                 {/* {searchtype} */}
               </Typography>
+
               {loadingSearch || listCards?.length > 0 ? (
                 <CardList
                   data={listCards}
@@ -275,6 +283,7 @@ const SearchPage = () => {
               points={listCards || []}
               onClose={toggleMap}
               onPolygonDrawn={onPolygonDrawn}
+              onSearchAreaClick={handleSearchAreaClick}
             />
             // MAP_POINTS
           )}
@@ -302,6 +311,7 @@ const SearchPage = () => {
                 // points={MAP_POINTS}
                 centerInitial={[2.2728759, 75.6305622]}
                 onPolygonDrawn={onPolygonDrawn}
+                onSearchAreaClick={handleSearchAreaClick}
               />
               <IconButton
                 sx={{

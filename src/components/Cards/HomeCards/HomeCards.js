@@ -55,7 +55,7 @@ const HomeCard = ({ myData = {} }) => {
   const handleLikeClick = () => {
     if (favColor === "red") {
       deleteFromFavorite();
-      setFavColor("white");
+      setFavColor("#ffffff96");
     } else {
       setFavColor("red");
       setIsLiked(true);
