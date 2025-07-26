@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import API_URL from "../../../../../../config/apiConfig";
 import axios from "axios";
 import moment from "moment-jalaali";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import { useNavigate } from "react-router-dom";
 const baseUrl = API_URL;
 
 // const stayList = [
@@ -38,10 +40,11 @@ const baseUrl = API_URL;
 // ];
 
 export default function FutureBooking({ isMobile, NoValue }) {
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [stayList, setStayList] = useState();
   const fetchData = async () => {
-    setLoading(true)
+    setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
@@ -52,7 +55,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
           },
         }
       );
-      setLoading(false)
+      setLoading(false);
       console.log("req", response?.data?.data);
       setStayList(response?.data?.data);
     } catch (error) {
@@ -64,6 +67,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
   useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <>
       <Typography
@@ -149,7 +153,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
 
             <TableBody>
               {loading ? (
-                [1, 2, ].map((_, index) => (
+                [1, 2].map((_, index) => (
                   <SkeltonRowTables key={index} count={6} />
                 ))
               ) : stayList?.length === 0 ? (
@@ -159,7 +163,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
                   </TableCell>
                 </TableRow>
               ) : (
-                stayList?.slice(0,2).map((stay, index) => (
+                stayList?.slice(0, 2).map((stay, index) => (
                   <TableRow
                     key={index}
                     sx={{
@@ -172,8 +176,12 @@ export default function FutureBooking({ isMobile, NoValue }) {
                       {stay.fullName ? stay.fullName : stay.userFullName}
                     </TableCell>
                     <TableCell align="center">{stay.info}</TableCell>
-                    <TableCell align="center">{moment(stay.start).format("jYYYY/jMM/jDD")}</TableCell>
-                    <TableCell align="center">{moment(stay.end).format("jYYYY/jMM/jDD")}</TableCell>
+                    <TableCell align="center">
+                      {moment(stay.start).format("jYYYY/jMM/jDD")}
+                    </TableCell>
+                    <TableCell align="center">
+                      {moment(stay.end).format("jYYYY/jMM/jDD")}
+                    </TableCell>
                   </TableRow>
                 ))
               )}
@@ -187,17 +195,18 @@ export default function FutureBooking({ isMobile, NoValue }) {
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "50%",
-            padding: "0rem .8rem",
             minWidth: 0,
-            fontSize: "1.2rem",
+            width: "35px",
+            height: "35px",
             position: "absolute",
             bottom: "-1.2rem",
             left: "50%",
             transform: "translateX(-50%)",
             zIndex: 10,
           }}
+          onClick={()=>{navigate("/pannel/requests")}}
         >
-          +
+          <OpenInNewIcon sx={{ fontSize: "1.1rem", color: "white" }} />
         </Button>
       </Box>
     </>

@@ -149,86 +149,88 @@ function App() {
     setFavoritDestination(list);
     return list;
   };
-  
+
   return (
-    <CacheProvider value={cacheRtl}>
-      <ThemeProvider theme={theme}>
-        <SignalRContext.Provider
-          // connectEnabled={!!token}
-          // accessTokenFactory={() => token}
-          // dependencies={[token]}
-          url={"https://apibasegateway.shabinja.com/OrderHub"}
-        >
-          <AppContext.Provider
-            value={{
-              isLoginMain,
-              setIsLoginMain,
-              showFooter,
-              setShowfooter,
-              handleGetInfoUser,
-              showHeader,
-              setShowHeader,
-              settingHeader,
-              setSettingHeader,
-              userInfo,
-              favoritDestination,
+    <>
+      <GoftinoSnippet
+        goftinoKey={GOFTINO_KEY}
+        onReady={() => {
+          window.Goftino.setWidget({
+            hasIcon: false,
+          });
+        }}
+        onClose={() => {
+          setHideButton(false);
+        }}
+      />
 
-              handleShowModal,
-              handleModalClose,
-              handleGofino,
-            }}
+      <CacheProvider value={cacheRtl}>
+        <ThemeProvider theme={theme}>
+          <SignalRContext.Provider
+            // connectEnabled={!!token}
+            // accessTokenFactory={() => token}
+            // dependencies={[token]}
+            url={"https://apibasegateway.shabinja.com/OrderHub"}
           >
-            <GoftinoSnippet
-              goftinoKey={GOFTINO_KEY}
-              onReady={() => {
-                window.Goftino.setWidget({
-                  hasIcon: isMobile ? false : true,
-                });
-              }}
-              onClose={() => {
-                setHideButton(false);
-              }}
-            />
+            <AppContext.Provider
+              value={{
+                isLoginMain,
+                setIsLoginMain,
+                showFooter,
+                setShowfooter,
+                handleGetInfoUser,
+                showHeader,
+                setShowHeader,
+                settingHeader,
+                setSettingHeader,
+                userInfo,
+                favoritDestination,
 
-            <Router>
-              <ScrollToTop />
-              <Header />
-              <Routes>
-                <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
-                <Route path="/stay/:staycode" element={<StayPage />} />
-                <Route path="/about" element={<AboutUs />} />
-                {/* <Route path="/magazine" element={<Magazine/>} /> */}
-                <Route path="/help" element={<QuestionsPage />} />
-                <Route path="/contact" element={<ContactPage />} />
-                <Route path="/rules" element={<RulesPage />} />
-                <Route path="/mag/:id?" element={<MagazinePage />} />
-                <Route path="/search/:searchtype" element={<SearchPage />} />
-                <Route path="/account/:section/*" element={<AccountPage />} />
-                {/* <Route path="/account/favorites/:id" element={<Favorites/>}/> */}
-                <Route path="/pannel/:section" element={<PannelPage />} />
-                <Route path="/new-stay/:step" element={<NewStaysPage />} />
-                <Route
-                  path="/book/:stepName/:code"
-                  element={<ReservationStay />}
-                />
-                <Route
-                  path="/edit-calendar/:staycode"
-                  element={<EditCalendarPage />}
-                />
-                {/* <Route path="*" element={<Home />} /> */}
-              </Routes>
-              <Footer />
-              {openModalLogin && (
-                <ModalLogin
-                  open={openModalLogin}
-                  handleClose={handleModalClose}
-                />
-              )}
-            </Router>
-          </AppContext.Provider>
-        </SignalRContext.Provider>
-      </ThemeProvider>
-    </CacheProvider>
+                handleShowModal,
+                handleModalClose,
+                handleGofino,
+              }}
+            >
+              <Router>
+                <ScrollToTop />
+                <Header />
+                <Routes>
+                  <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
+                  <Route path="/stay/:staycode" element={<StayPage />} />
+                  <Route path="/about" element={<AboutUs />} />
+                  {/* <Route path="/magazine" element={<Magazine/>} /> */}
+                  <Route path="/help" element={<QuestionsPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/rules" element={<RulesPage />} />
+                  <Route path="/mag/:id?" element={<MagazinePage />} />
+                  <Route path="/search/:searchtype" element={<SearchPage />} />
+                  <Route path="/account/:section/*" element={<AccountPage />} />
+                  {/* <Route path="/account/favorites/:id" element={<Favorites/>}/> */}
+                  <Route path="/pannel/:section" element={<PannelPage />} />
+                  <Route path="/new-stay/:step" element={<NewStaysPage />} />
+                  <Route
+                    path="/book/:stepName/:code"
+                    element={<ReservationStay />}
+                  />
+                  <Route
+                    path="/edit-calendar/:staycode"
+                    element={<EditCalendarPage />}
+                  />
+                  {/* <Route path="*" element={<Home />} /> */}
+                </Routes>
+                <Footer />
+                {openModalLogin && (
+                  <ModalLogin
+                    open={openModalLogin}
+                    handleClose={handleModalClose}
+                  />
+                )}
+              </Router>
+            </AppContext.Provider>
+          </SignalRContext.Provider>
+        </ThemeProvider>
+      </CacheProvider>
+    </>
   );
 }
 

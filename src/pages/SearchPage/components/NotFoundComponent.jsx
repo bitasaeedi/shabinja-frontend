@@ -82,20 +82,6 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
           برو به صفحه اصلی
         </Button>
         <Button
-          variant="text"
-          color="secondary"
-          onClick={() => navigate("/")}
-          sx={{
-            px: 3,
-            py: 1.5,
-            borderRadius: 2,
-            textTransform: "none",
-            fontSize: "1rem",
-          }}
-        >
-          برو به صفحه اصلی
-        </Button>
-        <Button
           // variant="outlined"
           onClick={() => window.location.reload()}
           sx={{

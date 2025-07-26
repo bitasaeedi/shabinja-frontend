@@ -22,11 +22,8 @@ const ContainerMain = () => {
       tabValue: tabValue,
     };
     const result = await MyHostTourSearchApi(searchTab);
-    if (tabValue === 1) {
-      setStays([]);
-    } else {
-      setStays(result?.data || []);
-    }
+
+    setStays(result?.data || []);
 
     setLoading(false);
   };

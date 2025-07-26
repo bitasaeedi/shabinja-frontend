@@ -111,7 +111,7 @@ const SliderDetailsPage = ({ lists, children}) => {
           <NextArrow onClick={handleNextClick} disabled={isNextDisabled} />
           <PrevArrow onClick={handlePrevClick} disabled={isPrevDisabled} />
         </>
-      )}
+      )}    
       <Swiper
         ref={swiperRef}
         onSlideChange={handleSlideChange}

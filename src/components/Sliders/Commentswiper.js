@@ -108,6 +108,7 @@ const Commentswiper = ({ lists, title, loading = false }) => {
             {title}
           </Typography>
         </Box>
+
         <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
           <Box className="mx-1">
             <NextArrow onClick={handlePrevClick} disabled={isPrevDisabled} />
@@ -129,12 +130,12 @@ const Commentswiper = ({ lists, title, loading = false }) => {
           //   bulletClass: "swiper-pagination-bullet",
           //   bulletActiveClass: "swiper-pagination-bullet-active",
         }}
-        spaceBetween={10}
+        spaceBetween={8}
         loop={true}
         onSlideChange={handleSlideChange}
         breakpoints={{
           0: {
-            slidesPerView: 1,
+            slidesPerView: 1.7,
           },
           600: {
             slidesPerView: 2,
@@ -149,11 +150,13 @@ const Commentswiper = ({ lists, title, loading = false }) => {
             slidesPerView: 5,
           },
         }}
-        style={{
-          paddingLeft: isMobile ? "90px" : "0",
-        }}
+        style={
+          {
+            //  paddingLeft: isMobile ? "90px" : "0",
+          }
+        }
       >
-        {loading !== false 
+        {loading !== false
           ? [1, 2, 3, 4, 5, 6].map((item, index) => (
               <SwiperSlide
                 key={index}
@@ -161,7 +164,7 @@ const Commentswiper = ({ lists, title, loading = false }) => {
               >
                 <Box
                   sx={{
-                    height: 400,
+                    height: { xs: 280, md: 400 },
                     mx: 4,
                   }}
                   className="d-flex justify-content-center align-items-center"
@@ -177,7 +180,7 @@ const Commentswiper = ({ lists, title, loading = false }) => {
               >
                 <Box
                   sx={{
-                    height: 400,
+                    height: { xs: 280, md: 400 },
                     //   backgroundColor: centerIndex === index ? "#007BFF" : "#007BFF",
                     //   backdropFilter: centerIndex === index ? "none" : "blur(6px)",
                     //   opacity: centerIndex === index ? 1 : 0.7,
@@ -185,7 +188,7 @@ const Commentswiper = ({ lists, title, loading = false }) => {
                     //   transition: "all 0.3s ease-in-out",
                     //   fontSize: centerItem ? "20px" : "16px",
                   }}
-                  className="d-flex justify-content-center align-items-center"
+                  className="d-flex  align-items-center"
                 >
                   <CardComment
                     comment={slide}

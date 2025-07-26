@@ -61,7 +61,7 @@ export default function Profile({ isMobile, myWidth }) {
               width: "100%",
               height: "100%",
               borderRadius: "50%",
-              objectFit:"cover"
+              objectFit: "cover",
             }}
           />
         </Box>
@@ -71,9 +71,11 @@ export default function Profile({ isMobile, myWidth }) {
           </Typography>
           <Typography variant="body2">
             پروفایل شما کامل{" "}
-            <span style={{ color: "red" }}>
-              {info?.percentageCompletion == 100 ? "است" : "نیست"}
-            </span>
+            {info?.percentageCompletion == 100 ? (
+              <span style={{ color: "#2974e5" }}>است</span>
+            ) : (
+              <span style={{ color: "red" }}>نیست</span>
+            )}
           </Typography>
         </Box>
       </Box>

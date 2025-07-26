@@ -15,8 +15,8 @@ import SkeltonRowTables from "../../../../../../components/SkeletonComponents/Sk
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 const baseUrl = API_URL;
-
 
 const RequestsSkeleton = ({ rows = 2 }) => (
   <>
@@ -39,7 +39,6 @@ const RequestsSkeleton = ({ rows = 2 }) => (
   </>
 );
 
-
 export default function Requests({ isMobile, NoValue }) {
   const navigate = useNavigate();
 
@@ -61,7 +60,7 @@ export default function Requests({ isMobile, NoValue }) {
 
   const fetchData = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
         `${baseUrl}/HostTourOrder/DashboardList/0`,
@@ -71,9 +70,9 @@ export default function Requests({ isMobile, NoValue }) {
           },
         }
       );
-      setLoading(false)
+      setLoading(false);
       console.log("req", response?.data?.data);
-      setReqList(response?.data?.data)
+      setReqList(response?.data?.data);
     } catch (error) {
       console.error(error?.response);
 
@@ -154,7 +153,7 @@ export default function Requests({ isMobile, NoValue }) {
                     <SkeltonRowTables key={index} count={4} />
                   ))
                 ) : (
-                  reqList?.slice(0,2).map((req, index) => (
+                  reqList?.slice(0, 2).map((req, index) => (
                     <TableRow
                       key={index}
                       sx={{
@@ -179,9 +178,9 @@ export default function Requests({ isMobile, NoValue }) {
               justifyContent: "center",
               alignItems: "center",
               borderRadius: "50%",
-              padding: "0rem .8rem",
               minWidth: 0,
-              fontSize: "1.2rem",
+              width: "35px",
+              height: "35px",
               position: "absolute",
               bottom: "-1.2rem",
               left: "50%",
@@ -192,7 +191,7 @@ export default function Requests({ isMobile, NoValue }) {
               navigate("/pannel/requests");
             }}
           >
-            +
+            <OpenInNewIcon sx={{ fontSize: "1.1rem", color: "white" }} />
           </Button>
         </>
       </Box>

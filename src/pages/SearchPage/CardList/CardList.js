@@ -19,7 +19,7 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
     searchPageContext?.setCurrentPage(value);
 
   return (
-    <Box sx={{ mb: 20 }} className=" ">
+    <Box sx={{ mb: { xs: 5, md: 8 } }} className=" ">
       <Grid
         container
         // spacing={3}
@@ -55,7 +55,7 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
         onChange={handlePageChange}
         color="primary"
         shape="rounded"
-        sx={{ mt: 4, display: "flex", justifyContent: "center" }}
+        sx={{ mt: {xs:4, md:15}, display: "flex", justifyContent: "center" }}
       />
 
       {/* Map Toggle Button */}

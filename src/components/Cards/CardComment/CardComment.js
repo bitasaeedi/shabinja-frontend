@@ -100,7 +100,7 @@ const CardComment = ({ centerItem, comment }) => {
           sx={{
             color: "#555",
             fontSize: { xs: 10, md: 11 },
-            textAlign: "justify",
+           // textAlign: "justify",
             // mt: 1,
             // fontWeight: "bold",
             display: "-webkit-box",

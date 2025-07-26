@@ -253,21 +253,17 @@ const MobileHeader = () => {
                     </Search>
                     {calendarAnchor && (
                       <Box
-                        sx={{
-                          position: "absolute",
-                          top:
-                            calendarAnchor.getBoundingClientRect().bottom + 30,
-                          right:
-                            calendarAnchor.getBoundingClientRect().left - 10,
-                          // backgroundColor: "red",
-                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                          borderRadius: "8px",
-                          zIndex: 1000,
-                          width: "100%",
-                          px: 3,
-
-                          //   transform: `translate(${"50px"}, 0)`,
-                        }}
+                      sx={{
+                        position: "absolute",
+                        top: calendarAnchor.getBoundingClientRect().bottom + 30,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        width: "100%",
+                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                        borderRadius: "8px",
+                        zIndex: 1000,
+                        px: 3,
+                      }}
                       >
                         <SelectCity
                           closePopup={() => setCalendarAnchor(null)}

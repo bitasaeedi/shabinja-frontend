@@ -156,7 +156,7 @@ const FormGetCode = ({
                     required: true,
                     pattern: /^[0-9]$/,
                   })}
-                  autoComplete="off"
+                  autoComplete="one-time-code"
                   inputRef={(el) => (inputsRef.current[index] = el)}
                   variant="outlined"
                   inputProps={{

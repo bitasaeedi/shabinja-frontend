@@ -274,9 +274,9 @@ const SwipperSliderPublick = ({
                 )}
               </SwiperSlide>
             ))
-          : lists.map((item, index) => (
+          : lists?.map((item, index) => (
               <SwiperSlide key={index} className="d-flex justify-content-start">
-                {React.Children.map(children, (child) =>
+                {React.Children?.map(children, (child) =>
                   React.cloneElement(child, {
                     myData: item,
                   })

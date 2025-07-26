@@ -12,8 +12,7 @@ const Begust = () => {
         bgcolor: "#0d47a1",
         background: "linear-gradient(135deg, #0d47a1 0%, #1976d2 100%)",
         color: "white",
-        mb: 5,
-        borderRadius: 2, // Slightly rounded corners for a softer look
+        mb: 0,
         textAlign: "center",
       }}
     >

@@ -33,6 +33,8 @@ import { SearchOff } from "@mui/icons-material";
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
 
+  console.log("stays", stays);
+
   const NoValueComponent = () => {
     return (
       <Box
@@ -106,9 +108,16 @@ const TableComponent = ({ stays, loading = true }) => {
                 ? [1, 2, 3, 4, 5].map((_, index) => (
                     <SkeltonRowTables count={4} />
                   ))
-                : stays.map((stay, index) => (
-                    <RowTable stay={stay} key={index} index={index} />
-                  ))}
+                : stays
+                    .filter(stay => {
+                      if (containerMainContext?.tabValue === 0) return true;
+                      if (containerMainContext?.tabValue === 1) return stay.statusTour === 1;
+                      if (containerMainContext?.tabValue === 2) return stay.statusTour === 0;
+                      return true;
+                    })
+                    .map((stay, index) => (
+                      <RowTable stay={stay} key={index} index={index} />
+                    ))}
             </TableBody>
           </Table>
         )}

@@ -34,7 +34,7 @@ const ResponsiveFeatures = () => {
     <Box
       sx={{
         px: 0,
-        py: 6,
+        py: {xs:2, md:6},
         width: { xs: "95%", sm: "85%", md: "85%", lg: "78%", xl: "70%" },
         mx: "auto",
       }}

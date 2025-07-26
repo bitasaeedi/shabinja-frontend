@@ -1,6 +1,7 @@
 import { Box, Button, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 export default function NewStay({isMobile}) {
   const navigate = useNavigate();
@@ -27,9 +28,9 @@ export default function NewStay({isMobile}) {
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "50%",
-            padding: "0rem .8rem",
             minWidth: 0,
-            fontSize: "1.2rem",
+            width: "35px",
+            height: "35px",
             position: "absolute",
             bottom: "-1.2rem",
             left: "50%",
@@ -38,7 +39,7 @@ export default function NewStay({isMobile}) {
           }}
           onClick={()=>{navigate("/new-stay/wizard")}}
         >
-          +
+          <OpenInNewIcon sx={{ fontSize: "1.1rem", color: "white" }} />
         </Button>
 
       </Box>

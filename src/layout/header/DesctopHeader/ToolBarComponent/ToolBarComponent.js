@@ -237,7 +237,7 @@ const ToolBarComponent = ({ isSticky }) => {
                 color: isSticky ? "black" : "#ffffff",
               }}
               component={Link}
-              to="/account/favorites"
+              to="/account/favorites/all"
             >
               <FavoriteBorderIcon sx={{ fontSize: 20 }} />
             </IconButton>

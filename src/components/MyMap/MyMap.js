@@ -10,6 +10,7 @@ import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Box, Button, CircularProgress, Typography } from "@mui/material";
 import SwitchMapButton from "./SwitchMapButton";
+import { useNavigate } from "react-router-dom";
 
 const ChangeMapView = ({ center }) => {
   const map = useMap();
@@ -54,7 +55,9 @@ const MyMap = ({
   showArea = false,
   scrollWheelZoomBool = true,
   showPopup = true,
+  onSearchAreaClick, // <-- add this prop
 }) => {
+  const navigate = useNavigate();
   const [markers, setMarkers] = useState([]);
   const [standard, setStandard] = useState(true);
   const [activeMarkerId, setActiveMarkerId] = useState(null);
@@ -88,9 +91,10 @@ const MyMap = ({
 
     if (firstValidPoint) {
       setCenter([firstValidPoint.lat, firstValidPoint.lng]);
-    } else {
-      setCenter([36.022227982837855, 51.339111328125]);
     }
+    //  else {
+    //   setCenter([36.022227982837855, 51.339111328125]);
+    // }
 
     setMarkers(updatedPoints);
     setLoadingFindPoint(false);
@@ -102,8 +106,10 @@ const MyMap = ({
 
   //جستجو در این منطقه
   const handleSearchInArea = () => {
+    
     if (!mapRef.current) return;
 
+   // navigate("/search/all");
     setLoadingFindPoint(true);
 
     const map = mapRef.current;
@@ -114,6 +120,9 @@ const MyMap = ({
     setPolygonPoints(polygonPoints); // Draw 5-point polygon on map
 
     setLoadingFindPoint(false);
+    if (onSearchAreaClick) {
+      onSearchAreaClick();
+    }
   };
 
   const getVisibleMapCorners = (map) => {
