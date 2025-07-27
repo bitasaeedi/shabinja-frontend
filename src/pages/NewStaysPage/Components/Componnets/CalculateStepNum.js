@@ -85,8 +85,7 @@ export const CalculateStepNum = (infoStay) => {
         !title ||
         !dics ||
         !allSizeOfTheInfrastructure ||
-        !sizeOfTheInfrastructure ||
-        !step,
+        !sizeOfTheInfrastructure,
       step: 3,
     },
 
@@ -98,7 +97,12 @@ export const CalculateStepNum = (infoStay) => {
 
     // Step 5 - Rooms
     {
-      condition: !room || !bed || !bedTwo || !bedOld || !bathRoom,
+      condition:
+        isNaN(room) ||
+        isNaN(bed) ||
+        isNaN(bedTwo) ||
+        isNaN(bedOld) ||
+        isNaN(bathRoom),
       step: 5,
     },
 
@@ -141,7 +145,10 @@ export const CalculateStepNum = (infoStay) => {
       step: 12,
     },
   ];
-  console.log(fileHost, !fileHost, "CalculateStepNum", nationallImage);
+  console.log(
+    "CalculateStepNum",
+    infoStay
+  );
   // Find the first validation step that fails
   const failedStep = validationSteps.find((step) => step.condition);
 

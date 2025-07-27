@@ -48,7 +48,7 @@ const EmkanatStay = ({}) => {
   };
 
   const isNextDisabled = () => {
-    return selectedList?.length < 0;
+    return selectedList?.length <= 0;
   };
 
   return (
