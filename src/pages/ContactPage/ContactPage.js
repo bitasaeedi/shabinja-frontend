@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -6,13 +6,42 @@ import {
   Typography,
   Container,
   Grid,
+  Skeleton,
 } from "@mui/material";
 import { AppContext } from "../../App";
 import FormContact from "./Components/FormContact";
 import { InfoContact } from "./Components/InfoContact";
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
 
 const ContactPage = () => {
+
   const appContext = useContext(AppContext);
+  
+
+  const [contactData, setContactData] = useState(null);
+
+  const fetchContactData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+  
+      const response = await axios.get(`${baseUrl}/ContactData`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setContactData(response?.data?.data);
+      console.log(response?.data?.data, "contact.data");
+      
+    } catch (error) {
+      console.error(
+        "Error :",
+        error?.response?.data || error.message
+      );
+      return error?.response?.data;
+    }
+  };
 
   useEffect(() => {
     appContext.setShowfooter(true);
@@ -21,6 +50,7 @@ const ContactPage = () => {
       removeShadow: false,
     });
     window.scroll(0, 0);
+    fetchContactData();
   }, []);
 
   return (
@@ -49,7 +79,8 @@ const ContactPage = () => {
             </Typography>
             <FormContact />
           </Grid> */}
-          <Grid
+          {contactData ? (
+            <Grid
             xs="12"
             md="8"
             sx={{
@@ -84,15 +115,7 @@ const ContactPage = () => {
                 variant="body2"
                 sx={{ fontSize: 14, textAlign: "justify" }}
               >
-                کاربر عزیز شبینجا؛ باعث خرسندی ماست که دیدگاه‌های ارزشمندتان را
-                با ما به اشتراک بگذارید. در صورت داشتن هرگونه شکایت، پیشنهاد،
-                انتقاد یا نظر درباره خدمات وب‌سایت شبینجا، می‌توانید از طریق
-                شماره{" "}
-                <span dir="ltr" className="px-1 font-weight-bold ">
-                  021-91011295
-                </span>{" "}
-                با ما تماس بگیرید یا از فرم زیر برای ارسال پیام خود استفاده
-                کنید.
+                {contactData[5]?.value}
               </Typography>
             </Box>
             <Typography
@@ -107,8 +130,21 @@ const ContactPage = () => {
             >
               ارتباط با ما
             </Typography>
-            <InfoContact />
+            <InfoContact contactData={contactData} />
           </Grid>
+          ):(
+            <Grid
+            xs="12"
+            md="8"
+            sx={{
+              px: { xs: 0, md: 4 },
+              order: { xs: 0, md: 1 },
+            }}
+          >
+            <Skeleton  variant="rectangular" width="100%" height={100} />
+          </Grid>
+          )}
+          
         </Grid>
       </Box>
     </Container>

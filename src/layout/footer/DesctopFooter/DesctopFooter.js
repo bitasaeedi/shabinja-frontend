@@ -20,6 +20,28 @@ const baseUrl = API_URL;
 
 const DesctopFooter = () => {
   const [footerLinks, setFooterLinks] = useState();
+  const [contactData, setContactData] = useState(null);
+
+  const fetchContactData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+  
+      const response = await axios.get(`${baseUrl}/ContactData`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setContactData(response?.data?.data);
+      console.log(response?.data?.data, "contact.data");
+      
+    } catch (error) {
+      console.error(
+        "Error :",
+        error?.response?.data || error.message
+      );
+      return error?.response?.data;
+    }
+  };
 
   const handleLinks = async (data) => {
     try {
@@ -48,6 +70,7 @@ const DesctopFooter = () => {
 
   useEffect(() => {
     handleLinks();
+    fetchContactData();
   }, []);
 
   return (
@@ -296,7 +319,7 @@ const DesctopFooter = () => {
                     fontSize: 16,
                   }}
                 >
-                  تلفن پشتیبانی :{" "}
+                  {contactData ? contactData[4]?.title : ""} :{" "}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -309,7 +332,7 @@ const DesctopFooter = () => {
                     ml: 1,
                   }}
                 >
-                  021-12345678
+                  {contactData ? contactData[4]?.value : ""}
                 </Typography>
               </Box>
             </Grid>
@@ -327,7 +350,7 @@ const DesctopFooter = () => {
                     fontSize: 16,
                   }}
                 >
-                  ایمیل:
+                  {contactData ? contactData[2]?.title : ""} :{" "}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -340,11 +363,12 @@ const DesctopFooter = () => {
                     ml: 1,
                   }}
                 >
-                  support@shabinja.com
+                  {contactData ? contactData[2]?.value : ""}
                 </Typography>
               </Box>
             </Grid>
             {/* کد پستی */}
+
             <Grid item xs={12} md={4} sx={{}}>
               <Box sx={{ display: "flex", justifyContent: "center" }}>
                 <Typography
@@ -357,7 +381,7 @@ const DesctopFooter = () => {
                     fontSize: 16,
                   }}
                 >
-                  کدپستی :{" "}
+                  {contactData ? contactData[0]?.title : ""} :{" "}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -370,10 +394,11 @@ const DesctopFooter = () => {
                     ml: 1,
                   }}
                 >
-                  021-12345678
+                  {contactData ? contactData[0]?.value : ""}
                 </Typography>
               </Box>
             </Grid>
+
           </Grid>
         </Box>
 
