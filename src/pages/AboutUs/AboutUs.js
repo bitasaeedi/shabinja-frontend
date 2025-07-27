@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Container,
   Typography,
@@ -13,9 +13,35 @@ import {
 } from "@mui/material";
 import { AppContext } from "../../App";
 import CircleIcon from "@mui/icons-material/FiberManualRecord";
-
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
 const AboutUs = () => {
+
   const appContext = useContext(AppContext);
+
+  const [aboutData, setAboutData] = useState(null);
+
+  const fetchAboutData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+  
+      const response = await axios.get(`${baseUrl}/AboutData`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setAboutData(response?.data?.data);
+      console.log(response?.data?.data, "response.data");
+      
+    } catch (error) {
+      console.error(
+        "Error :",
+        error?.response?.data || error.message
+      );
+      return error?.response?.data;
+    }
+  };
 
   useEffect(() => {
     appContext.setShowfooter(true);
@@ -24,7 +50,16 @@ const AboutUs = () => {
       removeShadow: false,
     });
     window.scroll(0, 0);
+    fetchAboutData();
   }, []);
+
+  // decode html
+  const decodeHtml = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+  
 
   return (
     <Container maxWidth="md" sx={{ py: 4, mt: { xs: 0, md: 4 } }}>
@@ -53,11 +88,21 @@ const AboutUs = () => {
             شبینجا{" "}
           </Typography>
         </Typography>
-        <Typography variant="h6" align="center" sx={{ color: "#7f8c8d" }}>
-          تجربه‌ای متفاوت در سفر
-        </Typography>
 
-        <Box sx={{ mt: 4 }}>
+        <Box>
+          {aboutData?.map((data, index) => (
+            <Box
+             key={index}
+             sx={{ mt: 1 }}
+             dangerouslySetInnerHTML={{
+              __html: decodeHtml(data?.value),
+            }}
+           />
+            
+          ))}
+        </Box>
+
+        {/* <Box sx={{ mt: 4 }}>
           <Typography
             variant="h5"
             gutterBottom
@@ -375,7 +420,7 @@ const AboutUs = () => {
             اقامتگاه شما
           </Typography>
         </Box>
-        <Divider sx={{ my: 4 }} />
+        <Divider sx={{ my: 4 }} /> */}
         {/* <Box sx={{ mt: 4, textAlign: "center" }}>
           <Typography
             variant="h4"
