@@ -102,27 +102,30 @@ export const CalculateStepNum = (infoStay) => {
       step: 5,
     },
 
-    // Step 6 - Amenities
+    // Step 6 - امکانات
     {
-      condition: !otherItemTourIds,
+      condition: !(otherItemTourIds.length > 0),
       step: 6,
     },
 
     // Step 8 - Documents
     {
       condition: !fileHost || !nationallImage,
-      step: 8,
+      step: 7,
     },
 
     // Step 9 - Availability
     {
-      condition: !start || !end || !rolItemTourIds,
+      condition: !start || !end,
       step: 9,
     },
 
     // Step 10 - Cancellation
     {
-      condition: !CancelPercentageFirst || !CancelPercentageSecond || !CancelPercentageThird,
+      condition:
+        !CancelPercentageFirst ||
+        !CancelPercentageSecond ||
+        !CancelPercentageThird,
       step: 10,
     },
 
@@ -138,7 +141,7 @@ export const CalculateStepNum = (infoStay) => {
       step: 12,
     },
   ];
-
+  console.log(fileHost, !fileHost, "CalculateStepNum", nationallImage);
   // Find the first validation step that fails
   const failedStep = validationSteps.find((step) => step.condition);
 
