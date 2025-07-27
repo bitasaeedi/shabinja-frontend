@@ -5,10 +5,12 @@ import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 
-export const InfoContact = () => {
+export const InfoContact = ({ contactData }) => {
   return (
     <Box>
       <Grid container sx={{ mt: 3 }}>
+
+        {/* تلفن پشتیبانی */}
         <Grid item xs={12} md={4} sx={{ mt: { xs: 2, md: 0 } }}>
           <Box
             sx={{
@@ -22,13 +24,14 @@ export const InfoContact = () => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                تلفن پشتیبانی:
+                {contactData[4]?.title}
               </Typography>
-              <Typography variant="body2">021-91011295</Typography>
+              <Typography variant="body2">{contactData[4]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
 
+        {/* سامانه پیامکی */}
         <Grid item xs={12} md={4} sx={{ mt: { xs: 5, md: 0 } }}>
           <Box
             sx={{
@@ -42,13 +45,14 @@ export const InfoContact = () => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                سامانه پیامکی:
+                {contactData[3]?.title}
               </Typography>
-              <Typography variant="body2">10009105719700</Typography>
+              <Typography variant="body2">{contactData[3]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
 
+        {/* ایمیل */}
         <Grid item xs={12} md={4} sx={{ mt: { xs: 5, md: 0 } }}>
           <Box
             sx={{
@@ -62,13 +66,14 @@ export const InfoContact = () => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                ایمیل :
+                {contactData[2]?.title}
               </Typography>
-              <Typography variant="body2">support@shabinja.com</Typography>
+              <Typography variant="body2">{contactData[2]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
 
+        {/* آدرس */}
         <Grid item xs={12} sx={{ mt: 5 }}>
           <Box
             sx={{
@@ -82,13 +87,9 @@ export const InfoContact = () => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                آدرس:
+                {contactData[1]?.title}
               </Typography>
-              <Typography variant="body2">
-                دفتر مرکزی : کردستان ، سنندج ، بهاران ، بلوار زکریای رازی ،
-                ساختمان پارک علم و فناوری کردستان ، طبقه اول، واحد 116 کدپستی :
-                6617739434
-              </Typography>
+              <Typography variant="body2">{contactData[1]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
