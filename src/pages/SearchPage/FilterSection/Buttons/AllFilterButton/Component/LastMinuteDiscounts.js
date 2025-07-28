@@ -5,19 +5,25 @@ import BoltOutlinedIcon from "@mui/icons-material/BoltOutlined";
 import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import { PopVerFilterContext } from "../PopVerFilter";
 
-const FastStayes = ({ callBackFunc, defaultCount }) => {
+import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import AlarmOnIcon from "@mui/icons-material/AlarmOn";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import TimerIcon from "@mui/icons-material/Timer";
+
+const LastMinuteDiscounts = ({ callBackFunc, defaultCount }) => {
   const theme = useTheme();
 
   const popVerFilterContext = useContext(PopVerFilterContext);
   const [isSwitchOn, setIsSwitchOn] = useState(false);
 
   useEffect(() => {
-    setIsSwitchOn(popVerFilterContext?.justGuarantees);
-  }, [popVerFilterContext?.justGuarantees]);
+    setIsSwitchOn(popVerFilterContext?.lastMinuteDiscounts);
+  }, [popVerFilterContext?.lastMinuteDiscounts]);
 
   const handleSwitchChange = () => {
     // setIsSwitchOn((prev) => !prev);
-    popVerFilterContext?.setJustGuarantees((prev) => !prev);
+    popVerFilterContext?.setLastMinuteDiscounts((prev) => !prev);
   };
 
   return (
@@ -45,7 +51,8 @@ const FastStayes = ({ callBackFunc, defaultCount }) => {
             alignItems: "center",
           }}
         >
-          <BoltOutlinedIcon
+          {/* icon */}
+          <AccessAlarmIcon
             sx={{
               fontSize: { xs: 17, md: 20 },
               mr: 2,
@@ -62,7 +69,7 @@ const FastStayes = ({ callBackFunc, defaultCount }) => {
               color: "#333",
             }}
           >
-            اقامتگاه‌های آنی و قطعی
+            تخفیف های لحظه آخری
             <br />
             <Typography
               variant="body2"
@@ -72,8 +79,7 @@ const FastStayes = ({ callBackFunc, defaultCount }) => {
                 color: "#333",
               }}
             >
-              برای رزرو نهایی این اقامتگاه نیازی به تایید از سمت میزبان نخواهید
-              داشت و رزرو شما قطعی خواهد بود.
+              فرصت ویژه رزرو با تخفیف برای امروز و فردا
             </Typography>
           </Typography>
         </Box>
@@ -107,11 +113,10 @@ const FastStayes = ({ callBackFunc, defaultCount }) => {
               },
             }}
           />
-          
         </Box>
       </Box>
     </Box>
   );
 };
 
-export default FastStayes;
+export default LastMinuteDiscounts;

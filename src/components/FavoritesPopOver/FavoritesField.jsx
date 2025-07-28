@@ -52,6 +52,7 @@ export default function FavoritesField({
   handleClose,
   myWidth,
   stayId,
+  changeFavColor,
 }) {
   const {
     register,
@@ -152,6 +153,7 @@ export default function FavoritesField({
       );
       console.log("add response", response.data);
       fetchCategoryList();
+      changeFavColor();
       setTimeout(() => {
         handleMangeAlert(true, 
            response?.data?.issuccess ?

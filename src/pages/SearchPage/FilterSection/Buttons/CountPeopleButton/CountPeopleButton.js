@@ -60,11 +60,9 @@ const CountPeopleButton = ({}) => {
     const newSearch = params.toString();
     let path = window.location.pathname;
 
-    if (!path.includes("/all")) {
-      navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, { replace: true });
-    } else {
+  
       window.history.replaceState(null, "", `?${newSearch}`);
-    }
+    
     isFilterActive();
     handleClosePopover();
     searchPageContext.handleSearch();

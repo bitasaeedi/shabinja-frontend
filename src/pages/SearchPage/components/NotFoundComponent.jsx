@@ -81,20 +81,7 @@ const NotFoundComponent = ({ searchQuery = "" }) => {
         >
           برو به صفحه اصلی
         </Button>
-        <Button
-          // variant="outlined"
-          onClick={() => window.location.reload()}
-          sx={{
-            px: 3,
-            py: 1.5,
-            borderRadius: 2,
-            textTransform: "none",
-            fontSize: "1rem",
-          }}
-        >
-          تازه سازی
-          <RefreshOutlined size={16} />
-        </Button>
+        
       </Box>
     </Box>
   );

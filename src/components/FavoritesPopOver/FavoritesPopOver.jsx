@@ -13,7 +13,7 @@ import API_URL from "../../config/apiConfig";
 import FavoritesField from "./FavoritesField";
 const baseUrl = API_URL;
 
-export default function FavoritesPopOver({ isLiked, handleClose, id }) {
+export default function FavoritesPopOver({ isLiked, handleClose, id, changeFavColor }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -54,7 +54,11 @@ export default function FavoritesPopOver({ isLiked, handleClose, id }) {
           }}
         ></Box>
       </Box>
-      <FavoritesField handleClose={handleClose} isLiked={isLiked} />
+      <FavoritesField 
+      handleClose={handleClose} 
+      isLiked={isLiked} 
+      changeFavColor={changeFavColor}
+      />
     </SwipeableDrawer>
   ) : (
     <Popover
@@ -77,7 +81,12 @@ export default function FavoritesPopOver({ isLiked, handleClose, id }) {
         },
       }}
     >
-      <FavoritesField handleClose={handleClose} isLiked={isLiked} myWidth stayId={id}/>
+      <FavoritesField 
+      handleClose={handleClose} 
+      isLiked={isLiked} 
+      myWidth stayId={id}
+      changeFavColor={changeFavColor}
+      />
     </Popover>
   );
 }

@@ -32,7 +32,6 @@ const DesctopFooter = () => {
         },
       });
       setContactData(response?.data?.data);
-      console.log(response?.data?.data, "contact.data");
       
     } catch (error) {
       console.error(

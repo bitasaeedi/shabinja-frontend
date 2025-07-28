@@ -7,7 +7,6 @@ import { Link } from "react-router-dom";
 
 const ImageOfCardDetails = ({ url, title, myData }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-  console.log("myData id", myData);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);

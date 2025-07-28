@@ -365,7 +365,7 @@ const Home = () => {
               showTimer={true}
               lists={cities}
               title={"رزرو آنی"}
-              linkToSeeMore={`/search/${listTitleSliders[6]?.urlTour}`}
+              linkToSeeMore={`/search/all?justGuarantees=true`}
               handleChangeProvince={(value)=>{setSelectedCity1(value)}}
               selectedCity={selectedCity1 || "تمامی شهرها"}
             >
@@ -427,7 +427,7 @@ const Home = () => {
               showTimer={true}
               lists={cities}
               title={"تخفیفات لحظه اخری"}
-              linkToSeeMore={`/search/${listTitleSliders[6]?.urlTour}`}
+              linkToSeeMore={`/search/all?lastMinuteDiscounts=true`}
               handleChangeProvince={(value)=>{setSelectedCity2(value)}}
               selectedCity={selectedCity2 || "تمامی شهرها"}
             >

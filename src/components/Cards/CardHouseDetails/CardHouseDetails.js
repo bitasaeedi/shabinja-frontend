@@ -1,39 +1,72 @@
 import React, { useEffect, useState } from "react";
 import {
   Card,
-  CardMedia,
   CardContent,
   Typography,
   Box,
-  Rating,
-  Skeleton,
   IconButton,
 } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import API_URL from "../../../config/apiConfig";
 import ToRial from "../../ToRial/ToRial";
-import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import SliderDetailsPage from "../../Sliders/SliderCards";
 import ImageOfCardDetails from "./ImageOfCardDetails";
+import FavoritesPopOver from "../../../components/FavoritesPopOver/FavoritesPopOver";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
-  // List of image URLs
-  // State to manage image loading
-  const [isImageLoaded, setIsImageLoaded] = useState(false);
-  const [isLiked, setIsLiked] = useState(false);
+import axios from "axios";
+const baseUrl = API_URL;
 
-  const handleImageLoad = () => {
-    setIsImageLoaded(true);
-  };
+const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
+  
+ 
+  const [isLiked, setIsLiked] = useState(false);
+  const [favColor, setFavColor] = useState("#ffffff96");
 
   useEffect(() => {
-    // console.log(myData, "myData");
-  }, []);
+    setFavColor(myData.isFavorite ? "red" : "#ffffff96");
+  }, [myData.isFavorite]);
 
-  const handleLikeClick = () => {
-    setIsLiked(!isLiked);
+  // delete from favorite
+  const deleteFromFavorite = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.post(
+        `${baseUrl}/UserFavoriteCategoryHostTour/Delete/${myData.guid}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("d response", response.data);
+
+      return response.data;
+    } catch (error) {
+      console.log("listError:", error?.response?.data);
+      return error?.response?.data;
+    }
+  };
+
+  // handle click on  like icon
+  const handleLikeIcon = () => {
+    if (favColor === "red") {
+      deleteFromFavorite();
+      setFavColor("#ffffff96");
+    } else {
+      setIsLiked(true);
+    }
+  };
+
+  function changeFavColor() {
+      setFavColor("red");
+  }
+
+  // handle close popover
+  const handleClose = () => {
+    setIsLiked(null);
   };
 
   return (
@@ -56,22 +89,10 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
           pb: 0,
           mb: 1,
           backgroundColor: "transparent",
+          position: "relative",
         }}
         // className="border"
       >
-        <IconButton
-          sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            color: isLiked ? "red" : "white",
-            zIndex: 100,
-          }}
-          onClick={handleLikeClick}
-        >
-          {isLiked ? <Favorite /> : <FavoriteBorder />}
-        </IconButton>
-
         <SliderDetailsPage
           lists={myData?.images?.map((item) => ({
             url: item,
@@ -81,6 +102,19 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
         >
           <ImageOfCardDetails myData={myData} />
         </SliderDetailsPage>
+
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 8,
+            color: favColor,
+            zIndex: 10,
+          }}
+          onClick={handleLikeIcon}
+        >
+          {favColor ? <Favorite color="red" /> : <FavoriteBorder />}
+        </IconButton>
 
         <Link
           to={`/stay/${myData?.id}`}
@@ -192,14 +226,14 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
               className="mx-2"
             >
               <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
-                <StarIcon
+               {myData?.rate ? <StarIcon
                   sx={{
                     color: "#FFD700",
                     // fontSize: 20
                     fontSize: 14,
                   }}
                   className="mb-1 "
-                />
+                /> : ""}
                 <Typography
                   variant="h6"
                   sx={{
@@ -210,7 +244,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                   }}
                   className="px-1"
                 >
-                  {myData?.rate}
+                  {myData?.rate ? myData?.rate : ""}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -228,6 +262,13 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
           </CardContent>
         </Link>
       </Card>
+
+      <FavoritesPopOver 
+        changeFavColor={changeFavColor}
+        isLiked={isLiked}
+        handleClose={handleClose}
+        id={myData.id}
+      />
     </Box>
   );
 };

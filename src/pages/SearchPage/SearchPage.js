@@ -42,6 +42,10 @@ const filterList = [
     label: "justGuarantees",
   },
   {
+    value: false,
+    label: "lastMinuteDiscounts",
+  },
+  {
     value: 0,
     label: "room",
   },
@@ -140,8 +144,9 @@ const SearchPage = () => {
       province: filters?.province?.split(",") || [],
       city: filters?.cities?.split(",") || [],
       locations: listLocation, // لیست نقاط برای جستجو
+      LastMinuteDiscounts: filters?.lastMinuteDiscounts,
+      InstantBooking: filters?.justGuarantees,
     };
-
     console.log("filter: ", filtersParams);
     const result = await HostTourSearchApi(filtersParams);
     setListCards(result?.data?.items);

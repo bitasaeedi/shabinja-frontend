@@ -27,6 +27,7 @@ export default function EachCategory() {
   const [type, setType] = useState(""); //edit , delete
   const [categoryItem, setCategoryItem] = useState();
   const [id, setId] = useState();
+  const [isFavorite, setIsFavorite] = useState(true);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -40,6 +41,10 @@ export default function EachCategory() {
     setIsOpen(false);
   };
 
+  function changeFavoriteList() {
+    setIsFavorite(!isFavorite);
+  }
+
   const fetchCategoryList = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -52,13 +57,15 @@ export default function EachCategory() {
         }
       );
       // console.log("list response", response.data);
-      setCategoryItem(response.data.data);
+      setCategoryItem(response?.data?.data);
+      console.log("categoryItem", response?.data?.data);
       return response.data;
     } catch (error) {
       console.log("listError:", error?.response?.data);
       return error?.response?.data;
     }
   };
+
   useEffect(() => {
     const segments = location.pathname.split("/");
     setId(segments[segments.length - 1]);
@@ -68,7 +75,7 @@ export default function EachCategory() {
     if (id) {
       fetchCategoryList();
     }
-  }, [isOpen, id]);
+  }, [isOpen, id , isFavorite]);
 
   return (
     <>
@@ -153,19 +160,21 @@ export default function EachCategory() {
 >
   {categoryItem?.length > 0
     ? categoryItem.map((item, i) => {
+
         const categoryProps = {
           title: item.hostTourTitle,
           minPrice: item.price,
           address: item.address,
           images: item.images,
-          guid: item.guid,
+          guid: item.hostTourGuid,
           isLiked: true,
           id: item.hostTourId,
+          isFavorite:true
         };
 
         return (
           <Grid item key={i} sx={{ flex: "0 0 auto" }}>
-            <HomeCard myData={categoryProps} />
+            <HomeCard changeFavoriteList={changeFavoriteList} myData={categoryProps} />
           </Grid>
         );
       })

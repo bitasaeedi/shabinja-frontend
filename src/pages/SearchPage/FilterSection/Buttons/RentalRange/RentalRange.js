@@ -67,13 +67,7 @@ const RentalRange = ({}) => {
       // // Update the URL with the new search parameters
       const newSearch = params.toString();
 
-      if (!path.includes("/all")) {
-        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
-          replace: true,
-        });
-      } else {
-        window.history.replaceState(null, "", `?${newSearch}`);
-      }
+      window.history.replaceState(null, "", `?${newSearch}`);
 
       isFilterActive();
       handleClosePopover();
@@ -84,13 +78,8 @@ const RentalRange = ({}) => {
       params.delete("max");
       const newSearch = params.toString();
 
-      if (!path.includes("/all")) {
-        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
-          replace: true,
-        });
-      } else {
         window.history.replaceState(null, "", `?${newSearch}`);
-      }
+      
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();

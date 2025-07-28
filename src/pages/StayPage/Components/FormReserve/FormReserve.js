@@ -379,15 +379,42 @@ const FormReserve = () => {
                       +
                     </Button>
                     {/* Count Display */}
-                    <Typography
-                      sx={{
-                        fontSize: "16px",
-                        minWidth: "30px",
-                        textAlign: "center",
+                    <TextField
+                      value={count}
+                      onChange={(e) => {
+                        const value = parseInt(e.target.value) || 0;
+                        const maxCapacity = stayPageContext.infoOfStay?.maxCapacity || 999;
+                        const newCount = Math.max(0, Math.min(value, maxCapacity));
+                        setCount(newCount);
                       }}
-                    >
-                      {count}
-                    </Typography>
+                      inputProps={{
+                        readOnly: false,
+                        style: {
+                          textAlign: "center",
+                          fontSize: "16px",
+                          padding: "4px 5px",
+                          border: "none",
+                          backgroundColor: "transparent",
+                          maxWidth: "20px",
+                        },
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            border: "none",
+                          },
+                          "&:hover fieldset": {
+                            border: "none",
+                          },
+                          "&.Mui-focused fieldset": {
+                            border: "none",
+                          },
+                        },
+                        "& .MuiInputBase-input": {
+                          cursor: "text",
+                        },
+                      }}
+                    />
 
                     {/* Decrement Button */}
                     <Button

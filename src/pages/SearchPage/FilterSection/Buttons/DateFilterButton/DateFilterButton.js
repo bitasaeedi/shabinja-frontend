@@ -66,13 +66,9 @@ const DateFilterButton = ({}) => {
 
       // // Update the URL with the new search parameters
       const newSearch = params.toString();
-      if (!path.endsWith("/all")) {
-        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
-          replace: true,
-        });
-      } else {
+     
         window.history.replaceState(null, "", `?${newSearch}`);
-      }
+      
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();
@@ -81,13 +77,9 @@ const DateFilterButton = ({}) => {
       params.delete("start");
       params.delete("end");
       const newSearch = params.toString();
-      if (!path.endsWith("/all")) {
-        navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
-          replace: true,
-        });
-      } else {
+      
         window.history.replaceState(null, "", `?${newSearch}`);
-      }
+      
       isFilterActive();
       handleClosePopover();
       searchPageContext.handleSearch();

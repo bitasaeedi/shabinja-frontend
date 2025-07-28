@@ -15,6 +15,7 @@ import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import BathtubOutlinedIcon from "@mui/icons-material/BathtubOutlined";
 
 import { PopVerFilterContext } from "../PopVerFilter";
+import LastMinuteDiscounts from "./LastMinuteDiscounts";
 
 const ContainerFilters = () => {
   const popVerFilterContext = useContext(PopVerFilterContext);
@@ -25,18 +26,27 @@ const ContainerFilters = () => {
         <CountFilter />
       </Box>
       <hr />
+
       <Box sx={{}}>
         <CounterRoom />
       </Box>
       <hr />
+
       <Box sx={{}}>
         <FastStayes />
       </Box>
       <hr />
+
+      <Box sx={{}}>
+        <LastMinuteDiscounts />
+      </Box>
+      <hr />
+
       <Box sx={{}}>
         <PriceRange />
       </Box>
       <hr />
+      
       {/* /شهری */}
       <Box sx={{}}>
         <Typography

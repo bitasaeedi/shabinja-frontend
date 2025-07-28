@@ -1,8 +1,11 @@
 import React from "react";
-import { Card, Avatar, Typography, Box } from "@mui/material";
+import { Card, Avatar, Typography, Box, useMediaQuery } from "@mui/material";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import { useTheme } from "@emotion/react";
 
 const CardComment = ({ centerItem, comment }) => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const widthSize = 180;
   const widthSizeMobile = 150;
   const heightSize = 140;
@@ -100,9 +103,9 @@ const CardComment = ({ centerItem, comment }) => {
           sx={{
             color: "#555",
             fontSize: { xs: 10, md: 11 },
-           // textAlign: "justify",
-            // mt: 1,
-            // fontWeight: "bold",
+            textAlign: isMobile ? "unset" : "justify",
+            hyphens: "auto",
+            wordBreak: "break-word",
             display: "-webkit-box",
             WebkitLineClamp: { xs: 3, md: 3 }, // Limit to 3 lines (adjust as needed)
             WebkitBoxOrient: "vertical",

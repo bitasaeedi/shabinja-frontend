@@ -83,7 +83,6 @@ const SwipperSliderPublick = ({
     s: "00",
   });
 
-  console.log(selectedCity, "selectedCity");
   // تابع برای محاسبه زمان باقی‌مانده تا پایان روز
   const calculateTimeRemaining = () => {
     const now = new Date();
@@ -176,10 +175,11 @@ const SwipperSliderPublick = ({
       }}
     >
       <Box
-        sx={{ position: "relative", px: 0 }}
-        className="d-flex justify-content-between align-items-start mb-3"
+        sx={{ position: "relative", px: 0 , 
+          marginBottom: { xs: showTimer ? 0 : 3, md: 3 }}}
+        className="d-flex justify-content-between align-items-start"
       >
-        <Box sx={{ alignItems: "start" }}>
+        <Box sx={{ alignItems: "start"}}>
           <Typography
             variant="h5"
             sx={{
@@ -188,17 +188,21 @@ const SwipperSliderPublick = ({
           >
             {title}
           </Typography>
-          {showTimer && (
+
+          {/* {showTimer && (
             <Box sx={{ display: { md: "none" } }}>
               <TimerCounter />
             </Box>
-          )}
+          )} */}
         </Box>
 
-        <Box sx={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex",
+        flexDirection: { xs: "column-reverse", md: "row" },
+        alignItems: { xs: "end", md: "center" },
+        gap: { xs: 1, md: 0 } }}>
           {/* نمایش تایمر معکوس */}
           {showTimer && (
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Box sx={{ display: "flex"}}>
               <TimerCounter />
             </Box>
           )}
@@ -256,7 +260,7 @@ const SwipperSliderPublick = ({
                 display: "none",
               },
               "& .MuiTabs-flexContainer": {
-                gap: 0.5, // یا هر عددی برای فاصله بین تب‌ها
+                gap: 0.5, 
               },
             }}
           >

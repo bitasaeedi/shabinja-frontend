@@ -142,8 +142,9 @@ const MainSearchForm = () => {
       // Navigate to the constructed URL
       navigate(url);
     } else {
-      // const cityInput = document.querySelector('input[name="city"]');
-      // cityInput.click();
+      // Set error for city field when no city is selected
+      setValue("city", "", { shouldValidate: true });
+      setFocus("city");
     }
   };
 
@@ -216,6 +217,10 @@ const MainSearchForm = () => {
       paddingTop: "20px", // Move the input value or placeholder slightly upwards
       paddingLeft: "10px",
     },
+    "& .MuiFormHelperText-root": {
+      marginRight: "10px",
+      fontSize: "12px",
+    },
     // "& .MuiFormLabel-filled": {
     //   // To ensure the label stays in place when focused or with value
     //   transform: "translate(12px, -10px) scale(0.75)",
@@ -259,6 +264,34 @@ const MainSearchForm = () => {
             >
               {/* City Autocomplete */}
               <Grid item xs={12} md={3} sx={{ position: "relative" }}>
+                {/* Error bubble above the input */}
+                {!selectedCity.titleEn && !!errors.city && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: "-50px",
+                      right: "10px",
+                      backgroundColor: "#dc3545",
+                      color: "white",
+                      padding: "7px 12px",
+                      borderRadius: "8px",
+                      fontSize: "11px",
+                      zIndex: 10,
+                      wordSpacing:"2px",
+
+                      "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        top: "100%",
+                        right: "15px",
+                        border: "6px solid transparent",
+                        borderTopColor: "#dc3545",
+                      },
+                    }}
+                  >
+                    لطفاً  مقصد یا اقامتگاه را  از  بین گزینه‌ها انتخاب کنید!
+                  </Box>
+                )}
                 <Controller
                   name="city"
                   control={control}
@@ -273,8 +306,13 @@ const MainSearchForm = () => {
                       fullWidth
                       placeholder="انتخاب مقصد"
                       InputLabelProps={{ shrink: true }}
-                      sx={inputStyles}
-                      error={!selectedCity.title && !!errors.city}
+                      sx={{
+                        ...inputStyles,
+                        "& .MuiFilledInput-root": {
+                          ...inputStyles["& .MuiFilledInput-root"],
+                         },
+                      }}
+                      error={!selectedCity.titleEn && !!errors.city}
                       InputProps={{
                         autoComplete: "off",
                         // readOnly: false, // Prevent typing

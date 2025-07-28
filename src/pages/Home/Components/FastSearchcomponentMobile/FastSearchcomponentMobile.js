@@ -12,7 +12,6 @@ const FastSearchcomponentMobile = ({ lists, children, title }) => {
         width: "100%",
         // maxWidth: "1200px", // Optional: Limit the container width
         // padding: 2,
-        border: "1px solid red",
       }}
       className=" px-0 mx-0 mt-2"
     >

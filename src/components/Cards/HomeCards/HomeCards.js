@@ -23,7 +23,7 @@ import FavoritesPopOver from "../../FavoritesPopOver/FavoritesPopOver";
 import axios from "axios";
 const baseUrl = API_URL;
 
-const HomeCard = ({ myData = {} }) => {
+const HomeCard = ({ myData = {}, changeFavoriteList }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [favColor, setFavColor] = useState("#ffffff96");
 
@@ -34,8 +34,10 @@ const HomeCard = ({ myData = {} }) => {
   const deleteFromFavorite = async () => {
     try {
       const token = localStorage.getItem("access_token");
+      console.log("token", myData?.guid);
+      
       const response = await axios.post(
-        `${baseUrl}/UserFavoriteCategoryHostTour/Delete/${myData.guid}`,
+        `${baseUrl}/UserFavoriteCategoryHostTour/Delete/${myData?.guid}`,
         {},
         {
           headers: {
@@ -43,24 +45,41 @@ const HomeCard = ({ myData = {} }) => {
           },
         }
       );
+      if (typeof changeFavoriteList === "function") {
+        changeFavoriteList();
+      }
+      else{
+        setFavColor("#ffffff96");
+      }
       console.log("d response", response.data);
 
       return response.data;
     } catch (error) {
-      console.log("listError:", error?.response?.data);
+      console.log("listError:", error?.response);
       return error?.response?.data;
     }
   };
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async () => {
     if (favColor === "red") {
-      deleteFromFavorite();
-      setFavColor("#ffffff96");
+      try {
+        await deleteFromFavorite();
+        
+        if (typeof changeFavoriteList === "function") {
+          changeFavoriteList();
+          console.log("now");
+        }
+      } catch (error) {
+        console.error("Error deleting from favorites:", error);
+      }
     } else {
-      setFavColor("red");
       setIsLiked(true);
     }
   };
+
+  function changeFavColor() {
+    setFavColor("red");
+  }
 
   const handleClose = () => {
     setIsLiked(null);
@@ -230,26 +249,33 @@ const HomeCard = ({ myData = {} }) => {
               className="mx-2"
             >
               <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
-                <StarIcon
-                  sx={{
-                    color: "#FFD700",
-                    // fontSize: 20
-                    fontSize: 14,
-                  }}
-                  className="mb-1 "
-                />
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                    // marginRight: 1,
-                    fontSize: 14,
-                    // fontSize: 18,
-                  }}
-                  className="px-1"
-                >
-                  {myData?.rate}
-                </Typography>
+                {myData?.rate ? (
+                  <>
+                    <StarIcon
+                      sx={{
+                        color: "#FFD700",
+                        // fontSize: 20
+                        fontSize: 14,
+                      }}
+                      className="mb-1 "
+                    />
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: "bold",
+                        // marginRight: 1,
+                        fontSize: 14,
+                        // fontSize: 18,
+                      }}
+                      className="px-1"
+                    >
+                      {myData?.rate}
+                    </Typography>
+                  </>
+                ) : (
+                  ""
+                )}
+
                 <Typography
                   variant="body2"
                   sx={{
@@ -259,7 +285,7 @@ const HomeCard = ({ myData = {} }) => {
                     fontSize: 12,
                   }}
                 >
-                  ({myData?.countRate} نظر)
+                  ({myData?.countRate || 0} نظر)
                 </Typography>
               </Box>
               {/* <Rating
@@ -274,10 +300,12 @@ const HomeCard = ({ myData = {} }) => {
           </CardContent>
         </Link>
       </Card>
+
       <FavoritesPopOver
         isLiked={isLiked}
         handleClose={handleClose}
         id={myData.id}
+        changeFavColor={changeFavColor}
       />
     </Box>
   );

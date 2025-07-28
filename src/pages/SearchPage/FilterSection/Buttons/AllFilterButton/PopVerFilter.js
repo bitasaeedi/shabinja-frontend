@@ -36,6 +36,8 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
   // ---
   const [justGuarantees, setJustGuarantees] = useState(false); //رزرو قطعی
   // ---
+  const [lastMinuteDiscounts, setLastMinuteDiscounts] = useState(false); //تخفیف های لحظه آخری
+  // ---
   const [countPeople, setCountPeople] = useState(0); //تعداد نفرات
   // ---
   const [countRoom, setCountRoom] = useState(0); //تعداد اتاق
@@ -70,6 +72,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
     const listValues = searchPageContext.listFiltersInUrl;
     // Define default values
     var justGuarantees = false; // Replace with your desired default
+    var lastMinuteDiscounts = false; // Replace with your desired default
     var countPeopleNum = 0; // Replace with your desired default
     var countRoomNum = 0;
     var rollList = [];
@@ -81,6 +84,8 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
     listValues.forEach((element) => {
       if (element.label === "justGuarantees") {
         justGuarantees = element.value;
+      } else if (element.label === "lastMinuteDiscounts") { 
+        lastMinuteDiscounts = element.value;
       } else if (element.label === "count") {
         countPeopleNum = parseFloat(element.value);
       } else if (element.label === "room") {
@@ -114,6 +119,7 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
 
     // Update state with the resolved values
     setJustGuarantees(justGuarantees);
+    setLastMinuteDiscounts(lastMinuteDiscounts);
     setCountPeople(countPeopleNum);
     setCountRoom(countRoomNum);
     setSelectedListRolles(rollList);
@@ -171,6 +177,10 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
       {
         value: justGuarantees,
         label: "justGuarantees",
+      },
+      {
+        value: lastMinuteDiscounts,
+        label: "lastMinuteDiscounts",
       },
       {
         value: countPeople,
@@ -251,6 +261,9 @@ const PopVerFilter = ({ callBackFunc, anchorEl, handleClosePopover }) => {
           // ---
           justGuarantees: justGuarantees,
           setJustGuarantees: setJustGuarantees,
+          // ---
+          lastMinuteDiscounts: lastMinuteDiscounts,
+          setLastMinuteDiscounts: setLastMinuteDiscounts,
           // ---
           countPeople,
           setCountPeople,
