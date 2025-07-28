@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Typography, TextField } from "@mui/material";
 
 const PeopleCounter = ({ onValueChange, closePopup, defaultCount }) => {
   const [count, setCount] = useState(defaultCount || 0);
   const counterRef = useRef();
+
   // Handle click outside to close calendar
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -22,11 +23,20 @@ const PeopleCounter = ({ onValueChange, closePopup, defaultCount }) => {
     setCount(newCount);
     onValueChange(newCount); // Send value to parent
   };
+
   const decrement = () => {
     const newCount = Math.max(1, count - 1);
     setCount(newCount);
     onValueChange(newCount); // Send value to parent
-  }; // Prevent going below 1
+  };
+
+  const handleCountChange = (event) => {
+    const newValue = parseInt(event.target.value);
+    if (!isNaN(newValue) && newValue >= 1) {
+      setCount(newValue);
+      onValueChange(newValue);
+    }
+  };
 
   return (
     <Box
@@ -76,16 +86,39 @@ const PeopleCounter = ({ onValueChange, closePopup, defaultCount }) => {
         >
           +
         </Button>
-        {/* Count Display */}
-        <Typography
-          sx={{
-            fontSize: "18px",
-            minWidth: "30px",
-            textAlign: "center",
+
+        {/* Count TextField */}
+        <TextField
+          value={count}
+          onChange={handleCountChange}
+          inputProps={{
+            readOnly: false,
+            style: {
+              textAlign: "center",
+              fontSize: "16px",
+              padding: "4px 5px",
+              border: "none",
+              backgroundColor: "transparent",
+              maxWidth: "20px",
+            },
           }}
-        >
-          {count}
-        </Typography>
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              "& fieldset": {
+                border: "none",
+              },
+              "&:hover fieldset": {
+                border: "none",
+              },
+              "&.Mui-focused fieldset": {
+                border: "none",
+              },
+            },
+            "& .MuiInputBase-input": {
+              cursor: "text",
+            },
+          }}
+        />
 
         {/* Decrement Button */}
         <Button

@@ -184,6 +184,7 @@ const MainSearchForm = () => {
       pepoleInput.click();
     }
   };
+
   const handleSearchCities = async (textToSearch) => {
     setSelectedCity({});
     if (textToSearch.length >= 3 || textToSearch.length == 0) {
@@ -197,6 +198,7 @@ const MainSearchForm = () => {
       setLoadingSearchCitis(false);
     }
   };
+  
   const inputStyles = {
     backgroundColor: "#ffffff",
     borderRadius: "8px",
@@ -542,7 +544,7 @@ const MainSearchForm = () => {
                       value={field.value ? `${field.value} نفر` : ""} // Show value or empty string
                       placeholder="انتخاب کنید" // Placeholder when value is empty or null
                       InputProps={{
-                        readOnly: true, // Prevent typing
+                        readOnly: false, // Prevent typing
                         endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
                           <InputAdornment position="end">
                             <IconButton
