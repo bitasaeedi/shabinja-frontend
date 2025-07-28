@@ -31,8 +31,9 @@ const ContactPage = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setContactData(response?.data?.data);
-      
+      const sorted = response?.data?.data?.sort((a, b) => a.id - b.id);
+      setContactData(sorted);
+      console.log("sorted", sorted);
     } catch (error) {
       console.error(
         "Error :",
@@ -114,7 +115,7 @@ const ContactPage = () => {
                 variant="body2"
                 sx={{ fontSize: 14, textAlign: "justify" }}
               >
-                {contactData[5]?.value}
+                {contactData[0]?.value}
               </Typography>
             </Box>
             <Typography

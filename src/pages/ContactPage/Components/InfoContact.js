@@ -24,9 +24,9 @@ export const InfoContact = ({ contactData }) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                {contactData[4]?.title}
+                {contactData[1]?.title}
               </Typography>
-              <Typography variant="body2">{contactData[4]?.value}</Typography>
+              <Typography variant="body2">{contactData[1]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
@@ -45,9 +45,9 @@ export const InfoContact = ({ contactData }) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                {contactData[3]?.title}
+                {contactData[2]?.title}
               </Typography>
-              <Typography variant="body2">{contactData[3]?.value}</Typography>
+              <Typography variant="body2">{contactData[2]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
@@ -66,9 +66,9 @@ export const InfoContact = ({ contactData }) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                {contactData[2]?.title}
+                {contactData[3]?.title}
               </Typography>
-              <Typography variant="body2">{contactData[2]?.value}</Typography>
+              <Typography variant="body2">{contactData[3]?.value}</Typography>
             </Box>
           </Box>
         </Grid>
@@ -87,9 +87,9 @@ export const InfoContact = ({ contactData }) => {
             </Box>
             <Box>
               <Typography variant="h6" sx={{ fontSize: 16 }}>
-                {contactData[1]?.title}
+                {contactData[4]?.title}
               </Typography>
-              <Typography variant="body2">{contactData[1]?.value}</Typography>
+              <Typography variant="body2">{contactData[4]?.value}</Typography>
             </Box>
           </Box>
         </Grid>

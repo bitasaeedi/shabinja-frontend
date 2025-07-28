@@ -18,7 +18,32 @@ import HomeCard from "../../../../../../components/Cards/HomeCards/HomeCards";
 import { useLocation, useParams } from "react-router-dom";
 import CategoryPopOver from "./CategoryPopOver";
 import SkeletonCard from "./SkeletonCard";
+import SearchOff from "@mui/icons-material/SearchOff";
 const baseUrl = API_URL;
+
+const NoValueComponent = () => {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        pt: 4,
+        mt: 4,
+        textAlign: "center",
+        color: "text.secondary",
+        minHeight: "40vh",
+      }}
+    >
+      <SearchOff sx={{ fontSize: 60, color: "#aaa", mb: 2 }} />
+      <Typography variant="h6" gutterBottom>
+        هیچ اقامتگاهی برای نمایش وجود ندارد
+      </Typography>
+    </Box>
+  );
+};
 
 export default function EachCategory() {
   const location = useLocation();
@@ -75,7 +100,7 @@ export default function EachCategory() {
     if (id) {
       fetchCategoryList();
     }
-  }, [isOpen, id , isFavorite]);
+  }, [isOpen, id, isFavorite]);
 
   return (
     <>
@@ -147,44 +172,53 @@ export default function EachCategory() {
           ""
         )}
 
-<Grid
-  container
-  gap={"1.5rem"}
-  sx={{
-    margin: "2.5rem 0 1rem",
-    justifyContent: "space-around",
-    alignItems: "flex-start",
-    flexWrap: "wrap",
-    width: "100%",
-  }}
->
-  {categoryItem?.length > 0
-    ? categoryItem.map((item, i) => {
+        <Grid
+          container
+          gap={"1.5rem"}
+          sx={{
+            margin: "2.5rem 0 1rem",
+            justifyContent: "space-around",
+            alignItems: "flex-start",
+            flexWrap: "wrap",
+            width: "100%",
+          }}
+        >
+          {categoryItem ? (
+            categoryItem.length > 0 ? (
+              categoryItem.map((item, i) => {
+                const categoryProps = {
+                  title: item.hostTourTitle,
+                  minPrice: item.price,
+                  address: item.address,
+                  images: item.images,
+                  guid: item.hostTourGuid,
+                  isLiked: true,
+                  id: item.hostTourId,
+                  isFavorite: true,
+                };
 
-        const categoryProps = {
-          title: item.hostTourTitle,
-          minPrice: item.price,
-          address: item.address,
-          images: item.images,
-          guid: item.hostTourGuid,
-          isLiked: true,
-          id: item.hostTourId,
-          isFavorite:true
-        };
-
-        return (
-          <Grid item key={i} sx={{ flex: "0 0 auto" }}>
-            <HomeCard changeFavoriteList={changeFavoriteList} myData={categoryProps} />
-          </Grid>
-        );
-      })
-    : [...Array(4)].map((_, i) => (
-        <Grid item key={i} sx={{ flex: "0 0 auto" }}>
-          <SkeletonCard />
+                return (
+                  <Grid item key={i} sx={{ flex: "0 0 auto" }}>
+                    <HomeCard
+                      changeFavoriteList={changeFavoriteList}
+                      myData={categoryProps}
+                    />
+                  </Grid>
+                );
+              })
+            ) : (
+              <Grid item xs={12}>
+                <NoValueComponent />
+              </Grid>
+            )
+          ) : (
+            [...Array(4)].map((_, i) => (
+              <Grid item key={i} sx={{ flex: "0 0 auto" }}>
+                <SkeletonCard />
+              </Grid>
+            ))
+          )}
         </Grid>
-      ))}
-</Grid>
-
 
         {/* module */}
         {categoryItem ? (

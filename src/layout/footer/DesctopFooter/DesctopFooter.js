@@ -31,7 +31,8 @@ const DesctopFooter = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setContactData(response?.data?.data);
+      const sorted = response?.data?.data?.sort((a, b) => a.id - b.id);
+      setContactData(sorted);
       
     } catch (error) {
       console.error(
@@ -318,7 +319,7 @@ const DesctopFooter = () => {
                     fontSize: 16,
                   }}
                 >
-                  {contactData ? contactData[4]?.title : ""} :{" "}
+                  {contactData ? contactData[1]?.title : ""} :{" "}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -331,7 +332,7 @@ const DesctopFooter = () => {
                     ml: 1,
                   }}
                 >
-                  {contactData ? contactData[4]?.value : ""}
+                  {contactData ? contactData[1]?.value : ""}
                 </Typography>
               </Box>
             </Grid>
@@ -349,7 +350,7 @@ const DesctopFooter = () => {
                     fontSize: 16,
                   }}
                 >
-                  {contactData ? contactData[2]?.title : ""} :{" "}
+                  {contactData ? contactData[3]?.title : ""} :{" "}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -362,7 +363,7 @@ const DesctopFooter = () => {
                     ml: 1,
                   }}
                 >
-                  {contactData ? contactData[2]?.value : ""}
+                  {contactData ? contactData[3]?.value : ""}
                 </Typography>
               </Box>
             </Grid>
@@ -380,7 +381,7 @@ const DesctopFooter = () => {
                     fontSize: 16,
                   }}
                 >
-                  {contactData ? contactData[0]?.title : ""} :{" "}
+                  {contactData ? contactData[5]?.title : ""} :{" "}
                 </Typography>
                 <Typography
                   variant="h6"
@@ -393,7 +394,7 @@ const DesctopFooter = () => {
                     ml: 1,
                   }}
                 >
-                  {contactData ? contactData[0]?.value : ""}
+                  {contactData ? contactData[5]?.value : ""}
                 </Typography>
               </Box>
             </Grid>
