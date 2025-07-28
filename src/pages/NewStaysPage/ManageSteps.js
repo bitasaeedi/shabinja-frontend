@@ -38,6 +38,7 @@ import ShabinjaRules from "./Components/ShabinjaRules";
 import DocumentOfStay from "./Components/DocumentOfStay";
 import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
 import { CalculateStepNum } from "./Components/Componnets/CalculateStepNum";
+import SteperNewStay from "./Components/SteperNewStay";
 export const ManageStepsContext = createContext();
 // تنظیمات مراحل
 const stepsConfig = [
@@ -209,7 +210,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
   const [listTypeHostLoc, setListTypeHostLoc] = useState([]); // نوع منطقه
   const [listTypeHost, setListTypeHost] = useState([]); // نوع اقامتگاه
   const [provinceList, setProvinceList] = useState([]); // استانها
-
+  const [lastedStep, setLastedStep] = useState(null);
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
@@ -244,10 +245,14 @@ const ManageSteps = ({ stayCodeToComplete }) => {
 
   // پیدا کردن آخرین مرحله
   const handleFindLastStep = async (data) => {
+    const result = CalculateStepNum(data);
+    console.log(result, "result handleFindLastStep");
+    setLastedStep(result || 1);
     if (!activeStep) {
-     const result = CalculateStepNum(data)
       handleStepChange(result || 1);
     }
+
+   
   };
 
   //  ایجاد اقامتگاه
@@ -394,7 +399,14 @@ const ManageSteps = ({ stayCodeToComplete }) => {
           listAccommodationSpace,
         }}
       >
-        <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
+        <SteperNewStay
+          lastedStep={lastedStep}
+          activeStep={activeStep}
+          stepsConfig={stepsConfig}
+          handleStepChange={handleStepChange}
+          stepRefs={stepRefs}
+        />
+        {/* <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
           {stepsConfig.map((step, index) => (
             <Step
               key={index}
@@ -406,7 +418,8 @@ const ManageSteps = ({ stayCodeToComplete }) => {
                   cursor: "pointer",
                 }}
                 onClick={() => {
-                  if (activeStep > index) {
+                  console.log(lastedStep, "lastedStep", index);
+                  if (lastedStep >= index) {
                     handleStepChange(index);
                   }
                 }}
@@ -417,7 +430,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
                   <Typography>{step.label}</Typography>
                 )}
               </StepLabel>
-              
+
               <StepContent
                 sx={{
                   px: { xs: 1, md: 2 },
@@ -427,7 +440,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
               </StepContent>
             </Step>
           ))}
-        </Stepper>
+        </Stepper> */}
 
         {/* Sticky Navigation Section */}
       </ManageStepsContext.Provider>

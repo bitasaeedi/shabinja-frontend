@@ -38,7 +38,6 @@ const CancelRules = () => {
   //   },
   // ];
 
- 
   // useEffect(() => {
   //   if (manageStepsContext?.hostInfoUpdating?.cancelReservation) { // اینو اپدیت کنم بعد ای پی ای
   //     // setSelectedOption(
@@ -52,11 +51,16 @@ const CancelRules = () => {
 
   const onSubmit = async () => {
     setLoading(true);
-    if (lastDay && last3Day && moreDays && manageStepsContext?.stayCodeToComplete) {
+    if (
+      lastDay &&
+      last3Day &&
+      moreDays &&
+      manageStepsContext?.stayCodeToComplete
+    ) {
       const res = await manageStepsContext?.handleUpdateStay({
         cancelPercentageFirst: lastDay,
         cancelPercentageSecond: last3Day,
-        cancelPercentageThird:moreDays,
+        cancelPercentageThird: moreDays,
       });
       if (res) {
         manageStepsContext?.handleNext();
@@ -67,106 +71,117 @@ const CancelRules = () => {
 
   return (
     <>
-      <Grid container spacing={3} >
-        <Grid item xs={12} md={7} className="shadow-sm border my-4"
-        sx={{ml:3 , pr:3}}>
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={7} className="  my-4" sx={{ ml: 3, pr: 3 }}>
           <FormGroup>
-            <Box mb={2} sx={{display:"flex", justifyContent:"space-between"}}>
-              <Typography variant="h6" sx={{ fontSize: 16, mb: 3, minWidth:"110px"}}>
+            <Box
+              mb={2}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 16, mb: 3, minWidth: "110px" }}
+              >
                 24 ساعت قبل
               </Typography>
-            
+
               <TextField
-                    dir="ltr"
-                    fullWidth
-                    size="small"
-                    type="text"
-                    value={lastDay ||""}
-                    onChange={(e) => setlastDay(e.target.value)}
-                    InputProps={{
-                      onFocus: (e) => e.preventDefault(),
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Typography
-                            sx={{ fontSize: "0.8rem", color: "gray" }}
-                          >
-                           درصد
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      "& .MuiInputBase-input::placeholder": {
-                        fontSize: "0.8rem",
-                        textAlign: "left",
-                        direction: "rtl",
-                      },
-                    }}
-                  />
+                dir="ltr"
+                fullWidth
+                size="small"
+                type="text"
+                value={lastDay || ""}
+                onChange={(e) => setlastDay(e.target.value)}
+                InputProps={{
+                  onFocus: (e) => e.preventDefault(),
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Typography sx={{ fontSize: "0.8rem", color: "gray" }}>
+                        درصد
+                      </Typography>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiInputBase-input::placeholder": {
+                    fontSize: "0.8rem",
+                    textAlign: "left",
+                    direction: "rtl",
+                  },
+                }}
+              />
             </Box>
-            <Box mb={2} sx={{display:"flex", justifyContent:"space-between"}}>
-              <Typography variant="h6" sx={{ fontSize: 16, mb: 3 , minWidth:"110px" }}>
-               3 روز قبل
+            <Box
+              mb={2}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 16, mb: 3, minWidth: "110px" }}
+              >
+                3 روز قبل
               </Typography>
               <TextField
-                    dir="ltr"
-                    fullWidth
-                    size="small"
-                    type="text"
-                    value={last3Day ||""}
-                    onChange={(e) => setlast3Day(e.target.value)}
-                    InputProps={{
-                      onFocus: (e) => e.preventDefault(),
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Typography
-                            sx={{ fontSize: "0.8rem", color: "gray" }}
-                          >
-                           درصد
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      "& .MuiInputBase-input::placeholder": {
-                        fontSize: "0.8rem",
-                        textAlign: "left",
-                        direction: "rtl",
-                      },
-                    }}
-                  />
+                dir="ltr"
+                fullWidth
+                size="small"
+                type="text"
+                value={last3Day || ""}
+                onChange={(e) => setlast3Day(e.target.value)}
+                InputProps={{
+                  onFocus: (e) => e.preventDefault(),
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Typography sx={{ fontSize: "0.8rem", color: "gray" }}>
+                        درصد
+                      </Typography>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiInputBase-input::placeholder": {
+                    fontSize: "0.8rem",
+                    textAlign: "left",
+                    direction: "rtl",
+                  },
+                }}
+              />
             </Box>
-            <Box mb={2} sx={{display:"flex", justifyContent:"space-between"}}>
-              <Typography variant="h6" sx={{ fontSize: 16, mb: 3,  minWidth:"110px" }}>
-               بیشتر
+            <Box
+              mb={2}
+              sx={{ display: "flex", justifyContent: "space-between" }}
+            >
+              <Typography
+                variant="h6"
+                sx={{ fontSize: 16, mb: 3, minWidth: "110px" }}
+              >
+                بیشتر
               </Typography>
               <TextField
-                    dir="ltr"
-                    fullWidth
-                    size="small"
-                    type="text"
-                    value={moreDays ||""}
-                    onChange={(e) => setMoreDays(e.target.value)}
-                    InputProps={{
-                      onFocus: (e) => e.preventDefault(),
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <Typography
-                            sx={{ fontSize: "0.8rem", color: "gray" }}
-                          >
-                           درصد
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                    sx={{
-                      "& .MuiInputBase-input::placeholder": {
-                        fontSize: "0.8rem",
-                        textAlign: "left",
-                        direction: "rtl",
-                      },
-                    }}
-                  />
+                dir="ltr"
+                fullWidth
+                size="small"
+                type="text"
+                value={moreDays || ""}
+                onChange={(e) => setMoreDays(e.target.value)}
+                InputProps={{
+                  onFocus: (e) => e.preventDefault(),
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Typography sx={{ fontSize: "0.8rem", color: "gray" }}>
+                        درصد
+                      </Typography>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& .MuiInputBase-input::placeholder": {
+                    fontSize: "0.8rem",
+                    textAlign: "left",
+                    direction: "rtl",
+                  },
+                }}
+              />
             </Box>
           </FormGroup>
         </Grid>
