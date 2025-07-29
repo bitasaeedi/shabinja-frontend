@@ -59,9 +59,6 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
       if (typeof changeFavoriteList === "function") {
         changeFavoriteList();
       }
-      else{
-        setFavColor("#ffffff96");
-      }
       console.log("d response", response.data);
 
       return response.data;
@@ -75,6 +72,9 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     if (favColor === "red") {
       try {
         await deleteFromFavorite();
+        // Update local state immediately after successful API call
+        setFavColor("#ffffff96");
+        console.log("Item removed from favorites:", myData?.id);
     
         if (typeof changeFavoriteList === "function") {
           changeFavoriteList();
@@ -92,6 +92,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     setFavColor("red");
     // Add to global favorites
     homeContext?.addToGlobalFavorites(myData?.id);
+    console.log("Item added to favorites:", myData?.id);
   }
 
   const handleClose = () => {
