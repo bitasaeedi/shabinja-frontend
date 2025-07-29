@@ -20,6 +20,7 @@ import { DownloadImageApi } from "../../../api/DownloadImageApi";
 const baseUrl = API_URL;
 
 const DesctopFooter = () => {
+  
   const [footerLinks, setFooterLinks] = useState();
   const [contactData, setContactData] = useState(null);
   const [socialMedia, setSocialMedia] = useState(null);
