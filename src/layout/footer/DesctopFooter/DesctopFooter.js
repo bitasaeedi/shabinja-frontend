@@ -16,16 +16,18 @@ import logo_with_name from "../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../../images/shabinja_logo_with_name_white.png";
 import axios from "axios";
 import API_URL from "../../../config/apiConfig";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
 const baseUrl = API_URL;
 
 const DesctopFooter = () => {
   const [footerLinks, setFooterLinks] = useState();
   const [contactData, setContactData] = useState(null);
+  const [socialMedia, setSocialMedia] = useState(null);
 
   const fetchContactData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-  
+
       const response = await axios.get(`${baseUrl}/ContactData`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,12 +35,33 @@ const DesctopFooter = () => {
       });
       const sorted = response?.data?.data?.sort((a, b) => a.id - b.id);
       setContactData(sorted);
-      
     } catch (error) {
-      console.error(
-        "Error :",
-        error?.response?.data || error.message
+      console.error("Error :", error?.response?.data || error.message);
+      return error?.response?.data;
+    }
+  };
+
+  const fetchSocialMedia = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.post(
+        `${baseUrl}/SocialNetwork/List`,
+        {
+          take: 10,
+          skip: 0,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+      const sorted = response?.data?.data?.sort((a, b) => a.order - b.order);
+      console.log("social media", sorted);
+      setSocialMedia(sorted);
+    } catch (error) {
+      console.error("Error :", error?.response?.data || error.message);
       return error?.response?.data;
     }
   };
@@ -71,6 +94,7 @@ const DesctopFooter = () => {
   useEffect(() => {
     handleLinks();
     fetchContactData();
+    fetchSocialMedia();
   }, []);
 
   return (
@@ -95,7 +119,7 @@ const DesctopFooter = () => {
               paddingLeft: "35px",
               display: "flex",
               gap: 0,
-              justifyContent: {xs:"space-around",md:"flex-end"},
+              justifyContent: { xs: "space-around", md: "flex-end" },
               width: { xs: "100%", md: "55%" },
               height: "100%",
               pt: 2,
@@ -103,8 +127,7 @@ const DesctopFooter = () => {
           >
             {footerLinks?.map((link, index) => {
               return (
-                <Grid item xs={4} md={4} >
-
+                <Grid item xs={4} md={4}>
                   <Typography
                     variant="h6"
                     fontWeight="bold"
@@ -272,27 +295,38 @@ const DesctopFooter = () => {
               ما را در شبکه‌های اجتماعی دنبال کنید
             </Typography>
             <Box>
-              <IconButton
-                to="/"
-                sx={{ color: "#d32f2f", backgroundColor: "#fff" }}
-                aria-label="Instagram"
-              >
-                <InstagramIcon />
-              </IconButton>
-              <IconButton
-                to="/"
-                sx={{ color: "#03a9f4", backgroundColor: "#fff", mx: 1 }}
-                aria-label="Telegram"
-              >
-                <TelegramIcon />
-              </IconButton>
-              <IconButton
-                to="/"
-                sx={{ color: "black", backgroundColor: "#fff" }}
-                aria-label="X"
-              >
-                <XIcon />
-              </IconButton>
+              {socialMedia?.map((item, index) => {
+                return (
+                  <Link
+                    key={index}
+                    to={item?.pageUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      textDecoration: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "white",
+                      borderRadius: "50%",
+                      width: "40px",
+                      height: "40px",
+                      margin: "0 4px",
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={DownloadImageApi(item?.image?.url)}
+                      alt={item?.title || "Social Media"}
+                      sx={{
+                        width: "24px",
+                        height: "24px",
+                        objectFit: "contain",
+                      }}
+                    />
+                  </Link>
+                );
+              })}
             </Box>
           </Box>
         </Box>
@@ -398,7 +432,6 @@ const DesctopFooter = () => {
                 </Typography>
               </Box>
             </Grid>
-
           </Grid>
         </Box>
 

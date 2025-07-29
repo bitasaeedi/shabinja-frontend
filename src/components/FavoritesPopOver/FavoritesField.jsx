@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Box, Typography, Button, InputBase, IconButton } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { useTheme } from "@mui/material/styles";
@@ -13,6 +13,7 @@ import { DownloadImageApi } from "../../api/DownloadImageApi";
 import API_URL from "../../config/apiConfig";
 import MyAlertMui from "../MyAlertMui/MyAlertMui";
 import FavoritesFieldSkeleton from "./FavoritesFieldSkeleton";
+import { HomeContext } from "../../pages/Home/Home";
 const baseUrl = API_URL;
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
@@ -54,6 +55,7 @@ export default function FavoritesField({
   stayId,
   changeFavColor,
 }) {
+  const homeContext = useContext(HomeContext);
   const {
     register,
     handleSubmit,
@@ -154,6 +156,10 @@ export default function FavoritesField({
       console.log("add response", response.data);
       fetchCategoryList();
       changeFavColor();
+      
+      // Add to global favorites
+      homeContext?.addToGlobalFavorites(stayId);
+      
       setTimeout(() => {
         handleMangeAlert(true, 
            response?.data?.issuccess ?

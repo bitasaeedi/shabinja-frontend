@@ -19,8 +19,6 @@ import axios from "axios";
 const baseUrl = API_URL;
 
 const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
-  
- 
   const [isLiked, setIsLiked] = useState(false);
   const [favColor, setFavColor] = useState("#ffffff96");
 
@@ -41,6 +39,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
           },
         }
       );
+      setFavColor("#ffffff96");
       console.log("d response", response.data);
 
       return response.data;
@@ -61,7 +60,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   };
 
   function changeFavColor() {
-      setFavColor("red");
+    setFavColor("red");
   }
 
   // handle close popover

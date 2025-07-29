@@ -32,6 +32,8 @@ import { useMediaQuery } from "@mui/material";
 import ReservationStay from "./pages/ReservationStay/ReservationStay";
 
 import { createSignalRContext } from "react-signalr/signalr";
+import axios from "axios";
+import API_URL from "./config/apiConfig";
 
 const GOFTINO_KEY = "FnQe1u";
 
@@ -185,7 +187,6 @@ function App() {
                 setSettingHeader,
                 userInfo,
                 favoritDestination,
-
                 handleShowModal,
                 handleModalClose,
                 handleGofino,

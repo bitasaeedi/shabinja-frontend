@@ -22,10 +22,10 @@ const TitleStay = () => {
   const handleLikeClick = () => {
     if (isFavorite==="black") {
       setIsLiked(true);
-      setIsFavorite("red")
+      setIsFavorite("red");
     } else {
       deleteFromFavorite();
-      setIsFavorite("black")
+      setIsFavorite("black");
     }
   };
 
