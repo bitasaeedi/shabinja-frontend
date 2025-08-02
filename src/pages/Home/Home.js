@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState, useCallback } from "react";
 import FastSearchCard from "../../components/Cards/FastSearchCard";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
-import ResponsiveCards from "../../components/Cards/ResponsiveCards";
 import ResponsiveFeatures from "../../components/Cards/ResponsiveFeatures";
 import MobileMainSlider from "../../components/Sliders/MobileMainSlider";
 import ItemsFastSearch from "../../myDatas/ItemsFastSearch";
@@ -14,8 +13,6 @@ import {
   CategoryHostApi,
   FavoritDestinationApi,
   HostTourSearchApi,
-  InstantBooking,
-  LastMinuteDiscounts,
 } from "../../api/toureApis";
 import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
 import FastSearchcomponentMobile from "./Components/FastSearchcomponentMobile/FastSearchcomponentMobile";

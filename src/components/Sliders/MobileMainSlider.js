@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import "./Sliders.css";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
+import { DownloadImageApi } from "../../api/DownloadImageApi";
 const baseUrl = API_URL;
 
 const MobileMainSlider = ({ MySliderList = [] }) => {
@@ -71,8 +72,11 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response?.data, "sliderList response");
-      setSliderList(response?.data);
+      console.log(response?.data?.data, "sliderList response");
+      const sliderUrls = response?.data?.data?.filter(item => item.order !== 1);
+      const sliderImages = sliderUrls.map(item => DownloadImageApi(item.image?.url));
+      console.log(sliderImages, "sliderImages");
+      setSliderList(sliderImages);
     } catch (error) {
       console.log("show comments Error:", error?.response?.data);
     }
@@ -88,7 +92,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
       style={{ width: "100%", overflow: "hidden", position: "relative" }}
     >
       <Slider {...settings}>
-        {MySliderList.map((city, index) => (
+        {sliderList.map((city, index) => (
           <Container key={index} className="p-0 m-0">
             <Box
               sx={{
@@ -100,8 +104,8 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
               }}
             >
               <img
-                src={city.image}
-                alt={city.name}
+                src={city}
+                alt={"slider"}
                 style={{
                   position: "absolute",
                   top: 0,

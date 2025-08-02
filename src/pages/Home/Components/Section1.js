@@ -6,6 +6,7 @@ import SubSliderHeader from "./SubSliderHeader";
 import axios from "axios";
 import API_URL from "../../../config/apiConfig";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import heroBg from '../../../assest/images/bg/hero-bg.jpg';
 const baseUrl = API_URL;
 
 // سرچ دسکتاپ
@@ -21,8 +22,11 @@ const Section1 = ({ listCategories = [] }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response?.data, "sliderList response");
-      setSlider(response?.data[0]);
+      const allData = response?.data?.data;
+      const orderedOne = allData.find(item => item.order === 1);
+      const imageUrl = orderedOne?.image?.url;
+      
+      setSlider(DownloadImageApi(imageUrl));
     } catch (error) {
       console.log("show comments Error:", error?.response?.data);
     }
@@ -33,10 +37,10 @@ const Section1 = ({ listCategories = [] }) => {
 
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
-      <Box className="hero-box hero-bg"
+      <Box className="hero-box"
         sx={{
-          backgroundImage: DownloadImageApi(slider?.image?.url),
-          backgroundSize: 'cover',
+          backgroundImage: `url(${slider})`,
+           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
         }}
