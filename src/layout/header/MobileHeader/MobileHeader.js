@@ -86,6 +86,7 @@ const MobileHeader = () => {
   const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
   const [calendarAnchor, setCalendarAnchor] = useState(null);
   const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
+  const [cityError, setCityError] = useState(false);
 
   const location = useLocation();
   const theme = useTheme();

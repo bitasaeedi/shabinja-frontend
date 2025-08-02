@@ -93,7 +93,7 @@ const ContainerMain = () => {
             // display: { xs: "none", md: "flex" },
           }}
         >
-          تراکنش‌ها (5)
+          تراکنش‌ها ({stays?.length||0})
         </Typography>
 
         <Box

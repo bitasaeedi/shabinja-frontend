@@ -220,7 +220,7 @@ const SearchPage = () => {
         setCurrentPage,
       }}
     >
-      <Box sx={{ position: "relative" }} className=" ">
+      <Box sx={{ position: "relative"  , minHeight: "100vh" }} className=" ">
         {/* Filter Section */}
         {/* <Header shadow={false} /> */}
         <FilterSection />

@@ -34,7 +34,7 @@ const SubSliderHeader = ({ listCategories = [] }) => {
         </Box>
       ) : (
         <>
-          <Grid container justifyContent="space-around" alignItems="center">
+          <Grid  container justifyContent="space-around" alignItems="center">
             {listCategories.map((item, index) => (
               <FastSearchCard key={index} myData={item} />
             ))}

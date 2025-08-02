@@ -9,14 +9,11 @@ import {
   Typography,
   TextField,
 } from "@mui/material";
-import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import {
   getCityListByProvinceId,
-  getProvinceList,
 } from "../../../api/PublicApis";
 import { ManageStepsContext } from "../ManageSteps";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
-import { getValue } from "@testing-library/user-event/dist/utils";
 import InputeContainer from "./Componnets/InputeContainer";
 import MapOutlined from "@mui/icons-material/MapOutlined";
 
@@ -241,16 +238,8 @@ const SelectAddress = () => {
                   rules={{
                     required: "الزامی است",
                     pattern: {
-                      value: /^[0-9]+$/,
-                      message: "فقط عدد مجاز است",
-                    },
-                    minLength: {
-                      value: 8,
-                      message: "شماره تلفن باید حداقل 8 رقمی باشد",
-                    },
-                    maxLength: {
-                      value: 11,
-                      message: "شماره تلفن باید حداکثر 11 رقمی باشد",
+                      value: /^[0-9]{11}$/,
+                      message: "شماره تلفن باید 11 رقم باشد",
                     },
                   }}
                   render={({ field, fieldState: { error } }) => (

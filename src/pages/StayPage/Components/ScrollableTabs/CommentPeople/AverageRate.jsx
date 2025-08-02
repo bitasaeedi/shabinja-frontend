@@ -52,10 +52,10 @@ export default function AverageRate({ rates }) {
           }}
         >
           <Typography variant="h6">
-            <span>{rates.rate / 20}</span> از 5
+            <span>{rates.rate}</span> از 5
           </Typography>
           <Rating
-            value={rates.rate / 20}
+            value={rates.rate }
             precision={".5"}
             readOnly
             sx={{ fontSize: { xs: "1.2rem", sm: "1.4rem" } }}

@@ -10,11 +10,11 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import styled from "@emotion/styled";
 import MyAlertMui from "../../../../../../components/MyAlertMui/MyAlertMui";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const baseUrl = API_URL;
 
 const StyledInputBase = styled(TextField)(({ theme }) => ({
@@ -32,9 +32,12 @@ export default function CategoryPopOver({
   handleClose,
   categoryInfo,
 }) {
+  console.log( "mycategoryInfo",categoryInfo);
   const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const location = useLocation();
+  const [categoryId, setCategoryId] = useState();
 
   const [name, setName] = useState("");
   const [showAlertSetting, setShowAlertSetting] = useState({
@@ -52,11 +55,11 @@ export default function CategoryPopOver({
   };
 
   // delete
-  const deleteCategoryList = async (guid) => {
+  const deleteCategoryList = async (id) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        `${baseUrl}/UserFavoriteCategory/Delete/${guid}`,{},
+        `${baseUrl}/UserFavoriteCategory/Delete/${id}`,{},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -83,15 +86,14 @@ export default function CategoryPopOver({
   };
 
   //edit
-  const editCategoryList = async (id, guid) => {
+  const editCategoryList = async () => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
         `${baseUrl}/UserFavoriteCategory/Update`,
         {
           Title: name,
-          Id: categoryInfo.userFavoriteCategoryId,
-          Guid: categoryInfo.userFavoriteCategoryGuid,
+          Id: categoryId,
         },
         {
           headers: {
@@ -120,6 +122,11 @@ export default function CategoryPopOver({
       return error?.response?.data;
     }
   };
+
+  useEffect(() => {
+    const segments = location.pathname.split("/");
+    setCategoryId(segments[segments.length - 1]);
+  }, [location]);
 
   return (
     <>
@@ -190,12 +197,13 @@ export default function CategoryPopOver({
             onClick={() => {
               type === "ویرایش"
                 ? editCategoryList()
-                : deleteCategoryList(categoryInfo.userFavoriteCategoryGuid);
+                : deleteCategoryList(categoryId);
             }}
           >
             {type === "ویرایش" ? " ثبت تغییرات" : "حذف"}
           </Button>
         </Box>
+
         {showAlertSetting?.show && (
           <MyAlertMui
             message={showAlertSetting?.message || ""}

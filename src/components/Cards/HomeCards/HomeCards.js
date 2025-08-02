@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
@@ -21,22 +21,15 @@ import SliderDetailsPage from "../../Sliders/SliderCards";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import FavoritesPopOver from "../../FavoritesPopOver/FavoritesPopOver";
 import axios from "axios";
-import { HomeContext } from "../../../pages/Home/Home";
 const baseUrl = API_URL;
 
 const HomeCard = ({ myData = {}, changeFavoriteList }) => {
-  const homeContext = useContext(HomeContext);
   const [isLiked, setIsLiked] = useState(false);
   const [favColor, setFavColor] = useState("#ffffff96");
 
-  // Use global favorites state instead of local state
-  const isInGlobalFavorites = homeContext?.isItemInGlobalFavorites(myData?.id);
-
   useEffect(() => {
-    // Check both API response and global state
-    const isFavorite = myData.isFavorite || isInGlobalFavorites;
-    setFavColor(isFavorite ? "red" : "#ffffff96");
-  }, [myData.isFavorite, isInGlobalFavorites, homeContext?.favoritesUpdateTrigger]);
+    setFavColor(myData.isFavorite ? "red" : "#ffffff96");
+  }, [myData.isFavorite]);
 
   const deleteFromFavorite = async () => {
     try {
@@ -53,11 +46,13 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
         }
       );
       
-      // Remove from global favorites
-      homeContext?.removeFromGlobalFavorites(myData?.id);
+
       
       if (typeof changeFavoriteList === "function") {
         changeFavoriteList();
+      }
+      else{
+        setFavColor("#ffffff96");
       }
       console.log("d response", response.data);
 
@@ -72,9 +67,6 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     if (favColor === "red") {
       try {
         await deleteFromFavorite();
-        // Update local state immediately after successful API call
-        setFavColor("#ffffff96");
-        console.log("Item removed from favorites:", myData?.id);
     
         if (typeof changeFavoriteList === "function") {
           changeFavoriteList();
@@ -90,9 +82,6 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
 
   function changeFavColor() {
     setFavColor("red");
-    // Add to global favorites
-    homeContext?.addToGlobalFavorites(myData?.id);
-    console.log("Item added to favorites:", myData?.id);
   }
 
   const handleClose = () => {

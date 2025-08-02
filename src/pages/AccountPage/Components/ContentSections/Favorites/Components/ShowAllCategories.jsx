@@ -26,7 +26,7 @@ const NoValueComponent = () => {
     >
       <SearchOff sx={{ fontSize: 60, color: "#aaa", mb: 2 }} />
       <Typography variant="h6" gutterBottom>
-        هیچ gd برای نمایش وجود ندارد
+        هیچ لیستی برای نمایش وجود ندارد
       </Typography>
     </Box>
   );

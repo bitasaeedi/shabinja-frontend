@@ -74,6 +74,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 const MainSearchForm = () => {
+  
   const [calendarAnchor, setCalendarAnchor] = useState(null); // Track calendar visibility
   const [currentField, setCurrentField] = useState("");
   const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
@@ -544,7 +545,7 @@ const MainSearchForm = () => {
                       value={field.value ? `${field.value} نفر` : ""} // Show value or empty string
                       placeholder="انتخاب کنید" // Placeholder when value is empty or null
                       InputProps={{
-                        readOnly: false, // Prevent typing
+                        readOnly: true, // Prevent typing
                         endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
                           <InputAdornment position="end">
                             <IconButton

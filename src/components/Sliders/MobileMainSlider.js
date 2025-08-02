@@ -1,10 +1,14 @@
 import { Box, Container } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 
 import "./Sliders.css";
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
 
 const MobileMainSlider = ({ MySliderList = [] }) => {
+  const [sliderList, setSliderList] = useState([]);
   const settings = {
     dots: true,
     // infinite: true,
@@ -59,9 +63,28 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
     ),
   };
 
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(`${baseUrl}/SliderHost`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response?.data, "sliderList response");
+      setSliderList(response?.data);
+    } catch (error) {
+      console.log("show comments Error:", error?.response?.data);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <div
-      className="p-0 mt-1"
+      className="p-0 mt-1 mb-1"
       style={{ width: "100%", overflow: "hidden", position: "relative" }}
     >
       <Slider {...settings}>
@@ -73,7 +96,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
                 height: 270,
                 paddingBottom: { xs: "60%", sm: "50%" },
                 position: "relative",
-               // borderRadius: "10px",
+                // borderRadius: "10px",
               }}
             >
               <img
@@ -85,7 +108,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
                   left: 0,
                   width: "100%",
                   height: "270px",
-                //  borderRadius: "10px",
+                  //  borderRadius: "10px",
                   objectFit: "cover",
                 }}
               />

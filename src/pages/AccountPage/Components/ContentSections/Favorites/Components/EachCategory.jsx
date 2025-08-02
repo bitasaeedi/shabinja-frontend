@@ -54,6 +54,8 @@ export default function EachCategory() {
   const [id, setId] = useState();
   const [isFavorite, setIsFavorite] = useState(true);
 
+  console.log("mycategoryItem1:", categoryItem);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };

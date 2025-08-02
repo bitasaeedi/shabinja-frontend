@@ -3,12 +3,44 @@ import { Box, Grid, Typography } from "@mui/material";
 
 import MainSearchForm from "./MainSearchForm/MainSearchForm";
 import SubSliderHeader from "./SubSliderHeader";
+import axios from "axios";
+import API_URL from "../../../config/apiConfig";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
+const baseUrl = API_URL;
 
 // سرچ دسکتاپ
 const Section1 = ({ listCategories = [] }) => {
+ 
+  const [slider, setSlider] = useState([]);
+
+  const fetchData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(`${baseUrl}/SliderHost`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response?.data, "sliderList response");
+      setSlider(response?.data[0]);
+    } catch (error) {
+      console.log("show comments Error:", error?.response?.data);
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
-      <Box className="hero-box hero-bg">
+      <Box className="hero-box hero-bg"
+        sx={{
+          backgroundImage: DownloadImageApi(slider?.image?.url),
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+        }}
+      >
         <Box
           className="hero-content "
           sx={{

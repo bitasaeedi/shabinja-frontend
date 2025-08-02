@@ -58,6 +58,7 @@ export default function FavoritesPopOver({ isLiked, handleClose, id, changeFavCo
       handleClose={handleClose} 
       isLiked={isLiked} 
       changeFavColor={changeFavColor}
+      stayId={id}
       />
     </SwipeableDrawer>
   ) : (
