@@ -1,32 +1,15 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import {
-  Avatar,
   Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
   Paper,
   Skeleton,
   Tab,
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Tabs,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
-import AddIcon from "@mui/icons-material/Add";
 import CardStays from "./CardStays";
-import SkeltonRowTables from "../../../../../../components/SkeletonComponents/SkeltonRowTables";
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
 
@@ -44,11 +27,11 @@ const TableComponent = ({ stays, loading = true }) => {
     },
     {
       name: "پرداخت شده",
-      valueFilter: 2,
+      valueFilter: 3,
     },
     {
       name: "منقضی شده",
-      valueFilter: 3,
+      valueFilter: 1001,
     },
   ];
 
