@@ -80,10 +80,10 @@ const RulesPage = () => {
           >
             قوانین عمومی
           </Typography>
-          <List sx={{ paddingLeft: 0, mx: 0 }}>
+          <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2.5, md: 0 } }}>
             {listRules.map((item, index) => (
               <ListItem sx={{ mx: 0, px: 0 }} key={index}>
-                <ListItemIcon sx={{ minWidth: 36 }}>
+                <ListItemIcon sx={{ minWidth: { xs: 26, md: 36} }}>
                   <CircleIcon sx={{ color: "#000", fontSize: 12 }} />
                 </ListItemIcon>
                 <ListItemText

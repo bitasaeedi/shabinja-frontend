@@ -49,8 +49,11 @@ export default function AverageRate({ rates }) {
             justifyContent: "center",
             alignItems: "center",
             gap: { xs: ".6rem", sm: "1rem" },
+            filter: "blur(1px)",
           }}
         >
+          
+            <>
           <Typography variant="h6">
             <span>{rates.rate}</span> از 5
           </Typography>
@@ -60,6 +63,8 @@ export default function AverageRate({ rates }) {
             readOnly
             sx={{ fontSize: { xs: "1.2rem", sm: "1.4rem" } }}
           />
+            </>
+          
         </Box>
 
         {/* left section */}

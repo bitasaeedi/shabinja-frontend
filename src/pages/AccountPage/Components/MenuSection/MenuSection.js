@@ -97,8 +97,8 @@ const MenuSection = () => {
       >
         <Avatar
           sx={{
-            width: 50,
-            height: 50,
+            width: 65,
+            height: 65,
             // margin: "0 auto",
             background: "linear-gradient(135deg, #287dfa, #6a11cb)",
             fontSize: "1.5rem",
@@ -122,7 +122,7 @@ const MenuSection = () => {
         >
           <Typography
             variant="h6"
-            sx={{ fontWeight: "bold", fontSize: "16px" }}
+            sx={{ fontWeight: "bold", fontSize: "19px" , marginTop: ".6rem" }}
           >
             {`${appContext?.userInfo?.name} ${appContext?.userInfo?.lastName}`}
           </Typography>
@@ -149,6 +149,10 @@ const MenuSection = () => {
               "&.Mui-selected": {
                 backgroundColor: "primary.lighter",
                 fontWeight: "bold",
+              },
+              "& .MuiSvgIcon-root": {
+                marginRight: ".8rem",
+                fontSize: "1.75rem",
               },
             }}
             selected={section ===  item.path.split("/")[0]}

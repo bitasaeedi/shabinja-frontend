@@ -142,6 +142,7 @@ const CardStays = ({ stay }) => {
                         </Box>
                       </Typography>
                     </Box>
+                    
                     {/* قسمت مشخصات رزرو */}
                     <Box
                       sx={{

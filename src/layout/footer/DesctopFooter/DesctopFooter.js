@@ -448,7 +448,7 @@ const DesctopFooter = () => {
             variant="caption"
             display="block"
             mt={2}
-            sx={{ color: "#666" }}
+            sx={{ color: "#666", fontSize: "10px" }}
           >
             © تمامی حقوق مادی و معنوی این سایت متعلق به شرکت توسعه تجارت استوار
             زاگرس می‌باشد

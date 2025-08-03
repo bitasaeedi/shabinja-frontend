@@ -45,7 +45,7 @@ const RowTable = ({ stay, index }) => {
         </TableCell>
 
         {/* status */}
-        <TableCell align="center">
+        {/* <TableCell align="center">
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Typography
               variant="body2"
@@ -64,7 +64,7 @@ const RowTable = ({ stay, index }) => {
               {stay.statusTourTitle || "ناموفق"}
             </Typography>
           </Box>
-        </TableCell>
+        </TableCell> */}
 
         {/* price */}
         <TableCell align="left">

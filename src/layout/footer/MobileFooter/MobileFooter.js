@@ -1,14 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { BottomNavigation, BottomNavigationAction, Box } from "@mui/material";
 import {
   Home,
-  AccountCircle,
-  ShoppingBag,
-  Visibility,
+  Menu as MenuIcon,
 } from "@mui/icons-material";
 import { useNavigate, useLocation } from "react-router-dom";
-import MenuIcon from "@mui/icons-material/Menu";
-import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
+import HeadsetMicOutlinedIcon from '@mui/icons-material/HeadsetMicOutlined';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import DrawerComponent from "../../../components/drawer/DrawerComponent";
 import { AppContext } from "../../../App";
 
@@ -16,16 +15,10 @@ const MobileFooter = () => {
   const appContext = useContext(AppContext);
   const location = useLocation();
   const navigate = useNavigate();
-  const [value, setValue] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const handleNavigationChange = (event, newValue) => {
-    setValue(newValue);
-    menuItems[newValue]?.action(); // Call the corresponding action
-  };
-
   const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen); // Toggle the drawer open/close
+    setMobileOpen(!mobileOpen);
   };
 
   const menuItems = [
@@ -33,96 +26,80 @@ const MobileFooter = () => {
       label: "منو",
       icon: <MenuIcon fontSize="small" />,
       action: handleDrawerToggle,
+      match: () => false, // هرگز فعال نیست
       color: "initial",
     },
     {
       label: "پشتیبانی",
-      icon: <HeadsetMicIcon fontSize="small" />,
-      action: () => {
-        window.Goftino.open();
-      },
-      disabled: false,
+      icon: <HeadsetMicOutlinedIcon fontSize="small" />,
+      action: () => window.Goftino?.open?.(),
+      match: () => location.pathname === "/support",
       color: "primary.main",
     },
     {
       label: "خانه",
       icon: <Home fontSize="small" />,
       action: () => navigate("/"),
-      disabled: false,
+      match: () => location.pathname === "/",
       color: "white",
       isElevated: true,
     },
     {
-      label: "خانه",
+      label: "خانه", // برای فضای خالی
       icon: <Home fontSize="small" />,
-      action: () => navigate("/"),
+      action: () => {},
+      match: () => false,
       disabled: true,
       color: "white",
       unvisibilie: true,
     },
     {
-      label:
-        appContext?.userInfo?.userIsHost && appContext?.isLoginMain
-          ? " پنل‌میزبان"
-          : "میزبان شو",
-      icon: <ShoppingBag fontSize="small" />,
+      label: appContext?.userInfo?.userIsHost && appContext?.isLoginMain
+        ? "پنل‌میزبان"
+        : "میزبان شو",
+      icon: <AdminPanelSettingsOutlinedIcon fontSize="small" />,
       action: () =>
         navigate(
           appContext?.userInfo?.userIsHost && appContext?.isLoginMain
             ? "/pannel/menu"
             : "/new-stay/start"
         ),
-      disabled: false,
-      color: "primary.main",
+      match: () => location.pathname.includes("/pannel"),
+      color: "#287dfadb",
     },
     {
       label: appContext?.isLoginMain ? "پروفایل" : "ورود/ثبت‌نام",
-      icon: <AccountCircle fontSize="small" />,
+      icon: <PersonOutlineOutlinedIcon fontSize="small" />,
       action: () => navigate("/account/menu"),
-      disabled: false,
-      color: "primary.main",
+      match: () => location.pathname.includes("/account"),
+      color: "#287dfadb",
     },
   ];
 
-  useEffect(() => {
-    switch (true) {
-      case location.pathname === "/support":
-        setValue(1);
-        break;
-      case location.pathname === "/":
-        setValue(2);
-        break;
-      case location.pathname.includes("/pannel"):
-        setValue(3);
-        break;
-      case location.pathname.includes("/account"):
-        setValue(4);
-        break;
-      default:
-        setValue(-1);
-    }
-  }, [location.pathname, mobileOpen]);
+  // پیدا کردن آیتم فعال
+  const selectedIndex = menuItems.findIndex((item) => item.match());
 
   return (
     <>
       <Box
         sx={{
-          borderTopLeftRadius: "40px",
-          borderTopRightRadius: "40px",
           display: { xs: "flex", md: "none" },
           position: "fixed",
           bottom: 0,
           left: 0,
           right: 0,
           zIndex: 100,
-          backgroundColor: "#1f1f1f",
+          backgroundColor: "white",
           boxShadow: "0 -2px 5px rgba(0,0,0,0.1)",
+          padding: ".3rem 0",
         }}
       >
         <BottomNavigation
           showLabels
-          value={value}
-          onChange={handleNavigationChange}
+          value={selectedIndex}
+          onChange={(event, newValue) => {
+            menuItems[newValue]?.action();
+          }}
           sx={{
             width: "100%",
             justifyContent: "space-around",
@@ -141,29 +118,40 @@ const MobileFooter = () => {
                 color:
                   item.unvisibilie || item.isElevated
                     ? "white"
-                    : "rgba(0, 0, 0, 0.6)",
+                    : "rgb(163 163 163 / 87%)",
                 zIndex: item.unvisibilie ? "0" : "1000",
-                "&.Mui-selected": { color: item.color },
+                "&.Mui-selected": {
+                  color: item.color,
+                  fill: item.color,
+                },
+                "&.Mui-selected .MuiSvgIcon-root": {
+                  color: item.color,
+                  fill: item.color,
+                },
                 minWidth: 0,
                 ".MuiBottomNavigationAction-label": {
                   whiteSpace: "nowrap",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
+                  fontSize: "0.7rem",
+                },
+                "& .MuiSvgIcon-root": {
+                  fontSize: "1.9rem",
+                  fill: "rgb(163 163 163 / 87%)",
                 },
                 ...(item.isElevated && {
                   position: "absolute",
-                  top: "-2.3rem",
+                  top: "-1.8rem",
                   left: "50%",
                   transform: "translateX(-50%)",
-                  backgroundColor: "#287dfa", 
+                  backgroundColor: "#287dfa",
                   borderRadius: "50%",
-                  padding: "1rem",
+                  padding: ".9rem",
                   zIndex: "10000 !important",
                   boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-                  border: "4px solid rgba(255,255,255,0.8)",
                   "& .MuiSvgIcon-root": {
                     color: "#fff",
-                    fontSize: "1.8rem",
+                    fontSize: "2.3rem",
                   },
                 }),
               }}

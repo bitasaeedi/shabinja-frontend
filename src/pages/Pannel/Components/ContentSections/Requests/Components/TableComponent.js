@@ -27,7 +27,7 @@ const TableComponent = ({ stays, loading = true }) => {
     },
     {
       name: "پرداخت شده",
-      valueFilter: 3,
+      valueFilter: 2,
     },
     {
       name: "منقضی شده",
@@ -60,6 +60,7 @@ const TableComponent = ({ stays, loading = true }) => {
       </Box>
     );
   };
+
   return (
     <Box>
       <TableContainer

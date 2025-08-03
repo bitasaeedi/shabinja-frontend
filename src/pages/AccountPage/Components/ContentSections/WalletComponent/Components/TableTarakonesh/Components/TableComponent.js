@@ -81,11 +81,11 @@ const TableComponent = ({ stays, loading = true }) => {
               },
             }}
           >
-            <Tab label="همه" />
-            <Tab label="موفق" />
-            <Tab label="ناموفق" />
+            <Tab label="کیف پول" />
+            <Tab label="در حال پرداخت" />
           </Tabs>
         </Box>
+        
         {(!stays || stays.length === 0) && !loading ? (
           <NoValueComponent />
         ) : (

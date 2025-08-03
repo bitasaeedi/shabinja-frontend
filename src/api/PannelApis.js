@@ -10,6 +10,30 @@ export const GetListRequestToReserveApi = async (state = 0) => {
   try {
     const token = localStorage.getItem("access_token");
 
+    // If state is 1001 (expired), fetch both 1001 and 4
+    if (state === 1001) {
+      const response1 = await axios.get(`${baseUrl}/HostTourOrder/List/1001`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      const response2 = await axios.get(`${baseUrl}/HostTourOrder/List/4`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      // Combine the results from both API calls
+      const combinedData = {
+        ...response1.data,
+        data: [...(response1.data?.data || []), ...(response2.data?.data || [])]
+      };
+
+      return combinedData;
+    }
+
+    // For other states, use the original logic
     const response = await axios.get(`${baseUrl}/HostTourOrder/List/${state}`, {
       headers: {
         Authorization: `Bearer ${token}`,

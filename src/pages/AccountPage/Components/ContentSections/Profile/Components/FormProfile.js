@@ -85,6 +85,7 @@ const FormProfile = () => {
     formState: { errors },
   } = useForm({
     mode: "onChange",
+    shouldFocusError: false,
   });
 
   const password = watch("newpassword", "");
@@ -273,7 +274,7 @@ const FormProfile = () => {
   };
 
   const validatePassword = (value) => {
-    if (!value) return true;
+    if (!value) return true; // Password is optional
     if (value.length < 8) return "رمز عبور باید حداقل 8 کاراکتر باشد";
     if (!/[A-Z]/.test(value))
       return "رمز عبور باید شامل حداقل یک حرف بزرگ باشد";
@@ -286,8 +287,9 @@ const FormProfile = () => {
   };
 
   const validateConfirmPassword = (value) => {
-    if (!password) return true;
-    return value === password || "رمزهای عبور مطابقت ندارند";
+    const newPassword = watch("newpassword");
+    if (!newPassword) return true; // If no password entered, confirm is not required
+    return value === newPassword || "رمزهای عبور مطابقت ندارند";
   };
 
   return (
@@ -482,7 +484,13 @@ const FormProfile = () => {
                   validate: validateNationalCode,
                 }}
                 render={({ field }) => (
-                  <InputMask mask="9999999999" {...field}>
+                  <InputMask 
+                    mask="9999999999" 
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    inputRef={field.ref}
+                  >
                     {(inputProps) => (
                       <TextField
                         {...inputProps}
@@ -510,7 +518,13 @@ const FormProfile = () => {
                   validate: validateMobile,
                 }}
                 render={({ field }) => (
-                  <InputMask mask="09999999999" {...field}>
+                  <InputMask 
+                    mask="09999999999" 
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    inputRef={field.ref}
+                  >
                     {(inputProps) => (
                       <TextField
                         {...inputProps}
@@ -539,8 +553,8 @@ const FormProfile = () => {
                     {...field}
                     label="ایمیل"
                     fullWidth
-                    error={!!errors.email}
-                    helperText={errors.email?.message}
+                                         error={!!errors.myemail}
+                     helperText={errors.myemail?.message}
                     inputProps={
                       {
                         // autocomplete: "my-email",
@@ -568,7 +582,13 @@ const FormProfile = () => {
                 control={control}
                 rules={{ required: "تاریخ تولد الزامی است" }}
                 render={({ field }) => (
-                  <InputMask mask="9999/99/99" {...field}>
+                  <InputMask 
+                    mask="9999/99/99" 
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    inputRef={field.ref}
+                  >
                     {(inputProps) => (
                       <TextField
                         {...inputProps}
@@ -705,15 +725,18 @@ const FormProfile = () => {
                   <Controller
                     name="newpassword"
                     control={control}
-                    rules={{ validate: validatePassword }}
+                    rules={{ 
+                      validate: validatePassword,
+                      required: false
+                    }}
                     render={({ field }) => (
                       <TextField
                         {...field}
                         label="رمز عبور جدید (اختیاری)"
                         fullWidth
                         type={showPassword ? "text" : "password"}
-                        error={!!errors.password}
-                        helperText={errors.password?.message}
+                        error={!!errors.newpassword}
+                        helperText={errors.newpassword?.message}
                         size="small"
                         InputLabelProps={{ shrink: true }}
                         inputProps={{
@@ -746,7 +769,10 @@ const FormProfile = () => {
                   <Controller
                     name="passwordrepeat"
                     control={control}
-                    rules={{ validate: validateConfirmPassword }}
+                    rules={{ 
+                      validate: validateConfirmPassword,
+                      required: false
+                    }}
                     render={({ field }) => (
                       <TextField
                         {...field}

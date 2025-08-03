@@ -473,7 +473,7 @@ export const HostUploadImageApi = async (imageData, stayId, onProgress) => {
         File: {
           FileName: imageData.FileName,
           Extension: imageData.Extension,
-          Size: imageData.Size,
+          Size: Number(imageData.Size),
           Data: `${imageData.Data}`,
         },
       },
