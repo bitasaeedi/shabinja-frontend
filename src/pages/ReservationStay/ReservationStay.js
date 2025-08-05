@@ -18,6 +18,8 @@ import CardInfoReserve from "./Components/CardInfoReserve";
 import ShowInfoOfReserve from "./Components/ShowInfoOfReserve";
 
 import WaitingToPay from "./Components/WaitingToPay";
+import PaymentPopover from "../../components/PaymentPopover/PaymentPopover";
+import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
 const moment = require("moment");
 require("moment-jalaali");
 
@@ -38,8 +40,21 @@ const ReservationStay = () => {
   });
   const [inputeValue, setInputeValues] = useState({});
   const [loadingPrices, setLoadingPrices] = useState(false);
-
   const [messages, setMessage] = useState([]);
+  const [openPaymentPopover, setOpenPaymentPopover] = useState(false);
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show: show || false,
+      status: status || "error",
+      message: message || "خطای نامشخص",
+    });
+  };
 
   SignalRContext.useSignalREffect("OrderAccept", (message) => {
     console.info(
@@ -226,24 +241,31 @@ const ReservationStay = () => {
     // console.log(newValue, "newValue , ", data);
   };
 
+  //
   const handleGoToPayLink = async () => {
-    try {
-      const result = await GetLinkPayReserveApi(infoOfReserve?.guid);
-      // console.log(result, "handleGoToPayLink");
+    setOpenPaymentPopover(true);
+    // try {
+    //   const result = await GetLinkPayReserveApi(infoOfReserve?.guid);
+    //   // console.log(result, "handleGoToPayLink");
 
-      if (result?.data?.link) {
-        // For external URLs, use window.location.href
-        window.location.href = result.data.link;
-      } else {
-        console.error("No payment link received");
-        // Optionally show an error message to the user
-        SweetAlert(false, "Payment link not available");
-      }
-    } catch (error) {
-      console.error("Error getting payment link:", error);
-      SweetAlert(false, "Failed to get payment link");
-    }
+    //   if (result?.data?.link) {
+    //     // For external URLs, use window.location.href
+    //     // window.location.href = result.data.link;
+    //   } else {
+    //     console.error("No payment link received");
+    //     // Optionally show an error message to the user
+    //     SweetAlert(false, "Payment link not available");
+    //   }
+    // } catch (error) {
+    //   console.error("Error getting payment link:", error);
+    //   SweetAlert(false, "Failed to get payment link");
+    // }
   };
+
+  const handleClosePopover = () => {
+    setOpenPaymentPopover(false);
+  };
+
   return (
     <>
       {appContext?.isLoginMain ? (
@@ -261,6 +283,7 @@ const ReservationStay = () => {
             infoOfStay,
             loadingPrices,
             handleGoToPayLink,
+            handleMangeAlert,
           }}
         >
           <Box
@@ -269,7 +292,8 @@ const ReservationStay = () => {
               margin: "0 auto",
               padding: { xs: 2, md: 0 },
               pb: 10,
-              mb: 10,
+              mb: 5,
+              minHeight: "100vh",
             }}
           >
             <Box
@@ -345,6 +369,24 @@ const ReservationStay = () => {
               </Grid>
             </Grid>
           </Box>
+          <PaymentPopover
+            isOpen={openPaymentPopover}
+            setIsOpen={handleClosePopover}
+           
+          />
+          {showAlertSetting?.show && (
+            <MyAlertMui
+              message={showAlertSetting?.message || ""}
+              handleClose={() =>
+                handleMangeAlert(
+                  false,
+                  showAlertSetting?.status,
+                  showAlertSetting?.message
+                )
+              }
+              status={showAlertSetting?.status}
+            />
+          )}
         </ReservationStayContext.Provider>
       ) : (
         <AskToLogin />

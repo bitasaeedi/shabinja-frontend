@@ -153,7 +153,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
               display="flex"
               justifyContent="end"
               alignItems="start"
-              className=" px-0"
+              className=" px-2"
             >
               <Typography
                 variant="body2"
@@ -171,12 +171,12 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
               >
                 {myData?.address}
               </Typography>
-              <LocationOnIcon
+              {/* <LocationOnIcon
                 color="action"
                 sx={{
                   fontSize: { xs: "12px", sm: "14px", md: "16px" },
                 }}
-              />
+              /> */}
             </Box>
 
             {/* Price */}

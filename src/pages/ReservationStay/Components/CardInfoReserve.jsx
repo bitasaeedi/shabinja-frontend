@@ -61,6 +61,8 @@ const CardInfoReserve = () => {
       }}
     >
       <Grid container spacing={2}>
+
+        {/* عکس اقامتگاه */}
         <Grid
           item
           xs="auto"
@@ -90,6 +92,8 @@ const CardInfoReserve = () => {
             />
           )}
         </Grid>
+
+        {/* اطلاعات اقامتگاه */}
         <Grid item xs={12} md>
           <Typography variant="h6" fontWeight="bold" gutterBottom>
             {loadingPrices ? (
@@ -112,6 +116,7 @@ const CardInfoReserve = () => {
             )}
           </Typography>
         </Grid>
+
       </Grid>
 
       <Divider sx={{ my: 3 }} />
@@ -161,6 +166,7 @@ const CardInfoReserve = () => {
       <Divider sx={{ my: 2 }} />
 
       <Grid container spacing={2}>
+        {/* جمع مبلغ قابل پرداخت */}
         <Grid item xs={6}>
           <Typography variant="subtitle1" fontWeight="bold">
             جمع مبلغ قابل پرداخت
@@ -176,6 +182,7 @@ const CardInfoReserve = () => {
           )}
         </Grid>
 
+        {/* دکمه پرداخت */}
         <Grid item xs={12} mt={2}>
           {loadingPrices ? (
             <Skeleton

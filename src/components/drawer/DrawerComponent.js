@@ -22,31 +22,18 @@ import { Link } from "react-router-dom";
 import logo_with_name from "../../images/shabinja_logo_with_name.png";
 // لیست منو موبایل
 const menuItems = [
-  {
-    title: "شیوه‌های پرداخت امن",
-    icon: <PaymentIcon />,
-    path: "/",
-  },
-  {
-    title: "سوالات متداول",
-    icon: <HelpOutlineIcon />,
-    path: "/help",
-  },
+
   {
     title: "قوانین و مقرارات",
     icon: <GavelIcon />,
     path: "/rules",
   },
-  {
-    title: "رزرو اقامتگاه",
-    icon: <HotelIcon />,
-    path: "/",
-  },
-  {
-    title: "مجله شبینجا",
-    icon: <ArticleIcon />,
-    path: "/",
-  },
+
+  // {
+  //   title: "مجله شبینجا",
+  //   icon: <ArticleIcon />,
+  //   path: "/",
+  // },
   {
     title: "درباره ما",
     icon: <InfoIcon />,
@@ -77,11 +64,12 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
             src={logo_with_name}
             alt="Shabinja Logo"
             sx={{
-              maxWidth: 80, // Controls the max width of the image
+              maxWidth: 95, // Controls the max width of the image
               width: "auto", // Ensures the width scales proportionally
               height: "auto", // Keeps the height proportional to the width
               objectFit: "contain", // Makes sure the image fits inside the container without distortion
               cursor: "pointer",
+              my:1
             }}
           />
         </Link>

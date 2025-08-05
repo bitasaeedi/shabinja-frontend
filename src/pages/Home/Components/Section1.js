@@ -6,13 +6,13 @@ import SubSliderHeader from "./SubSliderHeader";
 import axios from "axios";
 import API_URL from "../../../config/apiConfig";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
-import heroBg from '../../../assest/images/bg/hero-bg.jpg';
+import heroBg from "../../../assest/images/bg/hero-bg.jpg";
 const baseUrl = API_URL;
 
 // سرچ دسکتاپ
 const Section1 = ({ listCategories = [] }) => {
- 
   const [slider, setSlider] = useState([]);
+  const [colorCode, setColorCode] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -23,9 +23,10 @@ const Section1 = ({ listCategories = [] }) => {
         },
       });
       const allData = response?.data?.data;
-      const orderedOne = allData.find(item => item.order === 1);
+      const orderedOne = allData.find((item) => item.order === 1);
       const imageUrl = orderedOne?.image?.url;
-      
+      console.log("orderedOne", orderedOne);
+      setColorCode(orderedOne?.colorCode);
       setSlider(DownloadImageApi(imageUrl));
     } catch (error) {
       console.log("show comments Error:", error?.response?.data);
@@ -37,12 +38,17 @@ const Section1 = ({ listCategories = [] }) => {
 
   return (
     <Box className="hero-wrapper p-0 m-0 w-100 ">
-      <Box className="hero-box"
+      <Box
+        className="hero-box"
         sx={{
           backgroundImage: `url(${slider})`,
-           backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+
+          "&::after": {
+            backgroundColor: colorCode ,
+          },
         }}
       >
         <Box

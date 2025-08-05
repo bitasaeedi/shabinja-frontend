@@ -9,11 +9,11 @@ import {
   GetListRequestToReserveApi,
   RejectRequestReserveApi,
 } from "../../../../../api/PannelApis";
-import { TroubleshootOutlined } from "@mui/icons-material";
 import SweetAlert from "../../../../../components/SweetAlert/SweetAlert";
 
 export const ContainerMainContext = createContext();
 const ContainerMain = () => {
+
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
@@ -58,6 +58,7 @@ const ContainerMain = () => {
     SweetAlert(result?.issuccess, result?.message);
     handleGetMyTour();
   };
+  
   return (
     <ContainerMainContext.Provider
       value={{

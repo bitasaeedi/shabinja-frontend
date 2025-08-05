@@ -2,18 +2,9 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
-  CardMedia,
-  Divider,
   Grid,
   Typography,
-  Menu,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
+
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
@@ -23,20 +14,23 @@ import {
 } from "../../../../../../components/DateFunctions/DateFunctions";
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
 import ToRial from "../../../../../../components/ToRial/ToRial";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { ContainerMainContext } from "../ContainerMain";
 import DialogAskQuestion from "../../../../../../components/SweetAlert/DialogAskQuestion";
+
 const CardStays = ({ stay }) => {
+
   const { handleAcceptRequest, handleReject, handleDeleteRequest } =
     useContext(ContainerMainContext);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -55,7 +49,7 @@ const CardStays = ({ stay }) => {
       title: "پرداخت ",
     },
     {
-      stepNum: 3,
+      stepNum: 1001,
       title: "تحویل کلید ",
     },
   ];
@@ -97,6 +91,7 @@ const CardStays = ({ stay }) => {
         <Grid container spacing={0}>
           <Grid item xs="12" md="9">
             <Grid container spacing={0}>
+
               {/* عکس اقامتگاه */}
               <Grid item xs={"auto"}>
                 <Box
@@ -207,13 +202,15 @@ const CardStays = ({ stay }) => {
                   </Box>
                 </Box>
               </Grid>
+
             </Grid>
+
             {/* stepper */}
             <Grid container>
               <Grid item xs="12" sx={{ mt: 2 }}>
                 <StepperReserve
                   errorTab={stay?.expired}
-                  activeStep={stay?.state + 1 || 0}
+                  activeStep={stay?.state ===4 ? 1 : (stay?.state + 1 || 0)}
                   steps={[
                     "ثبت درخواست",
                     "تایید میزبان",
@@ -223,6 +220,7 @@ const CardStays = ({ stay }) => {
                 />
               </Grid>
             </Grid>
+            
           </Grid>
 
           <Grid

@@ -25,12 +25,11 @@ const WaitingToPay = ({
   activeStep = 1,
   titmer = true,
   guid,
-  expired,
-  finishTimeReserve,
 }) => {
   const [timerSec, setTimerSec] = useState(0);
   const [isTimeOut, setIsTimeOut] = useState(false);
   const { handleGetInfoOfReserve } = useContext(ReservationStayContext);
+  
   useEffect(() => {
     ExpirationTimeReserve();
   }, [titmer]);
