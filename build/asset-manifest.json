@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.ff6daa01.css",
-    "main.js": "/static/js/main.ba3069c0.js",
+    "main.js": "/static/js/main.8d220c3c.js",
     "static/media/ad.png": "/static/media/ad.41706808f5dc87a06e51.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/adsbg.png": "/static/media/adsbg.a282817f5542b8a25d3b.png",
@@ -18,9 +18,11 @@
     "static/media/bread-bg8.jpg": "/static/media/bread-bg8.9aba25c17029a6e9916b.jpg",
     "static/media/1.webp": "/static/media/1.7dcfed39286d1519b2f5.webp",
     "static/media/2.webp": "/static/media/2.20691780b9e7c4e30710.webp",
+    "static/media/لوگو-بانک-سامان-removebg-preview.png": "/static/media/لوگو-بانک-سامان-removebg-preview.f29cf58681ad18ca933b.png",
     "static/media/team-cta-bg.jpg": "/static/media/team-cta-bg.8060774dfe3643dfa3c1.jpg",
     "static/media/hero-bg4.jpg": "/static/media/hero-bg4.2c2d7e6889b741782dbb.jpg",
     "static/media/shabinja_logo_with_name.png": "/static/media/shabinja_logo_with_name.bbabbb54cf46698770c0.png",
+    "static/media/nody-آرم-بانک-ملت-png-1677068111-removebg-preview.png": "/static/media/nody-آرم-بانک-ملت-png-1677068111-removebg-preview.5170a73bc40ba9bad58b.png",
     "static/media/bread-bg9.jpg": "/static/media/bread-bg9.3f9d79fa925eae40ee53.jpg",
     "static/media/3.webp": "/static/media/3.103dc2dd42d07f1ad2fe.webp",
     "static/media/shabinja_logo_with_name_white.png": "/static/media/shabinja_logo_with_name_white.00e4c77244fdeec790c8.png",
@@ -34,6 +36,7 @@
     "static/media/YekanBakhFaNum-Medium.eot": "/static/media/YekanBakhFaNum-Medium.205f2d712cb3cd168dba.eot",
     "static/media/YekanBakhFaNum-Heavy.eot": "/static/media/YekanBakhFaNum-Heavy.73349bfe93d9f0eba547.eot",
     "static/media/YekanBakhFaNum-Bold.eot": "/static/media/YekanBakhFaNum-Bold.e715d56548ed648cbcb8.eot",
+    "static/media/همراه-بانک-صادرات-ایران-آیفون-removebg-preview.png": "/static/media/همراه-بانک-صادرات-ایران-آیفون-removebg-preview.a5ac7e3321844d7990c5.png",
     "static/media/color-bg2.png": "/static/media/color-bg2.0b067d25a0c179bab372.png",
     "static/media/img9.jpg": "/static/media/img9.089f4fc6d5c68da1cd77.jpg",
     "static/media/YekanBakhFaNum-Light.woff": "/static/media/YekanBakhFaNum-Light.df6bcca07e6de1dbc641.woff",
@@ -53,6 +56,6 @@
   },
   "entrypoints": [
     "static/css/main.ff6daa01.css",
-    "static/js/main.ba3069c0.js"
+    "static/js/main.8d220c3c.js"
   ]
 }
