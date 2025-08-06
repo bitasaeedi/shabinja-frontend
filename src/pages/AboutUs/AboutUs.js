@@ -17,7 +17,6 @@ import axios from "axios";
 import API_URL from "../../config/apiConfig";
 const baseUrl = API_URL;
 const AboutUs = () => {
-
   const appContext = useContext(AppContext);
 
   const [aboutData, setAboutData] = useState(null);
@@ -25,20 +24,31 @@ const AboutUs = () => {
   const fetchAboutData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-  
+
       const response = await axios.get(`${baseUrl}/AboutData`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setAboutData(response?.data?.data);
-      console.log(response?.data?.data, "response.data");
-      
+      const structuredArray = response?.data?.data[0]?.value
+        .split(/(?=[*-])/g) // جدا کردن قبل از هر * یا -
+        .map((item) => item.trim()) // حذف فاصله‌های اضافه
+        .filter((item) => item) // حذف موارد خالی
+        .map((item) => {
+          if (item.startsWith("*")) {
+            return { type: "title", content: item.replace(/^\*/, "").trim() };
+          } else if (item.startsWith("-")) {
+            return { type: "text", content: item.replace(/^-/, "").trim() };
+          } else {
+            return null;
+          }
+        })
+        .filter(Boolean);
+
+      setAboutData(structuredArray);
+      console.log(structuredArray, "response.data");
     } catch (error) {
-      console.error(
-        "Error :",
-        error?.response?.data || error.message
-      );
+      console.error("Error :", error?.response?.data || error.message);
       return error?.response?.data;
     }
   };
@@ -59,7 +69,6 @@ const AboutUs = () => {
     txt.innerHTML = html;
     return txt.value;
   };
-  
 
   return (
     <Container maxWidth="md" sx={{ py: 4, mt: { xs: 0, md: 4 } }}>
@@ -90,16 +99,15 @@ const AboutUs = () => {
         </Typography>
 
         <Box>
-          {aboutData?.map((data, index) => (
-            <Box
-             key={index}
-             sx={{ mt: 1 }}
-             dangerouslySetInnerHTML={{
-              __html: decodeHtml(data?.value),
-            }}
-           />
-            
-          ))}
+          {aboutData?.map((item, index) => {
+            if (item.type === "title") {
+              return <Typography variant="h3" key={index} sx={{ fontWeight: 600, fontSize: { xs: 20, md: 24 } }}>{item.content}</Typography>;
+            } else if (item.type === "text") {
+              return <Typography variant="body1" key={index} sx={{ lineHeight: 1.6, textAlign: "justify" }}>{item.content}</Typography>;
+            } else {
+              return null;
+            }
+          })}
         </Box>
 
         {/* <Box sx={{ mt: 4 }}>

@@ -43,7 +43,7 @@ const ContainerMain = () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(`${baseUrl}/Wallet`, {
+      const response = await axios.post(`${baseUrl}/Wallet/List`,{}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

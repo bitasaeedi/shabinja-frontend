@@ -218,12 +218,12 @@ const MyMap = ({
 
       {/* show selected area */}
       
-      {polygonPoints.length >= 4 && (
+      {/* {polygonPoints.length >= 4 && (
         <Polygon
           positions={polygonPoints.map(p => [p.lat, p.lng])}
           pathOptions={{ color: 'red', fillColor: 'red', fillOpacity: 0.3 }}
         />
-      )}
+      )} */}
 
       {markers.length <= 2 ? (
         markers.map((marker, index) => (

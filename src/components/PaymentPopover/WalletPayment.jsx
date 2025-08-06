@@ -26,7 +26,7 @@ function showPrice(title, price) {
 }
 
 export default function WalletPayment() {
-  const { infoOfReserve = {} , handleMangeAlert } = useContext(ReservationStayContext);
+  const { infoOfReserve = {} ,handleWithdraw, handleMangeAlert , handleClosePopover , handleSetTrackingCode } = useContext(ReservationStayContext);
   const [balance, setBalance] = useState(0);
   const [withdraw, setWithdraw] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,38 +53,42 @@ export default function WalletPayment() {
     }
   };
 
-  const handleWithdraw = async () => {
+  const handleMangeWithdraw = async () => {
     setIsLoading(true);
-    setResultText({ title: "", color: "red" });
-    try {
-      const token = localStorage.getItem("access_token");
+    // try {
+    //   const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(
-        `${baseUrl}/HostTourOrder/Payment/${infoOfReserve?.guid}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("withdraw data", response?.data?.data);
-      setWithdraw(response?.data?.data);
+    //   const response = await axios.get(
+    //     `${baseUrl}/HostTourOrder/Payment/${infoOfReserve?.guid}`,
+    //     {
+    //       headers: {
+    //         Authorization: `Bearer ${token}`,
+    //       },
+    //     }
+    //   );
+    //   console.log("withdraw data", response?.data?.data);
+    //   setWithdraw(response?.data?.data);
 
-      if (response?.data?.data?.status === "Success") {
-        handleMangeAlert(true, "success", "برداشت از کیف پول با موفقیت انجام شد");
-      } else {
-       // window.location.href = response?.data?.data?.link
-       handleMangeAlert(true, "success", "انتقال به درگاه با موفقیت انجام شد");
-       console.log("response?.data?.data?.link", response?.data?.data?.link);
-      }
-    } catch (error) {
-      console.error(
-        "Error fetch balance:",
-        error?.response?.data || error.message
-      );
-    } finally {
-      setIsLoading(false);
-    }
+    //   if (response?.data?.data?.state === "Success") {
+    //     handleClosePopover();
+    //     handleMangeAlert(true, "success", "برداشت از کیف پول با موفقیت انجام شد");
+    //     handleSetTrackingCode(response?.data?.data?.trackingCode);
+    //   } else {
+    //    // window.location.href = response?.data?.data?.link
+    //    handleMangeAlert(true, "success", "انتقال به درگاه با موفقیت انجام شد");
+    //    console.log("response?.data?.data?.link", response?.data?.data?.link);
+    //   }
+    // } catch (error) {
+    //   console.error(
+    //     "Error fetch balance:",
+    //     error?.response?.data || error.message
+    //   );
+    // } finally {
+    //   setIsLoading(false);
+    // }
+    await handleWithdraw();
+    setIsLoading(false);
+
   };
 
   useEffect(() => {
@@ -133,7 +137,7 @@ export default function WalletPayment() {
             variant="contained"
             size="medium"
             onClick={() => {
-              handleWithdraw();
+              handleMangeWithdraw();
             }}
             disabled={isLoading}
             sx={{ width: "50%", margin: "1.5rem auto 0" }}
@@ -152,7 +156,7 @@ export default function WalletPayment() {
             variant="contained"
             size="medium"
             onClick={() => {
-              handleWithdraw();
+              handleMangeWithdraw();
             }}
             disabled={isLoading}
             sx={{ width: "50%", margin: "1.5rem auto 0" }}

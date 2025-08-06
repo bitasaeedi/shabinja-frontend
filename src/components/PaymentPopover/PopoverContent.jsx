@@ -55,6 +55,7 @@ export default function PopoverContent() {
               backgroundColor: type === "direct" ? "primary.main" : "white",
             }}
             onClick={() => setType("direct")}
+            disabled={true}
           >
             پرداخت مستقیم
           </Button>

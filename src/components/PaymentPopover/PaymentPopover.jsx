@@ -1,10 +1,13 @@
 import { Box, Popover, SwipeableDrawer, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import PopoverContent from "./PopoverContent";
+import { ReservationStayContext } from "../../pages/ReservationStay/ReservationStay";
+import { useContext } from "react";
 
-export default function PaymentPopover({ isOpen, setIsOpen }) {
+export default function PaymentPopover({ isOpen }) {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const {handleClosePopover} = useContext(ReservationStayContext);
 
   return (
     <>
@@ -13,7 +16,7 @@ export default function PaymentPopover({ isOpen, setIsOpen }) {
         <SwipeableDrawer
           anchor="bottom"
           open={isOpen}
-          onClose={() => {}}
+          onClose={()=>{handleClosePopover()}}
           onOpen={() => {}} // Optional: Add logic if needed when opening
           PaperProps={{
             sx: {
@@ -53,7 +56,7 @@ export default function PaymentPopover({ isOpen, setIsOpen }) {
           <Popover
             open={isOpen}
             anchorEl={null}
-            onClose={() => {setIsOpen(false)}}
+            onClose={() => {handleClosePopover()}}
             anchorOrigin={{
               vertical: "top",
               horizontal: "center",

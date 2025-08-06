@@ -8,7 +8,6 @@ import {
   RequestToReserveApi,
   GetInfoReserveApi,
 } from "../../api/toureApis";
-
 import { AppContext, SignalRContext } from "../../App";
 import { ConvertToShamsi } from "../../components/DateFunctions/DateFunctions";
 import AskToLogin from "../../components/Login/AskToLogin/AskToLogin";
@@ -20,6 +19,10 @@ import ShowInfoOfReserve from "./Components/ShowInfoOfReserve";
 import WaitingToPay from "./Components/WaitingToPay";
 import PaymentPopover from "../../components/PaymentPopover/PaymentPopover";
 import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
+
 const moment = require("moment");
 require("moment-jalaali");
 
@@ -42,6 +45,7 @@ const ReservationStay = () => {
   const [loadingPrices, setLoadingPrices] = useState(false);
   const [messages, setMessage] = useState([]);
   const [openPaymentPopover, setOpenPaymentPopover] = useState(false);
+  const [trackingCode, setTrackingCode] = useState("");
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
@@ -85,7 +89,7 @@ const ReservationStay = () => {
       handleGetInfoOfStay();
       // پیش نمایش قبل از ثبت درخواست
       handleGetPreview();
-    } else if (stepName === "preorder") {
+    } else {
       // Call immediately
       handleGetInfoOfReserve();
     }
@@ -230,7 +234,7 @@ const ReservationStay = () => {
       const url = `/book/preorder/${result?.data?.orderNumber}`;
       navigate(url);
     } else {
-      SweetAlert(result?.data?.success, result?.message);
+      SweetAlert(false, "درخواست رزرو با خطا مواجه شده است");
     }
   };
 
@@ -266,6 +270,81 @@ const ReservationStay = () => {
     setOpenPaymentPopover(false);
   };
 
+  const handleWithdraw = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(
+        `${baseUrl}/HostTourOrder/Payment/${infoOfReserve?.guid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("withdraw data", response?.data?.data);
+
+      setTrackingCode(response?.data?.data?.trackingCode);
+
+      if (response?.data?.data?.state === "Success") {
+        handleClosePopover();
+        handleMangeAlert(
+          true,
+          "success",
+          "برداشت از کیف پول با موفقیت انجام شد"
+        );
+        const url = `/book/order/${response?.data?.data?.trackingCode}`;
+        navigate(url);
+      } else {
+        await verifyPayment();
+        // window.location.href = response?.data?.data?.link
+        handleMangeAlert(true, "success", "انتقال به درگاه با موفقیت انجام شد");
+        handleClosePopover();
+        const url = `/book/order/${response?.data?.data?.trackingCode}`;
+        navigate(url);
+      }
+    } catch (error) {
+      console.error(
+        "Error fetch balance:",
+        error?.response?.data || error.message
+      );
+    }
+  };
+
+  const verifyPayment = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(
+        `${baseUrl}/HostTourOrder/VerifyPayment/${code}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response?.data?.data?.state === "Success") {
+        handleClosePopover();
+        handleMangeAlert(
+          true,
+          "success",
+          "برداشت از کیف پول با موفقیت انجام شد"
+        );
+        const url = `/book/order/${response?.data?.data?.trackingCode}`;
+        navigate(url);
+      } else {
+        handleClosePopover();
+        // window.location.href = response?.data?.data?.link
+        handleMangeAlert(true, "success", "انتقال به درگاه با موفقیت انجام شد");
+      }
+    } catch (error) {
+      console.error(
+        "Error fetch balance:",
+        error?.response?.data || error.message
+      );
+    }
+  };
   return (
     <>
       {appContext?.isLoginMain ? (
@@ -284,6 +363,8 @@ const ReservationStay = () => {
             loadingPrices,
             handleGoToPayLink,
             handleMangeAlert,
+            handleWithdraw,
+            handleClosePopover,
           }}
         >
           <Box
@@ -347,8 +428,15 @@ const ReservationStay = () => {
                         activeStep={infoOfReserve?.state}
                         guid={infoOfReserve?.guid}
                         expired={infoOfReserve?.expired}
+                        trackingCode={trackingCode}
                       />
                     )}
+
+                  {stepName === "order" && infoOfReserve?.state === 3 && (
+                    <Box sx={{ mt: 2, textAlign: "center" }}>
+                      <Typography>کد پیگیری رزرو : {code}</Typography>
+                    </Box>
+                  )}
 
                   {infoOfReserve?.expired && (
                     <Box
@@ -369,11 +457,9 @@ const ReservationStay = () => {
               </Grid>
             </Grid>
           </Box>
-          <PaymentPopover
-            isOpen={openPaymentPopover}
-            setIsOpen={handleClosePopover}
-           
-          />
+
+          <PaymentPopover isOpen={openPaymentPopover} />
+
           {showAlertSetting?.show && (
             <MyAlertMui
               message={showAlertSetting?.message || ""}

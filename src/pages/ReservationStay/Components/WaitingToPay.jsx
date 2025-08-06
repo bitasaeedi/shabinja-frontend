@@ -25,6 +25,7 @@ const WaitingToPay = ({
   activeStep = 1,
   titmer = true,
   guid,
+  trackingCode,
 }) => {
   const [timerSec, setTimerSec] = useState(0);
   const [isTimeOut, setIsTimeOut] = useState(false);
@@ -92,6 +93,9 @@ const WaitingToPay = ({
       <Box sx={{ maxWidth: 350 }}>
         <Typography variant="body2" sx={{ textAlign: "center", fontSize: 16 }}>
           {stepValues[activeStep]?.description}
+        </Typography>
+        <Typography variant="body2" sx={{ textAlign: "center", fontSize: 16 }}>
+          {stepValues[activeStep] === 3 ? `کد پیگیری رزرو : ${trackingCode}`:""}
         </Typography>
       </Box>
       <Box>
