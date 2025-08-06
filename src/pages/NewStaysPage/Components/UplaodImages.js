@@ -22,33 +22,71 @@ import UploadProccessImage from "./Componnets/UploadProccessImage";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import CardUploadedImage from "./Componnets/CardUploadedImage";
 import ImageIcon from "@mui/icons-material/Image";
+import { convertImageToWebP } from "../../../api/PublicApis";
 
-const UploadImages = () => {
-  const manageStepsContext = useContext(ManageStepsContext);
-  const [images, setImages] = useState([]);
-  const [uploadedImages, setUploadedImages] = useState([]);
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    handleGetImageUploaded();
-  }, [images]);
 
-  // Function to handle image uploads
-  const handleFileDrop = (event) => {
-    event.preventDefault();
-    const uploadedFiles = Array.from(event.dataTransfer.files).map((file) => ({
-      file,
-      statusUpload: "pending",
-    }));
-    setImages((prevList) => [...prevList, ...uploadedFiles]);
+
+  
+  const UploadImages = () => {
+    const manageStepsContext = useContext(ManageStepsContext);
+    const [images, setImages] = useState([]);
+    const [uploadedImages, setUploadedImages] = useState([]);
+    const [loading, setLoading] = useState(false);
+    useEffect(() => {
+      handleGetImageUploaded();
+    }, [images]);
+  
+    // Function to handle image uploads
+    const handleFileDrop = async (event) => {
+      event.preventDefault();
+      const files = Array.from(event.dataTransfer.files);
+    
+      const convertedFiles = await Promise.all(
+        files.map(async (file) => {
+          try {
+            const webpFile = await convertImageToWebP(file);
+            return {
+              file: webpFile,
+              statusUpload: "pending",
+            };
+          } catch (error) {
+            console.error("خطا در تبدیل فایل:", error);
+            return {
+              file,
+              statusUpload: "error",
+            };
+          }
+        })
+      );
+    
+      setImages((prevList) => [...prevList, ...convertedFiles]);
+    };
+
+  const handleFileSelect = async (event) => {
+    const files = Array.from(event.target.files);
+  
+    // تبدیل همزمان همه فایل‌ها به WebP
+    const convertedFiles = await Promise.all(
+      files.map(async (file) => {
+        try {
+          const webpFile = await convertImageToWebP(file);
+          return {
+            file: webpFile,
+            statusUpload: "pending",
+          };
+        } catch (error) {
+          console.error("خطا در تبدیل فایل:", error);
+          return {
+            file, // فایل اصلی رو نگه می‌داریم در صورت خطا
+            statusUpload: "error",
+          };
+        }
+      })
+    );
+  
+    setImages((prevList) => [...prevList, ...convertedFiles]);
   };
-
-  const handleFileSelect = (event) => {
-    const selectedFiles = Array.from(event.target.files).map((file) => ({
-      file,
-      statusUpload: "pending",
-    }));
-    setImages((prevList) => [...prevList, ...selectedFiles]);
-  };
+  
 
   const callBackUploaded = (index, uploaded) => {
     setImages((prevImages) =>

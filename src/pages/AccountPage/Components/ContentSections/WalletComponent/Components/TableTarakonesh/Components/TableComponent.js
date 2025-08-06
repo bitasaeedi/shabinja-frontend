@@ -82,7 +82,8 @@ const TableComponent = ({ stays, loading = true }) => {
             }}
           >
             <Tab label="کیف پول" />
-            <Tab label="در حال پرداخت" />
+            <Tab label="درخواست برداشت" />
+            
           </Tabs>
         </Box>
         

@@ -39,16 +39,24 @@ const ContainerMain = () => {
     if (!dontShowLoading) {
       setLoading(true);
     }
-
+    console.log("tabValue", tabValue);
     try {
       const token = localStorage.getItem("access_token");
-
-      const response = await axios.post(`${baseUrl}/Wallet/List`,{}, {
+      let response;
+      if(tabValue === 0){
+        response = await axios.post(`${baseUrl}/Wallet/List`,{}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+      else{
+        response = await axios.get(`${baseUrl}/WalletWithdrawal`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      }
       console.log("response bardasht", response?.data?.data);
       setStays(response?.data?.data);
       

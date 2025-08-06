@@ -1,11 +1,4 @@
-import {
-  Box,
-  Button,
-  Card,
-  Grid,
-  Typography,
-
-} from "@mui/material";
+import { Box, Button, Card, Grid, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
 import {
@@ -19,7 +12,6 @@ import { ContainerMainContext } from "../ContainerMain";
 import DialogAskQuestion from "../../../../../../components/SweetAlert/DialogAskQuestion";
 
 const CardStays = ({ stay }) => {
-
   const { handleAcceptRequest, handleReject, handleDeleteRequest } =
     useContext(ContainerMainContext);
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -91,7 +83,6 @@ const CardStays = ({ stay }) => {
         <Grid container spacing={0}>
           <Grid item xs="12" md="9">
             <Grid container spacing={0}>
-
               {/* عکس اقامتگاه */}
               <Grid item xs={"auto"}>
                 <Box
@@ -137,7 +128,7 @@ const CardStays = ({ stay }) => {
                         </Box>
                       </Typography>
                     </Box>
-                    
+
                     {/* قسمت مشخصات رزرو */}
                     <Box
                       sx={{
@@ -202,15 +193,14 @@ const CardStays = ({ stay }) => {
                   </Box>
                 </Box>
               </Grid>
-
             </Grid>
 
             {/* stepper */}
             <Grid container>
               <Grid item xs="12" sx={{ mt: 2 }}>
                 <StepperReserve
-                  errorTab={stay?.expired}
-                  activeStep={stay?.state ===4 ? 1 : (stay?.state + 1 || 0)}
+                  errorTab={stay?.state === 4 ? true : stay?.expired}
+                  activeStep={stay?.state === 4 ? 1 : stay?.state + 1 || 0}
                   steps={[
                     "ثبت درخواست",
                     "تایید میزبان",
@@ -220,7 +210,6 @@ const CardStays = ({ stay }) => {
                 />
               </Grid>
             </Grid>
-            
           </Grid>
 
           <Grid

@@ -135,3 +135,44 @@ export const GetCommentsAboutSiteApi = async (searchData) => {
     return error?.response?.data;
   }
 };
+
+  //png to webp
+  export const convertImageToWebP = (file, quality = 0.8) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+  
+      reader.onload = () => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          canvas.width = img.width;
+          canvas.height = img.height;
+  
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0);
+  
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                const webpFile = new File([blob], file.name.replace(/\.\w+$/, ".webp"), {
+                  type: "image/webp",
+                });
+                console.log("📤 فایل اصلی:", file.name, "-", (file.size / 1024).toFixed(1), "KB");
+                console.log("📥 WebP تبدیل‌شده:", webpFile.name, "-", (webpFile.size / 1024).toFixed(1), "KB");
+  
+                resolve(webpFile);
+              } else {
+                reject("WebP conversion failed");
+              }
+            },
+            "image/webp",
+            quality
+          );
+        };
+        img.src = reader.result;
+      };
+  
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  };

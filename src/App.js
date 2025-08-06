@@ -206,7 +206,7 @@ function App() {
                   <Route path="/mag/:id?" element={<MagazinePage />} />
                   <Route path="/search/:searchtype" element={<SearchPage />} />
                   <Route path="/account/:section/*" element={<AccountPage />} />
-                  <Route path="/survey" element={<Survey/>}/>
+                  <Route path="/survey/:code" element={<Survey/>}/>
                   <Route path="/pannel/:section" element={<PannelPage />} />
                   <Route path="/new-stay/:step" element={<NewStaysPage />} />
                   <Route

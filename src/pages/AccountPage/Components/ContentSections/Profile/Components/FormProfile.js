@@ -39,6 +39,7 @@ import DoneOutlinedIcon from "@mui/icons-material/DoneOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
+import { convertImageToWebP } from "../../../../../../api/PublicApis";
 const baseUrl = API_URL;
 const shabaStates = [
   {
@@ -125,18 +126,18 @@ const FormProfile = () => {
     }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
     const validTypes = ["image/jpeg", "image/png", "image/gif"];
     const maxSize = 2 * 1024 * 1024;
-
+  
     if (!validTypes.includes(file.type)) {
       handleManageAlert(true, "error", "فرمت تصویر باید JPG, PNG یا GIF باشد");
       return;
     }
-
+  
     if (file.size > maxSize) {
       handleManageAlert(
         true,
@@ -145,23 +146,38 @@ const FormProfile = () => {
       );
       return;
     }
-
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImageToUpload({
-        fileName: file.name,
-        extension: `.${file.name.split(".").pop()}`,
-        size: file.size,
-        data: reader.result,
-      });
-    };
-    reader.onerror = () => {
-      handleManageAlert(true, "error", "خطا در خواندن فایل تصویر");
-    };
-    reader.readAsDataURL(file);
-    setProfileImage(URL.createObjectURL(file));
+  
+    try {
+      // تبدیل به WebP
+      const webpFile = await convertImageToWebP(file);
+  
+      // 🔍 نمایش حجم قبل و بعد
+      console.log("📤 فایل اصلی:", (file.size / 1024).toFixed(1), "KB");
+      console.log("📥 WebP:", (webpFile.size / 1024).toFixed(1), "KB");
+  
+      // خواندن WebP به صورت base64 برای ذخیره در state
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageToUpload({
+          fileName: webpFile.name,
+          extension: ".webp",
+          size: webpFile.size,
+          data: reader.result,
+        });
+      };
+      reader.onerror = () => {
+        handleManageAlert(true, "error", "خطا در خواندن فایل WebP");
+      };
+      reader.readAsDataURL(webpFile);
+  
+      // نمایش تصویر در UI
+      setProfileImage(URL.createObjectURL(webpFile));
+    } catch (err) {
+      console.error("خطا در تبدیل WebP:", err);
+      handleManageAlert(true, "error", "تبدیل تصویر به WebP با مشکل مواجه شد");
+    }
   };
-
+  
   const handleProfileImageUpload = async () => {
     setLoadingImage(true);
     try {
