@@ -145,7 +145,7 @@ const CreditCard = ({isPayed}) => {
           <Box
             sx={{
               width: { xs: "100%", md: "100%" },
-              height: { xs: 150, md: 200 },
+              height: { xs: 215, md: 215 },
               borderRadius: 3,
               p: 3,
               display: "flex",
@@ -157,7 +157,7 @@ const CreditCard = ({isPayed}) => {
               boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
             }}
           >
-            <Typography variant="h6" fontWeight="bold">
+            <Typography variant="h6" fontWeight="bold" sx={{color: "rgba(255,255,255,0.2)"}}>
               shabinja.com
             </Typography>
 
