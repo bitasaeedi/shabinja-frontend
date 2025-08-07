@@ -8,14 +8,14 @@ import API_URL from "../../../../../../../config/apiConfig";
 export const ContainerMainContext = createContext();
 const baseUrl = API_URL;
 
-const ContainerMain = () => {
+const ContainerMain = ({isPayed}) => {
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
 
   useEffect(() => {
     handleGetMyReserve();
-  }, [tabValue]);
+  }, [tabValue,isPayed]);
 
   // const handleGetMyReserve = async (dontShowLoading) => {
   //   if (!dontShowLoading) {

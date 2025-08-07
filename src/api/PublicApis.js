@@ -137,7 +137,7 @@ export const GetCommentsAboutSiteApi = async (searchData) => {
 };
 
   //png to webp
-  export const convertImageToWebP = (file, quality = 0.8) => {
+  export const convertImageToWebP = (file, quality = 0.6) => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
   

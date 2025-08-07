@@ -18,6 +18,58 @@ import SkeltonRowTables from "../../../../../../../../components/SkeletonCompone
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
 
+const HeaderTable = () => {
+  return (
+    <TableRow sx={{}}>
+      <TableCell
+        align="left"
+        sx={{
+          color: "#90a4ae",
+          fontSize: { xs: "0.75rem", sm: "0.85rem" },
+        }}
+      >
+        عنوان
+      </TableCell>
+      <TableCell
+        align="left"
+        sx={{
+          color: "#90a4ae",
+          fontSize: { xs: "0.75rem", sm: "0.85rem" },
+        }}
+      >
+        مبلغ
+      </TableCell>
+      <TableCell
+        align="left"
+        sx={{
+          color: "#90a4ae",
+          fontSize: { xs: "0.75rem", sm: "0.85rem" },
+        }}
+      >
+        کد تراکنش
+      </TableCell>
+      <TableCell
+        align="left"
+        sx={{
+          color: "#90a4ae",
+          fontSize: { xs: "0.75rem", sm: "0.85rem" },
+        }}
+      >
+        تاریخ
+      </TableCell>
+      <TableCell
+        align="left"
+        sx={{
+          color: "#90a4ae",
+          fontSize: { xs: "0.75rem", sm: "0.85rem" },
+        }}
+      >
+        ساعت
+      </TableCell>
+    </TableRow>
+  );
+};
+
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
 
@@ -83,21 +135,20 @@ const TableComponent = ({ stays, loading = true }) => {
           >
             <Tab label="کیف پول" />
             <Tab label="درخواست برداشت" />
-            
           </Tabs>
         </Box>
-        
+
         {(!stays || stays.length === 0) && !loading ? (
           <NoValueComponent />
         ) : (
           <Table>
-            {/* <TableHead>
+            <TableHead>
               <HeaderTable />
-            </TableHead> */}
+            </TableHead>
             <TableBody>
               {loading
                 ? [1, 2, 3, 4, 5].map((_, index) => (
-                    <SkeltonRowTables count={4} />
+                    <SkeltonRowTables count={5} key={index} />
                   ))
                 : stays.map((stay, index) => (
                     <RowTable stay={stay} key={index} index={index} />
@@ -132,7 +183,6 @@ const TableComponent = ({ stays, loading = true }) => {
           </Box>
         </Box>
       )} */}
-      
     </Box>
   );
 };

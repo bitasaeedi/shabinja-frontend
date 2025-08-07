@@ -124,7 +124,7 @@ const FormWallet = () => {
 
         <Grid container>
           <Grid item xs="12">
-            <ContainerMain />
+            <ContainerMain  isPayed={isPayed}/>
           </Grid>
         </Grid>
       </Box>

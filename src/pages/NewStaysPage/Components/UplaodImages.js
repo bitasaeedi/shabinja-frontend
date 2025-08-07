@@ -203,7 +203,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
                 }}
               ></Typography>
               <Typography variant="body2" color="text.secondary">
-             از آپلود تصاویر با حجم بالای 200 کیلوبایت، اجتناب کنید.
+             از آپلود تصاویر با حجم بالای 600 کیلوبایت، اجتناب کنید.
               </Typography>
             </Box>
           </Box>
