@@ -33,6 +33,7 @@ const RowTable = ({ stay, index }) => {
         }}
       >
         {/* title */}
+        {stay?.typeCostDisplay &&
         <TableCell align="left">
           <Typography
             sx={{
@@ -42,7 +43,7 @@ const RowTable = ({ stay, index }) => {
           >
             {stay?.typeCostDisplay || ""}
           </Typography>
-        </TableCell>
+        </TableCell>}
 
         {/* status */}
         {/* <TableCell align="center">

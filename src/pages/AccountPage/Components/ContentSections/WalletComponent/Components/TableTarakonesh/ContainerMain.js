@@ -36,15 +36,17 @@ const ContainerMain = ({isPayed}) => {
   // };
 
   const handleGetMyReserve = async (dontShowLoading) => {
+    setStays([]);
     if (!dontShowLoading) {
       setLoading(true);
     }
+    
     console.log("tabValue", tabValue);
     try {
       const token = localStorage.getItem("access_token");
       let response;
       if(tabValue === 0){
-        response = await axios.post(`${baseUrl}/Wallet/List`,{}, {
+        response = await axios.post(`${baseUrl}/Wallet`,{}, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -67,8 +69,11 @@ const ContainerMain = ({isPayed}) => {
       );
       return error?.response?.data;
     }
+    finally{
+      setLoading(false);
+    }
 
-    setLoading(false);
+   
   };
 
   const handleChangeTab = (event, newValue) => {

@@ -70,36 +70,91 @@ const HeaderTable = () => {
   );
 };
 
+const NoValueComponent = () => {
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100%",
+        pt: 3,
+        mt: 4,
+        textAlign: "center",
+        color: "text.secondary",
+      }}
+    >
+      <SearchOff sx={{ fontSize: { xs: 40, md: 60 }, color: "#aaa", mb: 2 }} />
+      <Typography variant="h6" gutterBottom>
+        هیچ تراکنشی برای نمایش وجود ندارد
+      </Typography>
+      <Typography variant="body2" color="text.secondary">
+        لطفاً فیلترهای جستجوی خود را بررسی کنید.
+      </Typography>
+    </Box>
+  );
+};
+
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
+  console.log("stays", loading);
 
-  const NoValueComponent = () => {
+  const HeaderTable = () => {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          pt: 4,
-          mt: 4,
-          textAlign: "center",
-          color: "text.secondary",
-        }}
-      >
-        <SearchOff
-          sx={{ fontSize: { xs: 40, md: 60 }, color: "#aaa", mb: 2 }}
-        />
-        <Typography variant="h6" gutterBottom>
-          هیچ تراکنشی برای نمایش وجود ندارد
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          لطفاً فیلترهای جستجوی خود را بررسی کنید.
-        </Typography>
-      </Box>
+      <TableRow sx={{}}>
+        {stays?.typeCostDisplay && (
+          <TableCell
+            align="left"
+            sx={{
+              color: "#90a4ae",
+              fontSize: { xs: "0.75rem", sm: "0.85rem" },
+            }}
+          >
+            عنوان
+          </TableCell>
+        )}
+
+        <TableCell
+          align="left"
+          sx={{
+            color: "#90a4ae",
+            fontSize: { xs: "0.75rem", sm: "0.85rem" },
+          }}
+        >
+          مبلغ
+        </TableCell>
+        <TableCell
+          align="left"
+          sx={{
+            color: "#90a4ae",
+            fontSize: { xs: "0.75rem", sm: "0.85rem" },
+          }}
+        >
+          کد تراکنش
+        </TableCell>
+        <TableCell
+          align="left"
+          sx={{
+            color: "#90a4ae",
+            fontSize: { xs: "0.75rem", sm: "0.85rem" },
+          }}
+        >
+          تاریخ
+        </TableCell>
+        <TableCell
+          align="left"
+          sx={{
+            color: "#90a4ae",
+            fontSize: { xs: "0.75rem", sm: "0.85rem" },
+          }}
+        >
+          ساعت
+        </TableCell>
+      </TableRow>
     );
   };
+
   return (
     <Box>
       <TableContainer
