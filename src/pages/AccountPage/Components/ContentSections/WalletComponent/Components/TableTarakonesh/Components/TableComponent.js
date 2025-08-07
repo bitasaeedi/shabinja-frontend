@@ -18,57 +18,6 @@ import SkeltonRowTables from "../../../../../../../../components/SkeletonCompone
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
 
-const HeaderTable = () => {
-  return (
-    <TableRow sx={{}}>
-      <TableCell
-        align="left"
-        sx={{
-          color: "#90a4ae",
-          fontSize: { xs: "0.75rem", sm: "0.85rem" },
-        }}
-      >
-        عنوان
-      </TableCell>
-      <TableCell
-        align="left"
-        sx={{
-          color: "#90a4ae",
-          fontSize: { xs: "0.75rem", sm: "0.85rem" },
-        }}
-      >
-        مبلغ
-      </TableCell>
-      <TableCell
-        align="left"
-        sx={{
-          color: "#90a4ae",
-          fontSize: { xs: "0.75rem", sm: "0.85rem" },
-        }}
-      >
-        کد تراکنش
-      </TableCell>
-      <TableCell
-        align="left"
-        sx={{
-          color: "#90a4ae",
-          fontSize: { xs: "0.75rem", sm: "0.85rem" },
-        }}
-      >
-        تاریخ
-      </TableCell>
-      <TableCell
-        align="left"
-        sx={{
-          color: "#90a4ae",
-          fontSize: { xs: "0.75rem", sm: "0.85rem" },
-        }}
-      >
-        ساعت
-      </TableCell>
-    </TableRow>
-  );
-};
 
 const NoValueComponent = () => {
   return (

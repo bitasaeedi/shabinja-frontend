@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   TextField,
@@ -13,6 +13,9 @@ import {
 } from "@mui/material";
 import { AppContext } from "../../App";
 import CircleIcon from "@mui/icons-material/FiberManualRecord";
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
 
 const listRules = [
   "کلیه فرآیندهای خرید در وب‌سایت منطبق با قوانین جمهوری اسلامی ایران، قانون تجارت الکترونیک و قانون حمایت از حقوق مصرف‌کننده است و متعاقباً کاربر موظف به رعایت قوانین و مقررات وب‌سایت در هنگام خرید است.",
@@ -35,6 +38,40 @@ const listRules = [
 const RulesPage = () => {
   const appContext = useContext(AppContext);
 
+  const [rulesData, setRulesData] = useState(null);
+
+  const fetchAboutData = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(`${baseUrl}/RuleData`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const structuredArray = response?.data?.data[0]?.value
+        .split(/(?=[*-])/g) // جدا کردن قبل از هر * یا -
+        .map((item) => item.trim()) // حذف فاصله‌های اضافه
+        .filter((item) => item) // حذف موارد خالی
+        .map((item) => {
+          if (item.startsWith("*")) {
+            return { type: "title", content: item.replace(/^\*/, "").trim() };
+          } else if (item.startsWith("-")) {
+            return { type: "li", content: item.replace(/^-/, "").trim() };
+          } else {
+            return null;
+          }
+        })
+        .filter(Boolean);
+
+      setRulesData(structuredArray);
+      console.log(structuredArray, "response.data");
+    } catch (error) {
+      console.error("Error :", error?.response?.data || error.message);
+      return error?.response?.data;
+    }
+  };
+
   useEffect(() => {
     appContext.setShowfooter(true);
     appContext.setSettingHeader({
@@ -42,6 +79,7 @@ const RulesPage = () => {
       removeShadow: false,
     });
     window.scroll(0, 0);
+    fetchAboutData();
   }, []);
 
   return (
@@ -78,23 +116,25 @@ const RulesPage = () => {
             gutterBottom
             sx={{ fontWeight: 500, fontSize: { xs: 20, md: 24 } }}
           >
-            قوانین عمومی
+            {rulesData &&
+              rulesData[0]?.type === "title" &&
+              rulesData[0]?.content}
           </Typography>
+          
           <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2.5, md: 0 } }}>
-            {listRules.map((item, index) => (
-              <ListItem sx={{ mx: 0, px: 0 }} key={index}>
-                <ListItemIcon sx={{ minWidth: { xs: 26, md: 36} }}>
-                  <CircleIcon sx={{ color: "#000", fontSize: 12 }} />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{
-                    textAlign: "justify",
-                  }}
-                >
-                  {item}
-                </ListItemText>
-              </ListItem>
-            ))}
+            {rulesData &&
+              rulesData
+                .filter((item) => item.type === "li")
+                .map((item, index) => (
+                  <ListItem sx={{ mx: 0, px: 0 }} key={index}>
+                    <ListItemIcon sx={{ minWidth: { xs: 26, md: 36 } }}>
+                      <CircleIcon sx={{ color: "#000", fontSize: 12 }} />
+                    </ListItemIcon>
+                    <ListItemText sx={{ textAlign: "justify" }}>
+                      {item.content}
+                    </ListItemText>
+                  </ListItem>
+                ))}
           </List>
         </Box>
       </Box>
