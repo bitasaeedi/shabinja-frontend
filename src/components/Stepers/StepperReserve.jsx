@@ -40,9 +40,9 @@ const StepIconCircle = styled("div")(({ theme, ownerState }) => ({
   fontSize: "0.75rem",
   ...(ownerState.active &&
     !ownerState.error && {
-      border: `2px solid ${theme.palette.success.main}`,
+      border: `2px solid #ffda00`,
       color: "#fff",
-      backgroundColor: theme.palette.success.main,
+      backgroundColor: "#FFD600",
     }),
   ...(ownerState.completed && {
     color: theme.palette.success.contrastText,
@@ -100,7 +100,7 @@ const StepperReserve = ({
                 },
                 "& .MuiStepLabel-label.Mui-active": {
                   fontWeight: { xs: 500, md: 600 },
-                  color: errorTab ? "error.main" : "success.main",
+                  color: errorTab ? "error.main" : "#ffda00",
                 },
                 "& .MuiStepLabel-label.Mui-completed": {
                   color: "success.main",
