@@ -1,26 +1,33 @@
-import { Avatar, Box, Divider, Grid, Stack, Typography } from "@mui/material";
+import { Avatar, Box,  Typography } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { StayPageContext } from "../../../StayPage";
-import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
-import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
+import { DownloadImageApi } from "../../../../../api/DownloadImageApi";
+
 const UserStayInfo = () => {
+  const [bgImage,setBgImage]=useState();
   const stayPageContext = useContext(StayPageContext);
-  useEffect(() => {}, [stayPageContext?.infoOfStay]);
+
+  useEffect(() => {
+    setBgImage(stayPageContext?.infoOfStay?.profileImage)
+  }, [stayPageContext?.infoOfStay]);
+
   console.log("my info",stayPageContext?.infoOfStay );
   
-
   return (
     <Box>
       {/* <Divider sx={{ my: 2, bgcolor: "#ddd" }} /> */}
-      <Box sx={{ display: "flex", alignItems: "center", mt: 4 }}>
+      <Box sx={{ display: "flex", alignItems: "center", mt: 4.5 }}>
+
         <Avatar
           sx={{
             width: 40,
             height: 40,
           }}
+          src={DownloadImageApi(bgImage)}
         >
-          پ
+          
         </Avatar>
+        
         <Typography
           variant="h6"
           sx={{
