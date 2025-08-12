@@ -24,7 +24,7 @@ const FormGetPass = ({
   callBack,
   handleSetManageFormsSteps,
   mobileGettingSms,
-  phoneNumber
+  phoneNumber,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -73,21 +73,24 @@ const FormGetPass = ({
       localStorage.setItem("role", role);
       localStorage.setItem("guid", guid);
       localStorage.setItem("user_id", id);
-      callBack(resultGetToken,"finish");
+      callBack(resultGetToken, "finish");
     }
     setLoading(false);
   };
   const onSubmit2 = async (data) => {
-
-    var resultCheckSms = {
-    };
+    var resultCheckSms = {};
     resultCheckSms = await ApiCheckAndSms({
       UserName: phoneNumber,
     });
-  
-    console.log("resultCheckSms",resultCheckSms);
-    if (resultCheckSms?.issuccess) {
-     callBack(resultCheckSms,"stepCode");
+
+    console.log("resultCheckSms", resultCheckSms);
+
+    if (resultCheckSms?.data?.isActive === false) {
+      console.log("حساب کاربری غیر فغال");
+      handleMangeAlert(true, "error", "حساب کاربری شما غیر فعال است ");
+    }
+    else if (resultCheckSms?.issuccess) {
+      callBack(resultCheckSms, "stepCode");
     } else {
       handleMangeAlert(
         true,
@@ -97,10 +100,7 @@ const FormGetPass = ({
     }
   };
 
-  useEffect(() => {
-    
-  }, []);
-
+  useEffect(() => {}, []);
 
   return (
     <>
@@ -236,6 +236,7 @@ const FormGetPass = ({
           </Button>
         </Grid>
       </form>
+
       {showAlertSetting?.show && (
         <MyAlertMui
           message={showAlertSetting?.message || ""}
