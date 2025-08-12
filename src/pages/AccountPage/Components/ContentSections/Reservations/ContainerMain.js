@@ -36,6 +36,10 @@ const ContainerMain = () => {
     setTabValue(newValue);
   };
 
+  const handleRemoveStay = (stayGuid) => {
+    setStays(prevStays => prevStays.filter(stay => stay.guid !== stayGuid));
+  };
+
   return (
     <ContainerMainContext.Provider
       value={{
@@ -44,6 +48,7 @@ const ContainerMain = () => {
         loading,
         handleChangeTab,
         tabValue,
+        handleRemoveStay,
       }}
     >
       <Box

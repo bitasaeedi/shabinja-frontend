@@ -52,7 +52,7 @@ const TableComponent = ({ stays, loading = true }) => {
   const HeaderTable = () => {
     return (
       <TableRow sx={{}}>
-        {stays?.typeCostDisplay && (
+        {stays && stays.length > 0 && stays.some(stay => stay?.typeCostDisplay) && (
           <TableCell
             align="left"
             sx={{
@@ -73,15 +73,19 @@ const TableComponent = ({ stays, loading = true }) => {
         >
           مبلغ
         </TableCell>
-        <TableCell
-          align="left"
-          sx={{
-            color: "#90a4ae",
-            fontSize: { xs: "0.75rem", sm: "0.85rem" },
-          }}
-        >
-          کد تراکنش
-        </TableCell>
+
+        {stays && stays.length > 0 && stays.some(stay => stay?.code) && (
+          <TableCell
+            align="left"
+            sx={{
+              color: "#90a4ae",
+              fontSize: { xs: "0.75rem", sm: "0.85rem" },
+            }}
+          >
+             کد تراکنش
+          </TableCell>
+        )}
+
         <TableCell
           align="left"
           sx={{
@@ -91,6 +95,7 @@ const TableComponent = ({ stays, loading = true }) => {
         >
           تاریخ
         </TableCell>
+        
         <TableCell
           align="left"
           sx={{

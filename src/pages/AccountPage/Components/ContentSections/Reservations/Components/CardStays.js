@@ -1,10 +1,8 @@
+// لیست اقامتگاه های صحفه رزرو
 import {
   Box,
   Button,
   Card,
-  CardContent,
-  CardMedia,
-  Divider,
   Grid,
   Typography,
   Menu,
@@ -12,22 +10,62 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
-import { ConvertToShamsi, HandleShowDateLikeStr } from "../../../../../../components/DateFunctions/DateFunctions";
+import {
+  ConvertToShamsi,
+  HandleShowDateLikeStr,
+} from "../../../../../../components/DateFunctions/DateFunctions";
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
 import ToRial from "../../../../../../components/ToRial/ToRial";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
-const CardStays = ({ stay }) => {
+import axios from "axios";
+import API_URL from "../../../../../../config/apiConfig";
+const baseUrl = API_URL;
+
+const CardStays = ({ stay, onRemove }) => {
+  console.log("my stay", stay);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
-  const handleDelete = () => {};
+  const handleCancell = async () => {
+    console.log("cancell");
+
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(
+        `${baseUrl}/HostTourOrder/Cancelled/${stay?.guid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("رزرو با موفقیت لغو شد");
+
+      // Remove the card from the UI after successful cancellation
+      if (onRemove && stay?.guid) {
+        onRemove(stay.guid);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.log("Error:", error?.response?.data);
+      console.log("لغو ناموفق");
+      return error?.response?.data;
+    } finally {
+      handleClose();
+    }
+  };
+
+  const handleDelete = async () => {};
 
   const stepsList = [
     {
@@ -47,6 +85,7 @@ const CardStays = ({ stay }) => {
       title: "تحویل کلید ",
     },
   ];
+
   return (
     <Card
       sx={{
@@ -88,120 +127,130 @@ const CardStays = ({ stay }) => {
                   width: "100%",
                   display: "flex",
                   justifyContent: "space-between",
+                  flexDirection: "column",
                 }}
               >
+                {/* اسم اقامتگاه */}
                 <Box>
-                  {/* اسم اقامتگاه */}
-                  <Box>
-                    <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
-                    >
-                      <Typography variant="h6" fontWeight="bold" gutterBottom>
-                        {stay?.hostTourTitle}
-                      </Typography>
+                  <Box
+                    sx={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                      {stay?.hostTourTitle}
+                    </Typography>
 
-                      <Box sx={{ display: { md: "none" } }}>
-                        <Box>
-                          <Button
-                            id="basic-button"
-                            aria-controls={open ? "basic-menu" : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={open ? "true" : undefined}
-                            onClick={handleClick}
+                    <Box sx={{ display: { md: "none" } }}>
+                      <Box>
+                        <Button
+                          id="basic-button"
+                          aria-controls={open ? "basic-menu" : undefined}
+                          aria-haspopup="true"
+                          aria-expanded={open ? "true" : undefined}
+                          onClick={handleClick}
+                        >
+                          <MoreVertIcon />
+                        </Button>
+                        <Menu
+                          id="basic-menu-mobile"
+                          anchorEl={anchorEl}
+                          open={open}
+                          onClose={handleClose}
+                          slotProps={{
+                            list: {
+                              "aria-labelledby": "basic-button",
+                            },
+                          }}
+                        >
+                          <MenuItem
+                            component={Link}
+                            to={`/book/preorder/${stay?.orderNumber}`}
                           >
-                            <MoreVertIcon />
-                          </Button>
-                          <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            slotProps={{
-                              list: {
-                                "aria-labelledby": "basic-button",
-                              },
-                            }}
-                          >
-                            <MenuItem
-                              component={Link}
-                              to={`/book/preorder/${stay?.orderNumber}`}
-                            >
-                              جزئیات رزرو
-                            </MenuItem>
-                            <MenuItem onClick={handleClose}>لغو </MenuItem>
-                          </Menu>
-                        </Box>
+                            جزئیات رزرو
+                          </MenuItem>
+                            {stay?.state === 2 && (
+                              <MenuItem onClick={handleCancell}>لغو</MenuItem>
+                            )}
+                        </Menu>
                       </Box>
                     </Box>
+                  </Box>
 
-                    <Typography variant="body2" color="text.secondary">
-                      <Box component="span" display="flex" alignItems="center">
-                        <Box component="span" mr={0.5}>
-                          📍
-                        </Box>
-                        {stay?.hostTourCityTitle}
+                  <Typography variant="body2" color="text.secondary">
+                    <Box component="span" display="flex" alignItems="center">
+                      <Box component="span" mr={0.5}>
+                        📍
                       </Box>
+                      {stay?.hostTourCityTitle}
+                    </Box>
+                  </Typography>
+                </Box>
+
+                {/* اطلاعات اقامتگاه */}
+                <Box
+                  sx={{
+                    mt: 1,
+                    display: "flex ",
+                    //  justifyContent: "space-between",
+                  }}
+                >
+                  <Box sx={{ minWidth: "80px" }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: 13 }}
+                    >
+                      تعداد مهمان
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      // color="text.secondary"
+                      fontWeight={"bold"}
+                      sx={{ fontSize: 14 }}
+                    >
+                      {stay?.personCount} نفر
                     </Typography>
                   </Box>
 
-                  {/* اطلاعات اقامتگاه */}
-                  <Box
-                    sx={{
-                      mt: 1,
-                      display: "flex ",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Box>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: 13 }}
-                      >
-                        تعداد مهمان
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        // color="text.secondary"
-                        fontWeight={"bold"}
-                        sx={{ fontSize: 14 }}
-                      >
-                        {stay?.personCount} نفر
-                      </Typography>
-                    </Box>
-
-                    <Box sx={{ borderLeft: "solid 1px gray", pl: 2 }}>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: 13 }}
-                      >
-                        تاریخ اقامت
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        // color="text.secondary"
-                        fontWeight={"bold"}
-                        sx={{ fontSize: 14 }}
-                      >
-                        {`${HandleShowDateLikeStr(
-                          ConvertToShamsi(stay?.start)
-                        )} - ${HandleShowDateLikeStr(
-                          ConvertToShamsi(stay?.end, 1)
-                        )}`}
-                      </Typography>
-                    </Box>
+                  <Box sx={{ borderLeft: "solid 1px gray", pl: 2 }}>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ fontSize: 13 }}
+                    >
+                      تاریخ اقامت
+                    </Typography>
+                    <Typography
+                      variant="subtitle1"
+                      // color="text.secondary"
+                      fontWeight={"bold"}
+                      sx={{ fontSize: 14 }}
+                    >
+                      {`${HandleShowDateLikeStr(
+                        ConvertToShamsi(stay?.start)
+                      )} - ${HandleShowDateLikeStr(
+                        ConvertToShamsi(stay?.end, 1)
+                      )}`}
+                    </Typography>
                   </Box>
                 </Box>
               </Box>
             </Grid>
           </Grid>
           {/* stepper */}
+
           <Grid container>
             <Grid item xs="12" sx={{ mt: 2 }}>
               <StepperReserve
-                errorTab={stay?.expired}
-                activeStep={stay?.state + 1 || 0}
+                errorTab={
+                  stay?.state === 4 || stay?.state === 5 ? true : stay?.expired
+                }
+                activeStep={(() => {
+                  const s = stay?.state ?? 0;
+                  if (s === 5) return 3; // delivered/cancelled mapping previously
+                  if (s === 4) return 1; // map 4 to step 1 as requested
+                  const base = s + 1;
+                  return Number(base) ? base : 0;
+                })()}
                 steps={["ثبت درخواست", "تایید میزبان", "پرداخت", "تحویل کلید"]}
               />
             </Grid>
@@ -275,7 +324,9 @@ const CardStays = ({ stay }) => {
                     >
                       جزئیات رزرو
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>لغو </MenuItem>
+                    {stay?.state === 2 && (
+                      <MenuItem onClick={handleCancell}>لغو</MenuItem>
+                    )}
                   </Menu>
                 </Box>
               </Box>
@@ -324,15 +375,22 @@ const CardStays = ({ stay }) => {
                     cursor: "not-allowed", // Show not-allowed cursor
                   },
                 }}
-                disabled={stay?.state !== 1}
+                disabled={stay?.state !== 1 || stay?.expired === true}
               >
-                {stay?.state === 0
+                { stay?.state === 5
+                  ? "لغو شده"
+                  :stay?.expired === true
+                  ? " منقضی شده"
+                  :stay?.state === 0
                   ? "منتظر بمانید"
                   : stay?.state === 1
                   ? "پرداخت"
                   : stay?.state === 2
                   ? "به اقامتگاه بروید"
-                  : "نامشخص"}
+                  : stay?.state === 4
+                  ? "رد توسط میزبان"
+                  : 
+                  "نامشخص"}
               </Button>
             </Box>
           </Box>

@@ -129,7 +129,12 @@ const TableComponent = ({ stays, loading = true }) => {
                 </Box>
               ) : (
                 stays.map((stay, index) => (
-                  <CardStays stay={stay} key={index} index={index} />
+                  <CardStays 
+                    stay={stay} 
+                    key={index} 
+                    index={index} 
+                    onRemove={containerMainContext?.handleRemoveStay}
+                  />
                 ))
               )}
             </Box>

@@ -79,16 +79,16 @@ const RowTable = ({ stay, index }) => {
         </TableCell>
 
         {/* code */}
+        {stay?.code &&
         <TableCell align="left">
           <Typography
             sx={{
               fontSize: { xs: "0.75rem", sm: "0.85rem" },
             }}
           >
-            158784991246
+          { stay?.code || ""}
           </Typography>
-
-        </TableCell>
+        </TableCell>}
 
         {/* date */}
         <TableCell align="left">

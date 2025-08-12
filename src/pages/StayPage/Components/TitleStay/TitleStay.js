@@ -25,7 +25,7 @@ const TitleStay = () => {
       setIsFavorite("red");
     } else {
       deleteFromFavorite();
-      setIsFavorite("black");
+     
     }
   };
 
@@ -58,7 +58,7 @@ const TitleStay = () => {
         }
       );
       console.log("d response", response.data);
-
+      setIsFavorite("black");
       return response.data;
     } catch (error) {
       console.log("listError:", error?.response?.data);
@@ -84,6 +84,7 @@ const TitleStay = () => {
           {stayPageContext?.infoOfStay?.title || ""}
         </Typography>
         <Box sx={{ display: "flex", gap: 2 }}>
+
           <Button
             size="small"
             variant="outlined"
@@ -98,6 +99,7 @@ const TitleStay = () => {
           >
             اشتراک‌گذاری
           </Button>
+
           <Button
             size="small"
             variant="outlined"
@@ -120,6 +122,7 @@ const TitleStay = () => {
           >
             افزودن به مورد علاقه‌ها
           </Button>
+
         </Box>
       </Box>
       <Typography

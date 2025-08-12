@@ -412,8 +412,14 @@ const ReservationStay = () => {
               >
                 <Box sx={{ px: { xs: 0, md: 4 } }}>
                   <StepperReserve
-                    errorTab={infoOfReserve?.expired}
-                    activeStep={infoOfReserve?.state}
+                     errorTab={infoOfReserve?.state === 4 || infoOfReserve?.state === 5 ? true : infoOfReserve?.expired}
+                     activeStep={(() => {
+                       const s = infoOfReserve?.state ?? 0;
+                       if (s === 5) return 3; // delivered/cancelled mapping previously
+                       if (s === 4) return 1; // map 4 to step 1 as requested
+                       const base = s ;
+                       return Number(base) ? base : 0;
+                     })()}
                     steps={[
                       "ثبت درخواست",
                       "تایید میزبان",

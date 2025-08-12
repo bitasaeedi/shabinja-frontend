@@ -35,6 +35,7 @@ export default function AverageRate({ rates }) {
           height: { xs: "150px", sm: "180px" },
           padding: "1rem",
           borderRadius: "8px",
+          filter: "blur(2px)",
         }}
         className="border"
       >
@@ -49,7 +50,7 @@ export default function AverageRate({ rates }) {
             justifyContent: "center",
             alignItems: "center",
             gap: { xs: ".6rem", sm: "1rem" },
-            filter: "blur(1px)",
+          
           }}
         >
           

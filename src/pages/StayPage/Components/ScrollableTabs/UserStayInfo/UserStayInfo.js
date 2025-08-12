@@ -5,7 +5,9 @@ import StarBorderRoundedIcon from "@mui/icons-material/StarBorderRounded";
 import SmsOutlinedIcon from "@mui/icons-material/SmsOutlined";
 const UserStayInfo = () => {
   const stayPageContext = useContext(StayPageContext);
-  useEffect(() => {}, [stayPageContext.infoOfStay]);
+  useEffect(() => {}, [stayPageContext?.infoOfStay]);
+  console.log("my info",stayPageContext?.infoOfStay );
+  
 
   return (
     <Box>

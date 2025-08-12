@@ -137,6 +137,8 @@ export default function FavoritesField({
   };
   // add to list
   const handleAddStayToList = async (listId) => {
+    console.log("catid", listId , ",  host" , stayId);
+    
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(

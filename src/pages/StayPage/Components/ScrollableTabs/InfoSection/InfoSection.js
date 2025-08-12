@@ -12,6 +12,12 @@ import StraightenIcon from "@mui/icons-material/Straighten";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import { StayPageContext } from "../../../StayPage";
+import AspectRatioIcon from '@mui/icons-material/AspectRatio';
+//import SquareFootIcon from '@mui/icons-material/SquareFoot';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import DoorFrontIcon from '@mui/icons-material/DoorFront';
+import BedroomParentIcon from '@mui/icons-material/BedroomParent';
+
 
 const InfoSection = () => {
   const stayPageContext = useContext(StayPageContext);
@@ -130,7 +136,7 @@ const InfoSection = () => {
             <Box>
               <HomeOutlinedIcon
                 sx={{
-                  fontSize: { xs: 20, md: 30 },
+                  fontSize: { xs: 20, md: 35 },
                 }}
               />
             </Box>
@@ -138,7 +144,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 16 },
+                  fontSize: { xs: 14, md: 14 },
                 }}
               >
                 {stayPageContext?.infoOfStay?.typeHostDbTitle}
@@ -149,9 +155,9 @@ const InfoSection = () => {
           {/* متراز */}
           <Box className="d-flex flex-column justify-content-center align-items-center">
             <Box>
-              <StraightenIcon
+              <AspectRatioIcon
                 sx={{
-                  fontSize: { xs: 20, md: 30 },
+                  fontSize: { xs: 20, md: 35 },
                 }}
               />
             </Box>
@@ -159,7 +165,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 16 },
+                  fontSize: { xs: 14, md: 14 },
                 }}
               >
                 {stayPageContext?.infoOfStay?.sizeOfTheInfrastructure} متر
@@ -170,9 +176,9 @@ const InfoSection = () => {
           {/* اتاق */}
           <Box className="d-flex flex-column justify-content-center align-items-center">
             <Box>
-              <MeetingRoomOutlinedIcon
+              <DoorFrontIcon
                 sx={{
-                  fontSize: { xs: 20, md: 30 },
+                  fontSize: { xs: 20, md: 35 },
                 }}
               />
             </Box>
@@ -180,7 +186,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 16 },
+                  fontSize: { xs: 14, md: 14},
                 }}
               >
                 {stayPageContext?.infoOfStay?.room} اتاق
@@ -193,7 +199,7 @@ const InfoSection = () => {
             <Box>
               <GroupOutlinedIcon
                 sx={{
-                  fontSize: { xs: 20, md: 30 },
+                  fontSize: { xs: 20, md: 35},
                 }}
               />
             </Box>
@@ -201,7 +207,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 16 },
+                  fontSize: { xs: 14, md: 14 },
                 }}
               >
                 {/* stayPageContext?.infoOfStay?.minCapacity + */}
@@ -209,6 +215,7 @@ const InfoSection = () => {
               </Typography>
             </Box>
           </Box>
+
         </Box>
       </Box>
     </Box>

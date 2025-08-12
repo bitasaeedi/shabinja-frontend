@@ -22,6 +22,7 @@ const CardComment = ({ centerItem, comment }) => {
         transform: centerItem ? "scale(1.2) translateY(-10px)" : "scale(1)",
         mx: "auto",
         overflow: "visible",
+        filter:centerItem ? "blur(0px)":"blur(2px)"
       }}
       className="d-flex justify-content-center align-items-center"
     >
@@ -74,7 +75,7 @@ const CardComment = ({ centerItem, comment }) => {
             sx={{
               width: { xs: 40, md: 50 },
               height: { xs: 40, md: 50 },
-              border: "4px solid #fff", // Add border to make it blend with the card
+              border: "1px solid #fff", // Add border to make it blend with the card
               boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)", // Add shadow for emphasis
               bgcolor: "#999999",
             }}

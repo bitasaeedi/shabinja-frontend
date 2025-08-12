@@ -94,7 +94,7 @@ const CardInfoReserve = () => {
         </Grid>
 
         {/* اطلاعات اقامتگاه */}
-        <Grid item xs={12} md>
+        <Grid item xs={12} md> 
           <Typography variant="h6" fontWeight="bold" gutterBottom>
             {loadingPrices ? (
               <Skeleton width={150} height={28} />
@@ -233,6 +233,10 @@ const CardInfoReserve = () => {
                   ? "پرداخت"
                   : infoOfReserve?.state === 3
                   ? "در تاریخ اعلامی به اقامتگاه بروید"
+                  :infoOfReserve?.state ===4
+                  ?"رد توسط میزبان"
+                  : infoOfReserve?.state ===5 
+                  ? "لغو شده"
                   : "نامشخص"}
               </Button>
             )

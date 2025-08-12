@@ -394,8 +394,10 @@ const DesctopFooter = () => {
                   sx={{
                     color: "#0d47a1",
                     textAlign: { xs: "start", md: "center" },
-                    fontSize: 16,
+                    fontSize: 14,
                     ml: 1,
+                    fontWeight:600,
+                    fontFamily: 'Consolas, "Courier New", monospace',
                   }}
                 >
                   {contactData ? contactData[3]?.value : ""}
