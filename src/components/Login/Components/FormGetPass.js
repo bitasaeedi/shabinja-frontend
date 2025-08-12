@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -9,8 +9,6 @@ import {
   Box,
   Link,
   CircularProgress,
-  Snackbar,
-  Alert,
   IconButton,
 } from "@mui/material";
 
@@ -18,7 +16,6 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 import { ApiCheckAndSms, ApiGetTokenShabinja } from "../../../api/LoginApis";
-import HttpsOutlinedIcon from "@mui/icons-material/HttpsOutlined";
 
 const FormGetPass = ({
   callBack,

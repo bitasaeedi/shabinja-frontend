@@ -41,8 +41,7 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
   // اجرا شدن در صورت ارسال موفق شماره موبایل حهت دریافت پیامک
   const handleGetResponseSendMobile = async (response,step) => {
     setMobileGettingSms(response?.data?.userName);
-  
-     handleSetManageFormsSteps(step); // نمایش فرم دریافت کد
+    handleSetManageFormsSteps(step); // نمایش فرم دریافت کد
   };
 
   // نتیجه دریافت توکن بعد از ارسال کد چهار رقمی
@@ -113,6 +112,7 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
             )}
           </div>
         </Slide>
+
         <Slide
           direction="left"
           in={manageForms === "getInfoUser"}
@@ -127,6 +127,7 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
             )}
           </div>
         </Slide>
+
       </Grid>
     </div>
   );

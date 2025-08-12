@@ -1,4 +1,4 @@
-import React, { useEffect,  useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -13,9 +13,14 @@ import {
 import AppShortcutIcon from "@mui/icons-material/AppShortcut";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 import { ApiCheckAndSms } from "../../../api/LoginApis";
+import axios from "axios";
+import API_URL from "../../../config/apiConfig";
+const baseUrl = API_URL;
 
-const FormGetMobileNumber = ({ callBack ,getPhoneNumber}) => {//کال بک بررسی می کنه اگر شماره فرستاده شده باشه میره صحفه بعد
+const FormGetMobileNumber = ({ callBack, getPhoneNumber }) => {
+  //کال بک بررسی می کنه اگر شماره فرستاده شده باشه میره صحفه بعد
   const [loading, setLoading] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -38,30 +43,64 @@ const FormGetMobileNumber = ({ callBack ,getPhoneNumber}) => {//کال بک بر
     });
   };
 
+  const checkMobileNumber = async (phone) => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.post(
+        `${baseUrl}/user/exist/${phone}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("my number", response?.data);
+      let step =
+        response?.data?.issuccess === true ? "stepPassword" : "stepCode";
+      return step; // Return the step value
+    } catch (error) {
+      console.error("Error :", error?.response?.data || error.message);
+      return error?.response?.data;
+    }
+  };
   // ارسال شماره موبایل حهت دریافت پیامک
   const onSubmit = async (data) => {
+    getPhoneNumber(data?.phone);
+    const step = await checkMobileNumber(data?.phone);
+    console.log("step", step);
+    if (step === "stepPassword") {
+      callBack(data?.phone, "stepPassword");
+    }
+    else if(step === "stepCode"){
+      onSubmit2(data?.phone)
+    }
+      
+  };
 
-    getPhoneNumber(data?.phone)
-    callBack(data?.phone,"stepPassword")
-    // setLoading(true);
+  // handle set code
+  const onSubmit2 = async (number) => {
+    var resultCheckSms = {};
+    resultCheckSms = await ApiCheckAndSms({
+      UserName: number,
+    });
 
-    // var resultCheckSms = {
-    // };
-    // resultCheckSms = await ApiCheckAndSms({
-    //   UserName: data?.phone,
-    // });
-  
-    // console.log("resultCheckSms",resultCheckSms);
-    // setLoading(false);
-    // if (resultCheckSms?.issuccess) {
-    //  callBack(resultCheckSms);
-    // } else {
-    //   handleMangeAlert(
-    //     true,
-    //     resultCheckSms?.issuccess,
-    //     resultCheckSms?.message
-    //   );
-    // }
+    console.log("resultCheckSms", resultCheckSms);
+
+    if (resultCheckSms?.data?.isActive === false) {
+      console.log("حساب کاربری غیر فغال");
+      handleMangeAlert(true, "error", "حساب کاربری شما غیر فعال است ");
+    } else if (resultCheckSms?.issuccess) {
+      callBack(resultCheckSms, "stepCode");
+    } else {
+      handleMangeAlert(
+        true,
+        resultCheckSms?.issuccess,
+        resultCheckSms?.message
+      );
+    }
   };
 
   useEffect(() => {
@@ -88,8 +127,8 @@ const FormGetMobileNumber = ({ callBack ,getPhoneNumber}) => {//کال بک بر
             color="textSecondary"
             sx={{
               mt: 1,
-              textAlign: "center", 
-              width: "100%", 
+              textAlign: "center",
+              width: "100%",
             }}
           >
             برای ورود به شبینجا شماره همراه خود را وارد کنید.
