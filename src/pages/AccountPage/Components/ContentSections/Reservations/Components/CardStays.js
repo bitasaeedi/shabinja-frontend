@@ -17,13 +17,13 @@ import {
 import StepperReserve from "../../../../../../components/Stepers/StepperReserve";
 import ToRial from "../../../../../../components/ToRial/ToRial";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 const baseUrl = API_URL;
 
 const CardStays = ({ stay, onRemove }) => {
-  console.log("my stay", stay);
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -101,12 +101,14 @@ const CardStays = ({ stay, onRemove }) => {
       <Grid container>
         <Grid item xs="12" md="9">
           <Grid container spacing={2}>
+            {/* image */}
             <Grid
               item
               xs={"auto"}
               // sx={{ display: { xs: "none", md: "block" } }}
             >
               <Box
+                onClick={() => navigate(`/stay/${stay?.hostTourId}`)}
                 component="img"
                 src={DownloadImageApi(stay?.image)}
                 alt="Apartment"
@@ -117,6 +119,7 @@ const CardStays = ({ stay, onRemove }) => {
                   borderRadius: 1,
                   objectFit: "cover",
                   backgroundColor: "grey.200",
+                  cursor: "pointer",
                 }}
               />
             </Grid>
@@ -135,10 +138,17 @@ const CardStays = ({ stay, onRemove }) => {
                   <Box
                     sx={{ display: "flex", justifyContent: "space-between" }}
                   >
-                    <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      gutterBottom
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => navigate(`/stay/${stay?.hostTourId}`)}
+                    >
                       {stay?.hostTourTitle}
                     </Typography>
 
+                    {/* menu */}
                     <Box sx={{ display: { md: "none" } }}>
                       <Box>
                         <Button
@@ -167,9 +177,9 @@ const CardStays = ({ stay, onRemove }) => {
                           >
                             جزئیات رزرو
                           </MenuItem>
-                            {stay?.state === 2 && (
-                              <MenuItem onClick={handleCancell}>لغو</MenuItem>
-                            )}
+                          {stay?.state === 2 && (
+                            <MenuItem onClick={handleCancell}>لغو</MenuItem>
+                          )}
                         </Menu>
                       </Box>
                     </Box>
@@ -332,6 +342,26 @@ const CardStays = ({ stay, onRemove }) => {
               </Box>
             </Box>
 
+            <Box
+              sx={{ display: "flex", alignItems: "center", gap: "5px", mt: 2.5 }}
+            >
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ fontSize: 13 }}
+              >
+                کد رزرو:
+              </Typography>
+              <Typography
+                variant="subtitle1"
+                color="black"
+                fontWeight={"bold"}
+                sx={{ fontSize: 15, display: "inline-block" }}
+              >
+                {stay?.orderNumber || ""}
+              </Typography>
+            </Box>
+
             {/* پرداخت */}
             <Box sx={{ width: "100%", mt: { xs: 3, md: 0 } }}>
               <Box>
@@ -377,11 +407,11 @@ const CardStays = ({ stay, onRemove }) => {
                 }}
                 disabled={stay?.state !== 1 || stay?.expired === true}
               >
-                { stay?.state === 5
+                {stay?.state === 5
                   ? "لغو شده"
-                  :stay?.expired === true
+                  : stay?.expired === true
                   ? " منقضی شده"
-                  :stay?.state === 0
+                  : stay?.state === 0
                   ? "منتظر بمانید"
                   : stay?.state === 1
                   ? "پرداخت"
@@ -389,8 +419,7 @@ const CardStays = ({ stay, onRemove }) => {
                   ? "به اقامتگاه بروید"
                   : stay?.state === 4
                   ? "رد توسط میزبان"
-                  : 
-                  "نامشخص"}
+                  : "نامشخص"}
               </Button>
             </Box>
           </Box>
