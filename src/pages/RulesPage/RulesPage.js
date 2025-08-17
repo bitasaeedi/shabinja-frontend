@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
-  TextField,
-  Button,
   Typography,
   Container,
-  Grid,
   List,
   ListItem,
   ListItemIcon,
@@ -13,6 +10,7 @@ import {
 } from "@mui/material";
 import { AppContext } from "../../App";
 import CircleIcon from "@mui/icons-material/FiberManualRecord";
+import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
 const baseUrl = API_URL;
@@ -72,6 +70,19 @@ const RulesPage = () => {
     }
   };
 
+  function renderContent(text) {
+    return text.split(/\s+/).map((word, i) => {
+      if (word.startsWith("+")) {
+        return (
+          <span key={i} style={{ color: "blue", fontWeight: "bold" }}>
+            {word.replace(/^\+/, "")}
+          </span>
+        );
+      }
+      return word + " ";
+    });
+  }
+
   useEffect(() => {
     appContext.setShowfooter(true);
     appContext.setSettingHeader({
@@ -83,7 +94,10 @@ const RulesPage = () => {
   }, []);
 
   return (
-    <Container maxWidth="md" sx={{ py: 4, mt: { xs: 0, md: 4 } }}>
+    <Container
+      maxWidth="md"
+      sx={{ py: 4, mt: { xs: 0, md: 6 }, minHeight: "100vh" }}
+    >
       <Box sx={{ py: 4, borderRadius: 2 }}>
         <Typography
           variant="h4"
@@ -110,28 +124,33 @@ const RulesPage = () => {
           </Typography>
         </Typography>
 
-        <Box sx={{ mt: 4 }}>
+        <Box sx={{ mt: 10 }}>
           <Typography
             variant="h5"
-            gutterBottom
-            sx={{ fontWeight: 500, fontSize: { xs: 20, md: 24 } }}
+            // gutterBottom
+            sx={{ fontWeight: 600, fontSize: { xs: 20, md: 25 }, mb: ".2rem" }}
           >
             {rulesData &&
               rulesData[0]?.type === "title" &&
               rulesData[0]?.content}
           </Typography>
-          
+
           <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2.5, md: 0 } }}>
             {rulesData &&
               rulesData
                 .filter((item) => item.type === "li")
                 .map((item, index) => (
-                  <ListItem sx={{ mx: 0, px: 0 }} key={index}>
-                    <ListItemIcon sx={{ minWidth: { xs: 26, md: 36 } }}>
-                      <CircleIcon sx={{ color: "#000", fontSize: 12 }} />
+                  <ListItem
+                    sx={{ mx: 0, px: 0, py: 0.5, alignItems: "flex-start" }}
+                    key={index}
+                  >
+                    <ListItemIcon
+                      sx={{ minWidth: { xs: 26, md: 30 }, pt: ".55rem" }}
+                    >
+                      <RemoveIcon sx={{ color: "#4486FA", fontSize: 13 }} />
                     </ListItemIcon>
-                    <ListItemText sx={{ textAlign: "justify" }}>
-                      {item.content}
+                    <ListItemText sx={{}}>
+                      {renderContent(item.content)}
                     </ListItemText>
                   </ListItem>
                 ))}

@@ -118,6 +118,7 @@ const FormGetCode = ({
           <Typography variant="h6" color="dark" sx={{ mt: 2 }}>
             تایید شماره موبایل
           </Typography>
+
           <Typography
             variant="body2"
             color="textSecondary"

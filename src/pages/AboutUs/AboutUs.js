@@ -1,25 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Container,
-  Typography,
-  Box,
-  Paper,
-  List,
-  ListItem,
-  ListItemText,
-  Grid,
-  Divider,
-  ListItemIcon,
-} from "@mui/material";
+import { Container, Typography, Box } from "@mui/material";
 import { AppContext } from "../../App";
 import CircleIcon from "@mui/icons-material/FiberManualRecord";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
+import AboutImage from "./AboutUsImage/aboutUs.jpg";
 const baseUrl = API_URL;
 const AboutUs = () => {
   const appContext = useContext(AppContext);
 
-  const [aboutData, setAboutData] = useState(null);
+  const [aboutData, setAboutData] = useState([]);
 
   const fetchAboutData = async () => {
     try {
@@ -53,6 +43,20 @@ const AboutUs = () => {
     }
   };
 
+  function renderContent(text) {
+    if (typeof text !== "string") return text; // اگه رشته نبود همون رو برگردون
+    return text.split(/\s+/).map((word, i) => {
+      if (word.startsWith("+")) {
+        return (
+          <span key={i} style={{ color: "#287dfa", fontWeight: "bold" }}>
+            {word.replace(/^\+/, "")}
+          </span>
+        );
+      }
+      return word + " ";
+    });
+  }
+
   useEffect(() => {
     appContext.setShowfooter(true);
     appContext.setSettingHeader({
@@ -71,27 +75,31 @@ const AboutUs = () => {
   };
 
   return (
-    <Container maxWidth="md" sx={{ py: 4, mt: { xs: 0, md: 4 } }}>
+    <Container
+      maxWidth="md"
+      sx={{ py: 4, mt: { xs: 0, md: 4 }, minHeight: "100vh" }}
+    >
       <Box sx={{ py: 4, borderRadius: 2 }}>
         <Typography
           variant="h4"
-          align="center"
+          // align="center"
           gutterBottom
           sx={{
             fontWeight: 600,
             color: "#2c3e50",
             display: "flex",
             justifyContent: "center",
+            mt: 3,
+            mb: 5,
           }}
         >
-          <Typography variant="inherit" sx={{}}>
+          <Typography variant="inherit" sx={{ mr: 0.5 }}>
             درباره
           </Typography>
           <Typography
             variant="inherit"
             sx={{
               color: "primary.main",
-              // px: 1,
             }}
           >
             شبینجا{" "}
@@ -99,15 +107,57 @@ const AboutUs = () => {
         </Typography>
 
         <Box>
-          {aboutData?.map((item, index) => {
+          {aboutData?.slice(0, -1).map((item, index) => {
             if (item.type === "title") {
-              return <Typography variant="h3" key={index} sx={{ fontWeight: 600, fontSize: { xs: 20, md: 24 } }}>{item.content}</Typography>;
+              return (
+                <Typography
+                  variant="h3"
+                  key={index}
+                  sx={{
+                    fontWeight: 600,
+                    fontSize: { xs: 20, md: 26 },
+                    my: 1.5,
+                  }}
+                >
+                  {renderContent(item.content)}
+                </Typography>
+              );
             } else if (item.type === "text") {
-              return <Typography variant="body1" key={index} sx={{ lineHeight: 1.6, textAlign: "justify" }}>{item.content}</Typography>;
+              return (
+                <Typography
+                  variant="body1"
+                  key={index}
+                  sx={{ lineHeight: 1.8, textAlign: "justify" }}
+                >
+                  {renderContent(item.content)}
+                </Typography>
+              );
             } else {
               return null;
             }
           })}
+        </Box>
+
+        {/* img */}
+        <Box>
+          <Box
+            component="img"
+            src={AboutImage}
+            sx={{ width: "100%", height: "350px", my: 3 }}
+          />
+        </Box>
+
+        <Box>
+          <Typography
+            variant="h3"
+            sx={{
+              fontWeight: 600,
+              fontSize: { xs: 20, md: 26 },
+              my: 1.5,
+            }}
+          >
+            {renderContent(aboutData[aboutData?.length - 1]?.content)}
+          </Typography>
         </Box>
 
         {/* <Box sx={{ mt: 4 }}>

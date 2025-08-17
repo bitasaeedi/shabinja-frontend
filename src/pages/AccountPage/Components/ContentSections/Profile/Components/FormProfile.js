@@ -24,6 +24,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import {
+  sendValidCode,
   UserDeleteImageApi,
   UserSearchOneApi,
   UserUpdateApi,
@@ -40,6 +41,8 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 import { convertImageToWebP } from "../../../../../../api/PublicApis";
+import ValidCode from "./ValidCode";
+
 const baseUrl = API_URL;
 const shabaStates = [
   {
@@ -58,6 +61,7 @@ const shabaStates = [
     icon: <CloseOutlinedIcon color="error" sx={{ fontSize: 16 }} />,
   },
 ];
+
 const FormProfile = () => {
   const appContext = useContext(AppContext);
   const [profileImage, setProfileImage] = useState(null);
@@ -77,12 +81,15 @@ const FormProfile = () => {
   const [bankName, setBankName] = useState("");
   const [shabaOwner, setShabaOwner] = useState("");
   const [shabaValue, setShabaValue] = useState("");
+  const [showCode, setShowCode] = useState(false);
+  const [smsFieldChanged, setSmsFieldChanged] = useState(false);
 
   const {
     control,
     handleSubmit,
     setValue,
     watch,
+    getValues,
     formState: { errors },
   } = useForm({
     mode: "onChange",
@@ -90,6 +97,7 @@ const FormProfile = () => {
   });
 
   const password = watch("newpassword", "");
+  const number = getValues("sms");
 
   useEffect(() => {
     handleGetUserInfo();
@@ -129,15 +137,15 @@ const FormProfile = () => {
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-  
+
     const validTypes = ["image/jpeg", "image/png", "image/gif"];
     const maxSize = 2 * 1024 * 1024;
-  
+
     if (!validTypes.includes(file.type)) {
       handleManageAlert(true, "error", "فرمت تصویر باید JPG, PNG یا GIF باشد");
       return;
     }
-  
+
     if (file.size > maxSize) {
       handleManageAlert(
         true,
@@ -146,15 +154,15 @@ const FormProfile = () => {
       );
       return;
     }
-  
+
     try {
       // تبدیل به WebP
       const webpFile = await convertImageToWebP(file);
-  
+
       // 🔍 نمایش حجم قبل و بعد
       console.log("📤 فایل اصلی:", (file.size / 1024).toFixed(1), "KB");
       console.log("📥 WebP:", (webpFile.size / 1024).toFixed(1), "KB");
-  
+
       // خواندن WebP به صورت base64 برای ذخیره در state
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -169,7 +177,7 @@ const FormProfile = () => {
         handleManageAlert(true, "error", "خطا در خواندن فایل WebP");
       };
       reader.readAsDataURL(webpFile);
-  
+
       // نمایش تصویر در UI
       setProfileImage(URL.createObjectURL(webpFile));
     } catch (err) {
@@ -177,7 +185,7 @@ const FormProfile = () => {
       handleManageAlert(true, "error", "تبدیل تصویر به WebP با مشکل مواجه شد");
     }
   };
-  
+
   const handleProfileImageUpload = async () => {
     setLoadingImage(true);
     try {
@@ -247,7 +255,7 @@ const FormProfile = () => {
         birthDay: data.birthday,
         shaba: data.shaba,
       });
-     
+
       handleManageAlert(
         true,
         result?.issuccess ? "success" : "error",
@@ -306,6 +314,33 @@ const FormProfile = () => {
     const newPassword = watch("newpassword");
     if (!newPassword) return true; // If no password entered, confirm is not required
     return value === newPassword || "رمزهای عبور مطابقت ندارند";
+  };
+
+  function handleShowCode(value) {
+    setShowCode(value);
+    if (value===false){
+      setSmsFieldChanged(false)
+    }
+  }
+  const sendValidationCode = async () => {
+    const number = getValues("sms");
+    if (!number) {
+      handleManageAlert(true, "error", "لطفا شماره موبایل را وارد کنید");
+      return;
+    }
+
+    try {
+      const result = await sendValidCode(number);
+      if (result?.issuccess) {
+        handleManageAlert(true, "success", "کد ارسال شد");
+        handleShowCode(true);
+      } else {
+        handleManageAlert(true, "error", result?.message || "خطا در ارسال کد");
+      }
+    } catch (error) {
+      console.error("Error sending validation code:", error);
+      handleManageAlert(true, "error", "خطا در ارسال کد");
+    }
   };
 
   return (
@@ -422,6 +457,85 @@ const FormProfile = () => {
               </Box>
             </Grid>
 
+            {/* Mobile Number & user name */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="sms"
+                control={control}
+                rules={{
+                  required: "شماره موبایل الزامی است",
+                  validate: validateMobile,
+                }}
+                render={({ field }) => (
+                  <InputMask
+                    mask="09999999999"
+                    value={field.value}
+                    onChange={(e) => {
+                      field.onChange(e);
+                      setSmsFieldChanged(true);
+                    }}
+                    onBlur={field.onBlur}
+                    inputRef={field.ref}
+                  >
+                    {(inputProps) => (
+                      <TextField
+                        {...inputProps}
+                        label=" نام کاربری  (شماره موبایل)"
+                        fullWidth
+                        error={!!errors.sms}
+                        helperText={errors.sms?.message}
+                        size="small"
+                        InputLabelProps={{ shrink: true }}
+                        sx={{ mb: 2 }}
+                        InputProps={{
+                          endAdornment: smsFieldChanged && (
+                            <InputAdornment position="end">
+                              <Button
+                                variant="contained"
+                                size="small"
+                                sx={{
+                                  fontSize: "0.75rem",
+                                  height: "38px",
+                                  borderRadius: "3px",
+                                  minWidth: "auto",
+                                  px: 1.5,
+                                  mr: -1.65,
+                                  mt: -0.5,
+                                  mb: -0.5,
+                                  borderTopLeftRadius: 0,
+                                  borderBottomLeftRadius: 0,
+                                  "&:hover": {
+                                    backgroundColor: "#1976d2",
+                                  },
+                                }}
+                                onClick={() => {
+                                  sendValidationCode();
+                                  console.log("Button clicked");
+                                }}
+                              >
+                                احراز هویت
+                              </Button>
+                            </InputAdornment>
+                          ),
+                        }}
+                      />
+                    )}
+                  </InputMask>
+                )}
+              />
+            </Grid>
+
+            {/* confirm code */}
+            <Grid item xs={12} md={6}>
+              {showCode && (
+                <ValidCode
+                  handleShowCode={handleShowCode}
+                  number={getValues("sms")}
+                  handleManageAlert={handleManageAlert}
+                />
+              )}
+            </Grid>
+
             {/* Name */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -500,8 +614,8 @@ const FormProfile = () => {
                   validate: validateNationalCode,
                 }}
                 render={({ field }) => (
-                  <InputMask 
-                    mask="9999999999" 
+                  <InputMask
+                    mask="9999999999"
                     value={field.value}
                     onChange={field.onChange}
                     onBlur={field.onBlur}
@@ -524,73 +638,6 @@ const FormProfile = () => {
               />
             </Grid>
 
-            {/* Mobile Number */}
-            <Grid item xs={12} md={6}>
-              <Controller
-                name="sms"
-                control={control}
-                rules={{
-                  required: "شماره موبایل الزامی است",
-                  validate: validateMobile,
-                }}
-                render={({ field }) => (
-                  <InputMask 
-                    mask="09999999999" 
-                    value={field.value}
-                    onChange={field.onChange}
-                    onBlur={field.onBlur}
-                    inputRef={field.ref}
-                  >
-                    {(inputProps) => (
-                      <TextField
-                        {...inputProps}
-                        label="شماره موبایل"
-                        fullWidth
-                        error={!!errors.sms}
-                        helperText={errors.sms?.message}
-                        size="small"
-                        InputLabelProps={{ shrink: true }}
-                        sx={{ mb: 2 }}
-                      />
-                    )}
-                  </InputMask>
-                )}
-              />
-            </Grid>
-
-            {/* Email */}
-            <Grid item xs={12} md={6}>
-              <Controller
-                name="myemail"
-                control={control}
-                rules={{ validate: validateEmail }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="ایمیل"
-                    fullWidth
-                                         error={!!errors.myemail}
-                     helperText={errors.myemail?.message}
-                    inputProps={
-                      {
-                        // autocomplete: "my-email",
-                      }
-                    }
-                    size="small"
-                    InputLabelProps={{ shrink: true }}
-                    sx={{
-                      mb: 2,
-                      "& input:-webkit-autofill": {
-                        "-webkit-box-shadow":
-                          "0 0 0 100px white inset !important",
-                        "-webkit-text-fill-color": "inherit !important",
-                      },
-                    }}
-                  />
-                )}
-              />
-            </Grid>
-
             {/* Birth Date */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -598,8 +645,8 @@ const FormProfile = () => {
                 control={control}
                 rules={{ required: "تاریخ تولد الزامی است" }}
                 render={({ field }) => (
-                  <InputMask 
-                    mask="9999/99/99" 
+                  <InputMask
+                    mask="9999/99/99"
                     value={field.value}
                     onChange={field.onChange}
                     onBlur={field.onBlur}
@@ -618,6 +665,38 @@ const FormProfile = () => {
                       />
                     )}
                   </InputMask>
+                )}
+              />
+            </Grid>
+            {/* Email */}
+            <Grid item xs={12} md={6}>
+              <Controller
+                name="myemail"
+                control={control}
+                rules={{ validate: validateEmail }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="ایمیل"
+                    fullWidth
+                    error={!!errors.myemail}
+                    helperText={errors.myemail?.message}
+                    inputProps={
+                      {
+                        // autocomplete: "my-email",
+                      }
+                    }
+                    size="small"
+                    InputLabelProps={{ shrink: true }}
+                    sx={{
+                      mb: 2,
+                      "& input:-webkit-autofill": {
+                        "-webkit-box-shadow":
+                          "0 0 0 100px white inset !important",
+                        "-webkit-text-fill-color": "inherit !important",
+                      },
+                    }}
+                  />
                 )}
               />
             </Grid>
@@ -741,9 +820,9 @@ const FormProfile = () => {
                   <Controller
                     name="newpassword"
                     control={control}
-                    rules={{ 
+                    rules={{
                       validate: validatePassword,
-                      required: false
+                      required: false,
                     }}
                     render={({ field }) => (
                       <TextField
@@ -785,9 +864,9 @@ const FormProfile = () => {
                   <Controller
                     name="passwordrepeat"
                     control={control}
-                    rules={{ 
+                    rules={{
                       validate: validateConfirmPassword,
-                      required: false
+                      required: false,
                     }}
                     render={({ field }) => (
                       <TextField

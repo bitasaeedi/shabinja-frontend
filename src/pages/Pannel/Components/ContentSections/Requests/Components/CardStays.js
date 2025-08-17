@@ -199,7 +199,11 @@ const CardStays = ({ stay }) => {
             <Grid container>
               <Grid item xs="12" sx={{ mt: 2 }}>
                 <StepperReserve
-                  errorTab={stay?.state === 4 || stay?.state === 5 ? true : stay?.expired}
+                  errorTab={
+                    stay?.state === 4 || stay?.state === 5
+                      ? true
+                      : stay?.expired
+                  }
                   activeStep={(() => {
                     const s = stay?.state ?? 0;
                     if (s === 5) return 3; // delivered/cancelled mapping previously
@@ -293,6 +297,32 @@ const CardStays = ({ stay }) => {
                 </Box>
               </Box>
 
+              {/* code */}
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "5px",
+                  mt: 2.5,
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ fontSize: 13 }}
+                >
+                  کد رزرو:
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="black"
+                  fontWeight={"bold"}
+                  sx={{ fontSize: 15, display: "inline-block" }}
+                >
+                  {stay?.orderNumber || ""}
+                </Typography>
+              </Box>
+
               {/* پرداخت */}
               <Box sx={{ width: "100%", mt: { xs: 3, md: 0 } }}>
                 <Box>
@@ -317,7 +347,7 @@ const CardStays = ({ stay }) => {
                 </Box>
 
                 {/* کلید */}
-                {stay?.state === 0 && (
+                {stay?.state === 0 && stay?.expired === false && (
                   <Box>
                     <Button
                       onClick={handleNextLevele}

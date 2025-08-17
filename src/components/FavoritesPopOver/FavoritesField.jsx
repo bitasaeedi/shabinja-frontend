@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Typography, Button, InputBase, IconButton } from "@mui/material";
 import { useForm } from "react-hook-form";
-import { useTheme } from "@mui/material/styles";
 import CloseIcon from "@mui/icons-material/Close";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import AddIcon from "@mui/icons-material/Add";
@@ -155,7 +154,7 @@ export default function FavoritesField({
       );
       console.log("add response", response.data);
       fetchCategoryList();
-      changeFavColor();
+      changeFavColor?.();
       
       setTimeout(() => {
         handleMangeAlert(true, 

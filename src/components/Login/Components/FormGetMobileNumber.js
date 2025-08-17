@@ -62,6 +62,10 @@ const FormGetMobileNumber = ({ callBack, getPhoneNumber }) => {
         response?.data?.issuccess === true ? "stepPassword" : "stepCode";
       return step; // Return the step value
     } catch (error) {
+      handleMangeAlert(
+        true,
+        "error","مشکلی در سرور پیش آمده"
+      );
       console.error("Error :", error?.response?.data || error.message);
       return error?.response?.data;
     }

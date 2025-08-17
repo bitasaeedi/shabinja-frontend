@@ -69,6 +69,12 @@ const CancelRules = () => {
     setLoading(false);
   };
 
+  useState(() => {
+    setlastDay(manageStepsContext?.hostInfoUpdating?.cancelPercentageFirst);
+    setlast3Day(manageStepsContext?.hostInfoUpdating?.cancelPercentageSecond);
+    setMoreDays(manageStepsContext?.hostInfoUpdating?.cancelPercentageThird);
+  }, [manageStepsContext?.hostInfoUpdating]);
+
   return (
     <>
       <Grid container spacing={3}>

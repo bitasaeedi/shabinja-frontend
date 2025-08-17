@@ -15,7 +15,7 @@ import { StayPageContext } from "../../../StayPage";
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
 //import SquareFootIcon from '@mui/icons-material/SquareFoot';
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import DoorFrontIcon from '@mui/icons-material/DoorFront';
+import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
 import BedroomParentIcon from '@mui/icons-material/BedroomParent';
 
 
@@ -176,7 +176,7 @@ const InfoSection = () => {
           {/* اتاق */}
           <Box className="d-flex flex-column justify-content-center align-items-center">
             <Box>
-              <DoorFrontIcon
+              <DoorBackOutlinedIcon
                 sx={{
                   fontSize: { xs: 20, md: 35 },
                 }}

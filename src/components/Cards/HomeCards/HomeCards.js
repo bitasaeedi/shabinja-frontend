@@ -21,6 +21,9 @@ import SliderDetailsPage from "../../Sliders/SliderCards";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import FavoritesPopOver from "../../FavoritesPopOver/FavoritesPopOver";
 import axios from "axios";
+import BoltIcon from "@mui/icons-material/Bolt";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
 const baseUrl = API_URL;
 
 const HomeCard = ({ myData = {}, changeFavoriteList }) => {
@@ -35,7 +38,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     try {
       const token = localStorage.getItem("access_token");
       console.log("token", myData?.guid);
-      
+
       const response = await axios.post(
         `${baseUrl}/UserFavoriteCategoryHostTour/Delete/${myData?.guid}`,
         {},
@@ -45,13 +48,10 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
           },
         }
       );
-      
 
-      
       if (typeof changeFavoriteList === "function") {
         changeFavoriteList();
-      }
-      else{
+      } else {
         setFavColor("#ffffff96");
       }
       console.log("d response", response.data);
@@ -67,7 +67,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     if (favColor === "red") {
       try {
         await deleteFromFavorite();
-    
+
         if (typeof changeFavoriteList === "function") {
           changeFavoriteList();
           console.log("now");
@@ -180,7 +180,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
               display="flex"
               justifyContent="end"
               alignItems="start"
-             className="px-2"
+              className="px-2"
             >
               <Typography
                 variant="body2"
@@ -245,12 +245,50 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
             {/* Rating */}
             <Box
               display="flex"
-              justifyContent="flex-end"
+              justifyContent="space-between"
               alignItems="center"
               gap={1}
-              sx={{ direction: "ltr" }}
+              sx={{ direction: "ltr", mt: 1 }}
               className="mx-2"
             >
+              <Box display="flex" alignItems="center" gap=".2rem">
+                {/* رزرو آنی */}
+                {myData?.instantBooking && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: ".7rem",
+                      border: "1px solid #dcdcdc",
+                      padding: ".15rem .5rem",
+                      borderRadius: "10px",
+                      color: "#262626",
+                    }}
+                  >
+                    <BoltIcon sx={{ color: "#287dfa", fontSize: ".95rem" }} />
+                    <Box> رزرو آنی</Box>
+                  </Box>
+                )}
+
+                {/* تخفیفات لحظه احری */}
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: ".7rem",
+                    border: "1px solid #dcdcdc",
+                    padding: ".15rem .5rem",
+                    borderRadius: "10px",
+                    color: "#262626",
+                    gap: ".25rem",
+                  }}
+                >
+                  <AccessTimeIcon sx={{ color:"#e2bf03",fontSize: ".8rem", mb: ".1rem" }} />
+                  <Box>تخفیفات لحظه آخری</Box>
+                </Box>
+              </Box>
+
+              {/* rate */}
               <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
                 {myData?.rate ? (
                   <>
@@ -291,14 +329,6 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
                   ({myData?.countRate || 0} نظر)
                 </Typography>
               </Box>
-              {/* <Rating
-              name="half-rating-read"
-              defaultValue={myData?.rate || 1}
-              precision={0.5}
-              readOnly
-              size="small"
-              sx={{ color: "#FFD700" }}
-            /> */}
             </Box>
           </CardContent>
         </Link>

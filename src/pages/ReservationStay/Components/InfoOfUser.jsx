@@ -156,7 +156,9 @@ const InfoOfUser = ({}) => {
                     )}
                   />
                 </Grid>
+
                 <Grid item xs={0} md={4}></Grid>
+
                 <Grid item xs={12} md={4}>
                   <Controller
                     name="sms"
@@ -200,7 +202,7 @@ const InfoOfUser = ({}) => {
                       />
                     )}
                   />
-                </Grid>
+                </Grid>گ
               </Grid>
             </form>
           ) : (
