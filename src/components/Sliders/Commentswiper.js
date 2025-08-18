@@ -3,8 +3,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import HomeCardSkeleton from "../Cards/HomeCards/HomeCardSkeleton";
-import SkeletonFavoritCitiesCard from "../Cards/FavoritCitiesCard/SkeletonFavoritCitiesCard";
 import { Box, IconButton, Typography, useMediaQuery } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
@@ -150,11 +148,9 @@ const Commentswiper = ({ lists, title, loading = false }) => {
             slidesPerView: 5,
           },
         }}
-        style={
-          {
-            //  paddingLeft: isMobile ? "90px" : "0",
-          }
-        }
+        style={{
+          //  paddingLeft: isMobile ? "90px" : "0",
+        }}
       >
         {loading !== false
           ? [1, 2, 3, 4, 5, 6].map((item, index) => (

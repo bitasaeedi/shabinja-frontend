@@ -5,11 +5,70 @@ import CircleIcon from "@mui/icons-material/FiberManualRecord";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
 import AboutImage from "./AboutUsImage/aboutUs.jpg";
+import { DownloadImageApi } from "../../api/DownloadImageApi";
 const baseUrl = API_URL;
 const AboutUs = () => {
   const appContext = useContext(AppContext);
 
   const [aboutData, setAboutData] = useState([]);
+  const [firstText, setFirstText] = useState([]);
+  const [image, setImage] = useState([]);
+  const [secondText, setSecondText] = useState([]);
+
+  function structuredArray(value) {
+    return value
+      ?.split(/(?=[*-])/g) // جدا کردن قبل از هر * یا -
+      .map((item) => item.trim()) // حذف فاصله‌های اضافه
+      .filter((item) => item) // حذف موارد خالی
+      .map((item) => {
+        if (item.startsWith("*")) {
+          return { type: "title", content: item.replace(/^\*/, "").trim() };
+        } else if (item.startsWith("-")) {
+          return { type: "text", content: item.replace(/^-/, "").trim() };
+        } else {
+          return null;
+        }
+      })
+      .filter(Boolean);
+  }
+
+  function showText(value) {
+    return (
+      <Box>
+        {value?.map((item, index) => {
+          if (item.type === "title") {
+            return (
+              <Typography
+                variant="h3"
+                key={index}
+                sx={{
+                  fontWeight: 600,
+                  fontSize: { xs: 20, md: 26 },
+                  my: 1.5,
+                }}
+              >
+                {" "}
+                {renderContent(item.content)}{" "}
+              </Typography>
+            );
+          } else if (item.type === "text") {
+            return (
+              <Typography
+                variant="body1"
+                key={index}
+                sx={{ lineHeight: 1.8, textAlign: "justify" }}
+              >
+                {" "}
+                {renderContent(item.content)}{" "}
+              </Typography>
+            );
+          } else {
+            return null;
+          }
+        })}{" "}
+      </Box>
+    );
+  }
 
   const fetchAboutData = async () => {
     try {
@@ -20,23 +79,22 @@ const AboutUs = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      const structuredArray = response?.data?.data[0]?.value
-        .split(/(?=[*-])/g) // جدا کردن قبل از هر * یا -
-        .map((item) => item.trim()) // حذف فاصله‌های اضافه
-        .filter((item) => item) // حذف موارد خالی
-        .map((item) => {
-          if (item.startsWith("*")) {
-            return { type: "title", content: item.replace(/^\*/, "").trim() };
-          } else if (item.startsWith("-")) {
-            return { type: "text", content: item.replace(/^-/, "").trim() };
-          } else {
-            return null;
-          }
-        })
-        .filter(Boolean);
 
-      setAboutData(structuredArray);
-      console.log(structuredArray, "response.data");
+      const first = response?.data?.data?.find(
+        (item) => item.key === "AboutDataText"
+      )?.value;
+      const myImage = response?.data?.data?.find(
+        (item) => item.key === "AboutDataImage"
+      )?.image?.url;
+      const second = response?.data?.data?.find(
+        (item) => item.key === "AboutDataTwo"
+      )?.value;
+
+      setFirstText(structuredArray(first));
+      setImage(myImage);
+      setSecondText(structuredArray(second));
+
+      console.log(structuredArray(first), "response.data");
     } catch (error) {
       console.error("Error :", error?.response?.data || error.message);
       return error?.response?.data;
@@ -68,11 +126,6 @@ const AboutUs = () => {
   }, []);
 
   // decode html
-  const decodeHtml = (html) => {
-    const txt = document.createElement("textarea");
-    txt.innerHTML = html;
-    return txt.value;
-  };
 
   return (
     <Container
@@ -106,59 +159,22 @@ const AboutUs = () => {
           </Typography>
         </Typography>
 
-        <Box>
-          {aboutData?.slice(0, -1).map((item, index) => {
-            if (item.type === "title") {
-              return (
-                <Typography
-                  variant="h3"
-                  key={index}
-                  sx={{
-                    fontWeight: 600,
-                    fontSize: { xs: 20, md: 26 },
-                    my: 1.5,
-                  }}
-                >
-                  {renderContent(item.content)}
-                </Typography>
-              );
-            } else if (item.type === "text") {
-              return (
-                <Typography
-                  variant="body1"
-                  key={index}
-                  sx={{ lineHeight: 1.8, textAlign: "justify" }}
-                >
-                  {renderContent(item.content)}
-                </Typography>
-              );
-            } else {
-              return null;
-            }
-          })}
-        </Box>
+       {showText(firstText)}
 
         {/* img */}
-        <Box>
+        <Box
+        sx={{
+          my:5.5,
+        }}
+        >
           <Box
             component="img"
-            src={AboutImage}
-            sx={{ width: "100%", height: "350px", my: 3 }}
+            src={DownloadImageApi(image)}
+            sx={{ width: "100%", height: "350px", }}
           />
         </Box>
 
-        <Box>
-          <Typography
-            variant="h3"
-            sx={{
-              fontWeight: 600,
-              fontSize: { xs: 20, md: 26 },
-              my: 1.5,
-            }}
-          >
-            {renderContent(aboutData[aboutData?.length - 1]?.content)}
-          </Typography>
-        </Box>
+        {showText(secondText)}
 
         {/* <Box sx={{ mt: 4 }}>
           <Typography

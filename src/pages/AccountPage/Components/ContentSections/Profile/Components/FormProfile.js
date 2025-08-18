@@ -105,7 +105,7 @@ const FormProfile = () => {
 
   const handleGetUserInfo = async () => {
     try {
-      setLoadingForm(true);
+      // setLoadingForm(true);
       appContext?.handleGetInfoUser();
       const userData = await UserSearchOneApi();
       const profile = userData?.data;
@@ -130,7 +130,7 @@ const FormProfile = () => {
       console.error("Error fetching user data:", error);
       handleManageAlert(true, "error", "خطا در دریافت اطلاعات کاربر");
     } finally {
-      setLoadingForm(false);
+      // setLoadingForm(false);
     }
   };
 

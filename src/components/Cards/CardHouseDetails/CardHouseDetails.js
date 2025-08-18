@@ -16,6 +16,9 @@ import ImageOfCardDetails from "./ImageOfCardDetails";
 import FavoritesPopOver from "../../../components/FavoritesPopOver/FavoritesPopOver";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import axios from "axios";
+import BoltIcon from "@mui/icons-material/Bolt";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
 const baseUrl = API_URL;
 
 const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
@@ -218,33 +221,78 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
             {/* Rating */}
             <Box
               display="flex"
-              justifyContent="flex-end"
+              justifyContent="space-between"
               alignItems="center"
               gap={1}
-              sx={{ direction: "ltr" }}
+              sx={{ direction: "ltr", mt: 1 }}
               className="mx-2"
             >
-              <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
-               {myData?.rate ? <StarIcon
+              <Box display="flex" alignItems="center" gap=".2rem">
+                {/* رزرو آنی */}
+                {myData?.instantBooking && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: ".7rem",
+                      border: "1px solid #dcdcdc",
+                      padding: ".15rem .5rem",
+                      borderRadius: "10px",
+                      color: "#262626",
+                    }}
+                  >
+                    <BoltIcon sx={{ color: "#287dfa", fontSize: ".95rem" }} />
+                    <Box> رزرو آنی</Box>
+                  </Box>
+                )}
+
+                {/* تخفیفات لحظه احری */}
+                <Box
                   sx={{
-                    color: "#FFD700",
-                    // fontSize: 20
-                    fontSize: 14,
+                    display: "flex",
+                    alignItems: "center",
+                    fontSize: ".7rem",
+                    border: "1px solid #dcdcdc",
+                    padding: ".15rem .5rem",
+                    borderRadius: "10px",
+                    color: "#262626",
+                    gap: ".25rem",
                   }}
-                  className="mb-1 "
-                /> : ""}
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: "bold",
-                    // marginRight: 1,
-                    fontSize: 14,
-                    // fontSize: 18,
-                  }}
-                  className="px-1"
                 >
-                  {myData?.rate ? myData?.rate : ""}
-                </Typography>
+                  <AccessTimeIcon sx={{ color:"#e2bf03",fontSize: ".8rem", mb: ".1rem" }} />
+                  <Box>تخفیفات لحظه آخری</Box>
+                </Box>
+              </Box>
+
+              {/* rate */}
+              <Box display="flex" alignItems="center" sx={{ fontSize: 14 }}>
+                {myData?.rate ? (
+                  <>
+                    <StarIcon
+                      sx={{
+                        color: "#FFD700",
+                        // fontSize: 20
+                        fontSize: 14,
+                      }}
+                      className="mb-1 "
+                    />
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        fontWeight: "bold",
+                        // marginRight: 1,
+                        fontSize: 14,
+                        // fontSize: 18,
+                      }}
+                      className="px-1"
+                    >
+                      {myData?.rate}
+                    </Typography>
+                  </>
+                ) : (
+                  ""
+                )}
+
                 <Typography
                   variant="body2"
                   sx={{
@@ -254,7 +302,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                     fontSize: 12,
                   }}
                 >
-                  ({myData?.countRate} نظر)
+                  ({myData?.countRate || 0} نظر)
                 </Typography>
               </Box>
             </Box>

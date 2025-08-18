@@ -27,6 +27,7 @@ import {
 import AdsPopover from "../../components/AdsPopover/AdsPopover";
 import SubSliderHeader from "./Components/SubSliderHeader";
 import { useTheme } from "@emotion/react";
+import HeaderAds from "../../components/AdsPopover/HeaderAds/HeaderAds";
 
 const cities = [
   {
@@ -215,6 +216,8 @@ const Home = () => {
 
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
+      <HeaderAds/>
+
       {/* <AdsPopover /> */}
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
       <Box

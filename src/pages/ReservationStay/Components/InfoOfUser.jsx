@@ -202,7 +202,7 @@ const InfoOfUser = ({}) => {
                       />
                     )}
                   />
-                </Grid>گ
+                </Grid>
               </Grid>
             </form>
           ) : (

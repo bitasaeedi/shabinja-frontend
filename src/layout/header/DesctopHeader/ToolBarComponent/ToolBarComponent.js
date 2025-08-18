@@ -147,7 +147,7 @@ const ToolBarComponent = ({ isSticky }) => {
   };
   return (
     <>
-      <Toolbar sx={{ justifyContent: "space-between" }}>
+      <Toolbar sx={{ justifyContent: "space-between", mt:"70px" }}>
         <Box
           sx={{
             display: "flex",
@@ -175,6 +175,7 @@ const ToolBarComponent = ({ isSticky }) => {
             </Link>
           </Box>
         </Box>
+
         <Box
           sx={{
             display: isSticky ? "flex" : "none", //{ xs: "flex", md: "none" },
