@@ -14,11 +14,11 @@ const DesctopHeader = ({  }) => {
   const appContext = useContext(AppContext);
   const location = useLocation();
   const theme = useTheme();
-  const [isSticky, setIsSticky] = React.useState(false);
+  const [isSticky, setIsSticky] = React.useState(false); 
   React.useEffect(() => {
     const handleScroll = () => {
       if (location.pathname === "/") {
-        setIsSticky(window.scrollY > window.innerHeight * 0.7);
+        setIsSticky(window.scrollY > window.innerHeight * 0.61);//.7
       }
     };
 
