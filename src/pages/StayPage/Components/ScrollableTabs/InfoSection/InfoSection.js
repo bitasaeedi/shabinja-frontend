@@ -136,7 +136,7 @@ const InfoSection = () => {
             <Box>
               <HomeOutlinedIcon
                 sx={{
-                  fontSize: { xs: 20, md: 35 },
+                  fontSize: { xs: 20, md: 40 },
                 }}
               />
             </Box>
@@ -144,7 +144,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 14 },
+                  fontSize: { xs: 14, md: 13 },
                 }}
               >
                 {stayPageContext?.infoOfStay?.typeHostDbTitle}
@@ -157,7 +157,7 @@ const InfoSection = () => {
             <Box>
               <AspectRatioIcon
                 sx={{
-                  fontSize: { xs: 20, md: 35 },
+                  fontSize: { xs: 20, md: 40 },
                 }}
               />
             </Box>
@@ -165,7 +165,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 14 },
+                  fontSize: { xs: 14, md: 13 },
                 }}
               >
                 {stayPageContext?.infoOfStay?.sizeOfTheInfrastructure} متر
@@ -178,7 +178,7 @@ const InfoSection = () => {
             <Box>
               <DoorBackOutlinedIcon
                 sx={{
-                  fontSize: { xs: 20, md: 35 },
+                  fontSize: { xs: 20, md: 40 },
                 }}
               />
             </Box>
@@ -186,7 +186,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 14},
+                  fontSize: { xs: 14, md: 13},
                 }}
               >
                 {stayPageContext?.infoOfStay?.room} اتاق
@@ -199,7 +199,7 @@ const InfoSection = () => {
             <Box>
               <GroupOutlinedIcon
                 sx={{
-                  fontSize: { xs: 20, md: 35},
+                  fontSize: { xs: 20, md: 40},
                 }}
               />
             </Box>
@@ -207,7 +207,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 14 },
+                  fontSize: { xs: 14, md: 13 },
                 }}
               >
                 {/* stayPageContext?.infoOfStay?.minCapacity + */}

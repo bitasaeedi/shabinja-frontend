@@ -35,6 +35,7 @@ import { createSignalRContext } from "react-signalr/signalr";
 import axios from "axios";
 import API_URL from "./config/apiConfig";
 import Survey from "./pages/Survey/Survey";
+import Loan from "./pages/Loan/Loan";
 
 const GOFTINO_KEY = "FnQe1u";
 
@@ -209,6 +210,7 @@ function App() {
                   <Route path="/survey/:code" element={<Survey/>}/>
                   <Route path="/pannel/:section" element={<PannelPage />} />
                   <Route path="/new-stay/:step" element={<NewStaysPage />} />
+                  <Route path="/loan" element={<Loan/>}/>
                   <Route
                     path="/book/:stepName/:code"
                     element={<ReservationStay />}

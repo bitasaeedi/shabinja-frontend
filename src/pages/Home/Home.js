@@ -28,6 +28,7 @@ import AdsPopover from "../../components/AdsPopover/AdsPopover";
 import SubSliderHeader from "./Components/SubSliderHeader";
 import { useTheme } from "@emotion/react";
 import HeaderAds from "../../components/AdsPopover/HeaderAds/HeaderAds";
+import AdsSection from "./Components/AdsSection/AdsSection";
 
 const cities = [
   {
@@ -150,18 +151,6 @@ const Home = () => {
     return list;
   };
 
-  // Memoized functions for better performance
-  const getInstantBookingData = useCallback(() => {
-    return callApiForGetList({ InstantBooking: true, province: selectedCity1 });
-  }, [selectedCity1]);
-
-  const getLastMinuteData = useCallback(() => {
-    return callApiForGetList({
-      LastMinuteDiscounts: true,
-      province: selectedCity2,
-    });
-  }, [selectedCity2]);
-
   // لست عنوان اسلایدر ها
   const getListTitleSliders = async () => {
     const result = await GetListTitleSlidersApi();
@@ -216,7 +205,7 @@ const Home = () => {
 
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
-      <HeaderAds/>
+      {!isMobile && <HeaderAds/>}
 
       {/* <AdsPopover /> */}
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
@@ -462,6 +451,11 @@ const Home = () => {
           <InView triggerOnce>
             <ResponsiveFeatures />
           </InView>
+        </Box>
+
+        {/* تبلیغات */}
+        <Box sx={{ marginTop: { xs: 0, md: 2 } }}>
+          <AdsSection />
         </Box>
 
         {/* === نظرات کاربران */}

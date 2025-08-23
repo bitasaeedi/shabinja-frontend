@@ -159,18 +159,21 @@ const AboutUs = () => {
           </Typography>
         </Typography>
 
-       {showText(firstText)}
+        {showText(firstText)}
 
         {/* img */}
         <Box
-        sx={{
-          my:5.5,
-        }}
+          sx={{
+            margin: "0 auto",
+            my: 6,
+            width: { xs: "", md: "700px" },
+          
+          }}
         >
           <Box
             component="img"
             src={DownloadImageApi(image)}
-            sx={{ width: "100%", height: "350px", }}
+            sx={{ width: "100%", height: "400px" , borderRadius:"10px"}}
           />
         </Box>
 

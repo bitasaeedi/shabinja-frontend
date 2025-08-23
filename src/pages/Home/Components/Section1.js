@@ -37,7 +37,7 @@ const Section1 = ({ listCategories = [] }) => {
   }, []);
 
   return (
-    <Box className="hero-wrapper p-0 m-0 w-100 ">
+    <Box className="hero-wrapper p-0 m-0 w-100  ">
       <Box
         className="hero-box"
         sx={{
@@ -45,7 +45,7 @@ const Section1 = ({ listCategories = [] }) => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-
+          height:"540px",
           "&::after": {
             backgroundColor: colorCode ,
           },
