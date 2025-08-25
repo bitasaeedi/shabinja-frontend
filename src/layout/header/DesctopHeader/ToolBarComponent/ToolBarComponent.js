@@ -82,7 +82,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   cursor: "pointer", // Ensures the cursor changes to a pointer
 }));
 
-const ToolBarComponent = ({ isSticky }) => {
+const ToolBarComponent = ({ isSticky , isVisible }) => {
   const appContext = useContext(AppContext);
 
   const [userName, setUserName] = useState("");
@@ -147,7 +147,7 @@ const ToolBarComponent = ({ isSticky }) => {
   };
   return (
     <>
-      <Toolbar sx={{ justifyContent: "space-between", top :isSticky ? "0":"70px",}}>
+      <Toolbar sx={{ justifyContent: "space-between", top :isSticky ? "0":isVisible ?"70px":"10px",}}>
         <Box
           sx={{
             display: "flex",

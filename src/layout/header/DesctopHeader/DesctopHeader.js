@@ -1,20 +1,24 @@
 import * as React from "react";
 import AppBar from "@mui/material/AppBar";
-
 import CssBaseline from "@mui/material/CssBaseline";
-
 import ToolBarComponent from "./ToolBarComponent/ToolBarComponent";
 import { Link, useLocation } from "react-router-dom";
 import { styled, useTheme, alpha } from "@mui/system";
-import { Box } from "@mui/material";
+import { Box ,useMediaQuery} from "@mui/material";
 import { AppContext } from "../../../App";
 import { useContext } from "react";
+import HeaderAds from "../../../components/AdsPopover/HeaderAds/HeaderAds";
 
 const DesctopHeader = ({  }) => {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const appContext = useContext(AppContext);
   const location = useLocation();
-  const theme = useTheme();
   const [isSticky, setIsSticky] = React.useState(false); 
+  const [isVisible, setIsVisible] = React.useState(true);
+
   React.useEffect(() => {
     const handleScroll = () => {
       if (location.pathname === "/") {
@@ -42,10 +46,15 @@ const DesctopHeader = ({  }) => {
     }
   }, [location.pathname]);
 
+  function handleIsVisible (value) {
+    setIsVisible(value)
+  }
+
   return (
     <>
       <CssBaseline />
 
+      {!isMobile && <HeaderAds handleIsVisible={handleIsVisible} isVisible={isVisible} />}
       <AppBar
         sx={{
           backgroundColor: isSticky ? "white" : "transparent",
@@ -60,7 +69,7 @@ const DesctopHeader = ({  }) => {
         }}
         component="nav"
       >
-        <ToolBarComponent isSticky={isSticky} />
+        <ToolBarComponent isSticky={isSticky} isVisible={isVisible} />
       </AppBar>
     </>
   );

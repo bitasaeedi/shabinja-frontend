@@ -91,8 +91,8 @@ const Commentswiper = ({ lists, title, loading = false }) => {
       }}
     >
       <Box
-        sx={{ position: "relative", px: 0 }}
-        className="d-flex justify-content-between align-items-start mb-3"
+        sx={{ position: "relative", px: 0, mb: { xs: "13px", md: 0 } }}
+        className="d-flex justify-content-between align-items-start "
       >
         <Box sx={{ alignItems: "center" }}>
           <Typography
@@ -148,9 +148,11 @@ const Commentswiper = ({ lists, title, loading = false }) => {
             slidesPerView: 5,
           },
         }}
-        style={{
-          //  paddingLeft: isMobile ? "90px" : "0",
-        }}
+        style={
+          {
+            //  paddingLeft: isMobile ? "90px" : "0",
+          }
+        }
       >
         {loading !== false
           ? [1, 2, 3, 4, 5, 6].map((item, index) => (

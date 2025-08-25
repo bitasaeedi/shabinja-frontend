@@ -126,9 +126,9 @@ const Begust = () => {
   return (
     <Box
       sx={{
-        py: { xs: 3, md: 8 },
+        py: { xs: 3, md: 2 },
         px: { xs: 2, md: 4 },
-        mb: 0,
+        mb: 4,
         textAlign: "center",
       }}
     >

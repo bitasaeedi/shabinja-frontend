@@ -205,7 +205,7 @@ const Home = () => {
 
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
-      {!isMobile && <HeaderAds/>}
+      {/* {!isMobile && <HeaderAds/>} */}
 
       {/* <AdsPopover /> */}
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
