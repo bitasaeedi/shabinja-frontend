@@ -3,11 +3,26 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
 import { useParams } from "react-router-dom";
+import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
 
 export default function Survey() {
   const [surveyList, setSurveyList] = useState([]);
   const [ratings, setRatings] = useState({});
   const { code } = useParams();
+
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show: show || false,
+      status: status || "error",
+      message: message || "خطای نامشخص",
+    });
+  };
 
   const handleRatingChange = (guid, value) => {
     setRatings((prev) => ({ ...prev, [guid]: value }));
@@ -15,7 +30,6 @@ export default function Survey() {
 
   //send rating
   const handleSubmit = async () => {
-
     const result = Object.entries(ratings).map(([id, rate]) => ({
       PollQuestionId: Number(id),
       Answer: rate,
@@ -32,12 +46,15 @@ export default function Survey() {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      handleMangeAlert(true,"success", "نظر شما با موفقیت ثبت شد.");
       console.log(response?.data?.data, "response?.data?.data");
+
     } catch (error) {
-      console.log(error, "DeleteRequestReserveApi");
+      handleMangeAlert(true,"error", "ثبت نظر با مشکل مواجه شد!");
+      console.log(error, "poll error");
       return error?.response?.data;
     }
-
   };
 
   //  get list
@@ -148,6 +165,20 @@ export default function Survey() {
             ثبت نظرات
           </Button>
         </Box>
+
+        {showAlertSetting?.show && (
+          <MyAlertMui
+            message={showAlertSetting?.message || ""}
+            handleClose={() =>
+              handleMangeAlert(
+                false,
+                showAlertSetting?.status,
+                showAlertSetting?.message
+              )
+            }
+            status={showAlertSetting?.status}
+          />
+        )}
       </Box>
     </>
   );

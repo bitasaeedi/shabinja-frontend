@@ -18,7 +18,7 @@ const CommentPeople = ({ id }) => {
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
-      const response = await axios.get(`${baseUrl}/CommentTour/${id}`, {
+      const response = await axios.get(`${baseUrl}/HostTour/ListCommentsTourForHome/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

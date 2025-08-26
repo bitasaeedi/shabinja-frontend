@@ -81,6 +81,7 @@ const CommentCardOfStay = ({ comment, showReplyes, index }) => {
             value={comment?.rate}
             readOnly
             size="small"
+            precision={0.5} 
             sx={{ mr: 1, color: index < 5 ? "gold" : "gold", fontSize: 14 }}
           />
         </Box>
@@ -102,11 +103,11 @@ const CommentCardOfStay = ({ comment, showReplyes, index }) => {
 
         {/* comment */}
         <Typography variant="body1" sx={{ fontSize: 13, mt: 1.2 }}>
-          {/* {comment?.dics} */}
-          فقط میتونم بگم یه کارت پستال بی نظیر بود. از میزبان بزرگوار بخاطر
+          {comment?.dics}
+          {/* فقط میتونم بگم یه کارت پستال بی نظیر بود. از میزبان بزرگوار بخاطر
           فراهم همچین ویلای بسیار تمیز و بی نظیری تشکر میکنم فقط .سیستم گرمایش
           مناسب نبود و فضا سرد بود سیستم tv مشکل داشت و تمیزی تختخواب قابل پسند
-          نبود
+          نبود */}
         </Typography>
       </Box>
 

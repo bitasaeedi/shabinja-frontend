@@ -10,9 +10,25 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import API_URL from "../../../../../config/apiConfig";
+import { useState } from "react";
+import MyAlertMui from "../../../../../components/MyAlertMui/MyAlertMui";
 const baseUrl = API_URL;
 
 export default function PostComments({ id }) {
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show: show || false,
+      status: status || "error",
+      message: message || "خطای نامشخص",
+    });
+  };
+
   const { control, handleSubmit } = useForm({
     defaultValues: {
       service: 0,
@@ -45,8 +61,10 @@ export default function PostComments({ id }) {
         }
       );
       console.log(response, "comments response");
+      handleMangeAlert(true,"success", "نظر شما با موفقیت ثبت شد.");
       return response.data;
     } catch (error) {
+      handleMangeAlert(true,"error", "ثبت نظر با مشکل مواجه شد!");
       console.log("comments Error:", error?.response?.data);
       return error?.response?.data;
     }
@@ -68,9 +86,7 @@ export default function PostComments({ id }) {
         </Typography>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Grid container spacing={2}
-          sx={{}}
-          >
+          <Grid container spacing={2} sx={{}}>
             {/* خدمات */}
             <Grid item xs={6} sm={4}>
               <Typography mb={".2rem"}>خدمات</Typography>
@@ -82,13 +98,13 @@ export default function PostComments({ id }) {
                     {...field}
                     value={field.value}
                     onChange={(_, val) => field.onChange(val)}
-                    sx={{color:"gold"}}
+                    sx={{ color: "gold" }}
                   />
                 )}
               />
             </Grid>
             {/*  sx={{ display: "flex", gap: ".7rem", alignItems: "stretch" }} */}
-           
+
             {/* مکان */}
             <Grid item xs={6} sm={4}>
               <Typography mb={".2rem"}>مکان</Typography>
@@ -100,7 +116,7 @@ export default function PostComments({ id }) {
                     {...field}
                     value={field.value}
                     onChange={(_, val) => field.onChange(val)}
-                    sx={{color:"gold"}}
+                    sx={{ color: "gold" }}
                   />
                 )}
               />
@@ -117,7 +133,7 @@ export default function PostComments({ id }) {
                     {...field}
                     value={field.value}
                     onChange={(_, val) => field.onChange(val)}
-                    sx={{color:"gold"}}
+                    sx={{ color: "gold" }}
                   />
                 )}
               />
@@ -134,7 +150,7 @@ export default function PostComments({ id }) {
                     {...field}
                     value={field.value}
                     onChange={(_, val) => field.onChange(val)}
-                    sx={{color:"gold"}}
+                    sx={{ color: "gold" }}
                   />
                 )}
               />
@@ -151,7 +167,7 @@ export default function PostComments({ id }) {
                     {...field}
                     value={field.value}
                     onChange={(_, val) => field.onChange(val)}
-                    sx={{color:"gold"}}
+                    sx={{ color: "gold" }}
                   />
                 )}
               />
@@ -176,19 +192,33 @@ export default function PostComments({ id }) {
             </Grid>
 
             {/* دکمه ثبت */}
-            <Grid
-              item
-              xs={12}
-            >
+            <Grid item xs={12}>
               <Box mt={2}>
-                <Button type="submit" variant="contained" sx={{padding:"6px 40px"}}>
+                <Button
+                  type="submit"
+                  variant="contained"
+                  sx={{ padding: "6px 40px" }}
+                >
                   ثبت نظر
                 </Button>
               </Box>
             </Grid>
-
           </Grid>
         </form>
+
+        {showAlertSetting?.show && (
+          <MyAlertMui
+            message={showAlertSetting?.message || ""}
+            handleClose={() =>
+              handleMangeAlert(
+                false,
+                showAlertSetting?.status,
+                showAlertSetting?.message
+              )
+            }
+            status={showAlertSetting?.status}
+          />
+        )}
       </Box>
     </>
   );

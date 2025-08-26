@@ -12,29 +12,6 @@ import axios from "axios";
 import API_URL from "../../../../config/apiConfig";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 const baseUrl = API_URL;
-// const adsList = [
-//   {
-//     id: 1,
-//     title: "بانک صادرات",
-//     image: BankSaderat,
-//     tag: "از سراسر وب",
-//     percent: "52%",
-//   },
-//   {
-//     id: 2,
-//     title: "بانک ملت",
-//     image: BankMellat,
-//     tag: "مطالب پیشنهادی",
-//     percent: "56%",
-//   },
-//   {
-//     id: 3,
-//     title: "بانک سامان",
-//     image: BankSaman,
-//     tag: "پیشنهاد ویژه",
-//     percent: "40%",
-//   },
-// ];
 
 export default function AdsSection() {
   const [bannerData, setBannerData] = useState([]);
@@ -44,12 +21,15 @@ export default function AdsSection() {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(`${baseUrl}/LoanData`, {
+      const response = await axios.get(`${baseUrl}/MyAds`,{}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-      setBannerData(response?.data?.data?.image?.url);
+      const result = response?.data?.data?.filter(item => item.order !== 0);
+      console.log("my resule" , result);
+      
+      setBannerData(result);
     } catch (error) {
       console.error("Error :", error?.response?.data || error.message);
       return error?.response?.data;
@@ -97,14 +77,14 @@ export default function AdsSection() {
             gap: 0.5,
           }}
         >
-          {[1, 2, 3].map((item, index) => (
+          {bannerData?.map((item, index) => (
             <Box
               key={index}
               component="img"
               width="330px"
               height="150px"
-              //src={DownloadImageApi(bannerData)}
-              src={gif}
+              src={DownloadImageApi(item?.image?.url)}
+              // src={gif}
               className="rounded border shadow"
             />
           ))}

@@ -6,6 +6,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import ShareIcon from "@mui/icons-material/Share";
 import FavoritesPopOver from "../../../../components/FavoritesPopOver/FavoritesPopOver";
 import axios from "axios";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import API_URL from "../../../../config/apiConfig";
 const baseUrl = API_URL;
 
@@ -20,12 +21,11 @@ const TitleStay = () => {
   }, [stayPageContext]);
 
   const handleLikeClick = () => {
-    if (isFavorite==="black") {
+    if (isFavorite === "black") {
       setIsLiked(true);
       setIsFavorite("red");
     } else {
       deleteFromFavorite();
-     
     }
   };
 
@@ -84,7 +84,6 @@ const TitleStay = () => {
           {stayPageContext?.infoOfStay?.title || ""}
         </Typography>
         <Box sx={{ display: "flex", gap: 2 }}>
-
           <Button
             size="small"
             variant="outlined"
@@ -104,11 +103,19 @@ const TitleStay = () => {
             size="small"
             variant="outlined"
             startIcon={
-              <FavoriteBorderIcon
-                sx={{
-                    color: isFavorite,
-                }}
-              />
+              isFavorite ==="red" ? (
+                <Favorite
+                  sx={{
+                    color: "red",
+                  }}
+                />
+              ) : (
+                <FavoriteBorderIcon
+                  sx={{
+                    color: "black",
+                  }}
+                />
+              )
             }
             sx={{
               borderRadius: 2,
@@ -122,7 +129,6 @@ const TitleStay = () => {
           >
             افزودن به مورد علاقه‌ها
           </Button>
-
         </Box>
       </Box>
       <Typography

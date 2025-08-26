@@ -417,6 +417,8 @@ const CardStays = ({ stay, onRemove }) => {
                   ? "پرداخت"
                   : stay?.state === 2
                   ? "به اقامتگاه بروید"
+                  :stay?.state === 3
+                  ?"کلید تحویل داده شده"
                   : stay?.state === 4
                   ? "رد توسط میزبان"
                   : "نامشخص"}

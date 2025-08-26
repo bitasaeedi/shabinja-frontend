@@ -66,6 +66,7 @@ const DesctopHeader = ({  }) => {
           // top: 0,
           // zIndex: 20000,
           // width: "100%",
+
         }}
         component="nav"
       >

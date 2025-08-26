@@ -160,7 +160,7 @@ const ReservationStay = () => {
       extraPersonPrice: myData?.extraPersonPrice,
       totalDiscountPrice: myData?.facktorDiscount,
       mainPrice: myData?.facktorPrice,
-      state: parseFloat(myData?.state) + 1,
+      state: parseFloat(myData?.state),
       name: myData?.userFirstName,
       lastname: myData?.userLastName,
       sms: myData?.mobile,
@@ -412,14 +412,20 @@ const ReservationStay = () => {
               >
                 <Box sx={{ px: { xs: 0, md: 4 } }}>
                   <StepperReserve
-                     errorTab={infoOfReserve?.state === 4 || infoOfReserve?.state === 5 ? true : infoOfReserve?.expired}
-                     activeStep={(() => {
-                       const s = infoOfReserve?.state ?? 0;
-                       if (s === 5) return 3; // delivered/cancelled mapping previously
-                       if (s === 4) return 1; // map 4 to step 1 as requested
-                       const base = s ;
-                       return Number(base) ? base : 0;
-                     })()}
+                    errorTab={
+                      infoOfReserve?.state === 4 || infoOfReserve?.state === 5
+                        ? true
+                        : infoOfReserve?.expired
+                    }
+                    activeStep={(() => {
+                      const s = infoOfReserve?.state ?? 0;
+                      console.log("st", s, ":", infoOfReserve?.state);
+
+                      if (s === 5) return 3; // delivered/cancelled mapping previously
+                      if (s === 4) return 1; // map 4 to step 1 as requested
+                      const base = s + 1;
+                      return Number(base) ? base : 0;
+                    })()}
                     steps={[
                       "ثبت درخواست",
                       "تایید میزبان",
@@ -427,8 +433,8 @@ const ReservationStay = () => {
                       "تحویل کلید",
                     ]}
                   />
-                  {((stepName === "preorder" && infoOfReserve?.state === 1) ||
-                    infoOfReserve?.state === 2) &&
+                  {stepName === "preorder" &&
+                    infoOfReserve?.state === 1 &&
                     !infoOfReserve?.expired && (
                       <WaitingToPay
                         activeStep={infoOfReserve?.state}
@@ -438,9 +444,21 @@ const ReservationStay = () => {
                       />
                     )}
 
-                  {stepName === "order" && infoOfReserve?.state === 3 && (
-                    <Box sx={{ mt: 2, textAlign: "center" }}>
-                      <Typography>کد پیگیری رزرو : {code}</Typography>
+                  {stepName === "order" && infoOfReserve?.state === 2 && (
+                    <Box
+                      sx={{
+                        mt: 2,
+                        textAlign: "center",
+                        position: "relative",
+                        top: "3.5rem",
+                      }}
+                    >
+                      <Typography>
+                        <Typography variant="subtitle1" color={"grey"} sx={{display:"inline-block"}}>
+                          کد پیگیری رزرو :
+                        </Typography>
+                        {code}
+                      </Typography>
                     </Box>
                   )}
 

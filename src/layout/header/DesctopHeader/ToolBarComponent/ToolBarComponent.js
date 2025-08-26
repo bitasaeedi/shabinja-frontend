@@ -11,7 +11,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import GridViewIcon from "@mui/icons-material/GridView";
 import logo_with_name from "../../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../.././../images/shabinja_logo_with_name_white.png";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
@@ -82,7 +82,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   cursor: "pointer", // Ensures the cursor changes to a pointer
 }));
 
-const ToolBarComponent = ({ isSticky , isVisible }) => {
+const ToolBarComponent = ({ isSticky, isVisible }) => {
   const appContext = useContext(AppContext);
 
   const [userName, setUserName] = useState("");
@@ -91,6 +91,21 @@ const ToolBarComponent = ({ isSticky , isVisible }) => {
   const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
   const [calendarAnchor, setCalendarAnchor] = useState(null);
   const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
+  const [isPast65, setIsPast65] = useState(false);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setScrollY(y); // مقدار فعلی اسکرول
+      setIsPast65(y >= 30); // آیا کاربر بیشتر از 65px پایین اومده؟
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    // پاک کردن لیسنر وقتی کامپوننت آن‌مونت شد
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const open = Boolean(anchorEl);
   const theme = useTheme();
@@ -147,7 +162,18 @@ const ToolBarComponent = ({ isSticky , isVisible }) => {
   };
   return (
     <>
-      <Toolbar sx={{ justifyContent: "space-between", top :isSticky ? "0":isVisible ?"70px":"10px",}}>
+      <Toolbar
+        sx={{
+          justifyContent: "space-between",
+          top: isSticky
+            ? "0"
+            : isVisible
+            ? isPast65
+              ? "10px"
+              : "70px"
+            : "10px",
+        }}
+      >
         <Box
           sx={{
             display: "flex",
