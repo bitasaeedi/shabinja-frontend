@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Box,
-  IconButton,
-} from "@mui/material";
+import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import API_URL from "../../../config/apiConfig";
 import ToRial from "../../ToRial/ToRial";
@@ -247,21 +241,26 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                 )}
 
                 {/* تخفیفات لحظه احری */}
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: ".7rem",
-                    border: "1px solid #dcdcdc",
-                    padding: ".15rem .5rem",
-                    borderRadius: "10px",
-                    color: "#262626",
-                    gap: ".25rem",
-                  }}
-                >
-                  <AccessTimeIcon sx={{ color:"#e2bf03",fontSize: ".8rem", mb: ".1rem" }} />
-                  <Box>تخفیفات لحظه آخری</Box>
-                </Box>
+                {myData?.charter && (
+                  <Box
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: ".7rem",
+                      border: "1px solid #dcdcdc",
+                      padding: ".15rem .5rem",
+                      borderRadius: "10px",
+                      color: "#262626",
+                      gap: ".25rem",
+                    }}
+                  >
+                    <AccessTimeIcon
+                      sx={{ color: "#e2bf03", fontSize: ".8rem", mb: ".1rem" }}
+                    />
+                    <Box>تخفیفات لحظه آخری</Box>
+                  </Box>
+                )}
+                
               </Box>
 
               {/* rate */}
@@ -310,7 +309,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
         </Link>
       </Card>
 
-      <FavoritesPopOver 
+      <FavoritesPopOver
         changeFavColor={changeFavColor}
         isLiked={isLiked}
         handleClose={handleClose}

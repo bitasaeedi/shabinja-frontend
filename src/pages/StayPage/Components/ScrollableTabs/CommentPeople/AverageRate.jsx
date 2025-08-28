@@ -63,7 +63,7 @@ export default function AverageRate({ rates }) {
           </Typography>
           <Rating
             value={rates.rate }
-            precision={".5"}
+            precision={0.5}
             readOnly
             sx={{ fontSize: { xs: "1.2rem", sm: "1.4rem" } }}
           />

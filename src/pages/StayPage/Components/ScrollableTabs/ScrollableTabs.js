@@ -19,6 +19,7 @@ import PostComments from "./PostComments/PostComments";
 const ScrollableTabs = () => {
   const stayPageContext = useContext(StayPageContext);
   const [activeTab, setActiveTab] = useState(0);
+  const [newComment, setNewComment] = useState();
   // Create refs for each section
   const sectionRefs = {
     section1: useRef(null),
@@ -28,6 +29,10 @@ const ScrollableTabs = () => {
     section5: useRef(null),
     section6: useRef(null),
   };
+
+  function handleNewComment() {
+    setNewComment(!newComment);
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -139,7 +144,7 @@ const ScrollableTabs = () => {
             minHeight: "20vh",
             // backgroundColor: "lightblue",
             pt: { xs: 1, md: 4 },
-            pb: 4 ,
+            pb: 4,
           }}
         >
           <InfoSection />
@@ -313,13 +318,16 @@ const ScrollableTabs = () => {
         </Box>
 
         {/* ثبت کامنت */}
-        {stayPageContext?.infoOfStay?.hasOrder ? (
+        {stayPageContext?.infoOfStay?.canInsertComment ? (
           <Box
             sx={{
               pt: 4,
             }}
           >
-            <PostComments id={stayPageContext?.infoOfStay?.id} />
+            <PostComments
+              id={stayPageContext?.infoOfStay?.id}
+              handleNewComment={handleNewComment}
+            />
           </Box>
         ) : (
           ""
@@ -332,7 +340,7 @@ const ScrollableTabs = () => {
             py: 4,
           }}
         >
-          <CommentPeople id={stayPageContext?.infoOfStay?.id} />
+          <CommentPeople id={stayPageContext?.infoOfStay?.id} newComment={newComment} />
         </Box>
       </Box>
     </Box>

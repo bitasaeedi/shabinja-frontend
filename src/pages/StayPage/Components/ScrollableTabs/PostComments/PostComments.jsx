@@ -14,7 +14,7 @@ import { useState } from "react";
 import MyAlertMui from "../../../../../components/MyAlertMui/MyAlertMui";
 const baseUrl = API_URL;
 
-export default function PostComments({ id }) {
+export default function PostComments({ id , handleNewComment }) {
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
@@ -62,6 +62,7 @@ export default function PostComments({ id }) {
       );
       console.log(response, "comments response");
       handleMangeAlert(true,"success", "نظر شما با موفقیت ثبت شد.");
+      handleNewComment()
       return response.data;
     } catch (error) {
       handleMangeAlert(true,"error", "ثبت نظر با مشکل مواجه شد!");

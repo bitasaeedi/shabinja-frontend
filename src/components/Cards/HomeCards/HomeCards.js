@@ -271,7 +271,8 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
                 )}
 
                 {/* تخفیفات لحظه احری */}
-                <Box
+                {myData?.charter &&(
+                  <Box
                   sx={{
                     display: "flex",
                     alignItems: "center",
@@ -286,6 +287,8 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
                   <AccessTimeIcon sx={{ color:"#e2bf03",fontSize: ".8rem", mb: ".1rem" }} />
                   <Box>تخفیفات لحظه آخری</Box>
                 </Box>
+                )}
+                
               </Box>
 
               {/* rate */}

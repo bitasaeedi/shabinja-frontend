@@ -9,7 +9,7 @@ import API_URL from "../../../../../config/apiConfig";
 import AverageRate from "./AverageRate";
 const baseUrl = API_URL;
 
-const CommentPeople = ({ id }) => {
+const CommentPeople = ({ id , newComment }) => {
 
   const [commentsList, setCommentsList] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -35,73 +35,8 @@ const CommentPeople = ({ id }) => {
     console.log("id: ",id);
     
     fetchData();
-    // setCommentsList({
-    //   rate: 13,
-    //   serviceall: 30,
-    //   placeall: 20,
-    //   servicelangall: 30,
-    //   optionall: 20,
-    //   countcomment: 1,
-    //   cleanall: 30,
-    //   ratetitle: "عالی",
-    //   items: [
-    //     {
-    //       userUserName: null,
-    //       userImage: null,
-    //       userFirstName: "کاوان",
-    //       userLastName: "احمدی",
-    //       service: 3,
-    //       place: 2,
-    //       servicelang: 3,
-    //       clean: 3,
-    //       option: 2,
-    //       created: null,
-    //       dics: "dsklj;/",
-    //       rate: 3,
-    //       ratetitle: "متوسط",
-    //       date: "1404/04/10",
-    //       id: 0,
-    //       guid: "00000000-0000-0000-0000-000000000000",
-    //     },
-    //     {
-    //       userUserName: null,
-    //       userImage: null,
-    //       userFirstName: "کاوان",
-    //       userLastName: "احمدی",
-    //       service: 3,
-    //       place: 2,
-    //       servicelang: 3,
-    //       clean: 3,
-    //       option: 2,
-    //       created: null,
-    //       dics: "dsklj;/",
-    //       rate: 3,
-    //       ratetitle: "متوسط",
-    //       date: "1404/04/10",
-    //       id: 0,
-    //       guid: "00000000-0000-0000-0000-000000000000",
-    //     },
-    //     {
-    //       userUserName: null,
-    //       userImage: null,
-    //       userFirstName: "کاوان",
-    //       userLastName: "احمدی",
-    //       service: 3,
-    //       place: 2,
-    //       servicelang: 3,
-    //       clean: 3,
-    //       option: 2,
-    //       created: null,
-    //       dics: "dsklj;/",
-    //       rate: 3,
-    //       ratetitle: "متوسط",
-    //       date: "1404/04/10",
-    //       id: 0,
-    //       guid: "00000000-0000-0000-0000-000000000000",
-    //     },
-    //   ],
-    // });
-  }, [id]);
+  
+  }, [id , newComment]);
 
   const handleButtonClick = (event) => {
     setAnchorEl(event.currentTarget); // Open popover only if not active
