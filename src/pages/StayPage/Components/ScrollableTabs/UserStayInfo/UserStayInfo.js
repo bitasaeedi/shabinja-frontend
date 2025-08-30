@@ -16,7 +16,8 @@ const UserStayInfo = () => {
   return (
     <Box>
       {/* <Divider sx={{ my: 2, bgcolor: "#ddd" }} /> */}
-      <Box sx={{ display: "flex", alignItems: "center", mt: 4.5 }}>
+
+      {/* <Box sx={{ display: "flex", alignItems: "center", mt: 4.5 }}>
 
         <Avatar
           sx={{
@@ -37,7 +38,8 @@ const UserStayInfo = () => {
         >
           {stayPageContext?.infoOfStay?.fullName}
         </Typography>
-      </Box>
+      </Box> */}
+
       {/* <Grid container spacing={1} sx={{ mt: 1 }}>
         <Grid item xs="12" sx={{ display: "flex", alignItems: "center" }}>
           <Box>

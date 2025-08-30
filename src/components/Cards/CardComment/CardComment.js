@@ -22,7 +22,7 @@ const CardComment = ({ centerItem, comment }) => {
         transform: centerItem ? "scale(1.2) translateY(-10px)" : "scale(1)",
         mx: "auto",
         overflow: "visible",
-        filter:centerItem ? "blur(0px)":"blur(2px)"
+        filter:centerItem ? "blur(0px)":"blur(1px)"
       }}
       className="d-flex justify-content-center align-items-center"
     >

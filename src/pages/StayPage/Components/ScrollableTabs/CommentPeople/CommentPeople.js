@@ -7,6 +7,7 @@ import PopOverShowComments from "./PopOverShowComments/PopOverShowComments";
 import axios from "axios";
 import API_URL from "../../../../../config/apiConfig";
 import AverageRate from "./AverageRate";
+import AverageSkeletone from "./AverageSkeletone";
 const baseUrl = API_URL;
 
 const CommentPeople = ({ id , newComment }) => {
@@ -67,7 +68,11 @@ const CommentPeople = ({ id , newComment }) => {
           میانگین امتیازات
         </Typography>
 
-        {commentsList ? <AverageRate rates={commentsList} /> : ""}
+        {commentsList && commentsList.rate !== undefined ? (
+          <AverageRate rates={commentsList} />
+        ) : (
+          <AverageSkeletone/>
+        )}
 
         {/* comment */}
         <Typography

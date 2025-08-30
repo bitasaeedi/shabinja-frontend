@@ -31,6 +31,7 @@ const FormReserve = () => {
   const stayPageContext = useContext(StayPageContext);
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const [currentField, setCurrentField] = useState("");
+  const [isExitDateClicked, setIsExitDateClicked] = useState(false); // Track if exitDate field was clicked
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [count, setCount] = useState(0);
   const [calculatedPrice, setCalculatedPrice] = useState(null);
@@ -66,6 +67,13 @@ const FormReserve = () => {
   useEffect(() => {
     calculatePrice();
   }, [getValues("entryDate"), getValues("exitDate"), count]);
+
+  // Reset exitDate clicked state when entryDate is selected
+  useEffect(() => {
+    if (watch("entryDate")) {
+      setIsExitDateClicked(false);
+    }
+  }, [watch("entryDate")]);
 
   // Handle form submission
   const onSubmit = (data) => {
@@ -247,6 +255,34 @@ const FormReserve = () => {
 
               {/* Exit Date */}
               <Grid item xs={6} md={6} sx={{ position: "relative" }}>
+                {/* Alert for exitDate when no entryDate is selected */}
+                {!watch("entryDate") && isExitDateClicked && (
+                  <Box
+                    sx={{
+                      position: "absolute",
+                      top: "-43px",
+                      right: "10px",
+                      backgroundColor: "#dc3545",
+                      color: "white",
+                      padding: "7px 12px",
+                      borderRadius: "8px",
+                      fontSize: "11px",
+                      zIndex: 10,
+                      wordSpacing: "2px",
+
+                      "&::after": {
+                        content: '""',
+                        position: "absolute",
+                        top: "100%",
+                        right: "15px",
+                        border: "6px solid transparent",
+                        borderTopColor: "#dc3545",
+                      },
+                    }}
+                  >
+                    ابتدا تاریخ ورود را مشخص کنید
+                  </Box>
+                )}
                 <Controller
                   name="exitDate"
                   control={control}
@@ -257,13 +293,15 @@ const FormReserve = () => {
                   render={({ field }) => (
                     <TextField
                       onClick={(e) => {
-                        const enterDateInput = document.querySelector(
-                          'input[name="entryDate"]'
-                        );
-                        console.log(enterDateInput.value, "enterDateInput");
                         if (!watch("entryDate")) {
+                          setIsExitDateClicked(true); 
+                          const enterDateInput = document.querySelector(
+                            'input[name="entryDate"]'
+                          );
+                          console.log(enterDateInput.value, "enterDateInput");
                           enterDateInput.click();
                         } else {
+                          setIsExitDateClicked(false); 
                           handleDateClick(e, "exitDate");
                         }
                       }}
@@ -277,7 +315,7 @@ const FormReserve = () => {
                       error={!!errors.exitDate}
                       InputProps={{
                         readOnly: true, // Prevent typing
-                        endAdornment: field.value && ( // Conditionally render the clear icon if there is a value
+                        endAdornment: field.value && ( 
                           <InputAdornment position="end">
                             <IconButton
                               onClick={(e) => {

@@ -6,21 +6,26 @@ import {
   Typography,
   Skeleton,
 } from "@mui/material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import StraightenIcon from "@mui/icons-material/Straighten";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import { StayPageContext } from "../../../StayPage";
-import AspectRatioIcon from '@mui/icons-material/AspectRatio';
+import AspectRatioIcon from "@mui/icons-material/AspectRatio";
 //import SquareFootIcon from '@mui/icons-material/SquareFoot';
-import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
-import DoorBackOutlinedIcon from '@mui/icons-material/DoorBackOutlined';
-import BedroomParentIcon from '@mui/icons-material/BedroomParent';
-
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import DoorBackOutlinedIcon from "@mui/icons-material/DoorBackOutlined";
+import BedroomParentIcon from "@mui/icons-material/BedroomParent";
+import { DownloadImageApi } from "../../../../../api/DownloadImageApi";
 
 const InfoSection = () => {
   const stayPageContext = useContext(StayPageContext);
+  const [bgImage, setBgImage] = useState();
+
+  useEffect(() => {
+    setBgImage(stayPageContext?.infoOfStay?.profileImage);
+  }, [stayPageContext?.infoOfStay]);
 
   // Check if data is still loading
   if (stayPageContext?.loading) {
@@ -97,27 +102,19 @@ const InfoSection = () => {
               fontSize: { xs: 18, md: 20 },
             }}
           >
-            {stayPageContext?.infoOfStay?.typeHostDbTitle}
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{
-              fontSize: { xs: 14, md: 16 },
-            }}
-          >
-            {` اجاره ${stayPageContext?.infoOfStay?.typeHostDbTitle} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.fullName}`}
+            {` ${stayPageContext?.infoOfStay?.typeHostDbTitle} ${stayPageContext?.infoOfStay?.title} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.fullName}`}
           </Typography>
         </Box>
-        <Box>
-          {/* <Avatar
-            sx={{
-              width: 50,
-              height: 50,
-            }}
-          >
-            ی
-          </Avatar> */}
-        </Box>
+
+        <Avatar
+          sx={{
+            width: 45,
+            height: 45,
+            mr:.5
+          }}
+          src={DownloadImageApi(bgImage)}
+        ></Avatar>
+
       </Box>
 
       <Box sx={{ mt: 4 }}>
@@ -186,7 +183,7 @@ const InfoSection = () => {
               <Typography
                 variant="h6"
                 sx={{
-                  fontSize: { xs: 14, md: 13},
+                  fontSize: { xs: 14, md: 13 },
                 }}
               >
                 {stayPageContext?.infoOfStay?.room} اتاق
@@ -199,7 +196,7 @@ const InfoSection = () => {
             <Box>
               <GroupOutlinedIcon
                 sx={{
-                  fontSize: { xs: 20, md: 40},
+                  fontSize: { xs: 20, md: 40 },
                 }}
               />
             </Box>
@@ -215,7 +212,6 @@ const InfoSection = () => {
               </Typography>
             </Box>
           </Box>
-
         </Box>
       </Box>
     </Box>

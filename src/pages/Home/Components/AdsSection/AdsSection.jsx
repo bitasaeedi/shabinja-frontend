@@ -11,24 +11,30 @@ import gif from "./k044xd4s.gif";
 import axios from "axios";
 import API_URL from "../../../../config/apiConfig";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
+import { useNavigate } from "react-router-dom";
 const baseUrl = API_URL;
 
 export default function AdsSection() {
   const [bannerData, setBannerData] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
+  const navigate = useNavigate();
 
   const fetchBanner = async () => {
     try {
       const token = localStorage.getItem("access_token");
 
-      const response = await axios.get(`${baseUrl}/MyAds`,{}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const result = response?.data?.data?.filter(item => item.order !== 0);
-      console.log("my resule" , result);
-      
+      const response = await axios.get(
+        `${baseUrl}/MyAds`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const result = response?.data?.data?.filter((item) => item.order !== 0);
+      console.log("my resule", result);
+
       setBannerData(result);
     } catch (error) {
       console.error("Error :", error?.response?.data || error.message);
@@ -44,7 +50,13 @@ export default function AdsSection() {
 
   return (
     <>
-      <Box sx={{ position: "relative", width: "75%", margin: {xs:"3rem auto" , md:"2rem auto"} }}>
+      <Box
+        sx={{
+          position: "relative",
+          width: "75%",
+          margin: { xs: "3rem auto", md: "2rem auto" },
+        }}
+      >
         {/* close button */}
         <IconButton
           size="small"
@@ -83,9 +95,12 @@ export default function AdsSection() {
               component="img"
               width="330px"
               height="150px"
-              src={DownloadImageApi(item?.image?.url)}
-              // src={gif}
               className="rounded border shadow"
+              src={DownloadImageApi(item?.image?.url)}
+              onClick={() => {
+                window.location.href=item?.myAdsUrl
+              }}
+              sx={{ cursor: "pointer" }}
             />
           ))}
         </Box>
@@ -104,20 +119,20 @@ export default function AdsSection() {
             spaceBetween={10}
             slidesPerView={1.2}
           >
-            {[1, 2, 3].map((item, index) => (
-              <SwiperSlide key={index}>
-                <Box
-                  component="img"
-                //  src={DownloadImageApi(bannerData)}
-                src={gif}
-                  sx={{
-                    width: "100%",
-                    height: "150px",
-                    borderRadius: 2,
-                    boxShadow: 3,
-                  }}
-                />
-              </SwiperSlide>
+            {bannerData?.map((item, index) => (
+              <Box
+                key={index}
+                component="img"
+                width="330px"
+                height="150px"
+                className="rounded border shadow"
+                src={DownloadImageApi(item?.image?.url)}
+                onClick={() => {
+                  
+                  window.location.href=item?.myAdsUrl
+                }}
+                sx={{ cursor: "pointer" }}
+              />
             ))}
           </Swiper>
         </Box>

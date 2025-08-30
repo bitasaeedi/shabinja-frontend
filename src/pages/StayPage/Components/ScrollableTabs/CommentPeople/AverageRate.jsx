@@ -2,9 +2,8 @@ import { Box, LinearProgress, Rating, Typography } from "@mui/material";
 import React from "react";
 
 export default function AverageRate({ rates }) {
+  console.log("my rates", rates);
 
-  console.log("my rates" , rates);
-  
   const itemRate = [
     {
       title: "خدمات",
@@ -38,7 +37,7 @@ export default function AverageRate({ rates }) {
           height: { xs: "150px", sm: "180px" },
           padding: "1rem",
           borderRadius: "8px",
-          filter: rates?.rate !== 0 ? "none" :"blur(2px)",
+          filter: rates?.rate !== 0 ? "none" : "blur(2px)",
         }}
         className="border"
       >
@@ -53,22 +52,18 @@ export default function AverageRate({ rates }) {
             justifyContent: "center",
             alignItems: "center",
             gap: { xs: ".6rem", sm: "1rem" },
-          
           }}
         >
-          
-            <>
           <Typography variant="h6">
             <span>{rates.rate}</span> از 5
           </Typography>
+          
           <Rating
-            value={rates.rate }
+            value={rates.rate}
             precision={0.5}
             readOnly
-            sx={{ fontSize: { xs: "1.2rem", sm: "1.4rem" } }}
+            sx={{ fontSize: { xs: "1.2rem", sm: "1.4rem" } , color:"#faaf00" }}
           />
-            </>
-          
         </Box>
 
         {/* left section */}

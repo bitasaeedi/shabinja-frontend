@@ -57,10 +57,10 @@ export const CancelRules = () => {
           >
             <Typography
               component="span"
-              variant="h6"
-              sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
+              variant="body1"
+              sx={{  fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-               درصد خسارت لغو یک روز قبل از ورود :
+               درصد جریمه لغو رزرو یک روز پیش از تاریخ ورود: 
             </Typography>
             {stayPageContext?.infoOfStay?.cancelPercentageFirst} %
           </Typography>
@@ -77,10 +77,10 @@ export const CancelRules = () => {
           >
             <Typography
               component="span"
-              variant="h6"
-              sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
+              variant="body1"
+              sx={{  fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-               درصد خسارت لغو سه روز قبل از ورود :
+              درصد جریمه لغو رزرو سه روز پیش از تاریخ ورود: 
             </Typography>
             {stayPageContext?.infoOfStay?.cancelPercentageSecond} %
           </Typography>
@@ -97,10 +97,10 @@ export const CancelRules = () => {
           >
             <Typography
               component="span"
-              variant="h6"
-              sx={{ fontWeight: "bold", fontSize: { xs: 16, md: 16 }, mr: 1 }}
+              variant="body1"
+              sx={{  fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-                درصد خسارت لغو بیشتر از سه روز قبل از ورود :
+               درصد جریمه لغو رزرو بیشتر از سه روز پیش از تاریخ ورود:
             </Typography>
             {stayPageContext?.infoOfStay?.cancelPercentageThird} %
           </Typography>

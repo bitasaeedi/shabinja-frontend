@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { DownloadImageApi } from "../../api/DownloadImageApi";
 import { useParams, Link } from "react-router-dom";
 import {
   Container,
@@ -8,6 +9,7 @@ import {
   CardContent,
   Box,
   Button,
+  Avatar,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -21,6 +23,9 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import BarChartIcon from "@mui/icons-material/BarChart";
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
 
 const sections = [
   {
@@ -126,13 +131,37 @@ const sections = [
 ];
 
 const Loan = () => {
+  const [texts, setTexts] = useState();
+
+  const fetchBanner = async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.get(`${baseUrl}/PageGuide/List/Loan`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("text", response?.data?.data);
+
+      setTexts(response?.data?.data);
+    } catch (error) {
+      console.error("Error :", error?.response?.data || error.message);
+      return error?.response?.data;
+    }
+  };
+
+  useEffect(() => {
+    fetchBanner();
+  }, []);
+
   return (
-    <Container sx={{ mt: {xs:0,md:10}, mb: 6 }}>
+    <Container sx={{ mt: { xs: 0, md: 10 }, mb: 6 }}>
       <Box
         sx={{
           // backgroundColor: "rgba(40, 125, 250, 0.1)",
           width: "100vw",
-          marginLeft: "calc(-50vw + 50%)", 
+          marginLeft: "calc(-50vw + 50%)",
         }}
       >
         <Container sx={{ py: 6 }}>
@@ -141,14 +170,15 @@ const Loan = () => {
             fontWeight="bold"
             sx={{ fontSize: { xs: 25, md: 30 } }}
           >
-            چگونه وام دریافت کنیم؟
+            {texts?.title}
           </Typography>
           <Typography variant="subtitle1" color="textSecondary" sx={{ mt: 0 }}>
-            نکات زیر را مطالعه کنید تا با اطلاعات کافی در شبینجا وام دریافت کنید.
+            {texts?.desc}
           </Typography>
         </Container>
       </Box>
-      {sections.map((section, idx) => (
+
+      {texts?.sections?.map((section, idx) => (
         <Box
           key={idx}
           sx={{
@@ -167,12 +197,12 @@ const Loan = () => {
                 color="textSecondary"
                 sx={{ maxWidth: "600px", margin: "0 auto" }}
               >
-                {section.description}
+                {section.desc}
               </Typography>
             </Box>
 
             <Grid container spacing={3}>
-              {section.steps.map((step, index) => (
+              {section?.items?.map((step, index) => (
                 <Grid item xs={12} sm={4} key={index}>
                   <Card
                     sx={{
@@ -197,7 +227,7 @@ const Loan = () => {
                         height: "100%",
                       }}
                     >
-                      <Box
+                      {/* <Box
                         sx={{
                           fontSize: "2rem",
                           backgroundColor: "#eef7ff",
@@ -212,21 +242,35 @@ const Loan = () => {
                         }}
                       >
                         {step.icon}
-                      </Box>
+                      </Box> */}
+
+                      <Avatar
+                        sx={{
+                          fontSize: "2rem",
+                          backgroundColor: "#eef7ff",
+                          color: "#287dfa",
+                          width: 60,
+                          height: 60,
+                          borderRadius: "50%",
+                          mb: 2,
+                        }}
+                        src={DownloadImageApi(step?.image?.url)}
+                      ></Avatar>
+
                       <Typography
                         variant="h6"
                         fontWeight="bold"
                         gutterBottom
                         fontSize="1.1rem"
                       >
-                        {step.heading}
+                        {step.title}
                       </Typography>
                       <Typography
                         variant="body2"
                         color="textSecondary"
                         textAlign="center"
                       >
-                        {step.details}
+                        {step.desc}
                       </Typography>
                     </CardContent>
                   </Card>
@@ -241,14 +285,14 @@ const Loan = () => {
         textAlign="center"
         sx={{
           position: "sticky",
-          bottom: { xs:95, md: 40 },
-         mt:2
+          bottom: { xs: 95, md: 40 },
+          mt: 2,
         }}
       >
         <Button
           variant="contained"
           component={Link}
-          to="/new-stay/wizard"
+          to={texts?.buttonLink}
           sx={{
             backgroundColor: "#287dfa",
             color: "#fff",
@@ -259,7 +303,7 @@ const Loan = () => {
             },
           }}
         >
-         {'درخواست وام'}
+          {texts?.buttonTitle}
         </Button>
       </Box>
     </Container>

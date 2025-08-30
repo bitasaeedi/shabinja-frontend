@@ -75,7 +75,7 @@ const CommentCardOfStay = ({ comment, showReplyes, index }) => {
           </Box>
         </Box>
         <Box sx={{ display: "flex" , gap:"4px"}}>
-          <Typography variant="body2" sx={{fontSize:".7rem"}}>{comment?.rate}/5</Typography>
+          <Typography variant="body2" sx={{fontSize:".7rem"}}>{comment?.rate}</Typography>
           <Rating
             name="read-only"
             value={comment?.rate}
@@ -98,7 +98,7 @@ const CommentCardOfStay = ({ comment, showReplyes, index }) => {
           }}
         >
           {/* service lang */}
-          <span>{comment?.servicelang} شب اقامت در اقامتگاه</span>
+          <span>{comment?.days} شب اقامت در اقامتگاه</span>
         </Typography>
 
         {/* comment */}

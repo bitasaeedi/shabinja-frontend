@@ -7,93 +7,101 @@ import API_URL from "../../../../config/apiConfig";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 const baseUrl = API_URL;
 
-const EachBanner = ({bannerInfo,bgImage ,loan}) => {
-
+const EachBanner = ({ bannerInfo, bgImage, loan }) => {
   const title = loan ? bannerInfo?.titleTwo : bannerInfo?.title;
   const text = loan ? bannerInfo?.textTwo : bannerInfo?.text;
   const btnLink = loan ? bannerInfo?.btnLinkTwo : bannerInfo?.btnLink;
   const btnTitle = loan ? bannerInfo?.btnTitleTwo : bannerInfo?.btnTitle;
-  const btnColorCode = loan ? bannerInfo?.btnColorCodeTwo : bannerInfo?.btnColorCode;
+  const btnColorCode = loan
+    ? bannerInfo?.btnColorCodeTwo
+    : bannerInfo?.btnColorCode;
 
   return (
     <Box
-          sx={{
-            position: "relative",
-            py: { xs: 3, md: 8 },
-            width: {xs:"98%",md:"48%"},
-            backgroundImage: bannerInfo?.image?.url
-              ? `url(${bgImage})`
-              : "linear-gradient(135deg, #0d47a1 0%, #1976d2 100%)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            color: "white",
-            minHeight: {xs:"150px" , md:"400px"},
-            borderRadius: "15px",
-            "&::after": {
-              position: "absolute",
-              content: '""',
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-              zIndex: 1,
-              /* opacity         : .7; */
-              backgroundColor: "#98989885",
-              borderRadius: "15px",
-            },
-          }}
-        >
+      sx={{
+        width: { xs: "98%", md: "48%" },
+        borderRadius: "15px",
+        overflow: "hidden",
+        boxShadow: 3,
+        bgcolor: "white",
+      }}
+    >
+      {/* عکس بنر */}
+      <Box
+        component="img"
+        src={bgImage}
+        alt={title}
+        sx={{
+          width: "100%",
+          height: { xs: 180, md: 300 },
+          objectFit: "cover",
+          display: "block",
+        }}
+      />
+
+      {/* کادر متن زیر عکس */}
+      <Box
+        sx={{
+          p: { xs: 2, md: 0 },
+          display: "flex",
+          justifyContent: "space-between",
+          py: 1.5,
+          height:"110px",
+          maxHeight:"110px"
+        }}
+      >
+        <Box sx={{ padding: "1rem", width: "80%" }}>
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{
               fontWeight: "bold",
-              mb: 3,
-              fontSize: { xs: "1.8rem", md: "2.5rem" },
-              zIndex: 100,
-               position:"relative"
+              mb: 1,
+              fontSize: { xs: "1.2rem", md: "1.3rem"}, textAlign: "left" ,
+              color: "text.primary",
             }}
           >
             {title || ""}
           </Typography>
+
           <Typography
-            variant="h6"
+            variant="body1"
             sx={{
-              mb: 9,
-              maxWidth: { xs: "100%", md: "75%" },
-              mx: "auto",
-              fontSize: { xs: "1rem", md: "1.2rem" },
-              lineHeight: 1.8,
-              zIndex: 100,
-              position:"relative"
-              // opacity: 0.9, // Softer contrast for readability
+              mb: 0,
+              fontSize: { xs: "0.95rem", md: "1rem", textAlign: "left" },
+              color: "text.secondary",
+              lineHeight: 1.4,
             }}
           >
             {text || ""}
           </Typography>
-          <Button
-            component={Link}
-            to={btnLink}
-            variant="contained"
-            sx={{
-              zIndex: 100,
-              background: btnColorCode,
-              px: 4,
-              py: 1.5,
-              borderRadius: 3,
-              fontSize: "1rem",
-              fontWeight: "bold",
-              transition: "0.3s",
-              "&:hover": {
-                background: "linear-gradient(45deg, #e65100, #bf360c)",
-              },
-            }}
-          >
-            {btnTitle || ""}{" "}
-          </Button>
         </Box>
-  )
-}
+
+        <Button
+          component={Link}
+          to={btnLink}
+          variant="contained"
+          sx={{
+            width: "18%",
+            minWidth: "120px",
+            background: btnColorCode,
+            px: 1,
+            py: 1.2,
+             borderRadius: 0,
+            fontSize: "1.05rem",
+            fontWeight: "bold",
+            transition: "0.3s",
+            "&:hover": {
+              background: "linear-gradient(45deg, #e65100, #bf360c)",
+            },
+          }}
+        >
+          {btnTitle || ""}
+        </Button>
+      </Box>
+    </Box>
+  );
+};
+
 const Begust = () => {
   const [bannerInfo, setBannerInfo] = useState();
   const [bgImageLoan, setBgImageLoan] = useState();
@@ -137,11 +145,15 @@ const Begust = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          flexDirection:{xs:"column", md :"row"},
-          gap:{xs:2 , md :0}
+          flexDirection: { xs: "column", md: "row" },
+          gap: { xs: 2, md: 0 },
         }}
       >
-       <EachBanner bannerInfo={bannerInfo} bgImage={bgImageHost} loan={false} />
+        <EachBanner
+          bannerInfo={bannerInfo}
+          bgImage={bgImageHost}
+          loan={false}
+        />
 
         <EachBanner bannerInfo={bannerInfo} bgImage={bgImageLoan} loan={true} />
       </Box>

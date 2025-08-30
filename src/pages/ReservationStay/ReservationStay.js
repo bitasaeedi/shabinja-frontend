@@ -160,7 +160,7 @@ const ReservationStay = () => {
       extraPersonPrice: myData?.extraPersonPrice,
       totalDiscountPrice: myData?.facktorDiscount,
       mainPrice: myData?.facktorPrice,
-      state: parseFloat(myData?.state),
+      state: parseFloat(myData?.state)+1,
       name: myData?.userFirstName,
       lastname: myData?.userLastName,
       sms: myData?.mobile,
@@ -423,7 +423,7 @@ const ReservationStay = () => {
 
                       if (s === 5) return 3; // delivered/cancelled mapping previously
                       if (s === 4) return 1; // map 4 to step 1 as requested
-                      const base = s + 1;
+                      const base = s ;
                       return Number(base) ? base : 0;
                     })()}
                     steps={[

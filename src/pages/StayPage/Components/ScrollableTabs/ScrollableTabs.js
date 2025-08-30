@@ -276,7 +276,7 @@ const ScrollableTabs = () => {
             >
               {`${ToRial(
                 stayPageContext.infoOfStay?.otherPrice
-              )} ریال / بیشتر از ${
+              )} تومان / بیشتر از ${
                 stayPageContext.infoOfStay?.minCapacity
               } نفر`}
             </Typography>
