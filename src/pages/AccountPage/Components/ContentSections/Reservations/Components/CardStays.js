@@ -324,6 +324,11 @@ const CardStays = ({ stay, onRemove }) => {
                         "aria-labelledby": "basic-button",
                       },
                     }}
+                    PaperProps={{
+                        sx:{
+                          borderRadius:2
+                        }
+                    }}
                   >
                     <MenuItem
                       component={Link}
@@ -336,6 +341,9 @@ const CardStays = ({ stay, onRemove }) => {
                     </MenuItem>
                     {stay?.state === 2 && (
                       <MenuItem onClick={handleCancell}>لغو</MenuItem>
+                    )}
+                     {stay?.state === 3 && (
+                      <MenuItem onClick={handleCancell}>عدم تحویل کلید</MenuItem>
                     )}
                   </Menu>
                 </Box>

@@ -22,7 +22,7 @@ import API_URL from "../../../config/apiConfig";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
 const baseUrl = API_URL;
 
-function ValidCode({ checkCode }) {
+function ValidCode({ checkCode , handleCode }) {
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const inputsRef = useRef([]);
 
@@ -32,6 +32,7 @@ function ValidCode({ checkCode }) {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
+    handleCode(newOtp)
 
     if (value) {
       if (index < 4) {
@@ -76,7 +77,8 @@ function ValidCode({ checkCode }) {
 
     const code = otp.join("");
     if (code.length === 5) {
-      checkCode(code);
+      // checkCode(code);
+      handleCode(code)
     }
   };
 
@@ -249,6 +251,7 @@ const ShabinjaRules = () => {
   
   const [loading, setLoading] = useState(false);
   const [showCode, setShowCode] = useState(false);
+  const [code, setCode] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [buttonText, setButtonText] = useState({value:0,text:"امضای قرار داد"});
@@ -273,6 +276,14 @@ const ShabinjaRules = () => {
       acceptRules: false, // Checkbox default value
     },
   });
+
+  const handleCode= (myCode)=>{
+    
+    
+    let newCode =  myCode.join("");
+    console.log("myCode" , myCode , " newCode" , newCode);
+    setCode(newCode)
+  }
 
   const onSubmit = async () => {
     setLoading(true);
@@ -313,7 +324,7 @@ const ShabinjaRules = () => {
     }
   };
 
-  const checkCode = async (code) => {
+  const checkCode = async () => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
@@ -324,12 +335,17 @@ const ShabinjaRules = () => {
           },
         }
       );
-
-    
-        handleMangeAlert(true, "success", "قرارداد با موفقیت تایید شد");
-        setShowCode(false);
-        setIsSuccess(true);
-        setButtonText({value:2 , text:"قرارداد امضا شد"})
+      console.log("re", response);
+      
+    if(response?.data?.issuccess){
+      handleMangeAlert(true, "success", "قرارداد با موفقیت تایید شد");
+      setShowCode(false);
+      setIsSuccess(true);
+      setButtonText({value:2 , text:"قرارداد امضا شد"})
+    }else{
+      handleMangeAlert(true, "error", "کد احراز هویت اشتباه است")
+    }
+       
       
       return response.data;
     } catch (error) {
@@ -452,7 +468,7 @@ const ShabinjaRules = () => {
                   {buttonLoading ? "در حال ارسال..." : buttonText.text}
                 </Button>
 
-                {showCode && <ValidCode checkCode={checkCode} />}
+                {showCode && <ValidCode checkCode={checkCode} handleCode={handleCode} />}
               </Grid>
             </Grid>
           </FormGroup>

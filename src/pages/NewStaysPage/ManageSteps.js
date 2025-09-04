@@ -186,8 +186,8 @@ const stepsConfig = [
     ),
   },
   {
-    label: "قوانین شبینجا",
-    activeLabel: "قوانین شبینجا",
+    label: "قرارداد شبینجا",
+    activeLabel: "قرارداد شبینجا",
     stepNumber: 9,
     componentLevel: (
       <Box sx={{ minHeight: "30vh" }}>
