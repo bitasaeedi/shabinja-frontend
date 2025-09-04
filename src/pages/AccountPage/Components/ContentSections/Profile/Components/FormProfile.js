@@ -318,8 +318,8 @@ const FormProfile = () => {
 
   function handleShowCode(value) {
     setShowCode(value);
-    if (value===false){
-      setSmsFieldChanged(false)
+    if (value === false) {
+      setSmsFieldChanged(false);
     }
   }
   const sendValidationCode = async () => {
@@ -668,6 +668,7 @@ const FormProfile = () => {
                 )}
               />
             </Grid>
+
             {/* Email */}
             <Grid item xs={12} md={6}>
               <Controller
@@ -700,14 +701,6 @@ const FormProfile = () => {
                 )}
               />
             </Grid>
-
-            <Box sx={{ width: "100%", mt: 2, mb: 2 }}>
-              <Divider textAlign="left">
-                <Typography variant="subtitle2" color="rgba(0, 0, 0, 0.5)">
-                  اطلاعات بانکی
-                </Typography>
-              </Divider>
-            </Box>
 
             {/* shaba */}
             <Grid item xs={12} md={6} sx={{ position: "relative" }}>
@@ -770,27 +763,28 @@ const FormProfile = () => {
                   صاحب شبا: {shabaOwner || null}
                 </Typography>
 
-                <Typography
-                  variant="body2"
-                  color="text.secondary"
-                  sx={{ fontSize: "12px" }}
-                >
-                  {bankName || "بانک: "}
-                </Typography>
+                   {/*  show shaba state or bank name */}
+                {shabaState !== 1 ? (
+                  <Box display="flex" alignItems="center" gap={1}>
+                    {shabaStates[shabaState].icon}
+                    <Typography
+                      variant="body2"
+                      color={shabaStates[shabaState].colorCode}
+                    >
+                      {shabaStates[shabaState].text}
+                    </Typography>
+                  </Box>
+                ) : (
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontSize: "12px" }}
+                  >
+                    {bankName || "بانک: "}
+                  </Typography>
+                )}
+                
               </Typography>
-            </Grid>
-
-            {/* shaba state */}
-            <Grid item xs={12} md={6} mt={1}>
-              <Box display="flex" alignItems="center" gap={1}>
-                {shabaStates[shabaState].icon}
-                <Typography
-                  variant="body2"
-                  color={shabaStates[shabaState].colorCode}
-                >
-                  {shabaStates[shabaState].text}
-                </Typography>
-              </Box>
             </Grid>
 
             {/* show password Button */}

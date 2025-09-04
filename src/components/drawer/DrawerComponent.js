@@ -64,10 +64,10 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
             src={logo_with_name}
             alt="Shabinja Logo"
             sx={{
-              maxWidth: 95, // Controls the max width of the image
-              width: "auto", // Ensures the width scales proportionally
-              height: "auto", // Keeps the height proportional to the width
-              objectFit: "contain", // Makes sure the image fits inside the container without distortion
+              maxWidth: 95, 
+              width: "auto", 
+              height: "auto",
+              objectFit: "contain",
               cursor: "pointer",
               my:1
             }}

@@ -14,7 +14,7 @@ export const UserSearchOneApi = async () => {
       },
     });
 
-    return response.data; // Return response data
+    return response?.data; // Return response data
   } catch (error) {
     console.error("Error:", error?.response?.data || error.message);
     // console.log("Token:", token);

@@ -1,13 +1,19 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API_URL from "../../../../config/apiConfig";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
+import { useTheme } from "@emotion/react";
 const baseUrl = API_URL;
 
-const EachBanner = ({ bannerInfo, bgImage, loan }) => {
+const truncateText = (text, maxLength ) => {
+  if (!text) return "";
+  return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
+};
+
+const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
   const title = loan ? bannerInfo?.titleTwo : bannerInfo?.title;
   const text = loan ? bannerInfo?.textTwo : bannerInfo?.text;
   const btnLink = loan ? bannerInfo?.btnLinkTwo : bannerInfo?.btnLink;
@@ -42,12 +48,11 @@ const EachBanner = ({ bannerInfo, bgImage, loan }) => {
       {/* کادر متن زیر عکس */}
       <Box
         sx={{
-          p: { xs: 2, md: 0 },
           display: "flex",
           justifyContent: "space-between",
-          py: 1.5,
-          height:"110px",
-          maxHeight:"110px"
+          py: { xs: 0, md:0 },
+          height: {xs:"95px" , md :"88px"},
+          maxHeight: "90px",
         }}
       >
         <Box sx={{ padding: "1rem", width: "80%" }}>
@@ -55,8 +60,9 @@ const EachBanner = ({ bannerInfo, bgImage, loan }) => {
             variant="h5"
             sx={{
               fontWeight: "bold",
-              mb: 1,
-              fontSize: { xs: "1.2rem", md: "1.3rem"}, textAlign: "left" ,
+              mb: { xs: 0.6, md: 1 },
+              fontSize: { xs: "1.1rem", md: "1.3rem" },
+              textAlign: "left",
               color: "text.primary",
             }}
           >
@@ -69,10 +75,10 @@ const EachBanner = ({ bannerInfo, bgImage, loan }) => {
               mb: 0,
               fontSize: { xs: "0.95rem", md: "1rem", textAlign: "left" },
               color: "text.secondary",
-              lineHeight: 1.4,
+              lineHeight: { xs: 1.3, md: 1 },
             }}
           >
-            {text || ""}
+            {truncateText(text, isMobile ? 70 : 87)}
           </Typography>
         </Box>
 
@@ -86,7 +92,7 @@ const EachBanner = ({ bannerInfo, bgImage, loan }) => {
             background: btnColorCode,
             px: 1,
             py: 1.2,
-             borderRadius: 0,
+            borderRadius: 0,
             fontSize: "1.05rem",
             fontWeight: "bold",
             transition: "0.3s",
@@ -103,6 +109,9 @@ const EachBanner = ({ bannerInfo, bgImage, loan }) => {
 };
 
 const Begust = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+
   const [bannerInfo, setBannerInfo] = useState();
   const [bgImageLoan, setBgImageLoan] = useState();
   const [bgImageHost, setBgImageHost] = useState();
@@ -153,9 +162,15 @@ const Begust = () => {
           bannerInfo={bannerInfo}
           bgImage={bgImageHost}
           loan={false}
+          isMobile={isMobile}
         />
 
-        <EachBanner bannerInfo={bannerInfo} bgImage={bgImageLoan} loan={true} />
+        <EachBanner
+          bannerInfo={bannerInfo}
+          bgImage={bgImageLoan}
+          loan={true}
+          isMobile={isMobile}
+        />
       </Box>
     </Box>
   );

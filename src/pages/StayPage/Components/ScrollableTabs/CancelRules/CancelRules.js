@@ -1,31 +1,9 @@
-import { Box, Typography, Skeleton, Divider, Grid } from "@mui/material";
+import { Box, Typography, Divider, Grid } from "@mui/material";
 import React, { useContext } from "react";
 import { StayPageContext } from "../../../StayPage";
+import FiberIcon from "@mui/icons-material/FiberManualRecordOutlined";
 
 export const CancelRules = () => {
-  const options = [
-    {
-      id: 0,
-      title: "سیاست آسان ",
-      text: "با انتخاب قوانین آسان بسته به زمان کنسلی 10 تا 20 درصد از کل مبلغ رزرو از میهمان یا میزبان دریافت میشود.",
-    },
-    {
-      id: 1,
-      title: " سیاست متعادل ",
-      text: "با انتخاب قوانین متعادل بسته به زمان کنسلی از 20 تا 40 درصد از کل مبلغ رزرو از میهمان یا میزبان خسارت دریافت میشود.",
-    },
-    {
-      id: 2,
-      title: "سیساست سخت‌گیرانه",
-      text: "با انتخاب قوانین سخت‌گیرانه بسته به زمان کنسلی، تا 70 درصد از کل مبلغ رزرو به عنوان خسارت دریافت میشود.",
-
-      text: "در صورتی که رزرو حداقل 5  روز کامل از تاریخ ورود لغو گردد; مبلغ صورتحساب پس از کسر حداکثر 25 درصد صورتحساب به میهمان عودت داده میشود، در غیر اینصورت اجاره شب اول بعلاوه حداکثر 60 درصد شبهای باقیمانده کسر میگردد.",
-      // در صورتی که رزرو، حداقل 5 روز کامل از تاریخ ورود لغو گردد؛ مبلغ
-      // صورتحساب پس از کسر حداکثر 25 درصد صورتحساب به میهمان عودت می‌شود. در
-      // غیر اینصورت اجاره شب اول بعلاوه حداکثر 60 درصد شب‌های باقیمانده کسر
-      // می‌گردد.
-    },
-  ];
 
   const stayPageContext = useContext(StayPageContext);
 
@@ -44,9 +22,12 @@ export const CancelRules = () => {
   return (
     <Box>
       <Divider sx={{ my: 2, bgcolor: "#ddd" }} />
+
       <Typography variant="h6">مقررات لغو رزرو</Typography>
+
       <Grid container mt={2} spacing={2}>
-        <Grid item xs="12" sx={{ display: "flex"}}>
+        <Grid item xs="12" sx={{ display: "flex" }}>
+          <FiberIcon sx={{ color: "red", mr: 0.5 }} />
           <Typography
             variant="body2"
             sx={{
@@ -58,15 +39,26 @@ export const CancelRules = () => {
             <Typography
               component="span"
               variant="body1"
-              sx={{  fontSize: { xs: 16, md: 16 }, mr: 1 }}
+              sx={{ fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-               درصد جریمه لغو رزرو یک روز پیش از تاریخ ورود: 
+              روز ورود یا پس از آن :
             </Typography>
-            {stayPageContext?.infoOfStay?.cancelPercentageFirst} %
+            <Typography
+              component="span"
+              variant="body2"
+              sx={{ fontSize: { xs: 14, md: 14 }, mr: 1, color: "#5f5f5f" }}
+            >
+              کسر هزینه شب‌های اقامت‌شده، یک شب اضافه و{" "}
+              <Typography component="span" sx={{ fontWeight: 700, color: "#000" }}>
+                {stayPageContext?.infoOfStay?.cancelPercentageFirst}٪
+              </Typography>{" "}
+              مبلغ باقی‌مانده، بازپرداخت مابقی
+            </Typography>
           </Typography>
         </Grid>
 
-        <Grid item xs="12" sx={{ display: "flex"}}>
+        <Grid item xs="12" sx={{ display: "flex" }}>
+          <FiberIcon sx={{ color: "gold", mr: 0.5 }} />
           <Typography
             variant="body2"
             sx={{
@@ -78,15 +70,27 @@ export const CancelRules = () => {
             <Typography
               component="span"
               variant="body1"
-              sx={{  fontSize: { xs: 16, md: 16 }, mr: 1 }}
+              sx={{ fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-              درصد جریمه لغو رزرو سه روز پیش از تاریخ ورود: 
+              یک تا دو روز تا ورود :
             </Typography>
-            {stayPageContext?.infoOfStay?.cancelPercentageSecond} %
+
+            <Typography
+              component="span"
+              variant="body2"
+              sx={{ fontSize: { xs: 14, md: 14 }, mr: 1, color: "#5f5f5f" }}
+            >
+              کسر {" "}
+              <Typography component="span" sx={{ fontWeight: 700, color: "#000" }}>
+                {stayPageContext?.infoOfStay?.cancelPercentageSecond}٪
+              </Typography>{" "}
+              مبلغ رزرو، بازپرداخت مابقی.
+            </Typography>
           </Typography>
         </Grid>
 
-        <Grid item xs="12" sx={{ display: "flex"}}>
+        <Grid item xs="12" sx={{ display: "flex" }}>
+          <FiberIcon sx={{ color: "green", mr: 0.5 }} />
           <Typography
             variant="body2"
             sx={{
@@ -98,11 +102,22 @@ export const CancelRules = () => {
             <Typography
               component="span"
               variant="body1"
-              sx={{  fontSize: { xs: 16, md: 16 }, mr: 1 }}
+              sx={{ fontSize: { xs: 16, md: 16 }, mr: 1 }}
             >
-               درصد جریمه لغو رزرو بیشتر از سه روز پیش از تاریخ ورود:
+              بیش از دو روز تا ورود :
             </Typography>
-            {stayPageContext?.infoOfStay?.cancelPercentageThird} %
+
+            <Typography
+              component="span"
+              variant="body2"
+              sx={{ fontSize: { xs: 14, md: 14 }, mr: 1, color: "#5f5f5f" }}
+            >
+              کسر {" "}
+              <Typography component="span" sx={{ fontWeight: 700, color: "#000" }}>
+                {stayPageContext?.infoOfStay?.cancelPercentageThird}٪
+              </Typography>{" "}
+              مبلغ رزرو، بازپرداخت مابقی
+            </Typography>
           </Typography>
         </Grid>
       </Grid>

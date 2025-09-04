@@ -104,10 +104,12 @@ const DesctopFooter = () => {
       sx={{
         backgroundColor: "#f9f9f9",
         color: "#333",
+        // border:"1px solid red",
         py: { md: 6 },
         borderTop: "1px solid #ddd",
         zIndex: "100 !important",
         paddingTop: "1.2rem",
+        pb:10,
         position: "relative", // برای موقعیت‌دهی بهتر
       }}
     >

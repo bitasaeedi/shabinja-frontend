@@ -20,33 +20,6 @@ const CancelRules = () => {
   const [moreDays, setMoreDays] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // const options = [
-  //   {
-  //     id: 0,
-  //     title: "آسان (پیشنهادی شبینجا)",
-  //     text: "با انتخاب قوانین آسان بسته به زمان کنسلی 10 تا 20 درصد از کل مبلغ رزرو از میهمان یا میزبان دریافت میشود.",
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "متعادل (پیشنهادی)",
-  //     text: "با انتخاب قوانین متعادل بسته به زمان کنسلی از 20 تا 40 درصد از کل مبلغ رزرو از میهمان یا میزبان خسارت دریافت میشود.",
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "سخت‌گیرانه",
-  //     text: "با انتخاب قوانین سخت‌گیرانه بسته به زمان کنسلی، تا 70 درصد از کل مبلغ رزرو به عنوان خسارت دریافت میشود.",
-  //   },
-  // ];
-
-  // useEffect(() => {
-  //   if (manageStepsContext?.hostInfoUpdating?.cancelReservation) { // اینو اپدیت کنم بعد ای پی ای
-  //     // setSelectedOption(
-  //     //   manageStepsContext?.hostInfoUpdating?.cancelReservation || 0
-  //     // );
-  //   }
-  //   // 0 or 1 or 2
-  // }, [manageStepsContext?.hostInfoUpdating?.cancelReservation]);
-  // cancelReservation
   const isNextDisabled = () => !lastDay || !last3Day || !moreDays;
 
   const onSubmit = async () => {
@@ -80,15 +53,12 @@ const CancelRules = () => {
       <Grid container spacing={3}>
         <Grid item xs={12} md={7} className="  my-4" sx={{ ml: 3, pr: 3 }}>
           <FormGroup>
-            <Box
-              mb={2}
-              sx={{ display: "flex", justifyContent: "space-between" }}
-            >
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
               <Typography
                 variant="h6"
-                sx={{ fontSize: 16, mb: 3, minWidth: "110px" }}
+                sx={{ fontSize: 16, mb: 3, minWidth: "135px" }}
               >
-                24 ساعت قبل
+                روز ورود یا پس از آن
               </Typography>
 
               <TextField
@@ -117,15 +87,25 @@ const CancelRules = () => {
                 }}
               />
             </Box>
+
+            <Typography
+              component="span"
+              variant="body2"
+              mb={3}
+              sx={{ fontSize: { xs: 12, md: 12 }, mr: 1, color: "#5f5f5f" }}
+            >
+              کسر هزینه شب‌های اقامت‌شده، یک شب اضافه و درصد انتخابی از مبلغ باقی‌مانده، بازپرداخت مابقی.
+            </Typography>
+
             <Box
-              mb={2}
+              // mb={2}
               sx={{ display: "flex", justifyContent: "space-between" }}
             >
               <Typography
                 variant="h6"
-                sx={{ fontSize: 16, mb: 3, minWidth: "110px" }}
+                sx={{ fontSize: 16, mb: 3, minWidth: "135px" }}
               >
-                3 روز قبل
+                یک تا دو روز تا ورود
               </Typography>
               <TextField
                 dir="ltr"
@@ -153,15 +133,24 @@ const CancelRules = () => {
                 }}
               />
             </Box>
+            <Typography
+              component="span"
+              variant="body2"
+              mb={3}
+              sx={{ fontSize: { xs: 12, md: 12 }, mr: 1, color: "#5f5f5f" }}
+            >
+            کسر درصد انتخابی از مبلغ رزرو، بازپرداخت مابقی.
+            </Typography>
+
             <Box
-              mb={2}
+              // mb={2}
               sx={{ display: "flex", justifyContent: "space-between" }}
             >
               <Typography
                 variant="h6"
-                sx={{ fontSize: 16, mb: 3, minWidth: "110px" }}
+                sx={{ fontSize: 16, mb: 3, minWidth: "135px" }}
               >
-                بیشتر
+                بیش از دو روز تا ورود
               </Typography>
               <TextField
                 dir="ltr"
@@ -189,6 +178,14 @@ const CancelRules = () => {
                 }}
               />
             </Box>
+            <Typography
+              component="span"
+              variant="body2"
+              mb={3}
+              sx={{ fontSize: { xs: 12, md: 12 }, mr: 1, color: "#5f5f5f" }}
+            >
+             کسر درصد انتخابی از مبلغ رزرو، بازپرداخت مابقی.
+            </Typography>
           </FormGroup>
         </Grid>
 

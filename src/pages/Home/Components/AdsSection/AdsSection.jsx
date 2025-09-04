@@ -7,17 +7,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination } from "swiper/modules";
-import gif from "./k044xd4s.gif";
 import axios from "axios";
 import API_URL from "../../../../config/apiConfig";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
-import { useNavigate } from "react-router-dom";
 const baseUrl = API_URL;
 
 export default function AdsSection() {
   const [bannerData, setBannerData] = useState([]);
   const [isVisible, setIsVisible] = useState(true);
-  const navigate = useNavigate();
 
   const fetchBanner = async () => {
     try {
@@ -53,8 +50,8 @@ export default function AdsSection() {
       <Box
         sx={{
           position: "relative",
-          width: "75%",
-          margin: { xs: "3rem auto", md: "2rem auto" },
+          width: {xs:"90%" , md:"75%"},
+          margin: { xs: "3rem 1rem", md: "2rem auto" },
         }}
       >
         {/* close button */}
@@ -93,8 +90,8 @@ export default function AdsSection() {
             <Box
               key={index}
               component="img"
-              width="330px"
-              height="150px"
+              width="222px"
+              height="124px"
               className="rounded border shadow"
               src={DownloadImageApi(item?.image?.url)}
               onClick={() => {
@@ -120,19 +117,19 @@ export default function AdsSection() {
             slidesPerView={1.2}
           >
             {bannerData?.map((item, index) => (
-              <Box
-                key={index}
-                component="img"
-                width="330px"
-                height="150px"
-                className="rounded border shadow"
-                src={DownloadImageApi(item?.image?.url)}
-                onClick={() => {
-                  
-                  window.location.href=item?.myAdsUrl
-                }}
-                sx={{ cursor: "pointer" }}
-              />
+              <SwiperSlide key={index} >
+                <Box
+                  component="img"
+                   width="100%"
+                  height="150px"
+                  className="rounded border shadow"
+                  src={DownloadImageApi(item?.image?.url)}
+                  onClick={() => {
+                    window.location.href=item?.myAdsUrl
+                  }}
+                  sx={{ cursor: "pointer" }}
+                />
+              </SwiperSlide>
             ))}
           </Swiper>
         </Box>

@@ -118,6 +118,22 @@ export const GetListTitleSlidersApi = async (searchData) => {
     return error?.response?.data;
   }
 };
+// check show comments
+export const handleCheckShowComments = async () => {
+  const token = localStorage.getItem("access_token");
+  try {
+    const response = await axios.get(`${baseUrl}/SiteSetting`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+     console.log(response, "show comments");
+    return response?.data?.data; // Assuming your API returns data in the response
+  } catch (error) {
+    console.log("Error:", error?.response?.data);
+    return error?.response?.data;
+  }
+};
 
 // لیست کامنت ها درباره سایت
 export const GetCommentsAboutSiteApi = async (searchData) => {

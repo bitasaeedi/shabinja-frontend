@@ -23,6 +23,7 @@ import { AppContext } from "../../App";
 import {
   GetCommentsAboutSiteApi,
   GetListTitleSlidersApi,
+  handleCheckShowComments,
 } from "../../api/PublicApis";
 import AdsPopover from "../../components/AdsPopover/AdsPopover";
 import SubSliderHeader from "./Components/SubSliderHeader";
@@ -105,10 +106,12 @@ const Home = () => {
   const [selectedCity2, setSelectedCity2] = useState(); //selcted city for discount
   const [instantBookingKey, setInstantBookingKey] = useState(0); // Add this state for re-rendering
   const [lastMinuteKey, setLastMinuteKey] = useState(0); // Add this state for re-rendering last minute discounts
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     getListTitleSliders();
     getListFastSearch();
+    checkShowComments()
     appContext.setShowfooter(true);
     window.scroll(0, 0);
     appContext.setSettingHeader({
@@ -162,9 +165,19 @@ const Home = () => {
     return list;
   };
 
+  const checkShowComments = async () => {
+    const result = await handleCheckShowComments();
+    setShowComments(result?.commentsTourUserState);
+    console.log("show comment is :" , result?.commentsTourUserState);
+    
+    return result?.commentsTourUserState
+  };
+
   const getCommentsAboutSite = async () => {
     const result = await GetCommentsAboutSiteApi();
     let list = result?.data;
+    console.log("commentsss", list);
+
     return list;
   };
 
@@ -459,19 +472,23 @@ const Home = () => {
         </Box>
 
         {/* === نظرات کاربران */}
-        <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
-          <InViewComponents
-            getListData={
-              () => getCommentsAboutSite()
-              // [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
-            }
-          >
-            <Commentswiper
-              title={"نظرات کاربران"}
-              deafultSkeleton={"comment"}
-            />
-          </InViewComponents>
-        </Box>
+        { showComments ? (
+          <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
+            <InViewComponents
+              getListData={
+                () => getCommentsAboutSite()
+                // [1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 12, 13]
+              }
+            >
+              <Commentswiper
+                title={"نظرات کاربران"}
+                deafultSkeleton={"comment"}
+              />
+            </InViewComponents>
+          </Box>
+        ) : (
+          ""
+        )}
 
         {/* میزبان شوید */}
         <Begust />

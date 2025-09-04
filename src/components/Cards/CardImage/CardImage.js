@@ -13,6 +13,7 @@ import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
 const CardImage = ({ myData = {} }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);

@@ -36,6 +36,7 @@ import axios from "axios";
 import API_URL from "./config/apiConfig";
 import Survey from "./pages/Survey/Survey";
 import Loan from "./pages/Loan/Loan";
+import NotFound from "./pages/NotFound/NotFound";
 
 const GOFTINO_KEY = "FnQe1u";
 
@@ -219,6 +220,7 @@ function App() {
                     path="/edit-calendar/:staycode"
                     element={<EditCalendarPage />}
                   />
+                  <Route path="*" element={<NotFound/>}/>
                   {/* <Route path="*" element={<Home />} /> */}
                 </Routes>
                 <Footer />

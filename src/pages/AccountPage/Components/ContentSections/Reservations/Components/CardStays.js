@@ -406,6 +406,8 @@ const CardStays = ({ stay, onRemove }) => {
                   },
                 }}
                 disabled={stay?.state !== 1 || stay?.expired === true}
+                onClick={()=>{stay?.state === 1 ? navigate(`/book/preorder/${stay?.orderNumber}`) : console.log("0");
+                }}
               >
                 {stay?.state === 5
                   ? "لغو شده"

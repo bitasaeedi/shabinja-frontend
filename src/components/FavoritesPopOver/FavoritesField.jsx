@@ -52,6 +52,7 @@ export default function FavoritesField({
   myWidth,
   stayId,
   changeFavColor,
+  handleIsFavoriteColor,
 }) {
   const {
     register,
@@ -154,7 +155,8 @@ export default function FavoritesField({
       );
       console.log("add response", response.data);
       fetchCategoryList();
-      changeFavColor?.();
+      changeFavColor?.();//in home
+      handleIsFavoriteColor?.();//in stay page
       
       setTimeout(() => {
         handleMangeAlert(true, 

@@ -14,7 +14,11 @@ const TitleStay = () => {
   const stayPageContext = useContext(StayPageContext);
 
   const [isLiked, setIsLiked] = useState(false);
-  const [isFavorite, setIsFavorite] = useState("black");
+  const [isFavorite, setIsFavorite] = useState("");
+
+  function handleIsFavoriteColor() {
+    setIsFavorite("red");
+  }
 
   useEffect(() => {
     setIsFavorite(stayPageContext?.infoOfStay?.isFavorite ? "red" : "black");
@@ -23,7 +27,7 @@ const TitleStay = () => {
   const handleLikeClick = () => {
     if (isFavorite === "black") {
       setIsLiked(true);
-      setIsFavorite("red");
+      // setIsFavorite("red");
     } else {
       deleteFromFavorite();
     }
@@ -103,7 +107,7 @@ const TitleStay = () => {
             size="small"
             variant="outlined"
             startIcon={
-              isFavorite ==="red" ? (
+              isFavorite === "red" ? (
                 <Favorite
                   sx={{
                     color: "red",
@@ -146,6 +150,7 @@ const TitleStay = () => {
         isLiked={isLiked}
         handleClose={handleClose}
         id={stayPageContext?.infoOfStay?.id}
+        handleIsFavoriteColor={handleIsFavoriteColor}
       />
     </Box>
   );
