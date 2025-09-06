@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ManageStepsContext } from "../../../ManageSteps";
 import CardShowImage from "./CardShowImage";
 import UploadProsseing from "./UploadProsseing";
+import { convertImageToWebP } from "../../../../../api/PublicApis";
 
 const NationDoc = () => {
   const manageStepsContext = useContext(ManageStepsContext);
@@ -10,28 +11,63 @@ const NationDoc = () => {
   const [uploadedImages, setUploadedImages] = useState([]);
 
   useEffect(() => {
-    // console.log(images, "images HomeDoc");
+    console.log(
+      manageStepsContext?.hostInfoUpdating?.nationallImage,
+      "images NationDoc"
+    );
+    console.log(1);
+    
     setUploadedImages([manageStepsContext?.hostInfoUpdating?.nationallImage]);
-  }, [manageStepsContext?.hostInfoUpdating]);
+  }, [manageStepsContext?.hostInfoUpdating?.nationallImage]);
 
-  const handleFileDrop = (event) => {
+  const handleFileDrop = async (event) => {
     event.preventDefault();
-    const uploadedFiles = Array.from(event.dataTransfer.files).map((file) => ({
-      file,
-      statusUpload: "pending",
-    }));
-    // console.log(uploadedFiles, "handleFileDrop");
-    setImages((prevList) => [...uploadedFiles]);
+    const files = Array.from(event.dataTransfer.files);
+  
+    const convertedFiles = await Promise.all(
+      files.map(async (file) => {
+        try {
+          const webpFile = await convertImageToWebP(file);
+          return {
+            file: webpFile,
+            statusUpload: "pending",
+          };
+        } catch (error) {
+          console.error("خطا در تبدیل فایل:", error);
+          return {
+            file,
+            statusUpload: "error",
+          };
+        }
+      })
+    );
+  
+    setImages((prevList) => [...prevList, ...convertedFiles]);
   };
 
-  const handleFileSelect = (event) => {
-    const selectedFiles = Array.from(event.target.files).map((file) => ({
-      file,
-      statusUpload: "pending",
-    }));
-    // console.log(selectedFiles, "selectedFiles");
-    setImages((prevList) => [...selectedFiles]);
-  };
+const handleFileSelect = async (event) => {
+  const files = Array.from(event.target.files);
+
+  // تبدیل همزمان همه فایل‌ها به WebP
+  const convertedFiles = await Promise.all(
+    files.map(async (file) => {
+      try {
+        const webpFile = await convertImageToWebP(file);
+        return {
+          file: webpFile,
+          statusUpload: "pending",
+        };
+      } catch (error) {
+        console.error("خطا در تبدیل فایل:", error);
+        return {
+          file, // فایل اصلی رو نگه می‌داریم در صورت خطا
+          statusUpload: "error",
+        };
+      }
+    })
+  );
+  setImages((prevList) => [...prevList, ...convertedFiles]);
+};
 
   const callBackUploaded = (index, uploaded) => {
     // setImages((prevImages) =>
@@ -44,9 +80,11 @@ const NationDoc = () => {
 
   return (
     <Grid item xs={12} md={12}>
+
       <Typography variant="h6" color="text.secondary" gutterBottom>
         کارت ملی خود را بارگذاری کنید
       </Typography>
+
       <Box
         component="ul"
         sx={{ padding: 0, margin: 0, listStyle: "none", mt: 2 }}

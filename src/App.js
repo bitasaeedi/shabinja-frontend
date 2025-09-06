@@ -53,6 +53,9 @@ const cacheRtl = createCache({
 // my theme mui
 const theme = createTheme({
   direction: "rtl",
+  zIndex: {
+    drawer: 200000, // پیش‌فرض 1200 هست، اینو تغییر دادی
+  },
   typography: {
     fontFamily: "'YekanBakhFaNum',Tahoma,Arial !important",
     h6: {

@@ -7,17 +7,13 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from "@mui/material";
 import React from "react";
-import PaymentIcon from "@mui/icons-material/Payment";
-import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import GavelIcon from "@mui/icons-material/Gavel";
-import HotelIcon from "@mui/icons-material/Hotel";
-import ArticleIcon from "@mui/icons-material/Article";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import InfoIcon from "@mui/icons-material/Info";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
-import ContactMailIcon from "@mui/icons-material/ContactMail";
 import { Link } from "react-router-dom";
 import logo_with_name from "../../images/shabinja_logo_with_name.png";
 // لیست منو موبایل
@@ -28,12 +24,6 @@ const menuItems = [
     icon: <GavelIcon />,
     path: "/rules",
   },
-
-  // {
-  //   title: "مجله شبینجا",
-  //   icon: <ArticleIcon />,
-  //   path: "/",
-  // },
   {
     title: "درباره ما",
     icon: <InfoIcon />,
@@ -43,6 +33,16 @@ const menuItems = [
     title: "تماس با ما",
     icon: <PhoneInTalkOutlinedIcon />,
     path: "/contact",
+  },
+  {
+    title: "میزبان شو",
+    icon: <MenuBookIcon />,
+    path: "/new-stay/start",
+  },
+  {
+    title: "درخواست وام",
+    icon: <AccountBalanceIcon />,
+    path: "/loan",
   },
 ];
 

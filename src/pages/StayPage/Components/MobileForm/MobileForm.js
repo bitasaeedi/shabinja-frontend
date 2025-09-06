@@ -1,10 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import PopOverForm from "./components/PopOverForm";
+import { StayPageContext } from "../../StayPage";
+import ToRial from "../../../../components/ToRial/ToRial";
 
 const MobileForm = () => {
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
-
+  const stayPageContext = useContext(StayPageContext);
+  console.log(stayPageContext, "stayPageContext");
+  
   // Function to handle popover close
   const handleClosePopover = () => {
     setAnchorEl(null);
@@ -59,7 +63,7 @@ const MobileForm = () => {
                 padding: "0 5px",
               }}
             >
-              12،000 تومان
+              {ToRial(stayPageContext?.infoOfStay?.otherPrice)} تومان
             </Typography>
             <Typography
               variant="span"

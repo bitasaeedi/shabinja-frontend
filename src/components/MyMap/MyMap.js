@@ -8,9 +8,10 @@ import {
 } from "react-leaflet";
 import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
-import { Box, Button, CircularProgress, Typography } from "@mui/material";
+import { Box, Button, CircularProgress, Typography, useMediaQuery } from "@mui/material";
 import SwitchMapButton from "./SwitchMapButton";
 import { useNavigate } from "react-router-dom";
+import { useTheme } from "@emotion/react";
 
 const ChangeMapView = ({ center }) => {
   const map = useMap();
@@ -57,6 +58,9 @@ const MyMap = ({
   showPopup = true,
   onSearchAreaClick, // <-- add this prop
 }) => {
+
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const navigate = useNavigate();
   const [markers, setMarkers] = useState([]);
   const [standard, setStandard] = useState(true);
@@ -192,7 +196,9 @@ const MyMap = ({
           {loadingFindPoint ? (
             <CircularProgress size={24} sx={{ color: "black" }} />
           ) : (
-            <Typography>جستجو در این منطقه</Typography>
+            <Typography>
+              {isMobile ? (points.length === 0 ?<span style={{color: "red" }}>اقامتگاهی یافت نشد</span>:"جستجو در این منطقه"):"جستجو در این منطقه"}
+            </Typography>
           )}
         </Button>
       )}

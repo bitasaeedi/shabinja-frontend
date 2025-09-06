@@ -17,11 +17,16 @@ const NewStaysPage = () => {
     setWichComponent(step);
   }, [step]);
   useEffect(() => {
-    appContext.setShowfooter(false);
+    // Show footer only for the "start" step, hide for wizard and stay code steps
+    if (wichComponent === "start") {
+      appContext.setShowfooter(true);
+    } else {
+      appContext.setShowfooter(false);
+    }
     appContext.setSettingHeader({
       dontShowMobileHeader: true,
     });
-  }, []);
+  }, [wichComponent]);
 
   return (
     <>
