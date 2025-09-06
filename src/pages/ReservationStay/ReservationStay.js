@@ -413,7 +413,7 @@ const ReservationStay = () => {
                 <Box sx={{ px: { xs: 0, md: 4 } }}>
                   <StepperReserve
                     errorTab={
-                      infoOfReserve?.state === 4 || infoOfReserve?.state === 5
+                      infoOfReserve?.state === 5 || infoOfReserve?.state === 6
                         ? true
                         : infoOfReserve?.expired
                     }
@@ -421,8 +421,8 @@ const ReservationStay = () => {
                       const s = infoOfReserve?.state ?? 0;
                       console.log("st", s, ":", infoOfReserve?.state);
 
-                      if (s === 5) return 3; // delivered/cancelled mapping previously
-                      if (s === 4) return 1; // map 4 to step 1 as requested
+                      if (s === 6) return 3; // delivered/cancelled mapping previously
+                      if (s === 5) return 1; // map 4 to step 1 as requested
                       const base = s ;
                       return Number(base) ? base : 0;
                     })()}

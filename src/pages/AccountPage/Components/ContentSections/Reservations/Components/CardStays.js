@@ -7,6 +7,12 @@ import {
   Typography,
   Menu,
   MenuItem,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  CircularProgress,
 } from "@mui/material";
 import React, { useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
@@ -22,11 +28,36 @@ import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 const baseUrl = API_URL;
 
-const CardStays = ({ stay, onRemove }) => {
-  const navigate = useNavigate();
+function CancelDialog({open, setOpen, handleCancel, loadingCancel}) {
+  // const [open, setOpen] = useState(false);
+  
+  const handleClose = () => {
+    setOpen(false);
+  };
 
+  return (
+    <div>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>لغو رزرو</DialogTitle>
+        <DialogContent>
+          <DialogContentText>آیا مطمئنید که می‌خواهید این رزرو را لغو کنید؟</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>انصراف</Button>
+          <Button onClick={handleCancel} >{loadingCancel ? <CircularProgress size={20} color="primary" /> : "تایید"}</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
+  )
+}
+
+
+const CardStays = ({ stay, onRemove }) => {
+  const [loadingCancel, setLoadingCancel] = useState(false);
+  const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const [openCancel, setOpenCancel] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -34,8 +65,9 @@ const CardStays = ({ stay, onRemove }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+// cancel reservation
   const handleCancell = async () => {
+    setLoadingCancel(true);
     console.log("cancell");
 
     try {
@@ -62,6 +94,7 @@ const CardStays = ({ stay, onRemove }) => {
       return error?.response?.data;
     } finally {
       handleClose();
+      setLoadingCancel(false);
     }
   };
 
@@ -340,11 +373,12 @@ const CardStays = ({ stay, onRemove }) => {
                       جزئیات رزرو
                     </MenuItem>
                     {stay?.state === 2 && (
-                      <MenuItem onClick={handleCancell}>لغو</MenuItem>
+                        <MenuItem onClick={()=>setOpenCancel(true)}>لغو</MenuItem>
                     )}
                      {stay?.state === 3 && (
                       <MenuItem onClick={handleCancell}>عدم تحویل کلید</MenuItem>
                     )}
+                    <CancelDialog open={openCancel} setOpen={setOpenCancel} handleCancel={handleCancell} loadingCancel={loadingCancel} />
                   </Menu>
                 </Box>
               </Box>
