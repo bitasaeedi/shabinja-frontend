@@ -27,6 +27,8 @@ const ChangeMapView = ({ center }) => {
 
 const HandleDoubleClick = ({ onDoubleClick }) => {
   useMapEvent("dblclick", (e) => {
+    e.originalEvent.preventDefault(); // Prevent default zoom behavior
+    e.originalEvent.stopPropagation(); // Stop event propagation
     const { lat, lng } = e.latlng;
     onDoubleClick(lat, lng);
   });
@@ -69,6 +71,7 @@ const MyMap = ({
   const mapRef = useRef(null);
   const [loadingFindPoint, setLoadingFindPoint] = useState(false);
   const [polygonPoints, setPolygonPoints] = useState([]);
+  const [showNoResultsMessage, setShowNoResultsMessage] = useState(false);
 
   // تغییر موقعیت نقشه هنگام تغییر مرکز
   useEffect(() => {
@@ -103,6 +106,20 @@ const MyMap = ({
     setMarkers(updatedPoints);
     setLoadingFindPoint(false);
   }, [points]);
+
+  
+  useEffect(() => {
+    if (points.length === 0) {
+      setShowNoResultsMessage(true);
+      const timer = setTimeout(() => {
+        setShowNoResultsMessage(false);
+      }, 2000);
+      
+      return () => clearTimeout(timer);
+    } else {
+      setShowNoResultsMessage(false);
+    }
+  }, [points.length]);
 
   const handlReturnNewPositionOnDrag = (lat, lng, id) => {
     returnNewPositionOnDrag(lat, lng, id);
@@ -159,6 +176,7 @@ const MyMap = ({
       center={center}
       zoom={zoomDefault}
       scrollWheelZoom={scrollWheelZoomBool}
+      doubleClickZoom={false}
       className="rounded"
       style={{ height: "100%", width: "100%", margin: "0", padding: "0" }}
       // whenCreated={(mapInstance) => { // برای ورژن جدید کار نمی کند
@@ -197,7 +215,7 @@ const MyMap = ({
             <CircularProgress size={24} sx={{ color: "black" }} />
           ) : (
             <Typography>
-              {isMobile ? (points.length === 0 ?<span style={{color: "red" }}>اقامتگاهی یافت نشد</span>:"جستجو در این منطقه"):"جستجو در این منطقه"}
+              {isMobile ? (showNoResultsMessage ? <span style={{color: "red" }}>اقامتگاهی یافت نشد</span> : "جستجو در این منطقه") : "جستجو در این منطقه"}
             </Typography>
           )}
         </Button>

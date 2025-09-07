@@ -11,6 +11,7 @@ const baseUrl = API_URL;
 export default function HeaderAds({ handleIsVisible, isVisible }) {
   const navigte = useNavigate();
   const [adsData, setAdsData] = useState([]);
+  const [showAds, setShowAds] = useState(false);
   const location = useLocation();
 
   const fetchBanner = async () => {
@@ -28,7 +29,6 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
       );
       const result = response?.data?.data?.find(item => item.order === 0);
       setAdsData(result?.image?.url);
-      console.log("ads", response?.data?.data);
     } catch (error) {
       console.log("error", error);
 
@@ -37,14 +37,33 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
     }
   };
 
+  const handleCheckShow = async () => {
+    const token = localStorage.getItem("access_token");
+    try {
+      const response = await axios.get(`${baseUrl}/SiteSetting`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setShowAds(response?.data?.data);
+      handleIsVisible(response?.data?.data?.myAdsHeaderState);
+      return response?.data?.data; 
+    } catch (error) {
+      console.log("Error:", error?.response?.data);
+      return error?.response?.data;
+    }
+  };
+
   useEffect(() => {
     fetchBanner();
+    handleCheckShow();
   }, []);
 
   if (!isVisible) return null;
 
   return (
     <>
+    {showAds?.myAdsHeaderState && (
       <Box
         sx={{
           position: "relative",
@@ -101,8 +120,9 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
           >
             <CloseIcon sx={{ cursor: "pointer", fontSize: "15px" }} />
           </IconButton>
-        )}
-      </Box>
+          )}
+        </Box>
+      )}
     </>
   );
 }

@@ -1,31 +1,21 @@
 import React, { useContext, useState } from "react";
 import {
-  Avatar,
   Box,
   Button,
-  Card,
-  CardContent,
-  CardMedia,
   Grid,
-  IconButton,
   Paper,
   Tab,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableHead,
-  TableRow,
   Tabs,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
-import AddHomeOutlinedIcon from "@mui/icons-material/AddHomeOutlined";
+import { Link } from "react-router-dom";  
 import AddIcon from "@mui/icons-material/Add";
 import RowTable from "./RowTable";
-import CardStays from "./CardStays";
 import HeaderTable from "./HeaderTable";
 import SkeltonRowTables from "../../../../../../components/SkeletonComponents/SkeltonRowTables";
 import { ContainerMainContext } from "../ContainerMain";
@@ -59,6 +49,7 @@ const TableComponent = ({ stays, loading = true }) => {
       </Box>
     );
   };
+  
   return (
     <Box>
       <TableContainer

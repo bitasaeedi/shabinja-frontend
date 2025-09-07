@@ -106,12 +106,12 @@ const Home = () => {
   const [selectedCity2, setSelectedCity2] = useState(); //selcted city for discount
   const [instantBookingKey, setInstantBookingKey] = useState(0); // Add this state for re-rendering
   const [lastMinuteKey, setLastMinuteKey] = useState(0); // Add this state for re-rendering last minute discounts
-  const [showComments, setShowComments] = useState(false);
+  const [showItems, setShowItems] = useState({});
 
   useEffect(() => {
     getListTitleSliders();
     getListFastSearch();
-    checkShowComments()
+    checkShowItems();
     appContext.setShowfooter(true);
     window.scroll(0, 0);
     appContext.setSettingHeader({
@@ -165,12 +165,12 @@ const Home = () => {
     return list;
   };
 
-  const checkShowComments = async () => {
+  const checkShowItems = async () => {
     const result = await handleCheckShowComments();
-    setShowComments(result?.commentsTourUserState);
-    console.log("show comment is :" , result?.commentsTourUserState);
-    
-    return result?.commentsTourUserState
+    setShowItems(result);
+    console.log("show comment is :", result);
+
+    return result;
   };
 
   const getCommentsAboutSite = async () => {
@@ -467,12 +467,14 @@ const Home = () => {
         </Box>
 
         {/* تبلیغات */}
-        <Box sx={{ marginTop: { xs: 0, md: 2 } }}>
-          <AdsSection />
-        </Box>
+        {showItems?.myAdsState && (
+          <Box sx={{ marginTop: { xs: 0, md: 2 } }}>
+            <AdsSection />
+          </Box>
+        )}
 
         {/* === نظرات کاربران */}
-        { showComments ? (
+        {showItems?.commentsTourUserState ? (
           <Box className=" " sx={{ marginTop: { xs: 4, md: 5 } }}>
             <InViewComponents
               getListData={

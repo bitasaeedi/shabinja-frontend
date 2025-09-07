@@ -245,6 +245,8 @@ const ManageSteps = ({ stayCodeToComplete }) => {
 
   // پیدا کردن آخرین مرحله
   const handleFindLastStep = async (data) => {
+    console.log("manageSteps => handleFindLastStep", data);
+    
     const result = CalculateStepNum(data);
     console.log(result, "result handleFindLastStep");
     setLastedStep(result || 1);

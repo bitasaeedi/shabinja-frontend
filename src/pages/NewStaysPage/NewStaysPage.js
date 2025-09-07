@@ -37,8 +37,8 @@ const NewStaysPage = () => {
           sx={{
             width: { xs: "100%", md: "70%" },
             margin: "0 auto",
-            padding: { xs: 1, md: 2 },
-            mb: { xs: 20, md: 10 },
+            padding: wichComponent !== "start" ? { xs: 1, md: 2 } : "0",
+            mb: wichComponent !== "start" ? { xs: 20, md: 10 } : "0",
           }}
           // className="shadow"
         >

@@ -54,7 +54,9 @@ const cacheRtl = createCache({
 const theme = createTheme({
   direction: "rtl",
   zIndex: {
-    drawer: 200000, // پیش‌فرض 1200 هست، اینو تغییر دادی
+    drawer: 11000, 
+    menu: 20000,
+    modal: 21000,
   },
   typography: {
     fontFamily: "'YekanBakhFaNum',Tahoma,Arial !important",

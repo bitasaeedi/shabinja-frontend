@@ -92,6 +92,7 @@ const MobileFooter = () => {
           backgroundColor: "white",
           boxShadow: "0 -2px 5px rgba(0,0,0,0.1)",
           padding: ".3rem 0",
+          paddingBottom: "calc(env(safe-area-inset-bottom) + 0.3rem)",
         }}
       >
         <BottomNavigation

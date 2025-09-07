@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   IconButton,
@@ -42,6 +41,7 @@ const RowTable = ({ stay, index }) => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    console.log("anchorEl", anchorEl, ": " , Boolean(anchorEl));
   };
 
   const handleClose = () => {
@@ -60,6 +60,8 @@ const RowTable = ({ stay, index }) => {
           },
         }}
       >
+
+        {/* title */}
         <TableCell align="left">
           {/* <Avatar
             src={stay.image}
@@ -79,14 +81,9 @@ const RowTable = ({ stay, index }) => {
             {stay.title}
           </Typography>
         </TableCell>
+
+        {/* code */}
         <TableCell align="left">
-          {/* <Typography
-            sx={{
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-            }}
-          >
-            {stay.title}
-          </Typography> */}
           <Typography
             sx={{
               fontSize: { xs: "0.75rem", sm: "0.85rem" },
@@ -96,6 +93,8 @@ const RowTable = ({ stay, index }) => {
             {` ${stay.id}`}
           </Typography>
         </TableCell>
+
+        {/* status */}
         <TableCell align="center">
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Typography
@@ -103,9 +102,6 @@ const RowTable = ({ stay, index }) => {
               color={stay.statusTourTitle === "تایید" ? "green" : "error"}
               sx={{
                 fontSize: { xs: "0.75rem", sm: "0.85rem" },
-                // backgroundColor:
-                //   stay.statusTourTitle === "تایید" ? "#e8f5e9" : "#ffebee",
-                // color: stay.statusTourTitle === "تایید" ? "#2e7d32" : "#c62828",
                 borderRadius: "4px",
                 padding: { xs: "2px 0px", sm: "4px 0px" },
                 textAlign: "center",
@@ -116,6 +112,7 @@ const RowTable = ({ stay, index }) => {
             </Typography>
           </Box>
         </TableCell>
+
         <TableCell
           align="center"
           sx={{

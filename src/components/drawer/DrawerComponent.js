@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import React from "react";
 import GavelIcon from "@mui/icons-material/Gavel";
-import MenuBookIcon from "@mui/icons-material/MenuBook";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import AddBusinessIcon from '@mui/icons-material/AddBusiness';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import InfoIcon from "@mui/icons-material/Info";
 import PhoneInTalkOutlinedIcon from "@mui/icons-material/PhoneInTalkOutlined";
 import { Link } from "react-router-dom";
@@ -36,12 +36,12 @@ const menuItems = [
   },
   {
     title: "میزبان شو",
-    icon: <MenuBookIcon />,
+    icon: <AddBusinessIcon />,
     path: "/new-stay/start",
   },
   {
     title: "درخواست وام",
-    icon: <AccountBalanceIcon />,
+    icon: <LocalAtmIcon />,
     path: "/loan",
   },
 ];
