@@ -51,7 +51,7 @@ const FormAddCredit = ({handleIsPayed}) => {
         },
       });
 
-      console.log("CanWithdrawal", response?.data?.data);
+      // console.log("CanWithdrawal", response?.data?.data);
       setCanWithdrawal(response?.data?.data);
     } catch (error) {
       console.error(
@@ -89,7 +89,7 @@ const FormAddCredit = ({handleIsPayed}) => {
 
   const handleWithdrawal = async () => {
 
-    console.log("canWithdrawal", canWithdrawal);
+    // console.log("canWithdrawal", canWithdrawal);
     const number = Number(amount.replace(/,/g, ""));
 
     try {

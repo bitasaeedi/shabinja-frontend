@@ -9,9 +9,7 @@ import {
   Typography,
   TextField,
 } from "@mui/material";
-import {
-  getCityListByProvinceId,
-} from "../../../api/PublicApis";
+import { getCityListByProvinceId } from "../../../api/PublicApis";
 import { ManageStepsContext } from "../ManageSteps";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import InputeContainer from "./Componnets/InputeContainer";
@@ -26,6 +24,7 @@ const SelectAddress = () => {
       address: manageStepsContext?.hostInfoUpdating?.address || "",
       zipCod: manageStepsContext?.hostInfoUpdating?.zipCod || "",
       tell: manageStepsContext?.hostInfoUpdating?.tell || "",
+      emergency: manageStepsContext?.hostInfoUpdating?.emergencyMobile || "",
     },
   });
 
@@ -36,6 +35,7 @@ const SelectAddress = () => {
   const selectedCity = watch("city");
   const addressInput = watch("address");
   const tellInput = watch("tell");
+  const emergencyInput = watch("emergency");
   const zipCodeInpute = watch("zipCod");
 
   useEffect(() => {
@@ -52,13 +52,14 @@ const SelectAddress = () => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const { province, city, address, zipCod, tell } = data;
+    const { province, city, address, zipCod, tell, emergency } = data;
     const myData = {
       provinceId: province,
       cityId: city,
       address: address,
       zipCod,
       tell,
+      emergencyMobile: emergency,
     };
 
     if (!manageStepsContext?.stayCodeToComplete) {
@@ -82,6 +83,7 @@ const SelectAddress = () => {
         addressInput &&
         addressInput.trim().length > 0 &&
         tellInput?.toString()?.length > 0 &&
+        emergencyInput?.toString()?.length > 0 &&
         zipCodeInpute?.toString()?.length > 0
       )
       // !isNaN(tellInput) &&
@@ -234,6 +236,40 @@ const SelectAddress = () => {
               <InputeContainer label={"شماره تلفن ثابت"}>
                 <Controller
                   name="tell"
+                  control={control}
+                  rules={{
+                    required: "الزامی است",
+                    pattern: {
+                      value: /^[0-9]{11}$/,
+                      message: "شماره تلفن باید 11 رقم باشد",
+                    },
+                  }}
+                  render={({ field, fieldState: { error } }) => (
+                    <TextField
+                      size="small"
+                      {...field}
+                      fullWidth
+                      error={!!error}
+                      helperText={error?.message}
+                      inputProps={{
+                        maxLength: 11,
+                      }}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": {
+                            borderColor: error ? "red" : "",
+                          },
+                        },
+                      }}
+                    />
+                  )}
+                />
+              </InputeContainer>
+
+              {/* second number */}
+              <InputeContainer label={"شماره تلفن دوم"}>
+                <Controller
+                  name="emergency"
                   control={control}
                   rules={{
                     required: "الزامی است",

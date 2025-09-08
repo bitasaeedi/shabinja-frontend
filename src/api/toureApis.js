@@ -229,7 +229,7 @@ export const HostTourSearchOneApiForEdit = async (guid) => {
         Authorization: `Bearer ${token}`,
       },
     });
-    // console.log(response, "response");
+    console.log(response, "mklresponse");
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);
@@ -269,6 +269,7 @@ export const HostTourCreateApi = async (createData) => {
         address: createData?.address || "", // آدرس متنی
         tell: createData?.tell || "",
         zipCod: createData?.zipCod || "",
+        emergencyMobile: createData?.emergencyMobile || "",
       },
       {
         headers: {
@@ -331,6 +332,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         Address: updateData?.address, //"لوکیشن",
         tell: updateData?.tell,
         zipCod: updateData?.zipCod,
+        emergencyMobile: updateData?.emergencyMobile,
         // FileHost: updateData?.fileHost,
         IsRole: updateData?.isRoleF, //updateData?.isRoleF/
         // NationallImage: updateData?.nationallImage,

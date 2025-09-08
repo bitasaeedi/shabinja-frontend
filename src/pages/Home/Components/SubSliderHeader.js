@@ -9,7 +9,7 @@ const SubSliderHeader = ({ listCategories = [] }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
-  console.log("listCategories", listCategories);
+  // console.log("listCategories", listCategories);
 
   return (
     <>

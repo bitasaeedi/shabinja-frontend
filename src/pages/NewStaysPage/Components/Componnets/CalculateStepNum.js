@@ -6,6 +6,7 @@ export const CalculateStepNum = (infoStay) => {
     provinceId,
     zipCod,
     tell,
+    emergencyMobile,
 
     // Step 1 - Location
     loc,
