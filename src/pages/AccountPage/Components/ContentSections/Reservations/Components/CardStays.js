@@ -13,6 +13,10 @@ import {
   DialogContentText,
   DialogActions,
   CircularProgress,
+  FormGroup,
+  FormControlLabel,
+  Checkbox,
+  TextField,
 } from "@mui/material";
 import React, { useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
@@ -35,20 +39,90 @@ function CancelDialog({open, setOpen, handleCancel, loadingCancel}) {
     setOpen(false);
   };
 
+  const [checkedOptions, setCheckedOptions] = useState({
+    option1: false,
+    option2: false,
+    option3: false,
+  });
+  const [reason, setReason] = useState("");
+
+  const handleCheckboxChange = (event) => {
+    setCheckedOptions({
+      ...checkedOptions,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  const handleReasonChange = (event) => {
+    setReason(event.target.value);
+  };
+
   return (
-    <div>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>لغو رزرو</DialogTitle>
-        <DialogContent>
-          <DialogContentText>آیا مطمئنید که می‌خواهید این رزرو را لغو کنید؟</DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>انصراف</Button>
-          <Button onClick={handleCancel} >{loadingCancel ? <CircularProgress size={20} color="primary" /> : "تایید"}</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  )
+    <Dialog open={open} onClose={handleClose} fullWidth>
+      <DialogTitle>لغو رزرو</DialogTitle>
+      <DialogContent>
+        <DialogContentText mb={1} sx={{fontSize:14}}>
+          لطفاً دلیل لغو رزرو را انتخاب و توضیح دهید:
+        </DialogContentText>
+
+        {/* لیست چک‌باکس‌ها */}
+        <FormGroup  sx={{fontSize:15}}>
+          <FormControlLabel
+           sx={{fontSize:15}}
+            control={
+              <Checkbox
+                checked={checkedOptions.option1}
+                onChange={handleCheckboxChange}
+                name="option1"
+              />
+            }
+
+            label="تغییر برنامه سفر"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkedOptions.option2}
+                onChange={handleCheckboxChange}
+                name="option2"
+              />
+            }
+            label="مشکل در اقامتگاه"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkedOptions.option3}
+                onChange={handleCheckboxChange}
+                name="option3"
+              />
+            }
+            label="سایر دلایل"
+          />
+        </FormGroup>
+
+        {/* فیلد توضیح دلایل */}
+        {checkedOptions.option3 &&  <TextField
+          label="توضیح دلیل لغو (اختیاری)"
+          multiline
+          rows={2}
+          fullWidth
+          margin="normal"
+          value={reason}
+        sx={{fontSize:16}}
+          onChange={handleReasonChange}
+        />}
+       
+      </DialogContent>
+
+      <DialogActions>
+        <Button onClick={handleClose}>انصراف</Button>
+        <Button onClick={() => handleCancel({ checkedOptions, reason })}>
+          {loadingCancel ? <CircularProgress size={20} color="primary" /> : "تایید"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 }
 
 

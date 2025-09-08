@@ -19,6 +19,7 @@ const NoValueComponent = () => {
         height: "100%",
         pt: 4,
         mt: 4,
+        pb: { xs: 5, md: 0 },
         textAlign: "center",
         color: "text.secondary",
         minHeight: "40vh",
@@ -65,9 +66,9 @@ export default function ShowAllCategories() {
         }}
       >
         <Grid container spacing={4}>
-          {categoryList ? 
-          (categoryList.length !==0 ? 
-          (categoryList.map((list, index) => (
+          {categoryList ? (
+            categoryList.length !== 0 ? (
+              categoryList.map((list, index) => (
                 <Grid
                   item
                   xs={12}
@@ -88,18 +89,19 @@ export default function ShowAllCategories() {
                     {list.title}
                   </Typography>
                 </Grid>
-              ))):
-              (
-                <Grid item xs={12}>
-                  <NoValueComponent />
-                </Grid>
-              )
+              ))
+            ) : (
+              <Grid item xs={12}>
+                <NoValueComponent />
+              </Grid>
             )
-            : Array.from({ length: 6 }).map((_, index) => (
-                <Grid item xs={12} sm={6} lg={4} key={index}>
-                 <StackedImageSkeleton/>
-                </Grid>
-              ))}
+          ) : (
+            Array.from({ length: 6 }).map((_, index) => (
+              <Grid item xs={12} sm={6} lg={4} key={index}>
+                <StackedImageSkeleton />
+              </Grid>
+            ))
+          )}
         </Grid>
       </Box>
     </>

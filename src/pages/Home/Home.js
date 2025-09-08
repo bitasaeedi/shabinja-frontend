@@ -99,7 +99,6 @@ const Home = () => {
   const appContext = useContext(AppContext);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const listFastes = ItemsFastSearch;
   const [listCategories, setListCategories] = useState([]);
   const [listTitleSliders, setListTitleSliders] = useState([]);
   const [selectedCity1, setSelectedCity1] = useState(); //selected city for inbooking
@@ -120,12 +119,10 @@ const Home = () => {
     });
   }, []);
 
-  // Add this useEffect to trigger re-render when selectedCity1 changes
   useEffect(() => {
     setInstantBookingKey((prev) => prev + 1);
   }, [selectedCity1]);
 
-  // Add this useEffect to trigger re-render when selectedCity2 changes
   useEffect(() => {
     setLastMinuteKey((prev) => prev + 1);
   }, [selectedCity2]);
@@ -134,7 +131,6 @@ const Home = () => {
   const getListData = async (dataToFilter) => {
     const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
     var list = resultGetFavorit?.data;
-    // console.log(resultGetFavorit?.data, "FavoritDestinationApi list");
     return list;
   };
 
@@ -142,15 +138,14 @@ const Home = () => {
     const resultGetFavorit = await CategoryHostApi();
     var list = resultGetFavorit?.data || [];
     list = list.reverse();
-    // console.log(resultGetFavorit?.data, "FavoritDestinationApi list");
     setListCategories(list);
     return list;
   };
 
   const callApiForGetList = async (dataToFilter) => {
+    console.log("datafor fil", dataToFilter);
     const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data || [];
-    console.log(list, "resultGetTours list");
     return list;
   };
 
@@ -160,24 +155,18 @@ const Home = () => {
     let list = result?.data || [];
     list = list?.sort((a, b) => a.order - b.order);
     setListTitleSliders(list);
-    console.log("filter", list);
-
     return list;
   };
 
   const checkShowItems = async () => {
     const result = await handleCheckShowComments();
     setShowItems(result);
-    console.log("show comment is :", result);
-
     return result;
   };
 
   const getCommentsAboutSite = async () => {
     const result = await GetCommentsAboutSiteApi();
     let list = result?.data;
-    console.log("commentsss", list);
-
     return list;
   };
 
@@ -194,33 +183,33 @@ const Home = () => {
       return { title: url }; //like kurdestan
     }
     const filtersParams = {
-      start: filters?.start, // شمسی
-      end: filters?.end, // شمسی
-      count: filters?.count, //
+      start: filters?.start,
+      end: filters?.end,
+      count: filters?.count,
       room: filters?.room,
       minprice: filters?.min,
       maxprice: filters?.max,
       skip: 0,
       take: 20,
-      // sort: filters?.sort,
-      rolItemTour: filters?.rules?.split(",") || [], // قوانین
-      typeHost: filters?.typeHost?.split(",") || [], // نوع اقامتگاه
-      typeHostLoc: filters?.typeHostLoc?.split(",") || [], // نوع منطقه
+      rolItemTour: filters?.rules?.split(",") || [],
+      typeHost: filters?.typeHost?.split(",") || [],
+      typeHostLoc: filters?.typeHostLoc?.split(",") || [],
       otherItemTour: filters?.features?.split(",") || [],
-      rate: filters?.scores?.split("-") || [],
+      rate: [filters?.scores] || [],
       province: filters?.province?.split(",") || [],
       city: filters?.cities?.split(",") || [],
-      locations: [], // لیست نقاط برای جستجو
+      locations: [],
+      // sort: filters?.sort,
     };
+    console.log("url : ", url, "pa", filtersParams);
 
     return filtersParams;
   };
 
   return (
     <Box component="main" className=" w-100" sx={{ minHeight: "100vh" }}>
-      {/* {!isMobile && <HeaderAds/>} */}
-
       {/* <AdsPopover /> */}
+
       {/* بخش سرچ اصلی صفحه اصلی دسکتاپ */}
       <Box
         className=" "
@@ -238,7 +227,6 @@ const Home = () => {
         sx={{
           display: { xs: "flex", md: "none" },
           width: "100%",
-          // padding: "0 5px",
         }}
       >
         <MobileMainSlider MySliderList={cities.slice(0, 4)} />
@@ -256,7 +244,6 @@ const Home = () => {
             <SwipperSliderPublick
               deafultSkeleton={"favorit"}
               title={"مقاصد محبوب"}
-              // slidesPerView={7}
               breakpoints={
                 {
                   0: { slidesPerView: 2.3, spaceBetween: 8 },
@@ -273,24 +260,6 @@ const Home = () => {
                   1300: { slidesPerView: 5.6, spaceBetween: 10 },
                   1450: { slidesPerView: 5.8, spaceBetween: 20 },
                 }
-
-                //   {
-                //   0: {
-                //     slidesPerView: 2,
-                //   },
-                //   330: {
-                //     slidesPerView: 2,
-                //   },
-                //   480: {
-                //     slidesPerView: 3,
-                //   },
-                //   768: {
-                //     slidesPerView: 4,
-                //   },
-                //   1024: {
-                //     slidesPerView: 5,
-                //   },
-                // }
               }
             >
               <FavoritCitiesCard />
@@ -302,9 +271,9 @@ const Home = () => {
         {/* اقامتگاه های ممتاز */}
         <Box className="" sx={{ marginTop: { xs: 4, md: 5 } }}>
           <InViewComponents
-            getListData={() => {
-              callApiForGetList({ rate: [1, 2, 3, 4] });
-            }}
+            getListData={() =>
+              callApiForGetList(setFilters(listTitleSliders[0]?.urlTour))
+            }
             stayList
           >
             <SwipperSliderPublick

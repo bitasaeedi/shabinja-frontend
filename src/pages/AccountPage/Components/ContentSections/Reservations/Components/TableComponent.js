@@ -56,6 +56,7 @@ const TableComponent = ({ stays, loading = true }) => {
           mt: 4,
           textAlign: "center",
           color: "text.secondary",
+          pb:{xs:6,md:0}
         }}
       >
         <SearchOff sx={{ fontSize: 60, color: "#aaa", mb: 2 }} />

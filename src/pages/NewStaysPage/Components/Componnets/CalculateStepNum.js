@@ -64,7 +64,7 @@ export const CalculateStepNum = (infoStay) => {
   const validationSteps = [
     // Step 0 - Address
     {
-      condition: !cityId || !address || !provinceId || !tell || !zipCod,
+      condition: !cityId || !address || !provinceId || !tell ||!emergencyMobile || !zipCod,
       step: 0,
     },
 

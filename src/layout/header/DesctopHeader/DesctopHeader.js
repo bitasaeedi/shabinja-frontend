@@ -17,7 +17,7 @@ const DesctopHeader = ({  }) => {
   const appContext = useContext(AppContext);
   const location = useLocation();
   const [isSticky, setIsSticky] = React.useState(false); 
-  const [isVisible, setIsVisible] = React.useState(true);
+  const [isVisible, setIsVisible] = React.useState(false);
 
   React.useEffect(() => {
     const handleScroll = () => {

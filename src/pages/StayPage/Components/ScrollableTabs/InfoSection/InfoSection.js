@@ -5,6 +5,7 @@ import {
   Divider,
   Typography,
   Skeleton,
+  useMediaQuery,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -18,10 +19,13 @@ import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import DoorBackOutlinedIcon from "@mui/icons-material/DoorBackOutlined";
 import BedroomParentIcon from "@mui/icons-material/BedroomParent";
 import { DownloadImageApi } from "../../../../../api/DownloadImageApi";
+import { useTheme } from "@emotion/react";
 
 const InfoSection = () => {
   const stayPageContext = useContext(StayPageContext);
   const [bgImage, setBgImage] = useState();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   useEffect(() => {
     setBgImage(stayPageContext?.infoOfStay?.profileImage);
@@ -102,19 +106,25 @@ const InfoSection = () => {
               fontSize: { xs: 18, md: 20 },
             }}
           >
-            {` ${stayPageContext?.infoOfStay?.typeHostDbTitle} ${stayPageContext?.infoOfStay?.title} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.fullName}`}
+            {!isMobile ? (
+              ` ${stayPageContext?.infoOfStay?.typeHostDbTitle} ${stayPageContext?.infoOfStay?.title} در ${stayPageContext?.infoOfStay?.address} به میزبانی ${stayPageContext?.infoOfStay?.fullName}`
+            ) : (
+              <>
+                <div>{`${stayPageContext?.infoOfStay?.typeHostDbTitle} ${stayPageContext?.infoOfStay?.title} در ${stayPageContext?.infoOfStay?.address}`}</div>
+                 به میزبانی {stayPageContext?.infoOfStay?.fullName}
+              </>
+            )}
           </Typography>
         </Box>
 
         <Avatar
           sx={{
-            width: 45,
-            height: 45,
-            mr:.5
+            width: isMobile?52:45,
+            height: isMobile?52:45,
+            mr: 0.5,
           }}
           src={DownloadImageApi(bgImage)}
         ></Avatar>
-
       </Box>
 
       <Box sx={{ mt: 4 }}>

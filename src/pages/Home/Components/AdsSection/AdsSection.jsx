@@ -64,8 +64,8 @@ export default function AdsSection() {
           }}
           sx={{
             position: "absolute",
-            top: -15,
-            right: { xs: "-25px", md: 0 },
+            top: -25,
+            right: { xs: "-15px", md: 0 },
             bgcolor: "rgba(0,0,0,0.4)",
             color: "#fff",
             zIndex: 1000,
