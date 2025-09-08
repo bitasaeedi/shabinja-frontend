@@ -24,7 +24,7 @@ const CommentPeople = ({ id , newComment }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response?.data?.data, "show comments response");
+      // console.log(response?.data?.data, "show comments response");
       setCommentsList(response?.data?.data);
       stayPageContext?.getMobileInfo(response?.data?.data);
     } catch (error) {

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { DownloadImageApi } from "../../api/DownloadImageApi";
 
 export default function FastSearchCardMobile({ myData = {} }) {
-  console.log("myDatafastmobile", myData);
+  // console.log("myDatafastmobile", myData);
   return (
     <>
       <Grid

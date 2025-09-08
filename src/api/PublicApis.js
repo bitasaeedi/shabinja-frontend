@@ -127,7 +127,7 @@ export const handleCheckShowComments = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
-     console.log(response, "show comments");
+    //  console.log(response, "show comments");
     return response?.data?.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("Error:", error?.response?.data);

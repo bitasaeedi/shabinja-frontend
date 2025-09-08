@@ -6,7 +6,7 @@ export  const sendChangeRequest = async (data) => {
 
     try {
       const token = localStorage.getItem("access_token");
-      console.log("my data",data);
+      // console.log("my data",data);
       
       const response = await axios.post(
         `${baseUrl}/PriceHostTour`,

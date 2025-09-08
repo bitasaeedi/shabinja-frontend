@@ -124,7 +124,7 @@ const Begust = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("banner", response?.data);
+      // console.log("banner", response?.data);
       setBannerInfo(response?.data?.data);
       let bgLoan = DownloadImageApi(response?.data?.data?.imageTwo?.url);
       setBgImageLoan(bgLoan);

@@ -25,7 +25,7 @@ const Section1 = ({ listCategories = [] }) => {
       const allData = response?.data?.data;
       const orderedOne = allData.find((item) => item.order === 1);
       const imageUrl = orderedOne?.image?.url;
-      console.log("orderedOne", orderedOne);
+      // console.log("orderedOne", orderedOne);
       setColorCode(orderedOne?.colorCode);
       setSlider(DownloadImageApi(imageUrl));
     } catch (error) {

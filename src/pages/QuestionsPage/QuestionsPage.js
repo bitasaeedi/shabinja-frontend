@@ -28,7 +28,7 @@ const QuestionsPage = () => {
       });
 
       setQuestions(response?.data?.data);
-      console.log("fq", response?.data?.data);
+      // console.log("fq", response?.data?.data);
     } catch (error) {
       console.error("Error :", error?.response?.data || error.message);
       return error?.response?.data;

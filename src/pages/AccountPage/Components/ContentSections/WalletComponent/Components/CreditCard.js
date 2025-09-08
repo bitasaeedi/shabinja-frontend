@@ -49,7 +49,7 @@ const CreditCard = ({isPayed}) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("shaba data", response?.data?.data);
+      // console.log("shaba data", response?.data?.data);
       setBalance(response?.data?.data);
       setShaba(response?.data?.data?.cartNumberBank);
     } catch (error) {

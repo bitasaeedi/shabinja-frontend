@@ -59,7 +59,7 @@ const DesctopFooter = () => {
         }
       );
       const sorted = response?.data?.data?.sort((a, b) => a.order - b.order);
-      console.log("social media", sorted);
+      // console.log("social media", sorted);
       setSocialMedia(sorted);
     } catch (error) {
       console.error("Error :", error?.response?.data || error.message);
@@ -70,7 +70,7 @@ const DesctopFooter = () => {
   const handleLinks = async (data) => {
     try {
       const token = localStorage.getItem("access_token");
-      console.log("my data", data);
+      // console.log("my data", data);
 
       const response = await axios.get(
         `${baseUrl}/QuickLinkShbinja/GetAll`,
@@ -82,7 +82,7 @@ const DesctopFooter = () => {
         }
       );
       setFooterLinks(response?.data?.data);
-      console.log("links", response?.data?.data);
+      // console.log("links", response?.data?.data);
 
       return true;
     } catch (error) {

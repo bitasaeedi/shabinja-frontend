@@ -101,7 +101,7 @@ const Favorites = ({ anchor }) => {
 
           <Box
             sx={{
-              // minHeight: 600,
+              minHeight: "38vh",
               py: { xs: 1, md: 3 },
             }}
             className="shadow borde rounded"

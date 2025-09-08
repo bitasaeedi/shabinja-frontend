@@ -72,10 +72,10 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response?.data?.data, "sliderList response");
+      // console.log(response?.data?.data, "sliderList response");
       const sliderUrls = response?.data?.data?.filter(item => item.order !== 1);
       const sliderImages = sliderUrls.map(item => DownloadImageApi(item.image?.url));
-      console.log(sliderImages, "sliderImages");
+      // console.log(sliderImages, "sliderImages");
       setSliderList(sliderImages);
     } catch (error) {
       console.log("show comments Error:", error?.response?.data);

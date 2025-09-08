@@ -30,7 +30,7 @@ export default function AdsSection() {
         }
       );
       const result = response?.data?.data?.filter((item) => item.order !== 0);
-      console.log("my resule", result);
+      // console.log("my resule", result);
 
       setBannerData(result);
     } catch (error) {
