@@ -173,38 +173,7 @@ const FormReserve = () => {
   return (
     <>
       <Box className="border" sx={{ minHeight: 200, py: 2, px: 3 }}>
-        {/* <Box
-          sx={{
-            mb: 3,
-          }}
-          className="d-flex justify-content-start align-items-center"
-        >
-          <Typography
-            variant="span"
-            sx={{
-              fontSize: "14px",
-            }}
-          >
-            شروع از:
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: "16px",
-              padding: "0 5px",
-            }}
-          >
-            12،000 تومان
-          </Typography>
-          <Typography
-            variant="span"
-            sx={{
-              fontSize: "12px",
-            }}
-          >
-            / هرشب
-          </Typography>
-        </Box> */}
+      
         {/* فرم */}
         <Box sx={{ mt: 2, position: "relative" }}>
           <form onSubmit={handleSubmit(onSubmit)}>

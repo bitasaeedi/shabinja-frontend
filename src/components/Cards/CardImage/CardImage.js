@@ -2,10 +2,6 @@ import React, { useEffect, useState } from "react";
 import {
   Card,
   CardMedia,
-  CardContent,
-  Typography,
-  Box,
-  Rating,
   Skeleton,
 } from "@mui/material";
 
@@ -19,55 +15,58 @@ const CardImage = ({ myData = {} }) => {
     setIsImageLoaded(true);
   };
 
-  useEffect(() => {
-    // console.log(myData, "myData");
-  }, []);
+  const handleImageError = () => {
+    setImageError(true);
+  };
 
   return (
     <Card
       sx={{
         width: "100%",
         height: "100%",
-        borderRadius: { xs: 0, md: 3},
-        mx: { xs: 0, md: 1},
+        borderRadius: { xs: 0, md: 3 },
+        mx: { xs: 0, md: 1 },
         boxShadow: "none !important",
         overflow: "hidden",
         direction: "rtl",
         pb: 0,
         mb: 1,
         backgroundColor: "transparent",
+        position: "relative",
       }}
-      // className="border"
     >
-      {/* Image with Skeleton loader */}
-      {isImageLoaded != true && (
+      {/* Loader */}
+      {!isImageLoaded && !imageError && (
         <Skeleton
           variant="rectangular"
           width="100%"
-          sx={{
-            height: {
-              xs: "100%",
-            },
-          }}
+          sx={{ height: "100%", position: "absolute", inset: 0 }}
         />
       )}
 
-      {myData?.file?.url && (
+      {/* Image */}
+      {myData?.file?.url && !imageError && (
         <CardMedia
           component="img"
           sx={{
-            height: {
-              xs: "100%",
-            },
+            height: "100%",
             objectFit: "cover",
-            borderRadius: { xs: 0, md: "0px 0px 10px 10px"},
+            borderRadius: { xs: 0, md: "0px 0px 10px 10px" },
+            opacity: isImageLoaded ? 1 : 0,
+            transition: "opacity 0.3s ease-in-out",
           }}
-          // `${baseUrl}${myData?.image}`
-          image={DownloadImageApi(myData?.file?.url)} // Use the randomly selected image
-          // alt={myData?.title}
+          image={DownloadImageApi(myData?.file?.url)}
           onLoad={handleImageLoad}
+          onError={handleImageError}
           loading="lazy"
-          style={{ display: isImageLoaded ? "block" : "none" }}
+        />
+      )}
+
+      {/* Fallback image if error */}
+      {imageError && (
+        <CardMedia
+          component="div"
+          sx={{ height: "100%", backgroundColor:"GrayText" }}
         />
       )}
     </Card>

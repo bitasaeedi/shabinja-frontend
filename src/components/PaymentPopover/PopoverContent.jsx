@@ -9,7 +9,7 @@ export default function PopoverContent() {
     <>
       <Box
         sx={{
-          width: "450px",
+          width: {xs:"100%" , md : "450px"},
           minHeight: "300px",
           padding: "2rem 3rem ",
           display: "flex",

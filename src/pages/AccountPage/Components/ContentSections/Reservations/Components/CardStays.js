@@ -202,6 +202,7 @@ const CardStays = ({ stay, onRemove }) => {
         backgroundColor: "greay",
         borderBottom: { xs: "none", md: "none" },
         my: 2,
+        px: 1,
         // border: "solid thin gray"
       }}
     >
@@ -231,7 +232,7 @@ const CardStays = ({ stay, onRemove }) => {
               />
             </Grid>
             {/* اطلاعات اقامتگاه */}
-            <Grid xs item sx={{ pr: 1 }}>
+            <Grid xs item sx={{ pl: 10 }}>
               <Box
                 sx={{
                   width: "100%",
@@ -395,17 +396,17 @@ const CardStays = ({ stay, onRemove }) => {
                 {/* اسم میزبان */}
                 <Box>
                   <Typography
-                    variant="body2"
-                    color="text.secondary"
-                    sx={{ fontSize: 16 }}
+                   variant="body2"
+                   color="text.secondary"
+                   sx={{ fontSize: 12 }}
                   >
                     میزبان
                   </Typography>
                   <Typography
-                    variant="subtitle1"
-                    // color="text.secondary"
-                    fontWeight={"bold"}
-                    sx={{ fontSize: 20 }}
+                   variant="subtitle1"
+                   // color="text.secondary"
+                   fontWeight={"bold"}
+                   sx={{ fontSize: 16 }}
                   >
                     {stay?.hostTourUserFullName}
                   </Typography>
@@ -492,7 +493,7 @@ const CardStays = ({ stay, onRemove }) => {
                   variant="subtitle1"
                   // color="text.secondary"
                   fontWeight={"bold"}
-                  sx={{ fontSize: 20 }}
+                  sx={{ fontSize: 17 , mb:.5 }}
                 >
                   {ToRial(stay?.facktorPrice)}
                 </Typography>

@@ -100,7 +100,7 @@ export default function WalletPayment() {
       <Box
         sx={{
           width: "100%",
-          padding: "1rem 2rem 0",
+          padding: {xs:"1rem 1rem 0" , md:"1rem 2rem 0"},
           display: "flex",
           flexDirection: "column",
           gap: "10px",
@@ -140,7 +140,7 @@ export default function WalletPayment() {
               handleMangeWithdraw();
             }}
             disabled={isLoading}
-            sx={{ width: "50%", margin: "1.5rem auto 0" }}
+            sx={{ width: {xs:"70%" , md:"50%"}, margin: "1.5rem auto 0" }}
           >
             {isLoading ? (
               <>

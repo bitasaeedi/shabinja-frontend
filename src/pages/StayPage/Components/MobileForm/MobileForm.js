@@ -9,8 +9,6 @@ import { PriceHostTourListApi } from "../../../../api/toureApis";
 const MobileForm = ({staycode}) => {
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
   const [minPrice , setMinPrice]=useState();
-  const stayPageContext = useContext(StayPageContext);
-  console.log(stayPageContext, "stayPageContext");
   
   // Function to handle popover close
   const handleClosePopover = () => {

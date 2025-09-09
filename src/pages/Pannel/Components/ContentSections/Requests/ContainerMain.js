@@ -51,6 +51,9 @@ const ContainerMain = () => {
     SweetAlert(result?.issuccess, result?.message);
     handleGetMyTour();
   };
+  const handleRemoveStay = (stayGuid) => {
+    setStays(prevStays => prevStays.filter(stay => stay.guid !== stayGuid));
+  };
 
   const handleDeleteRequest = async (guid) => {
     setLoading(true);
@@ -70,6 +73,7 @@ const ContainerMain = () => {
         handleAcceptRequest,
         handleReject,
         handleDeleteRequest,
+        handleRemoveStay
       }}
     >
       <Box
