@@ -72,9 +72,9 @@ const ButtonForEditDates = () => {
     const result2 = await PriceHostTourListApi(code, months[1]);
     const result3 = await PriceHostTourListApi(code, months[2]);
 
-    var month1 = result?.data || [];
-    var month2 = result2?.data || [];
-    var month3 = result3?.data || [];
+    var month1 = result?.data?.prices || [];
+    var month2 = result2?.data?.prices || [];
+    var month3 = result3?.data?.prices || [];
     const myList = [...month1, ...month2, ...month3];
     setListPrices(myList);
     console.log(month1, "month1");

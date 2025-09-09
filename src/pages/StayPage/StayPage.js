@@ -87,9 +87,10 @@ const StayPage = () => {
     const result2 = await PriceHostTourListApi(staycode, months[1]);
     const result3 = await PriceHostTourListApi(staycode, months[2]);
 
-    var month1 = result?.data || [];
-    var month2 = result2?.data || [];
-    var month3 = result3?.data || [];
+    var month1 = result?.data?.prices || [];
+    var month2 = result2?.data?.prices || [];
+    var month3 = result3?.data?.prices || [];
+    
     const myList = [...month1, ...month2, ...month3];
     console.log(myList, "prices");
     setListPrices(myList);
@@ -242,7 +243,7 @@ const StayPage = () => {
           marginBottom: "2rem",
         }}
       >
-        <MobileForm />
+        <MobileForm staycode={staycode}/>
       </Box>
     </StayPageContext.Provider>
   );

@@ -1,11 +1,14 @@
 import { Box, Button, Typography } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import PopOverForm from "./components/PopOverForm";
 import { StayPageContext } from "../../StayPage";
 import ToRial from "../../../../components/ToRial/ToRial";
+import moment from "moment-jalaali";
+import { PriceHostTourListApi } from "../../../../api/toureApis";
 
-const MobileForm = () => {
+const MobileForm = ({staycode}) => {
   const [anchorEl, setAnchorEl] = useState(null); // State to manage Popover
+  const [minPrice , setMinPrice]=useState();
   const stayPageContext = useContext(StayPageContext);
   console.log(stayPageContext, "stayPageContext");
   
@@ -20,6 +23,26 @@ const MobileForm = () => {
     setAnchorEl(event.currentTarget); // Open popover only if not active
     // }
   };
+
+  // get min price
+  const handleGetMinPrice = async () => {
+    const now = moment();
+    const numMonth = now.jMonth() + 1; // jMonth() returns 0-11, so +1 to get 1-12
+
+    // Calculate months with overflow
+    const months = [
+      numMonth,
+      numMonth + 1 > 12 ? numMonth + 1 - 12 : numMonth + 1,
+      numMonth + 2 > 12 ? numMonth + 2 - 12 : numMonth + 2,
+    ];
+
+    const result = await PriceHostTourListApi(staycode, months[0]);
+    
+    setMinPrice(result?.data?.minPrice)
+  };
+  useEffect(()=>{
+    handleGetMinPrice()
+  } , [])
 
   return (
     <>
@@ -63,7 +86,7 @@ const MobileForm = () => {
                 padding: "0 5px",
               }}
             >
-              {ToRial(stayPageContext?.infoOfStay?.otherPrice)} تومان
+              {ToRial(minPrice)} تومان
             </Typography>
             <Typography
               variant="span"
