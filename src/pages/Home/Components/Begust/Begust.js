@@ -78,7 +78,7 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
               lineHeight: { xs: 1.3, md: 1 },
             }}
           >
-            {truncateText(text, isMobile ? 70 : 87)}
+            {truncateText(text, isMobile ? 55: 87)}
           </Typography>
         </Box>
 

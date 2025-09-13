@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Card,
@@ -25,6 +25,37 @@ const baseUrl = API_URL;
 function ValidCode({ checkCode , handleCode }) {
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const inputsRef = useRef([]);
+
+  useEffect(() => {
+    if ("OTPCredential" in window) {
+      const ac = new AbortController();
+      navigator.credentials
+        .get({
+          otp: { transport: ["sms"] },
+          signal: ac.signal,
+        })
+        .then((otp) => {
+          if (otp?.code) {
+            const digits = otp.code.split("").slice(0, 5); // تبدیل به آرایه [ "1","2","3","4","5" ]
+            setOtp(digits);
+  
+            // پر شدن همه اینپوت‌ها → می‌تونی مستقیم به handleCode هم بدی
+            handleCode(digits.join(""));
+  
+            // آخرین اینپوت blur شه
+            if (inputsRef.current[4]) {
+              inputsRef.current[4].blur();
+            }
+          }
+          ac.abort();
+        })
+        .catch((err) => {
+          ac.abort();
+          console.error(err);
+        });
+    }
+  }, []);
+  
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return; // فقط اعداد

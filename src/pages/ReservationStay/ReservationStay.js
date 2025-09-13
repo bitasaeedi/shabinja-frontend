@@ -228,7 +228,7 @@ const ReservationStay = () => {
       mobile: inputeValue?.sms,
     };
     const result = await RequestToReserveApi(dataToSend);
-    // console.log(result, "RequestToReserveApi");
+     console.log(result, "RequestToReserveApi");
 
     if (result?.data?.orderNumber > 0) {
       const url = `/book/preorder/${result?.data?.orderNumber}`;

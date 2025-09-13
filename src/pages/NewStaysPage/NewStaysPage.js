@@ -19,7 +19,7 @@ const NewStaysPage = () => {
   useEffect(() => {
     // Show footer only for the "start" step, hide for wizard and stay code steps
     if (wichComponent === "start") {
-      appContext.setShowfooter(true);
+      appContext.setShowfooter(appContext?.isLoginMain ? true :false);
     } else {
       appContext.setShowfooter(false);
     }

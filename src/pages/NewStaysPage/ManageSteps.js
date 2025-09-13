@@ -230,7 +230,9 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     handleSearchProvince();
     handleSearchListAccommodationSpace();
   }, [stayCodeToComplete]);
-  //
+  
+
+  
   //   دریافت اطلاعات اقامتگاه
   const handleGetInfoStay = async () => {
     const hostResult = await HostTourSearchOneApiForEdit(stayCodeToComplete);

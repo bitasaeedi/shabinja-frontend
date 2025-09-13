@@ -14,7 +14,7 @@ import {
   DialogActions,
   CircularProgress,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
 import {
   ConvertToShamsi,
@@ -29,28 +29,33 @@ import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 const baseUrl = API_URL;
 
-function CancelDialog({ handleClose, handleCancel, loadingCancel, open }) {
+function CancelDialog({handleClose,handleCancel , loadingCancel ,open}) {
   return (
-    <Dialog open={open} onClose={() => handleClose(false)}>
-      <DialogTitle>لغو رزرو</DialogTitle>
+    <>
+      <div>
+        <Dialog open={open} onClose={handleClose}>
+          <DialogTitle>لغو رزرو</DialogTitle>
 
-      <DialogContent>
-        <DialogContentText>
-          آیا مطمئنید که می‌خواهید این رزرو را لغو کنید؟
-        </DialogContentText>
-      </DialogContent>
+          <DialogContent>
+            <DialogContentText>
+              آیا مطمئنید که می‌خواهید این رزرو را لغو کنید؟
+            </DialogContentText>
+          </DialogContent>
 
-      <DialogActions>
-        <Button onClick={() => handleClose(false)}>انصراف</Button>
-        <Button onClick={handleCancel}>
-          {loadingCancel ? (
-            <CircularProgress size={20} color="primary" />
-          ) : (
-            "تایید"
-          )}
-        </Button>
-      </DialogActions>
-    </Dialog>
+          <DialogActions>
+            <Button onClick={()=>{handleClose(false)}}>انصراف</Button>
+            <Button onClick={()=>{handleCancel()}}>
+              {loadingCancel ? (
+                <CircularProgress size={20} color="primary" />
+              ) : (
+                "تایید"
+              )}
+            </Button>
+          </DialogActions>
+
+        </Dialog>
+      </div>
+    </>
   );
 }
 
@@ -61,29 +66,28 @@ const CardStays = ({ stay }) => {
     handleDeleteRequest,
     handleRemoveStay,
   } = useContext(ContainerMainContext);
-
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openConfirmDelete, setOpenConfirmDelete] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [loadingCancel, setLoadingCancel] = useState(false);
-  const menuOpen = Boolean(anchorEl);
+  const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleDialog = (value) => {
-    setOpenDialog(value);
-  };
+  function handleDialog(value){
+    setOpenDialog(value)
+  }
 
-  const handleMenuClose = () => {
+  const handleClose = () => {
     setAnchorEl(null);
   };
 
   // پذیرش درخواست اقامتگاه
   const handleNextLevele = async () => {
-    handleMenuClose();
+    handleClose();
     handleAcceptRequest(stay?.guid);
   };
 
@@ -99,7 +103,7 @@ const CardStays = ({ stay }) => {
   };
 
   const handleCancel = async () => {
-    setLoadingCancel(true);
+    setLoadingCancel(true)
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
@@ -110,6 +114,7 @@ const CardStays = ({ stay }) => {
           },
         }
       );
+      console.log("cancl", response?.data);
       if (handleRemoveStay && stay?.guid) {
         handleRemoveStay(stay.guid);
       }
@@ -117,9 +122,8 @@ const CardStays = ({ stay }) => {
     } catch (error) {
       console.log("cancel :", error?.response?.data);
       return error?.response?.data;
-    } finally {
-      setLoadingCancel(false);
-      handleDialog(false); // close dialog after action
+    }finally{
+      setLoadingCancel(false)
     }
   };
 
@@ -129,15 +133,20 @@ const CardStays = ({ stay }) => {
         sx={{
           padding: 2,
           borderRadius: 2,
-          boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-          backgroundColor: "white",
+          boxShadow: {
+            xs: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+            md: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+          },
+          backgroundColor: "greay",
+          borderBottom: { xs: "none", md: "none" },
           my: 2,
           px: 1,
+          // border: "solid thin gray"
         }}
       >
         <Grid container spacing={0}>
           {/* right section */}
-          <Grid item xs={12} md={9}>
+          <Grid item xs="12" md="9">
             <Grid container spacing={2}>
               {/* عکس اقامتگاه */}
               <Grid item xs={"auto"}>
@@ -148,6 +157,7 @@ const CardStays = ({ stay }) => {
                   sx={{
                     width: { xs: 80, md: 180 },
                     height: { xs: 80, md: 120 },
+                    // height: "auto",
                     borderRadius: 1,
                     objectFit: "cover",
                     backgroundColor: "grey.200",
@@ -155,69 +165,96 @@ const CardStays = ({ stay }) => {
                 />
               </Grid>
 
-              {/* اطلاعات اقامتگاه */}
+              {/* اطلاعاتن اقامتگاه */}
               <Grid xs item sx={{ pl: 1 }}>
-                <Box sx={{ width: "100%", mx: 0 }}>
-                  <Typography variant="h6" fontWeight="bold" gutterBottom>
-                    {stay?.hostTourTitle}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    <Box component="span" display="flex" alignItems="center">
-                      <Box component="span" mr={0.5}>
-                        📍
+                <Box
+                  sx={{
+                    width: "100%",
+
+                    mx: 0,
+                  }}
+                >
+                  <Box>
+                    {/* اسم اقامتگاه و ادرس */}
+                    <Box>
+                      <Typography variant="h6" fontWeight="bold" gutterBottom>
+                        {stay?.hostTourTitle}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        <Box
+                          component="span"
+                          display="flex"
+                          alignItems="center"
+                        >
+                          <Box component="span" mr={0.5}>
+                            📍
+                          </Box>
+                          {stay?.hostTourCityTitle}
+                        </Box>
+                      </Typography>
+                    </Box>
+
+                    {/* قسمت مشخصات رزرو */}
+                    <Box
+                      sx={{
+                        mt: 1,
+                        width: "100%",
+                        display: "flex ",
+                        mx: 0,
+                        // justifyContent: {
+                        //   xs: "space-between",
+                        //   md: "flex-start",
+                        // },
+                      }}
+                    >
+                      {/* تعداد مهمان */}
+                      <Box sx={{ mr: 1 }}>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ fontSize: 13 }}
+                        >
+                          تعداد مهمان
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          // color="text.secondary"
+                          fontWeight={"bold"}
+                          sx={{ fontSize: 14 }}
+                        >
+                          {stay?.personCount} نفر
+                        </Typography>
                       </Box>
-                      {stay?.hostTourCityTitle}
-                    </Box>
-                  </Typography>
 
-                  {/* مشخصات رزرو */}
-                  <Box
-                    sx={{
-                      mt: 1,
-                      width: "100%",
-                      display: "flex ",
-                      mx: 0,
-                    }}
-                  >
-                    {/* تعداد مهمان */}
-                    <Box sx={{ mr: 1 }}>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: 13 }}
+                      {/* تاریخ اقامت */}
+                      <Box
+                        sx={{
+                          borderLeft: "solid 1px gray",
+                          pl: 2,
+                        }}
                       >
-                        تعداد مهمان
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        sx={{ fontSize: 14 }}
-                      >
-                        {stay?.personCount} نفر
-                      </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{ fontSize: 13 }}
+                        >
+                          تاریخ اقامت
+                        </Typography>
+                        <Typography
+                          variant="subtitle1"
+                          // color="text.secondary"
+                          fontWeight={"bold"}
+                          sx={{ fontSize: 14 }}
+                        >
+                          {`${HandleShowDateLikeStr(
+                            ConvertToShamsi(stay?.start)
+                          )} - ${HandleShowDateLikeStr(
+                            ConvertToShamsi(stay?.end, 1)
+                          )}`}
+                        </Typography>
+                      </Box>
                     </Box>
-
-                    {/* تاریخ اقامت */}
-                    <Box sx={{ borderLeft: "solid 1px gray", pl: 2 }}>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        sx={{ fontSize: 13 }}
-                      >
-                        تاریخ اقامت
-                      </Typography>
-                      <Typography
-                        variant="subtitle1"
-                        fontWeight="bold"
-                        sx={{ fontSize: 14 }}
-                      >
-                        {`${HandleShowDateLikeStr(
-                          ConvertToShamsi(stay?.start)
-                        )} - ${HandleShowDateLikeStr(
-                          ConvertToShamsi(stay?.end, 1)
-                        )}`}
-                      </Typography>
-                    </Box>
+                    {/* === */}
                   </Box>
                 </Box>
               </Grid>
@@ -225,25 +262,32 @@ const CardStays = ({ stay }) => {
 
             {/* stepper */}
             <Grid container>
-              <Grid item xs={12} sx={{ mt: 2 }}>
+              <Grid item xs="12" sx={{ mt: 2 }}>
                 <StepperReserve
                   errorTab={
-                    stay?.state === 4 || stay?.state === 5 ? true : stay?.expired
+                    stay?.state === 4 || stay?.state === 5
+                      ? true
+                      : stay?.expired
                   }
                   activeStep={(() => {
                     const s = stay?.state ?? 0;
-                    if (s === 5) return 3;
-                    if (s === 4) return 1;
+                    if (s === 5) return 3; // delivered/cancelled mapping previously
+                    if (s === 4) return 1; // map 4 to step 1 as requested
                     const base = s + 1;
                     return Number(base) ? base : 0;
                   })()}
-                  steps={["ثبت درخواست", "تایید میزبان", "پرداخت", "تحویل کلید"]}
+                  steps={[
+                    "ثبت درخواست",
+                    "تایید میزبان",
+                    "پرداخت",
+                    "تحویل کلید",
+                  ]}
                 />
               </Grid>
             </Grid>
           </Grid>
 
-          {/* left section */}
+          {/* left section   */}
           <Grid
             item
             xs
@@ -256,12 +300,13 @@ const CardStays = ({ stay }) => {
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
+                alignItems: "space-between",
               }}
             >
               {/* میزبان */}
               <Box sx={{ display: { xs: "none", md: "block" } }}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  {/* اسم میهمان */}
+                  {/* اسم میزبان */}
                   <Box>
                     <Typography
                       variant="body2"
@@ -272,20 +317,23 @@ const CardStays = ({ stay }) => {
                     </Typography>
                     <Typography
                       variant="subtitle1"
-                      fontWeight="bold"
+                      // color="text.secondary"
+                      fontWeight={"bold"}
                       sx={{ fontSize: 16 }}
                     >
                       {stay?.fullName}
                     </Typography>
                   </Box>
 
-                  {/* گزینه های بیشتر */}
+                  {/* گزینه های بیشتر منو*/}
+
                   <Box>
+                    {/* menu icon */}
                     <IconButton
                       id="basic-button"
-                      aria-controls={menuOpen ? "basic-menu" : undefined}
+                      aria-controls={open ? "basic-menu" : undefined}
                       aria-haspopup="true"
-                      aria-expanded={menuOpen ? "true" : undefined}
+                      aria-expanded={open ? "true" : undefined}
                       onClick={handleClick}
                       size="small"
                     >
@@ -295,8 +343,8 @@ const CardStays = ({ stay }) => {
                     <Menu
                       id="basic-menu"
                       anchorEl={anchorEl}
-                      open={menuOpen}
-                      onClose={handleMenuClose}
+                      open={open}
+                      onClose={handleClose}
                       anchorOrigin={{
                         vertical: "bottom",
                         horizontal: "left",
@@ -306,7 +354,9 @@ const CardStays = ({ stay }) => {
                         horizontal: "left",
                       }}
                       slotProps={{
-                        list: { "aria-labelledby": "basic-button" },
+                        list: {
+                          "aria-labelledby": "basic-button",
+                        },
                       }}
                     >
                       <MenuItem
@@ -317,26 +367,31 @@ const CardStays = ({ stay }) => {
                           )
                         }
                         onClick={() => {
-                          handleMenuClose();
-                          handleDialog(true);
+                          handleClose();
+                          handleDialog(true)
+                          // handleCancel();
                         }}
                         sx={{ minWidth: "100px", textAlign: "center" }}
                       >
                         لغو
                       </MenuItem>
+
+                      {/* <MenuItem
+                        disabled={!(stay?.state === 2 || stay?.state === 3)}
+                        onClick={() => {
+                          setOpenConfirmDelete(true);
+                          handleClose();
+                        }}
+                      >
+                        حذف از تاریخچه
+                      </MenuItem> */}
                     </Menu>
                   </Box>
-
-                  <CancelDialog
-                    handleClose={handleDialog}
-                    handleCancel={handleCancel}
-                    open={openDialog}
-                    loadingCancel={loadingCancel}
-                  />
+                  <CancelDialog handleClose={handleDialog} handleCancel={handleCancel}  open={openDialog} loadingCancel={loadingCancel}/>
                 </Box>
               </Box>
 
-              {/* کد رزرو */}
+              {/* code */}
               <Box
                 sx={{
                   display: "flex",
@@ -355,8 +410,8 @@ const CardStays = ({ stay }) => {
                 <Typography
                   variant="subtitle1"
                   color="black"
-                  fontWeight="bold"
-                  sx={{ fontSize: 15 }}
+                  fontWeight={"bold"}
+                  sx={{ fontSize: 15, display: "inline-block" }}
                 >
                   {stay?.orderNumber || ""}
                 </Typography>
@@ -372,14 +427,20 @@ const CardStays = ({ stay }) => {
                   >
                     مبلغ کل:
                   </Typography>
-                  <Typography variant="subtitle1" fontWeight="bold" sx={{ fontSize: 16 }}>
+                  <Typography
+                    variant="subtitle1"
+                    // color="text.secondary"
+                    fontWeight={"bold"}
+                    sx={{ fontSize: 16 }}
+                  >
                     {ToRial(stay?.facktorPrice)}
-                    <Typography component="span" sx={{ mx: 1 }}>
+                    <Typography variant="span" sx={{ mx: 1 }}>
                       تومان
                     </Typography>
                   </Typography>
                 </Box>
 
+                {/* کلید */}
                 {stay?.state === 0 && stay?.expired === false && (
                   <Box>
                     <Button
@@ -387,41 +448,57 @@ const CardStays = ({ stay }) => {
                       variant="contained"
                       color="dark"
                       fullWidth
-                      size="small"
+                      size={"small"}
                       sx={{
                         color: "white",
-                        backgroundColor: "#212121",
-                        "&:hover": { opacity: 0.8, backgroundColor: "#212121" },
-                        "&:active": { transform: "scale(0.98)", backgroundColor: "#212121" },
+                        // fontSize: 16,
+                        backgroundColor: "#212121", // Ensures dark background
+                        "&:hover": {
+                          opacity: 0.8,
+                          backgroundColor: "#212121", // Maintain dark background on hover
+                        },
+                        "&:active": {
+                          transform: "scale(0.98)",
+                          backgroundColor: "#212121", // Maintain dark background when clicked
+                        },
                         "&.Mui-disabled": {
-                          backgroundColor: "#424242",
-                          color: "rgba(255, 255, 255, 0.5)",
-                          cursor: "not-allowed",
+                          backgroundColor: "#424242", // Slightly lighter dark color when disabled
+                          color: "rgba(255, 255, 255, 0.5)", // Semi-transparent white text
+                          cursor: "not-allowed", // Show not-allowed cursor
                         },
                       }}
                     >
                       تایید درخواست
                     </Button>
                     <Button
-                      onClick={() => setOpenConfirm(true)}
+                      onClick={() => {
+                        setOpenConfirm(true);
+                      }}
                       variant="text"
                       color="error"
                       fullWidth
-                      sx={{ mt: 1 }}
-                      size="small"
+                      sx={{
+                        mt: 1,
+                        // fontSize: 18,
+                      }}
+                      size={"small"}
                     >
                       رد درخواست
                     </Button>
                   </Box>
                 )}
-
                 {(stay?.state === 3 || stay?.state === 2) && (
                   <Button
-                    onClick={() => setOpenConfirmDelete(true)}
+                    onClick={() => {
+                      setOpenConfirmDelete(true);
+                    }}
                     variant="text"
                     color="error"
                     fullWidth
-                    sx={{ mt: 1, fontSize: 18 }}
+                    sx={{
+                      mt: 1,
+                      fontSize: 18,
+                    }}
                   >
                     حذف از تاریخچه
                   </Button>

@@ -7,16 +7,6 @@ import {
   Typography,
   Menu,
   MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  CircularProgress,
-  FormGroup,
-  FormControlLabel,
-  Checkbox,
-  TextField,
 } from "@mui/material";
 import React, { useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
@@ -30,124 +20,50 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
+import CancelDialog from "./CancelDialog";
+import MyAlertMui from "../../../../../../components/MyAlertMui/MyAlertMui";
 const baseUrl = API_URL;
-
-function CancelDialog({open, setOpen, handleCancel, loadingCancel}) {
-  // const [open, setOpen] = useState(false);
-  
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const [checkedOptions, setCheckedOptions] = useState({
-    option1: false,
-    option2: false,
-    option3: false,
-  });
-  const [reason, setReason] = useState("");
-
-  const handleCheckboxChange = (event) => {
-    setCheckedOptions({
-      ...checkedOptions,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const handleReasonChange = (event) => {
-    setReason(event.target.value);
-  };
-
-  return (
-    <Dialog open={open} onClose={handleClose} fullWidth>
-      <DialogTitle>لغو رزرو</DialogTitle>
-      <DialogContent>
-        <DialogContentText mb={1} sx={{fontSize:14}}>
-          لطفاً دلیل لغو رزرو را انتخاب و توضیح دهید:
-        </DialogContentText>
-
-        {/* لیست چک‌باکس‌ها */}
-        <FormGroup  sx={{fontSize:15}}>
-          <FormControlLabel
-           sx={{fontSize:15}}
-            control={
-              <Checkbox
-                checked={checkedOptions.option1}
-                onChange={handleCheckboxChange}
-                name="option1"
-              />
-            }
-
-            label="تغییر برنامه سفر"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checkedOptions.option2}
-                onChange={handleCheckboxChange}
-                name="option2"
-              />
-            }
-            label="مشکل در اقامتگاه"
-          />
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={checkedOptions.option3}
-                onChange={handleCheckboxChange}
-                name="option3"
-              />
-            }
-            label="سایر دلایل"
-          />
-        </FormGroup>
-
-        {/* فیلد توضیح دلایل */}
-        {checkedOptions.option3 &&  <TextField
-          label="توضیح دلیل لغو (اختیاری)"
-          multiline
-          rows={2}
-          fullWidth
-          margin="normal"
-          value={reason}
-        sx={{fontSize:16}}
-          onChange={handleReasonChange}
-        />}
-       
-      </DialogContent>
-
-      <DialogActions>
-        <Button onClick={handleClose}>انصراف</Button>
-        <Button onClick={() => handleCancel({ checkedOptions, reason })}>
-          {loadingCancel ? <CircularProgress size={20} color="primary" /> : "تایید"}
-        </Button>
-      </DialogActions>
-    </Dialog>
-  );
-}
-
 
 const CardStays = ({ stay, onRemove }) => {
   const [loadingCancel, setLoadingCancel] = useState(false);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [cancelReason, setCancelReason] = useState(null);
   const open = Boolean(anchorEl);
   const [openCancel, setOpenCancel] = useState(false);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const [showAlertSetting, setShowAlertSetting] = useState({
+    show: false,
+    status: "error",
+    message: "خطای نامشخص",
+  });
+
+  const handleMangeAlert = (show, status, message) => {
+    setShowAlertSetting({
+      show,
+      status,
+      message,
+    });
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
   };
-// cancel reservation
+
+  function changeReason(value) {
+    setCancelReason(value);
+  }
+  // cancel reservation
   const handleCancell = async () => {
     setLoadingCancel(true);
-    console.log("cancell");
+    console.log("ap", cancelReason);
 
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `${baseUrl}/HostTourOrder/Cancelled/${stay?.guid}`,
+        `${baseUrl}/HostTourOrder/Cancelled/${stay?.guid}/${cancelReason}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -155,6 +71,7 @@ const CardStays = ({ stay, onRemove }) => {
         }
       );
       console.log("رزرو با موفقیت لغو شد");
+      handleMangeAlert(true, "success", "رزرو با موفقیت لغو شد");
 
       // Remove the card from the UI after successful cancellation
       if (onRemove && stay?.guid) {
@@ -165,6 +82,7 @@ const CardStays = ({ stay, onRemove }) => {
     } catch (error) {
       console.log("Error:", error?.response?.data);
       console.log("لغو ناموفق");
+      handleMangeAlert(true, "success", "لغو ناموفق");
       return error?.response?.data;
     } finally {
       handleClose();
@@ -172,26 +90,30 @@ const CardStays = ({ stay, onRemove }) => {
     }
   };
 
-  const handleDelete = async () => {};
+  // عدم  تحوبل کلید
+  const notDeliver = async () => {
+    console.log("cancell");
 
-  const stepsList = [
-    {
-      stepNum: 0,
-      title: "ثبت درخواست",
-    },
-    {
-      stepNum: 1,
-      title: "تایید میزبان ",
-    },
-    {
-      stepNum: 2,
-      title: "پرداخت ",
-    },
-    {
-      stepNum: 3,
-      title: "تحویل کلید ",
-    },
-  ];
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(
+        `${baseUrl}/HostTourOrder/NotDelivered/${stay?.guid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log("در اسرع وقت بررسی می شود");
+      handleMangeAlert(true, "success", "در اسرع وقت رسیدگی می شود");
+
+      return response.data;
+    } catch (error) {
+      console.log("error for not deliver", error?.response);
+      handleMangeAlert(true, "error", "درخواست شما با خطا مواجه شد");
+      return error?.response?.data;
+    }
+  };
 
   return (
     <Card
@@ -360,12 +282,13 @@ const CardStays = ({ stay, onRemove }) => {
             <Grid item xs="12" sx={{ mt: 2 }}>
               <StepperReserve
                 errorTab={
-                  stay?.state === 4 || stay?.state === 5 ? true : stay?.expired
+                  stay?.state === 4 || stay?.state === 5 ||stay?.state===6 ? true : stay?.expired
                 }
                 activeStep={(() => {
                   const s = stay?.state ?? 0;
                   if (s === 5) return 3; // delivered/cancelled mapping previously
                   if (s === 4) return 1; // map 4 to step 1 as requested
+                  if (s === 6) return 3; 
                   const base = s + 1;
                   return Number(base) ? base : 0;
                 })()}
@@ -396,17 +319,17 @@ const CardStays = ({ stay, onRemove }) => {
                 {/* اسم میزبان */}
                 <Box>
                   <Typography
-                   variant="body2"
-                   color="text.secondary"
-                   sx={{ fontSize: 12 }}
+                    variant="body2"
+                    color="text.secondary"
+                    sx={{ fontSize: 12 }}
                   >
                     میزبان
                   </Typography>
                   <Typography
-                   variant="subtitle1"
-                   // color="text.secondary"
-                   fontWeight={"bold"}
-                   sx={{ fontSize: 16 }}
+                    variant="subtitle1"
+                    // color="text.secondary"
+                    fontWeight={"bold"}
+                    sx={{ fontSize: 16 }}
                   >
                     {stay?.hostTourUserFullName}
                   </Typography>
@@ -433,9 +356,9 @@ const CardStays = ({ stay, onRemove }) => {
                       },
                     }}
                     PaperProps={{
-                        sx:{
-                          borderRadius:2
-                        }
+                      sx: {
+                        borderRadius: 2,
+                      },
                     }}
                   >
                     <MenuItem
@@ -448,19 +371,38 @@ const CardStays = ({ stay, onRemove }) => {
                       جزئیات رزرو
                     </MenuItem>
                     {stay?.state === 2 && (
-                        <MenuItem onClick={()=>setOpenCancel(true)}>لغو</MenuItem>
+                      <MenuItem onClick={() => setOpenCancel(true)}>
+                        لغو
+                      </MenuItem>
                     )}
-                     {stay?.state === 3 && (
-                      <MenuItem onClick={handleCancell}>عدم تحویل کلید</MenuItem>
+                    {stay?.state === 3 && (
+                      <MenuItem
+                        onClick={() => {
+                          notDeliver();
+                        }}
+                      >
+                        عدم تحویل کلید
+                      </MenuItem>
                     )}
-                    <CancelDialog open={openCancel} setOpen={setOpenCancel} handleCancel={handleCancell} loadingCancel={loadingCancel} />
+                    <CancelDialog
+                      changeReason={changeReason}
+                      open={openCancel}
+                      setOpen={setOpenCancel}
+                      handleCancel={handleCancell}
+                      loadingCancel={loadingCancel}
+                    />
                   </Menu>
                 </Box>
               </Box>
             </Box>
 
             <Box
-              sx={{ display: "flex", alignItems: "center", gap: "5px", mt: 2.5 }}
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: "5px",
+                mt: 2.5,
+              }}
             >
               <Typography
                 variant="body2"
@@ -493,7 +435,7 @@ const CardStays = ({ stay, onRemove }) => {
                   variant="subtitle1"
                   // color="text.secondary"
                   fontWeight={"bold"}
-                  sx={{ fontSize: 17 , mb:.5 }}
+                  sx={{ fontSize: 17, mb: 0.5 }}
                 >
                   {ToRial(stay?.facktorPrice)}
                 </Typography>
@@ -523,11 +465,16 @@ const CardStays = ({ stay, onRemove }) => {
                   },
                 }}
                 disabled={stay?.state !== 1 || stay?.expired === true}
-                onClick={()=>{stay?.state === 1 ? navigate(`/book/preorder/${stay?.orderNumber}`) : console.log("0");
+                onClick={() => {
+                  stay?.state === 1
+                    ? navigate(`/book/preorder/${stay?.orderNumber}`)
+                    : console.log("0");
                 }}
               >
                 {stay?.state === 5
                   ? "لغو شده"
+                  :stay?.state === 6
+                  ? "عدم تحویل کلید"
                   : stay?.expired === true
                   ? " منقضی شده"
                   : stay?.state === 0
@@ -536,8 +483,8 @@ const CardStays = ({ stay, onRemove }) => {
                   ? "پرداخت"
                   : stay?.state === 2
                   ? "به اقامتگاه بروید"
-                  :stay?.state === 3
-                  ?"کلید تحویل داده شده"
+                  : stay?.state === 3
+                  ? "کلید تحویل داده شده"
                   : stay?.state === 4
                   ? "رد توسط میزبان"
                   : "نامشخص"}
@@ -546,6 +493,19 @@ const CardStays = ({ stay, onRemove }) => {
           </Box>
         </Grid>
       </Grid>
+      {showAlertSetting?.show && (
+        <MyAlertMui
+          message={showAlertSetting?.message || ""}
+          handleClose={() =>
+            handleMangeAlert(
+              false,
+              showAlertSetting?.status,
+              showAlertSetting?.message
+            )
+          }
+          status={showAlertSetting?.status}
+        />
+      )}
     </Card>
   );
 };
