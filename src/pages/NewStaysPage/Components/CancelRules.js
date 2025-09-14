@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Card,
@@ -19,6 +19,54 @@ const CancelRules = () => {
   const [last3Day, setlast3Day] = useState("");
   const [moreDays, setMoreDays] = useState("");
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    cancelPercentageFirst: manageStepsContext?.hostInfoUpdating?.cancelPercentageFirst || "",
+    cancelPercentageSecond: manageStepsContext?.hostInfoUpdating?.cancelPercentageSecond || "",
+    cancelPercentageThird: manageStepsContext?.hostInfoUpdating?.cancelPercentageThird || "",
+  });
+
+  const hasFormChanged = useCallback(() => {
+    return (
+      lastDay !== originalValues.cancelPercentageFirst ||
+      last3Day !== originalValues.cancelPercentageSecond ||
+      moreDays !== originalValues.cancelPercentageThird
+    );
+  }, [lastDay, last3Day, moreDays, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (
+      originalValues.cancelPercentageFirst ||
+      originalValues.cancelPercentageSecond ||
+      originalValues.cancelPercentageThird
+    );
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = lastDay && last3Day && moreDays;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [lastDay, last3Day, moreDays, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   const isNextDisabled = () => !lastDay || !last3Day || !moreDays;
 
@@ -235,6 +283,7 @@ const CancelRules = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

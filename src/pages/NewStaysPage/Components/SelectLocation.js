@@ -1,16 +1,31 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Alert, Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import LocationOnOutlinedIcon from "@mui/icons-material/LocationOnOutlined";
 import MyMap from "../../../components/MyMap/MyMap";
-import MapOutlined from "@mui/icons-material/MapOutlined";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import { ManageStepsContext } from "../ManageSteps";
 const SelectLocation = () => {
   const manageStepsContext = useContext(ManageStepsContext);
 
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
   const [newPosition, setNewPosition] = useState(null);
   const [defaultPosition, setDefaultPosition] = useState(null);
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    loc: manageStepsContext?.hostInfoUpdating?.loc || "",
+  });
+  const handleGetDefaultPosition = useCallback(async () => {
+    const result = await geocodeLocation(
+      manageStepsContext?.hostInfoUpdating?.cityTitle,
+      manageStepsContext?.hostInfoUpdating?.cityProvinceTitle
+    );
+    setDefaultPosition(
+      result?.lat ? `${result?.lat},${result?.lon}` : "35.6892523,51.3896004"
+    );
+  }, [manageStepsContext?.hostInfoUpdating?.cityTitle, manageStepsContext?.hostInfoUpdating?.cityProvinceTitle]);
+  
   useEffect(() => {
     if (
       manageStepsContext?.hostInfoUpdating?.loc &&
@@ -20,24 +35,48 @@ const SelectLocation = () => {
     } else if (manageStepsContext?.hostInfoUpdating?.cityTitle) {
       handleGetDefaultPosition();
     }
-  }, [manageStepsContext?.hostInfoUpdating]);
+  }, [manageStepsContext?.hostInfoUpdating, handleGetDefaultPosition]);
   // دریافت موقعیت جدید از نقشه
   const returnNewPositionOnDrag = (lat, lng, id) => {
     setNewPosition(`${lat},${lng}`);
   };
 
   // دریافت موقعیت شهر
-  const handleGetDefaultPosition = async () => {
-    const result = await geocodeLocation(
-      manageStepsContext?.hostInfoUpdating?.cityTitle,
-      manageStepsContext?.hostInfoUpdating?.cityProvinceTitle
-    );
-    setDefaultPosition(
-      result?.lat ? `${result?.lat},${result?.lon}` : "35.6892523,51.3896004"
-    );
-  };
+
 
   // به روز رسانی موقعیت جدید
+  const hasFormChanged = useCallback(() => {
+    return newPosition !== originalValues.loc;
+  }, [newPosition, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return originalValues.loc && originalValues.loc.trim() !== "";
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = newPosition !== null;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [newPosition, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
+
   const onSubmit = async () => {
     if (!newPosition) {
       return;
@@ -75,8 +114,6 @@ const SelectLocation = () => {
     } catch (error) {
       // console.error("Error during geocoding:", error);
       return { lat: parseFloat(35.6892523), lon: parseFloat(51.3896004) };
-
-      return null;
     }
   };
 
@@ -206,6 +243,7 @@ const SelectLocation = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={!newPosition}
+        buttonText={buttonName}
       />
     </>
   );

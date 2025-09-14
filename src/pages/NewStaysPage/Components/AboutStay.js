@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import {
@@ -30,6 +30,7 @@ const listStairs = [
 const AboutStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
   const [goodForOld, setGoodForOld] = useState(true);
   const [countFloor, setCountFloor] = useState(0);
   const { control, handleSubmit, watch, setValue, formState, getValues } =
@@ -45,6 +46,19 @@ const AboutStay = () => {
       },
     });
 
+  // Store original values for comparison
+  const [originalValues] = useState({
+    title: manageStepsContext?.hostInfoUpdating?.title || "",
+    description: manageStepsContext?.hostInfoUpdating?.dics || "",
+    AllSizeOfTheInfrastructure:
+      manageStepsContext?.hostInfoUpdating?.allSizeOfTheInfrastructure || "",
+    SizeOfTheInfrastructure:
+      manageStepsContext?.hostInfoUpdating?.sizeOfTheInfrastructure || "",
+    stair: manageStepsContext?.hostInfoUpdating?.step || "0",
+    disabled: manageStepsContext?.hostInfoUpdating?.disabled,
+    floor: manageStepsContext?.hostInfoUpdating?.floor,
+  });
+
   const AllSizeOfTheInfrastructureInput = watch("AllSizeOfTheInfrastructure");
   const SizeOfTheInfrastructureInput = watch("SizeOfTheInfrastructure");
   const description = watch("description");
@@ -55,6 +69,54 @@ const AboutStay = () => {
     setCountFloor(manageStepsContext?.hostInfoUpdating?.floor);
     setGoodForOld(manageStepsContext?.hostInfoUpdating?.disabled);
   }, [manageStepsContext?.hostInfoUpdating]);
+
+  const hasFormChanged = useCallback(() => {
+    return (
+      titleWatch !== originalValues.title ||
+      description !== originalValues.description ||
+      AllSizeOfTheInfrastructureInput !== originalValues.AllSizeOfTheInfrastructure ||
+      SizeOfTheInfrastructureInput !== originalValues.SizeOfTheInfrastructure ||
+      stairs !== originalValues.stair ||
+      goodForOld !== originalValues.disabled ||
+      countFloor !== originalValues.floor
+    );
+  }, [titleWatch, description, AllSizeOfTheInfrastructureInput, SizeOfTheInfrastructureInput, stairs, goodForOld, countFloor, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (
+      originalValues.title ||
+      originalValues.description ||
+      originalValues.AllSizeOfTheInfrastructure ||
+      originalValues.SizeOfTheInfrastructure ||
+      originalValues.stair ||
+      originalValues.disabled !== undefined ||
+      originalValues.floor !== undefined
+    );
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = titleWatch && description && AllSizeOfTheInfrastructureInput && SizeOfTheInfrastructureInput && stairs !== undefined;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [titleWatch, description, AllSizeOfTheInfrastructureInput, SizeOfTheInfrastructureInput, stairs, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   const handleInputChange = (e, name) => {
     const value = e.target.value.replace(/,/g, ""); // Remove commas
@@ -339,6 +401,7 @@ const AboutStay = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

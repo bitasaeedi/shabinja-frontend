@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import {
@@ -29,7 +29,8 @@ const InfoStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
 
   const [loading, setLoading] = useState(false);
-  const { control, handleSubmit, watch, setValue, formState } = useForm({
+  const [buttonName, setButtonName] = useState("بعدی");
+  const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       type: manageStepsContext?.hostInfoUpdating?.accommodationSpaceId || "",
       TypeHostId: manageStepsContext?.hostInfoUpdating?.typeHostId || "",
@@ -37,10 +38,56 @@ const InfoStay = () => {
     },
   });
 
+  // Store original values for comparison
+  const [originalValues] = useState({
+    type: manageStepsContext?.hostInfoUpdating?.accommodationSpaceId || "",
+    TypeHostId: manageStepsContext?.hostInfoUpdating?.typeHostId || "",
+    TypeHostLocId: manageStepsContext?.hostInfoUpdating?.typeHostLocId || "",
+  });
+
   const typeInput = watch("type");
   const TypeHostIdInput = watch("TypeHostId");
   const TypeHostLocIdInput = watch("TypeHostLocId");
 
+  const hasFormChanged = useCallback(() => {
+    return (
+      typeInput !== originalValues.type ||
+      TypeHostIdInput !== originalValues.TypeHostId ||
+      TypeHostLocIdInput !== originalValues.TypeHostLocId
+    );
+  }, [typeInput, TypeHostIdInput, TypeHostLocIdInput, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (
+      originalValues.type ||
+      originalValues.TypeHostId ||
+      originalValues.TypeHostLocId
+    );
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = typeInput && TypeHostIdInput && TypeHostLocIdInput;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [typeInput, TypeHostIdInput, TypeHostLocIdInput, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
   
   // Submit handler
   const onSubmit = async (data) => {
@@ -218,6 +265,7 @@ const InfoStay = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

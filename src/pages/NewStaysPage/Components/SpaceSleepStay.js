@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Box, Typography, Button, Grid, TextField } from "@mui/material";
 import { ManageStepsContext } from "../ManageSteps";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
@@ -80,6 +80,7 @@ const Counter = ({ label, count, increment, decrement, unit }) => (
 const SpaceSleepStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
 
   const [bedrooms, setBedrooms] = useState(0);
   const [singleBeds, setSingleBeds] = useState(0);
@@ -94,6 +95,15 @@ const SpaceSleepStay = () => {
       },
     });
 
+  // Store original values for comparison
+  const [originalValues] = useState({
+    room: manageStepsContext?.hostInfoUpdating?.room || 0,
+    bed: manageStepsContext?.hostInfoUpdating?.bed || 0,
+    bedTwo: manageStepsContext?.hostInfoUpdating?.bedTwo || 0,
+    bedOld: manageStepsContext?.hostInfoUpdating?.bedOld || 0,
+    bathRoom: manageStepsContext?.hostInfoUpdating?.bathRoom || 0,
+  });
+
   useEffect(() => {
     setBedrooms(manageStepsContext?.hostInfoUpdating?.room);
     setSingleBeds(manageStepsContext?.hostInfoUpdating?.bed);
@@ -101,6 +111,50 @@ const SpaceSleepStay = () => {
     setTraditionalBeds(manageStepsContext?.hostInfoUpdating?.bedOld);
     setBathrooms(manageStepsContext?.hostInfoUpdating?.bathRoom);
   }, [manageStepsContext?.hostInfoUpdating]);
+
+  const hasFormChanged = useCallback(() => {
+    return (
+      bedrooms !== originalValues.room ||
+      singleBeds !== originalValues.bed ||
+      doubleBeds !== originalValues.bedTwo ||
+      traditionalBeds !== originalValues.bedOld ||
+      bathrooms !== originalValues.bathRoom
+    );
+  }, [bedrooms, singleBeds, doubleBeds, traditionalBeds, bathrooms, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (
+      originalValues.room > 0 ||
+      originalValues.bed > 0 ||
+      originalValues.bedTwo > 0 ||
+      originalValues.bedOld > 0 ||
+      originalValues.bathRoom > 0
+    );
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = bedrooms >= 0 && singleBeds >= 0 && doubleBeds >= 0 && traditionalBeds >= 0 && bathrooms >= 0;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [bedrooms, singleBeds, doubleBeds, traditionalBeds, bathrooms, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   const onSubmit = async () => {
     setLoading(true);
@@ -278,6 +332,7 @@ const SpaceSleepStay = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

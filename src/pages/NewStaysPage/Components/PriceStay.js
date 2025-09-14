@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import {
@@ -42,8 +42,26 @@ const listSeasons = [
 const PriceStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
 
-  const { control, handleSubmit, setValue, getValues } = useForm({});
+  const { control, handleSubmit, setValue, getValues, watch } = useForm({});
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    midWeekspring: "",
+    endWeekspring: "",
+    peakDaysspring: "",
+    midWeeksummer: "",
+    endWeeksummer: "",
+    peakDayssummer: "",
+    midWeekautumn: "",
+    endWeekautumn: "",
+    peakDaysautumn: "",
+    midWeekwinter: "",
+    endWeekwinter: "",
+    peakDayswinter: "",
+    priceForExtraPersone: "",
+  });
   useEffect(() => {
     const myHostInfo = manageStepsContext?.hostInfoUpdating;
     // Set prices for Spring
@@ -93,6 +111,67 @@ const PriceStay = () => {
         setValue("peakDayswinter", ToRial(item?.priceBase));
     });
   }, [manageStepsContext?.hostInfoUpdating]);
+
+  const hasFormChanged = useCallback(() => {
+    const currentValues = getValues();
+    return (
+      currentValues.midWeekspring !== originalValues.midWeekspring ||
+      currentValues.endWeekspring !== originalValues.endWeekspring ||
+      currentValues.peakDaysspring !== originalValues.peakDaysspring ||
+      currentValues.midWeeksummer !== originalValues.midWeeksummer ||
+      currentValues.endWeeksummer !== originalValues.endWeeksummer ||
+      currentValues.peakDayssummer !== originalValues.peakDayssummer ||
+      currentValues.midWeekautumn !== originalValues.midWeekautumn ||
+      currentValues.endWeekautumn !== originalValues.endWeekautumn ||
+      currentValues.peakDaysautumn !== originalValues.peakDaysautumn ||
+      currentValues.midWeekwinter !== originalValues.midWeekwinter ||
+      currentValues.endWeekwinter !== originalValues.endWeekwinter ||
+      currentValues.peakDayswinter !== originalValues.peakDayswinter ||
+      currentValues.priceForExtraPersone !== originalValues.priceForExtraPersone
+    );
+  }, [getValues, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (
+      originalValues.midWeekspring ||
+      originalValues.endWeekspring ||
+      originalValues.peakDaysspring ||
+      originalValues.midWeeksummer ||
+      originalValues.endWeeksummer ||
+      originalValues.peakDayssummer ||
+      originalValues.midWeekautumn ||
+      originalValues.endWeekautumn ||
+      originalValues.peakDaysautumn ||
+      originalValues.midWeekwinter ||
+      originalValues.endWeekwinter ||
+      originalValues.peakDayswinter ||
+      originalValues.priceForExtraPersone
+    );
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = true; // PriceStay doesn't have strict validation
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   // Submit handler
   const onSubmit = async (data) => {
@@ -321,6 +400,7 @@ const PriceStay = () => {
         prevDisable={false}
         loading={loading}
         // nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Button,
@@ -26,13 +26,51 @@ const DocumentOfStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
 
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {},
   });
 
-  // useEffect(() => {
-  //   console.log(manageStepsContext?.hostInfoUpdating, "hostInfoUpdating");
-  // }, [manageStepsContext?.hostInfoUpdating]);
+  // Store original values for comparison
+  const [originalValues] = useState({
+    fileHost: manageStepsContext?.hostInfoUpdating?.fileHost || "",
+    nationallImage: manageStepsContext?.hostInfoUpdating?.nationallImage || "",
+  });
+
+  const hasFormChanged = useCallback(() => {
+    return (
+      manageStepsContext?.hostInfoUpdating?.fileHost !== originalValues.fileHost ||
+      manageStepsContext?.hostInfoUpdating?.nationallImage !== originalValues.nationallImage
+    );
+  }, [manageStepsContext?.hostInfoUpdating?.fileHost, manageStepsContext?.hostInfoUpdating?.nationallImage, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return originalValues.fileHost || originalValues.nationallImage;
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = manageStepsContext?.hostInfoUpdating?.fileHost && manageStepsContext?.hostInfoUpdating?.nationallImage;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [manageStepsContext?.hostInfoUpdating?.fileHost, manageStepsContext?.hostInfoUpdating?.nationallImage, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -126,6 +164,7 @@ const DocumentOfStay = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

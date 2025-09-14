@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Checkbox,
@@ -19,8 +19,14 @@ import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 const EmkanatStay = ({}) => {
   const manageStepsContext = useContext(ManageStepsContext);
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
 
   const [selectedList, setSelectedList] = useState([]);
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    otherItemTourIds: manageStepsContext?.hostInfoUpdating?.otherItemTourIds || [],
+  });
 
   useEffect(() => {
     var emkanatList =
@@ -28,6 +34,39 @@ const EmkanatStay = ({}) => {
     emkanatList = emkanatList.map((item) => parseFloat(item));
     setSelectedList(emkanatList);
   }, [manageStepsContext?.hostInfoUpdating?.otherItemTourIds]);
+
+  const hasFormChanged = useCallback(() => {
+    const originalIds = (originalValues.otherItemTourIds || []).map((item) => parseFloat(item));
+    return JSON.stringify(selectedList.sort()) !== JSON.stringify(originalIds.sort());
+  }, [selectedList, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (originalValues.otherItemTourIds || []).length > 0;
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = selectedList?.length > 0;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [selectedList, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -129,6 +168,7 @@ const EmkanatStay = ({}) => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

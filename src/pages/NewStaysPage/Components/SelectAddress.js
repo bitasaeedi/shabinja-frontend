@@ -126,19 +126,37 @@ const SelectAddress = () => {
     );
   }, [selectedProvince, selectedCity, addressInput, zipCodeInpute, tellInput, emergencyInput, originalValues]);
 
+  const hasOriginalData = useCallback(() => {
+    // Check if we have original data (not just empty strings)
+    return (
+      originalValues.province ||
+      originalValues.city ||
+      originalValues.address ||
+      originalValues.zipCod ||
+      originalValues.tell ||
+      originalValues.emergency
+    );
+  }, [originalValues]);
+
   const changeButtonName = useCallback(() => {
     const isFormComplete = handleUpdateStatus();
     const isUpdateMode = manageStepsContext?.stayCodeToComplete;
     const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
     
-    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged);
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
     
-    if (isUpdateMode && isFormComplete && formHasChanged) {
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
       setButtonName("ثبت");
     } else {
       setButtonName("بعدی");
     }
-  }, [handleUpdateStatus, hasFormChanged, manageStepsContext?.stayCodeToComplete]);
+  }, [handleUpdateStatus, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
 
   useEffect(() => {
     changeButtonName();

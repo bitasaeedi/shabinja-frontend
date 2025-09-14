@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState, useCallback } from "react";
 import {
   Box,
   Card,
@@ -286,11 +286,49 @@ const ShabinjaRules = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [buttonText, setButtonText] = useState({value:0,text:"امضای قرار داد"});
+  const [buttonName, setButtonName] = useState("بعدی");
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
     message: "خطای نامشخص",
   });
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    acceptRole: manageStepsContext?.hostInfoUpdating?.acceptRole || false,
+  });
+
+  const hasFormChanged = useCallback(() => {
+    return isSuccess !== originalValues.acceptRole;
+  }, [isSuccess, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return originalValues.acceptRole;
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = isSuccess;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [isSuccess, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   useEffect(()=>{
     const accept =manageStepsContext?.hostInfoUpdating?.acceptRole
@@ -562,7 +600,7 @@ const ShabinjaRules = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={!isSuccess} //false===فعال
-        buttonText="ثبت"
+        buttonText={buttonName}
       />
 
       {/* Alert Component */}

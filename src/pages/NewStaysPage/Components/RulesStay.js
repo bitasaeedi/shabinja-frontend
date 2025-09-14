@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import {
   Box,
   Card,
@@ -49,11 +49,19 @@ const RulesStay = () => {
   const [selectedList, setSelectedList] = useState([]);
   const [nightCount, setNightCount] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
   const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       start: manageStepsContext?.hostInfoUpdating?.start || "",
       end: manageStepsContext?.hostInfoUpdating?.end || "",
     },
+  });
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    start: manageStepsContext?.hostInfoUpdating?.start || "",
+    end: manageStepsContext?.hostInfoUpdating?.end || "",
+    rolItemTourIds: manageStepsContext?.hostInfoUpdating?.rolItemTourIds || [],
   });
 
   const startInput = watch("start");
@@ -66,6 +74,47 @@ const RulesStay = () => {
       rulesSelected = rulesSelected.map((item) => parseFloat(item));
     setSelectedList(rulesSelected);
   }, [manageStepsContext?.hostInfoUpdating?.rolItemTourIds]);
+
+  const hasFormChanged = useCallback(() => {
+    const originalIds = (originalValues.rolItemTourIds || []).map((item) => parseFloat(item));
+    return (
+      startInput !== originalValues.start ||
+      endInput !== originalValues.end ||
+      JSON.stringify(selectedList.sort()) !== JSON.stringify(originalIds.sort())
+    );
+  }, [startInput, endInput, selectedList, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return (
+      originalValues.start ||
+      originalValues.end ||
+      (originalValues.rolItemTourIds || []).length > 0
+    );
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = startInput && endInput && nightCount > 0;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [startInput, endInput, nightCount, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   useEffect(() => {
     if (startInput) {
@@ -245,6 +294,7 @@ const RulesStay = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

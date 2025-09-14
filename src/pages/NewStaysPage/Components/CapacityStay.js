@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import {
   Box,
@@ -91,6 +91,7 @@ const CapacityStay = () => {
   const manageStepsContext = useContext(ManageStepsContext);
 
   const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
   const [standardCapacity, setStandardCapacity] = useState(0);
   const [maxCapacity, setMaxCapacity] = useState(0);
 
@@ -98,10 +99,51 @@ const CapacityStay = () => {
     defaultValues: {},
   });
 
+  // Store original values for comparison
+  const [originalValues] = useState({
+    minCapacity: manageStepsContext?.hostInfoUpdating?.minCapacity || 0,
+    maxCapacity: manageStepsContext?.hostInfoUpdating?.maxCapacity || 0,
+  });
+
   useEffect(() => {
     setStandardCapacity(manageStepsContext?.hostInfoUpdating?.minCapacity);
     setMaxCapacity(manageStepsContext?.hostInfoUpdating?.maxCapacity);
   }, [manageStepsContext?.hostInfoUpdating]);
+
+  const hasFormChanged = useCallback(() => {
+    return (
+      standardCapacity !== originalValues.minCapacity ||
+      maxCapacity !== originalValues.maxCapacity
+    );
+  }, [standardCapacity, maxCapacity, originalValues]);
+
+  const hasOriginalData = useCallback(() => {
+    return originalValues.minCapacity > 0 || originalValues.maxCapacity > 0;
+  }, [originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = standardCapacity > 0 && maxCapacity >= standardCapacity;
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    const hasOriginal = hasOriginalData();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    
+    // Only show "ثبت" if:
+    // 1. We're in update mode AND
+    // 2. Form is complete AND 
+    // 3. Form has changed AND
+    // 4. We have original data (not just filling empty form)
+    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [standardCapacity, maxCapacity, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -218,6 +260,7 @@ const CapacityStay = () => {
         prevDisable={false}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );
