@@ -7,6 +7,7 @@ const FixedButtonsSubmit = ({
   nexDisable,
   loading,
   prevDisable,
+  buttonText="بعدی"
 }) => {
   return (
     <Box
@@ -92,7 +93,7 @@ const FixedButtonsSubmit = ({
               />
             </>
           ) : (
-            "بعدی"
+            buttonText
           )}
         </Button>
       </Box>

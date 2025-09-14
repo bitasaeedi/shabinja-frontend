@@ -334,7 +334,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         zipCod: updateData?.zipCod,
         emergencyMobile: updateData?.emergencyMobile,
         // FileHost: updateData?.fileHost,
-        IsRole: updateData?.isRoleF, //updateData?.isRoleF/
+        isRole: updateData?.isRole, //updateData?.isRoleF/
         // NationallImage: updateData?.nationallImage,
         PriceHostTourBaseSpring: [
           ...updateData?.priceHostTourBaseSpring,

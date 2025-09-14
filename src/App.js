@@ -225,7 +225,9 @@ function App() {
                     path="/edit-calendar/:staycode"
                     element={<EditCalendarPage />}
                   />
+                   <Route path="/404" element={<NotFound/>}/>
                   <Route path="*" element={<NotFound/>}/>
+                 
                   {/* <Route path="*" element={<Home />} /> */}
                 </Routes>
                 <Footer />

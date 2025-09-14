@@ -1,7 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect } from "react";
 import ImageSection from "./Components/ImageSection/ImageSection";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ScrollableTabs from "./Components/ScrollableTabs/ScrollableTabs";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
 import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
@@ -17,7 +17,7 @@ import MobileForm from "./Components/MobileForm/MobileForm";
 import TitleStay from "./Components/TitleStay/TitleStay";
 import { AppContext } from "../../App";
 import moment from "moment-jalaali";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
 
 export const StayPageContext = createContext();
 
@@ -29,6 +29,7 @@ const StayPage = () => {
   const [listPrices, setListPrices] = useState([]);
   const [mobileInfo, setMobileInfo] = useState({});
   const appContext = useContext(AppContext);
+  const navigte = useNavigate();
 
   useEffect(() => {
     appContext.setShowfooter(true);
@@ -65,11 +66,15 @@ const StayPage = () => {
     setLoading(true);
     setInfoOfStay({});
     const resultGetTour = await HostTourSearchOneApi(staycode);
-    var item = resultGetTour?.data;
-    console.log(item, "item handleSearchStayInfo");
-    setInfoOfStay(item);
-    setLoading(false);
-    return item;
+    if (resultGetTour?.issuccess) {
+      var item = resultGetTour?.data;
+      console.log(item, "item handleSearchStayInfo");
+      setInfoOfStay(item);
+      setLoading(false);
+      return item;
+    }else{
+      navigte("/404")
+    }
   };
 
   const handleGetListPrice = async () => {
@@ -90,7 +95,7 @@ const StayPage = () => {
     var month1 = result?.data?.prices || [];
     var month2 = result2?.data?.prices || [];
     var month3 = result3?.data?.prices || [];
-    
+
     const myList = [...month1, ...month2, ...month3];
     console.log(myList, "prices");
     setListPrices(myList);
@@ -153,7 +158,11 @@ const StayPage = () => {
                 px: { xs: 2, md: 0 },
               }}
             >
-              <Typography sx={{width:"100%",textAlign:"center"}} variant="h6" fontWeight="bold">
+              <Typography
+                sx={{ width: "100%", textAlign: "center" }}
+                variant="h6"
+                fontWeight="bold"
+              >
                 {infoOfStay?.title || ""}
               </Typography>
 
@@ -163,8 +172,13 @@ const StayPage = () => {
                 sx={{ marginBottom: 2 }}
               >
                 <StarIcon sx={{ fontSize: 16, color: "#ffd700" }} />
-                {mobileInfo?.rate/20 || 0}
-                <Typography display="inline" variant="body1" color="text.secondary" px={1}>
+                {mobileInfo?.rate / 20 || 0}
+                <Typography
+                  display="inline"
+                  variant="body1"
+                  color="text.secondary"
+                  px={1}
+                >
                   ({mobileInfo?.countcomment || 0} نظر ثبت شده)
                 </Typography>
               </Typography>
@@ -243,7 +257,7 @@ const StayPage = () => {
           marginBottom: "2rem",
         }}
       >
-        <MobileForm staycode={staycode}/>
+        <MobileForm staycode={staycode} />
       </Box>
     </StayPageContext.Provider>
   );

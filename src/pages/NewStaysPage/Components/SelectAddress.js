@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useCallback } from "react";
 import { useForm, Controller } from "react-hook-form";
 import MenuItem from "@mui/material/MenuItem";
 import {
@@ -16,8 +16,10 @@ import InputeContainer from "./Componnets/InputeContainer";
 import MapOutlined from "@mui/icons-material/MapOutlined";
 
 const SelectAddress = () => {
+  const [buttonName, setButtonName] = useState("بعدی");
+
   const manageStepsContext = useContext(ManageStepsContext);
-  const { control, handleSubmit, watch, setValue, formState } = useForm({
+  const { control, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       province: manageStepsContext?.hostInfoUpdating?.provinceId || "",
       city: manageStepsContext?.hostInfoUpdating?.cityId || "",
@@ -26,6 +28,16 @@ const SelectAddress = () => {
       tell: manageStepsContext?.hostInfoUpdating?.tell || "",
       emergency: manageStepsContext?.hostInfoUpdating?.emergencyMobile || "",
     },
+  });
+
+  // Store original values for comparison
+  const [originalValues] = useState({
+    province: manageStepsContext?.hostInfoUpdating?.provinceId || "",
+    city: manageStepsContext?.hostInfoUpdating?.cityId || "",
+    address: manageStepsContext?.hostInfoUpdating?.address || "",
+    zipCod: manageStepsContext?.hostInfoUpdating?.zipCod || "",
+    tell: manageStepsContext?.hostInfoUpdating?.tell || "",
+    emergency: manageStepsContext?.hostInfoUpdating?.emergencyMobile || "",
   });
 
   const [cities, setCities] = useState([]);
@@ -91,6 +103,47 @@ const SelectAddress = () => {
     );
   };
 
+  const handleUpdateStatus = useCallback(() => {
+    const complete =
+      selectedProvince &&
+      selectedCity &&
+      addressInput &&
+      addressInput.trim().length > 0 &&
+      tellInput?.toString()?.length > 0 &&
+      emergencyInput?.toString()?.length > 0 &&
+      zipCodeInpute?.toString()?.length > 0;
+    return complete;
+  }, [selectedProvince, selectedCity, addressInput, tellInput, emergencyInput, zipCodeInpute]);
+
+  const hasFormChanged = useCallback(() => {
+    return (
+      selectedProvince !== originalValues.province ||
+      selectedCity !== originalValues.city ||
+      addressInput !== originalValues.address ||
+      zipCodeInpute !== originalValues.zipCod ||
+      tellInput !== originalValues.tell ||
+      emergencyInput !== originalValues.emergency
+    );
+  }, [selectedProvince, selectedCity, addressInput, zipCodeInpute, tellInput, emergencyInput, originalValues]);
+
+  const changeButtonName = useCallback(() => {
+    const isFormComplete = handleUpdateStatus();
+    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
+    const formHasChanged = hasFormChanged();
+    
+    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged);
+    
+    if (isUpdateMode && isFormComplete && formHasChanged) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [handleUpdateStatus, hasFormChanged, manageStepsContext?.stayCodeToComplete]);
+
+  useEffect(() => {
+    changeButtonName();
+  }, [changeButtonName]);
+
   return (
     <>
       <Grid container spacing={3}>
@@ -116,6 +169,8 @@ const SelectAddress = () => {
                         setValue("city", "");
                         field.onChange(e);
                         handleProvinceChange(Number(e.target.value));
+                        changeButtonName();
+                        
                       }}
                     >
                       {manageStepsContext?.provinceList.map((province) => (
@@ -148,6 +203,10 @@ const SelectAddress = () => {
                       fullWidth
                       // label="شهر"
                       disabled={cities.length === 0}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        changeButtonName();
+                      }}
                     >
                       {cities.map((city) => (
                         <MenuItem key={city.id} value={city.id}>
@@ -185,6 +244,10 @@ const SelectAddress = () => {
                       multiline
                       rows={2}
                       fullWidth
+                      onChange={(e) => {
+                        field.onChange(e);
+                        changeButtonName();
+                      }}
                     />
                   )}
                 />
@@ -227,6 +290,10 @@ const SelectAddress = () => {
                           },
                         },
                       }}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        changeButtonName();
+                      }}
                     />
                   )}
                 />
@@ -261,6 +328,10 @@ const SelectAddress = () => {
                           },
                         },
                       }}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        changeButtonName();
+                      }}
                     />
                   )}
                 />
@@ -294,6 +365,10 @@ const SelectAddress = () => {
                             borderColor: error ? "red" : "",
                           },
                         },
+                      }}
+                      onChange={(e) => {
+                        field.onChange(e);
+                        changeButtonName();
                       }}
                     />
                   )}
@@ -332,6 +407,7 @@ const SelectAddress = () => {
         prevDisable={true}
         loading={loading}
         nexDisable={isNextDisabled()}
+        buttonText={buttonName}
       />
     </>
   );

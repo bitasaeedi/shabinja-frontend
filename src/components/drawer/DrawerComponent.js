@@ -40,9 +40,25 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
 
   const menuItems = [
     {
-      title: "قوانین و مقرارات",
-      icon: <GavelIcon />,
-      path: "/rules",
+      title: "لیست اقامتگاه ها",
+      icon: <HomeIcon />,
+      subMenu: listTitleSliders,
+    },
+    {
+      title: "میزبان شو",
+      icon: <AddBusinessIcon />,
+      path: "/new-stay/start",
+    },
+    {
+      title: "درخواست وام",
+      icon: <LocalAtmIcon />,
+      path: "/loan",
+    },
+    
+    {
+      title: "سوالات متداول",
+      icon: <HelpOutlineIcon />,
+      path: "/help",
     },
     {
       title: "درباره ما",
@@ -55,24 +71,9 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
       path: "/contact",
     },
     {
-      title: "میزبان شو",
-      icon: <AddBusinessIcon />,
-      path: "/new-stay/start",
-    },
-    {
-      title: "درخواست وام",
-      icon: <LocalAtmIcon />,
-      path: "/loan",
-    },
-    {
-      title: "سوالات متداول",
-      icon: <HelpOutlineIcon />,
-      path: "/help",
-    },
-    {
-      title: "لیست اقامتگاه ها",
-      icon: <HomeIcon />,
-      subMenu: listTitleSliders,
+      title: "قوانین و مقرارات",
+      icon: <GavelIcon />,
+      path: "/rules",
     },
   ];
 

@@ -292,6 +292,15 @@ const ShabinjaRules = () => {
     message: "خطای نامشخص",
   });
 
+  useEffect(()=>{
+    const accept =manageStepsContext?.hostInfoUpdating?.acceptRole
+   setIsSuccess(manageStepsContext?.hostInfoUpdating?.acceptRole ||false)
+   if(accept){
+    setButtonText({value:2 , text:"قرارداد امضا شده است"})
+   }
+
+  },[])
+
   const navigate = useNavigate();
 
   const handleMangeAlert = (show, status, message) => {
@@ -320,7 +329,7 @@ const ShabinjaRules = () => {
     setLoading(true);
     
       if (manageStepsContext?.stayCodeToComplete) {
-        const result = await manageStepsContext?.handleUpdateStay(true);
+        const result = await manageStepsContext?.handleUpdateStay({isRole:true});
         if (result) {
           navigate(`/pannel/stays`);
         }
@@ -356,10 +365,11 @@ const ShabinjaRules = () => {
   };
 
   const checkCode = async () => {
+    const id =manageStepsContext?.hostInfoUpdating?.id
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        `${baseUrl}/User/ConfigContract/${code}`,{},
+        `${baseUrl}/User/ConfigContract/${id}/${code}`,{},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -372,7 +382,7 @@ const ShabinjaRules = () => {
       handleMangeAlert(true, "success", "قرارداد با موفقیت تایید شد");
       setShowCode(false);
       setIsSuccess(true);
-      setButtonText({value:2 , text:"قرارداد امضا شد"})
+      setButtonText({value:2 , text:"قرارداد امضا شده است"})
     }else{
       handleMangeAlert(true, "error", "کد احراز هویت اشتباه است")
     }
@@ -469,8 +479,6 @@ const ShabinjaRules = () => {
                 </Box>
               </Grid>
 
-             
-
               {/* Checkbox to accept rules */}
               <Grid
                 item
@@ -553,7 +561,8 @@ const ShabinjaRules = () => {
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
         loading={loading}
-        nexDisable={!isSuccess}
+        nexDisable={!isSuccess} //false===فعال
+        buttonText="ثبت"
       />
 
       {/* Alert Component */}
