@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState, useCallback } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   Box,
   Card,
@@ -7,12 +7,10 @@ import {
   Grid,
   TextField,
   Typography,
-  Checkbox,
-  FormControlLabel,
   Button,
   CircularProgress,
 } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import { ManageStepsContext } from "../ManageSteps";
@@ -25,37 +23,6 @@ const baseUrl = API_URL;
 function ValidCode({ checkCode , handleCode }) {
   const [otp, setOtp] = useState(["", "", "", "", ""]);
   const inputsRef = useRef([]);
-
-  useEffect(() => {
-    if ("OTPCredential" in window) {
-      const ac = new AbortController();
-      navigator.credentials
-        .get({
-          otp: { transport: ["sms"] },
-          signal: ac.signal,
-        })
-        .then((otp) => {
-          if (otp?.code) {
-            const digits = otp.code.split("").slice(0, 5); // تبدیل به آرایه [ "1","2","3","4","5" ]
-            setOtp(digits);
-  
-            // پر شدن همه اینپوت‌ها → می‌تونی مستقیم به handleCode هم بدی
-            handleCode(digits.join(""));
-  
-            // آخرین اینپوت blur شه
-            if (inputsRef.current[4]) {
-              inputsRef.current[4].blur();
-            }
-          }
-          ac.abort();
-        })
-        .catch((err) => {
-          ac.abort();
-          console.error(err);
-        });
-    }
-  }, []);
-  
 
   const handleChange = (value, index) => {
     if (!/^[0-9]?$/.test(value)) return; // فقط اعداد
@@ -286,58 +253,12 @@ const ShabinjaRules = () => {
   const [isSuccess, setIsSuccess] = useState(false);
   const [buttonLoading, setButtonLoading] = useState(false);
   const [buttonText, setButtonText] = useState({value:0,text:"امضای قرار داد"});
-  const [buttonName, setButtonName] = useState("بعدی");
+
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",
     message: "خطای نامشخص",
   });
-
-  // Store original values for comparison
-  const [originalValues] = useState({
-    acceptRole: manageStepsContext?.hostInfoUpdating?.acceptRole || false,
-  });
-
-  const hasFormChanged = useCallback(() => {
-    return isSuccess !== originalValues.acceptRole;
-  }, [isSuccess, originalValues]);
-
-  const hasOriginalData = useCallback(() => {
-    return originalValues.acceptRole;
-  }, [originalValues]);
-
-  const changeButtonName = useCallback(() => {
-    const isFormComplete = isSuccess;
-    const isUpdateMode = manageStepsContext?.stayCodeToComplete;
-    const formHasChanged = hasFormChanged();
-    const hasOriginal = hasOriginalData();
-    
-    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
-    
-    // Only show "ثبت" if:
-    // 1. We're in update mode AND
-    // 2. Form is complete AND 
-    // 3. Form has changed AND
-    // 4. We have original data (not just filling empty form)
-    if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
-      setButtonName("ثبت");
-    } else {
-      setButtonName("بعدی");
-    }
-  }, [isSuccess, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
-
-  useEffect(() => {
-    changeButtonName();
-  }, [changeButtonName]);
-
-  useEffect(()=>{
-    const accept =manageStepsContext?.hostInfoUpdating?.acceptRole
-   setIsSuccess(manageStepsContext?.hostInfoUpdating?.acceptRole ||false)
-   if(accept){
-    setButtonText({value:2 , text:"قرارداد امضا شده است"})
-   }
-
-  },[])
 
   const navigate = useNavigate();
 
@@ -367,7 +288,7 @@ const ShabinjaRules = () => {
     setLoading(true);
     
       if (manageStepsContext?.stayCodeToComplete) {
-        const result = await manageStepsContext?.handleUpdateStay({isRole:true});
+        const result = await manageStepsContext?.handleUpdateStay(true);
         if (result) {
           navigate(`/pannel/stays`);
         }
@@ -403,11 +324,10 @@ const ShabinjaRules = () => {
   };
 
   const checkCode = async () => {
-    const id =manageStepsContext?.hostInfoUpdating?.id
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        `${baseUrl}/User/ConfigContract/${id}/${code}`,{},
+        `${baseUrl}/User/ConfigContract/${code}`,{},
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -433,6 +353,14 @@ const ShabinjaRules = () => {
       return error?.response?.data;
     }
   };
+
+  useEffect(() => {
+    const isAccepted = manageStepsContext?.hostInfoUpdating?.acceptRole;
+   setIsSuccess(isAccepted);
+   if(isAccepted){
+   setButtonText({value:2 , text:"قرارداد امضا شده است"})
+   }
+  }, []);
 
   // Check whether the "acceptRules" checkbox is selected
   const isNextDisabled = !watch("acceptRules");
@@ -517,6 +445,8 @@ const ShabinjaRules = () => {
                 </Box>
               </Grid>
 
+             
+
               {/* Checkbox to accept rules */}
               <Grid
                 item
@@ -599,8 +529,8 @@ const ShabinjaRules = () => {
         handlePrevious={manageStepsContext?.handlePrevious}
         prevDisable={false}
         loading={loading}
-        nexDisable={!isSuccess} //false===فعال
-        buttonText={buttonName}
+        nexDisable={!isSuccess}
+        buttonText={"ثبت"}
       />
 
       {/* Alert Component */}
