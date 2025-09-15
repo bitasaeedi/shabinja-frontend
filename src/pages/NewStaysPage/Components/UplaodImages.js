@@ -24,26 +24,19 @@ import CardUploadedImage from "./Componnets/CardUploadedImage";
 import ImageIcon from "@mui/icons-material/Image";
 import { convertImageToWebP } from "../../../api/PublicApis";
 
+const UploadImages = () => {
+  const manageStepsContext = useContext(ManageStepsContext);
+  const [images, setImages] = useState([]);
+  const [uploadedImages, setUploadedImages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [buttonName, setButtonName] = useState("بعدی");
 
-
-  
-  const UploadImages = () => {
-    const manageStepsContext = useContext(ManageStepsContext);
-    const [images, setImages] = useState([]);
-    const [uploadedImages, setUploadedImages] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [buttonName, setButtonName] = useState("بعدی");
-
-    // Store original values for comparison
-    const [originalValues] = useState({
-      imageCount: 0, // Will be updated when images are loaded
-    });
-  useEffect(() => {
-    handleGetImageUploaded();
-  }, [images]);
+  // Store original values for comparison
+  const [originalValues] = useState({
+    imageCount: 0, // Will be updated when images are loaded
+  });
 
   const hasFormChanged = useCallback(() => {
-    // For images, we consider it changed if new images were added or existing ones removed
     return images.length > 0;
   }, [images]);
 
@@ -56,14 +49,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
     const isUpdateMode = manageStepsContext?.stayCodeToComplete;
     const formHasChanged = hasFormChanged();
     const hasOriginal = hasOriginalData();
-    
-    // console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
-    
-    // Only show "ثبت" if:
-    // 1. We're in update mode AND
-    // 2. Form is complete AND 
-    // 3. Form has changed AND
-    // 4. We have original data (not just filling empty form)
+
     if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
       setButtonName("ثبت");
     } else {
@@ -71,40 +57,17 @@ import { convertImageToWebP } from "../../../api/PublicApis";
     }
   }, [uploadedImages, hasFormChanged, hasOriginalData, manageStepsContext?.stayCodeToComplete]);
 
+  // وقتی تصاویر لود یا آپدیت شدن، originalValues و دکمه رو آپدیت کن
   useEffect(() => {
+    originalValues.imageCount = uploadedImages.length;
     changeButtonName();
-  }, [changeButtonName]);
-  
-    // Function to handle image uploads
-    const handleFileDrop = async (event) => {
-      event.preventDefault();
-      const files = Array.from(event.dataTransfer.files);
-    
-      const convertedFiles = await Promise.all(
-        files.map(async (file) => {
-          try {
-            const webpFile = await convertImageToWebP(file);
-            return {
-              file: webpFile,
-              statusUpload: "pending",
-            };
-          } catch (error) {
-            console.error("خطا در تبدیل فایل:", error);
-            return {
-              file,
-              statusUpload: "error",
-            };
-          }
-        })
-      );
-    
-      setImages((prevList) => [...prevList, ...convertedFiles]);
-    };
+  }, [uploadedImages, images, changeButtonName]);
 
-  const handleFileSelect = async (event) => {
-    const files = Array.from(event.target.files);
-  
-    // تبدیل همزمان همه فایل‌ها به WebP
+  // Function to handle image uploads
+  const handleFileDrop = async (event) => {
+    event.preventDefault();
+    const files = Array.from(event.dataTransfer.files);
+
     const convertedFiles = await Promise.all(
       files.map(async (file) => {
         try {
@@ -116,16 +79,39 @@ import { convertImageToWebP } from "../../../api/PublicApis";
         } catch (error) {
           console.error("خطا در تبدیل فایل:", error);
           return {
-            file, // فایل اصلی رو نگه می‌داریم در صورت خطا
+            file,
             statusUpload: "error",
           };
         }
       })
     );
-  
+
     setImages((prevList) => [...prevList, ...convertedFiles]);
   };
-  
+
+  const handleFileSelect = async (event) => {
+    const files = Array.from(event.target.files);
+
+    const convertedFiles = await Promise.all(
+      files.map(async (file) => {
+        try {
+          const webpFile = await convertImageToWebP(file);
+          return {
+            file: webpFile,
+            statusUpload: "pending",
+          };
+        } catch (error) {
+          console.error("خطا در تبدیل فایل:", error);
+          return {
+            file,
+            statusUpload: "error",
+          };
+        }
+      })
+    );
+
+    setImages((prevList) => [...prevList, ...convertedFiles]);
+  };
 
   const callBackUploaded = (index, uploaded) => {
     setImages((prevImages) =>
@@ -140,6 +126,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
     manageStepsContext?.handleNext();
     setLoading(false);
   };
+
   const handleGetImageUploaded = async () => {
     const result = await HostTourSearchImagesApi(
       manageStepsContext?.hostInfoUpdating?.id
@@ -153,6 +140,11 @@ import { convertImageToWebP } from "../../../api/PublicApis";
       prevList.filter((img) => img.id !== idImage)
     );
   };
+
+  useEffect(() => {
+    handleGetImageUploaded();
+  }, []);
+
   return (
     <>
       <Grid container spacing={3}>
@@ -166,10 +158,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
             component="ul"
             sx={{ padding: 0, margin: 0, listStyle: "none", mt: 2 }}
           >
-            <Box
-              component="li"
-              sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}
-            >
+            <Box component="li" sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}>
               <Box>
                 <Typography
                   sx={{
@@ -180,7 +169,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
                     mt: 0.5,
                     mr: 1.5,
                   }}
-                ></Typography>
+                />
               </Box>
               <Box>
                 <Typography variant="body2" color="text.secondary">
@@ -190,10 +179,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
               </Box>
             </Box>
 
-            <Box
-              component="li"
-              sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}
-            >
+            <Box component="li" sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}>
               <Typography
                 sx={{
                   width: "6px",
@@ -203,15 +189,13 @@ import { convertImageToWebP } from "../../../api/PublicApis";
                   mt: 0.5,
                   mr: 1.5,
                 }}
-              ></Typography>
+              />
               <Typography variant="body2" color="text.secondary">
                 ترجیحاً از تصاویر افقی (Landscape) استفاده کنید.
               </Typography>
             </Box>
-            <Box
-              component="li"
-              sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}
-            >
+
+            <Box component="li" sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}>
               <Typography
                 sx={{
                   width: "6px",
@@ -221,16 +205,13 @@ import { convertImageToWebP } from "../../../api/PublicApis";
                   mt: 0.5,
                   mr: 1.5,
                 }}
-              ></Typography>
+              />
               <Typography variant="body2" color="text.secondary">
                 از آپلود تصاویر "اسکرین‌شات" اجتناب کنید.
               </Typography>
             </Box>
 
-            <Box
-              component="li"
-              sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}
-            >
+            <Box component="li" sx={{ display: "flex", alignItems: "flex-start", mb: 1.5 }}>
               <Typography
                 sx={{
                   width: "6px",
@@ -240,9 +221,9 @@ import { convertImageToWebP } from "../../../api/PublicApis";
                   mt: 0.5,
                   mr: 1.5,
                 }}
-              ></Typography>
+              />
               <Typography variant="body2" color="text.secondary">
-             از آپلود تصاویر با حجم بالای 600 کیلوبایت، اجتناب کنید.
+                از آپلود تصاویر با حجم بالای 600 کیلوبایت، اجتناب کنید.
               </Typography>
             </Box>
           </Box>
@@ -266,8 +247,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
             onDragOver={(event) => event.preventDefault()}
           >
             <Typography variant="body2" color="text.secondary">
-              برای آپلود تصاویر، آنها را اینجا بکشید یا از گزینه زیر استفاده
-              کنید.
+              برای آپلود تصاویر، آنها را اینجا بکشید یا از گزینه زیر استفاده کنید.
             </Typography>
             <Button variant="text" component="label" sx={{ mt: 2, width: 100 }}>
               انتخاب تصویر
@@ -280,6 +260,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
               />
             </Button>
           </Box>
+
           <Box
             sx={{
               display: "flex",
@@ -305,7 +286,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
 
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={0}>
-              {uploadedImages.reverse()?.map((file, index) => (
+              {uploadedImages.slice().reverse()?.map((file, index) => (
                 <Grid key={index} xs={6} md={4} sx={{ p: 1, height: 150 }}>
                   <CardUploadedImage
                     file={file}
@@ -331,7 +312,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
               boxShadow: 4,
               borderRadius: "8px",
               position: "sticky",
-              top: 16, // Keeps card sticky for larger screens
+              top: 16,
             }}
           >
             <CardContent>
@@ -355,12 +336,13 @@ import { convertImageToWebP } from "../../../api/PublicApis";
                   textAlign: "justify",
                 }}
               >
-             با بارگذاری تصاویر مناسب و واقعی، اقامتگاه خود را به کاربران معرفی کنید.
+                با بارگذاری تصاویر مناسب و واقعی، اقامتگاه خود را به کاربران معرفی کنید.
               </Typography>
             </CardContent>
           </Card>
         </Grid>
       </Grid>
+
       <FixedButtonsSubmit
         handleNext={onSubmit}
         handlePrevious={manageStepsContext?.handlePrevious}

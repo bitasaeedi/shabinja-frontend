@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect, createContext } from "react";
 import Box from "@mui/material/Box";
-import Step from "@mui/material/Step";
-import StepContent from "@mui/material/StepContent";
-import StepLabel from "@mui/material/StepLabel";
-import Stepper from "@mui/material/Stepper";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import SelectAddress from "./Components/SelectAddress";
@@ -42,6 +38,7 @@ import SteperNewStay from "./Components/SteperNewStay";
 export const ManageStepsContext = createContext();
 // تنظیمات مراحل
 const stepsConfig = [
+  // آدرس
   {
     label: "آدرس",
     activeLabel: "آدرس اقامتگاه خود را مشخص کنید",
@@ -52,6 +49,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // نقشه
   {
     label: "نقشه",
     activeLabel: "انتخاب محل دقیق روی نقشه",
@@ -62,6 +60,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // نوع اقامتگاه
   {
     label: "نوع اقامتگاه",
     activeLabel: "نوع اقامتگاه را وارد کنید",
@@ -73,6 +72,7 @@ const stepsConfig = [
     ),
   },
 
+  // مشخصات اقامتگاه
   {
     label: "مشخصات اقامتگاه",
     activeLabel: "مشخصات اقامتگاه را وارد کنید",
@@ -83,6 +83,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // ظرفیت اقامتگاه
   {
     label: "ظرفیت اقامتگاه",
     activeLabel: "ظرفیت اقامتگاه را مشخص کنید ",
@@ -93,6 +94,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // فضای خواب
   {
     label: "فضای خواب",
     activeLabel: "فضای خواب",
@@ -103,6 +105,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // امکانات اقامتگاه
   {
     label: "امکانات اقامتگاه",
     activeLabel: "امکانات اقامتگاه را انتخاب کنید",
@@ -123,6 +126,7 @@ const stepsConfig = [
   //     </Box>
   //   ),
   // },
+  // تصاویر اقامتگاه
   {
     label: "تصاویر اقامتگاه",
     activeLabel: "تصاویر اقامتگاه را آپلود کنید",
@@ -133,6 +137,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // مدارک اقامتگاه
   {
     label: "مدارک اقامتگاه",
     activeLabel: "مدارک مربوط به اقامتگاه را آپلود کنید ",
@@ -144,6 +149,7 @@ const stepsConfig = [
     ),
   },
 
+  // قوانین اقامتگاه
   {
     label: "قوانین اقامتگاه",
     activeLabel: "قوانین اقامتگاه را مشخص کنید",
@@ -154,6 +160,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // قوانین لغو رزرو
   {
     label: "قوانین لغو رزرو",
     activeLabel: "قوانین لغو رزرو را انتخاب کنید",
@@ -165,6 +172,7 @@ const stepsConfig = [
     ),
   },
 
+  // نرخ اقامتگاه
   {
     label: "نرخ اقامتگاه",
     activeLabel: "نرخ اقامتگاه را تعیین کنید",
@@ -175,6 +183,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // تخفیف گذاری
   {
     label: "تخفیف گذاری ",
     activeLabel: "تخفیف گذاری",
@@ -185,6 +194,7 @@ const stepsConfig = [
       </Box>
     ),
   },
+  // قرارداد شبینجا
   {
     label: "قرارداد شبینجا",
     activeLabel: "قرارداد شبینجا",

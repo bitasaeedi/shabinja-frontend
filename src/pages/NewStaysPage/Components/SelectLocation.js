@@ -59,13 +59,6 @@ const SelectLocation = () => {
     const formHasChanged = hasFormChanged();
     const hasOriginal = hasOriginalData();
     
-    // console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
-    
-    // Only show "ثبت" if:
-    // 1. We're in update mode AND
-    // 2. Form is complete AND 
-    // 3. Form has changed AND
-    // 4. We have original data (not just filling empty form)
     if (isUpdateMode && isFormComplete && formHasChanged && hasOriginal) {
       setButtonName("ثبت");
     } else {
