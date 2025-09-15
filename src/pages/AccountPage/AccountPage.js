@@ -16,6 +16,7 @@ import WalletComponent from "./Components/ContentSections/WalletComponent/Wallet
 import BackUpSection from "./Components/ContentSections/BackUpSection/BackUpSection";
 
 const AccountPage = () => {
+  const navigate = useNavigate();
   const appContext = useContext(AppContext);
   const { section } = useParams();
   const theme = useTheme();
@@ -29,6 +30,12 @@ const AccountPage = () => {
     });
     window.scroll(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (!["profile", "favorites", "reservations", "wallet", "support"].includes(section)) {
+      navigate("/404");
+    }
+  }, [section]);
 
   return (
     <>
@@ -51,11 +58,10 @@ const AccountPage = () => {
             {/* Right section: Dynamic content */}
             <Grid item xs={12} md={8} lg={9}>
               {section === "profile" && <Profile anchor isMobile={isMobile} />}
-            
+
               {section === "favorites" && (
                 <Favorites anchor isMobile={isMobile} />
               )}
-              
 
               {section === "reservations" && (
                 <Reservations anchor isMobile={isMobile} />
@@ -74,6 +80,8 @@ const AccountPage = () => {
                   nameSection="account"
                 />
               )}
+
+            
             </Grid>
           </Grid>
         </Box>

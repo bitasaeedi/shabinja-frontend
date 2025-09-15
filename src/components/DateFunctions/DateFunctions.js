@@ -93,7 +93,7 @@ export const ConvertToShamsi = (
   format = "jYYYY/jMM/jDD"
 ) => {
   if (!gregorianDate) {
-    throw new Error("No date provided");
+    console.log("No date provided");
   }
 
   // Create moment object from input date

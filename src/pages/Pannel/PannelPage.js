@@ -19,7 +19,7 @@ const PannelPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md")); // Detect mobile view
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   useEffect(() => {
     appContext.setShowfooter(false);
     appContext.setSettingHeader({
@@ -27,6 +27,12 @@ const PannelPage = () => {
     });
     window.scroll(0, 0);
   }, []);
+
+  useEffect(() => {
+    if (!["dashboard", "stays", "requests", "wallet", "support"].includes(section)) {
+      navigate("/404");
+    }
+  }, [section]);
 
   return (
     <>

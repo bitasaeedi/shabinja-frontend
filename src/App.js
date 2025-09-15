@@ -210,11 +210,11 @@ function App() {
                   <Route path="/help" element={<QuestionsPage />} />
                   <Route path="/contact" element={<ContactPage />} />
                   <Route path="/rules" element={<RulesPage />} />
-                  <Route path="/mag/:id?" element={<MagazinePage />} />
                   <Route path="/search/:searchtype" element={<SearchPage />} />
+                  <Route path="/mag/:id?" element={<MagazinePage />} />
                   <Route path="/account/:section/*" element={<AccountPage />} />
-                  <Route path="/survey/:code" element={<Survey/>}/>
                   <Route path="/pannel/:section" element={<PannelPage />} />
+                  <Route path="/survey/:code" element={<Survey/>}/>
                   <Route path="/new-stay/:step" element={<NewStaysPage />} />
                   <Route path="/loan" element={<Loan/>}/>
                   <Route

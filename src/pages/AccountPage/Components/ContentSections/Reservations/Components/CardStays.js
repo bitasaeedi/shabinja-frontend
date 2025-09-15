@@ -8,7 +8,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { DownloadImageApi } from "../../../../../../api/DownloadImageApi";
 import {
   ConvertToShamsi,
@@ -22,9 +22,12 @@ import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 import CancelDialog from "./CancelDialog";
 import MyAlertMui from "../../../../../../components/MyAlertMui/MyAlertMui";
+import { ContainerMainContext } from "../ContainerMain";
 const baseUrl = API_URL;
 
 const CardStays = ({ stay, onRemove }) => {
+  const { handleGetMyReserve } = useContext(ContainerMainContext);
+
   const [loadingCancel, setLoadingCancel] = useState(false);
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -104,7 +107,8 @@ const CardStays = ({ stay, onRemove }) => {
           },
         }
       );
-      // console.log("در اسرع وقت بررسی می شود");
+      // console.log("در اسرع وقت بررسی می شود")
+      handleGetMyReserve();
       handleMangeAlert(true, "success", "در اسرع وقت رسیدگی می شود");
 
       return response.data;
@@ -282,13 +286,15 @@ const CardStays = ({ stay, onRemove }) => {
             <Grid item xs="12" sx={{ mt: 2 }}>
               <StepperReserve
                 errorTab={
-                  stay?.state === 4 || stay?.state === 5 ||stay?.state===6 ? true : stay?.expired
+                  stay?.state === 4 || stay?.state === 5 || stay?.state === 6
+                    ? true
+                    : stay?.expired
                 }
                 activeStep={(() => {
                   const s = stay?.state ?? 0;
                   if (s === 5) return 3; // delivered/cancelled mapping previously
                   if (s === 4) return 1; // map 4 to step 1 as requested
-                  if (s === 6) return 3; 
+                  if (s === 6) return 3;
                   const base = s + 1;
                   return Number(base) ? base : 0;
                 })()}
@@ -473,7 +479,7 @@ const CardStays = ({ stay, onRemove }) => {
               >
                 {stay?.state === 5
                   ? "لغو شده"
-                  :stay?.state === 6
+                  : stay?.state === 6
                   ? "عدم تحویل کلید"
                   : stay?.expired === true
                   ? " منقضی شده"

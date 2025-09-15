@@ -1,6 +1,6 @@
 import { Box, Button, Container, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Header from "../../layout/header/Header";
 
@@ -68,6 +68,7 @@ const listButtons = [
 ];
 
 const EditCalendarPage = () => {
+  const navigate = useNavigate();
   const { staycode } = useParams();
   const appContext = useContext(AppContext);
   const [selectedDays, setSelectedDays] = useState([]);
@@ -115,9 +116,13 @@ const EditCalendarPage = () => {
     ];
 
     const result = await PriceHostTourListApi(staycode, months[0]);
+    if(!result?.issuccess){
+      navigate("/404");
+    }
     const result2 = await PriceHostTourListApi(staycode, months[1]);
     const result3 = await PriceHostTourListApi(staycode, months[2]);
 
+    console.log(result, "result");
     var month1 = result?.data?.prices || [];
     var month2 = result2?.data?.prices || [];
     var month3 = result3?.data?.prices || [];

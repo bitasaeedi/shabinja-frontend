@@ -239,10 +239,13 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     setHostInfoUpdating({
       ...hostResult?.data,
     });
-    console.log(hostResult?.data, "stay info");
+    console.log(hostResult, "stay info");
+    if(!hostResult?.issuccess){
+      navigate("/404");
+    }else{
     handleFindLastStep(hostResult?.data);
-
     return hostResult;
+    }
   };
 
   // پیدا کردن آخرین مرحله
@@ -250,7 +253,7 @@ const ManageSteps = ({ stayCodeToComplete }) => {
     console.log("manageSteps => handleFindLastStep", data);
     
     const result = CalculateStepNum(data);
-    console.log(result, "result handleFindLastStep");
+    // console.log(result, "result handleFindLastStep");
     setLastedStep(result || 1);
     if (!activeStep) {
       handleStepChange(result || 1);

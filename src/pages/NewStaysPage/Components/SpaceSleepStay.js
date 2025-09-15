@@ -138,7 +138,7 @@ const SpaceSleepStay = () => {
     const formHasChanged = hasFormChanged();
     const hasOriginal = hasOriginalData();
     
-    console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
+    // console.log("isFormComplete:", isFormComplete, "isUpdateMode:", isUpdateMode, "formHasChanged:", formHasChanged, "hasOriginal:", hasOriginal);
     
     // Only show "ثبت" if:
     // 1. We're in update mode AND

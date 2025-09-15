@@ -31,7 +31,7 @@ const PointsBeforStart = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("text", response?.data?.data);
+      // console.log("text", response?.data?.data);
 
       setTexts(response?.data?.data);
     } catch (error) {

@@ -133,6 +133,9 @@ const ReservationStay = () => {
       myData?.end,
       myData?.count
     );
+    // if(!result?.issuccess){
+    //   navigate("/404");
+    // }
 
     const exitEdData = result?.data;
     const infoDataReserve = {
@@ -153,6 +156,10 @@ const ReservationStay = () => {
 
     const result = await GetInfoReserveApi(code);
     var myData = result?.data;
+    console.log(result, "result");
+    if(!result?.issuccess){
+      navigate("/404");
+    }
 
     // اطلاعات رزرو و قیمت
     const exitEdData = {
@@ -194,8 +201,8 @@ const ReservationStay = () => {
 
     const myparams = {
       stayId: code,
-      start: ConvertToShamsi(myData.start),
-      end: ConvertToShamsi(myData.end, 1),
+      start: ConvertToShamsi(myData?.start),
+      end: ConvertToShamsi(myData?.end, 1),
       count: myData?.personCount,
     };
     setParamsValues(myparams);

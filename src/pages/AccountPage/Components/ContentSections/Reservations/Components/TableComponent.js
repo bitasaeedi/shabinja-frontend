@@ -1,28 +1,14 @@
 import React, { useContext, useState } from "react";
 import {
-  Avatar,
   Box,
-  Button,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  IconButton,
   Paper,
   Skeleton,
   Tab,
-  Table,
-  TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
   Tabs,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
 
 import CardStays from "./CardStays";
 
