@@ -143,9 +143,10 @@ const Home = () => {
   };
 
   const callApiForGetList = async (dataToFilter) => {
-    console.log("datafor fil", dataToFilter);
+   
     const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data || [];
+    console.log("datafor fil", dataToFilter , "res" , list);
     return list;
   };
 
@@ -195,7 +196,7 @@ const Home = () => {
       typeHost: filters?.typeHost?.split(",") || [],
       typeHostLoc: filters?.typeHostLoc?.split(",") || [],
       otherItemTour: filters?.features?.split(",") || [],
-      rate: [filters?.scores] || [],
+      rate: filters?.scores ? [filters?.scores] : [],
       province: filters?.province?.split(",") || [],
       city: filters?.cities?.split(",") || [],
       locations: [],

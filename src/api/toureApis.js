@@ -13,7 +13,7 @@ export const HostTourSearchApi = async (searchData) => {
     const response = await axios.post(
       `${baseUrl}/HostTour/Search`,
       {
-        title: searchData?.title === "all" ? "" : searchData?.title || "",
+        title: searchData?.title === "all" ? "all" : searchData?.title || "all",
         start: searchData?.start
           ? ConvertShamsiToMiladi(searchData?.start)
           : "",
