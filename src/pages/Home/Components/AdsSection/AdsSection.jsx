@@ -49,6 +49,7 @@ export default function AdsSection() {
     <>
       <Box
         sx={{
+          display: {xs:"none", md:"block"},
           position: "relative",
           width: {xs:"90%" , md:"75%"},
           margin: { xs: "3rem 1rem", md: "2rem auto" },

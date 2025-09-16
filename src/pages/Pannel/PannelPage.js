@@ -29,7 +29,7 @@ const PannelPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!["dashboard", "stays", "requests", "wallet", "support"].includes(section)) {
+    if (!["dashboard", "stays", "requests", "wallet", "support","menu"].includes(section)) {
       navigate("/404");
     }
   }, [section]);

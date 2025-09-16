@@ -324,10 +324,12 @@ const ShabinjaRules = () => {
   };
 
   const checkCode = async () => {
+
+    const id= manageStepsContext?.hostInfoUpdating?.id
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.post(
-        `${baseUrl}/User/ConfigContract/${code}`,{},
+        `${baseUrl}/User/ConfigContract/${id}/${code}`,{},
         {
           headers: {
             Authorization: `Bearer ${token}`,

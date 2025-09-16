@@ -32,7 +32,7 @@ const AccountPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!["profile", "favorites", "reservations", "wallet", "support"].includes(section)) {
+    if (!["profile", "favorites", "reservations", "wallet", "support","menu"].includes(section)) {
       navigate("/404");
     }
   }, [section]);

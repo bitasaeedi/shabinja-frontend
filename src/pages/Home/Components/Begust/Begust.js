@@ -60,7 +60,7 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
             variant="h5"
             sx={{
               fontWeight: "bold",
-              mb: { xs: 0.6, md: 1 },
+              mb: { xs: 0.6, md: .5 },
               fontSize: { xs: "1.1rem", md: "1.3rem" },
               textAlign: "left",
               color: "text.primary",
@@ -73,9 +73,9 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
             variant="body1"
             sx={{
               mb: 0,
-              fontSize: { xs: "0.95rem", md: "1rem", textAlign: "left" },
+              fontSize: { xs: "0.95rem", md: ".95rem", textAlign: "left" },
               color: "text.secondary",
-              lineHeight: { xs: 1.3, md: 1 },
+              lineHeight: { xs: 1.3, md: 1.2 },
             }}
           >
             {truncateText(text, isMobile ? 55: 87)}
