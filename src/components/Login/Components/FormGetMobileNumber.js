@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -15,12 +15,13 @@ import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 import { ApiCheckAndSms } from "../../../api/LoginApis";
 import axios from "axios";
 import API_URL from "../../../config/apiConfig";
+import { LoginFormContext } from "../LoginForm";
 const baseUrl = API_URL;
 
 const FormGetMobileNumber = ({ callBack, getPhoneNumber }) => {
   //کال بک بررسی می کنه اگر شماره فرستاده شده باشه میره صحفه بعد
   const [loading, setLoading] = useState(false);
-
+  const { numberExist , checkMobileNumber } = useContext(LoginFormContext);
   const {
     register,
     handleSubmit,
@@ -43,45 +44,40 @@ const FormGetMobileNumber = ({ callBack, getPhoneNumber }) => {
     });
   };
 
-  const checkMobileNumber = async (phone) => {
-    try {
-      const token = localStorage.getItem("access_token");
+  // const checkMobileNumber = async (phone) => {
+  //   try {
+  //     const token = localStorage.getItem("access_token");
 
-      const response = await axios.post(
-        `${baseUrl}/user/exist/${phone}`,
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+  //     const response = await axios.post(
+  //       `${baseUrl}/user/exist/${phone}`,
+  //       {},
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
 
-      console.log("my number", response?.data);
-      let step =
-        response?.data?.issuccess === true ? "stepPassword" : "stepCode";
-      return step; // Return the step value
-    } catch (error) {
-      handleMangeAlert(
-        true,
-        "error","مشکلی در سرور پیش آمده"
-      );
-      console.error("Error :", error?.response?.data || error.message);
-      return error?.response?.data;
-    }
-  };
+  //     console.log("my number", response?.data);
+  //     let step =
+  //       response?.data?.issuccess === true ? "stepPassword" : "stepCode";
+  //     return step; // Return the step value
+  //   } catch (error) {
+  //     handleMangeAlert(true, "error", "مشکلی در سرور پیش آمده");
+  //     console.error("Error :", error?.response?.data || error.message);
+  //     return error?.response?.data;
+  //   }
+  // };
   // ارسال شماره موبایل حهت دریافت پیامک
   const onSubmit = async (data) => {
     getPhoneNumber(data?.phone);
-    const step = await checkMobileNumber(data?.phone);
-    console.log("step", step);
+     const step = await checkMobileNumber(data?.phone);
+    // console.log("step", step);
     if (step === "stepPassword") {
       callBack(data?.phone, "stepPassword");
+    } else if (step === "stepCode") {
+      onSubmit2(data?.phone);
     }
-    else if(step === "stepCode"){
-      onSubmit2(data?.phone)
-    }
-      
   };
 
   // handle set code
@@ -178,33 +174,32 @@ const FormGetMobileNumber = ({ callBack, getPhoneNumber }) => {
               }}
             >
               <Box sx={{}} className=" w-100">
+
+                <Typography variant="body1" >
+                  ورود و ثبت‌نام در شبینجا
+                </Typography>
+
                 <Typography
                   component="body2"
                   sx={{
                     textAlign: "center",
+                    display: "inline-block",
                   }}
                 >
-                  ورود و ثبت‌نام در شبینجا به منزله‌ پذیرفتن
+                  به منزله‌ پذیرفتن
                 </Typography>{" "}
-                <br />
+                
                 <Link
-                  href="#"
+                  href="https://shabinja.com/about"
                   color="primary.light"
                   underline="hover"
                   target="_blank"
                   rel="noopener"
+                  sx={{
+                    display: "inline-block",
+                  }}
                 >
                   قوانین و مقررات
-                </Link>{" "}
-                و{" "}
-                <Link
-                  href="#"
-                  color="primary.light"
-                  underline="hover"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  قوانین حریم خصوصی
                 </Link>{" "}
                 می‌باشد.
               </Box>

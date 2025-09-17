@@ -167,7 +167,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
                   maxWidth: "100%",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap",
-                  direction: "rtl", // Set to RTL for Farsi text
+                  direction: "ltr", // Set to RTL for Farsi text
                   textAlign: "right", // Align text properly for Farsi
                 }}
               >

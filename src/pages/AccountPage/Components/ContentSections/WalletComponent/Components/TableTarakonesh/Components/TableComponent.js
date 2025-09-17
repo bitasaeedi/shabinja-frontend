@@ -47,7 +47,7 @@ const NoValueComponent = () => {
 
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
-  console.log("stays", loading);
+  // console.log("stays", loading);
 
   const HeaderTable = () => {
     return (

@@ -23,7 +23,6 @@ import { SearchOff } from "@mui/icons-material";
 const TableComponent = ({ stays, loading = true }) => {
   const containerMainContext = useContext(ContainerMainContext);
 
-  console.log("stays", stays);
 
   const NoValueComponent = () => {
     return (
@@ -103,7 +102,7 @@ const TableComponent = ({ stays, loading = true }) => {
                     .filter(stay => {
                       if (containerMainContext?.tabValue === 0) return true;
                       if (containerMainContext?.tabValue === 1) return stay.statusTour === 1;
-                      if (containerMainContext?.tabValue === 2) return stay.statusTour === 0;
+                      if (containerMainContext?.tabValue === 2) return stay.statusTour === 0||stay.statusTour === 2;
                       return true;
                     })
                     .map((stay, index) => (

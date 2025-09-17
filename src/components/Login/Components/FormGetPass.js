@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -16,13 +16,14 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
 import { ApiCheckAndSms, ApiGetTokenShabinja } from "../../../api/LoginApis";
+import { LoginFormContext } from "../LoginForm";
 
 const FormGetPass = ({
   callBack,
   handleSetManageFormsSteps,
   mobileGettingSms,
-  phoneNumber,
 }) => {
+  const { phoneNumber } = useContext(LoginFormContext);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const {
@@ -53,6 +54,7 @@ const FormGetPass = ({
     resultGetToken = await ApiGetTokenShabinja({
       username: phoneNumber,
       password: data?.pass,
+      otp: false,
     });
     // console.log(mobileGettingSms, data?.pass, "resultGetToken");
     handleMangeAlert(true, resultGetToken?.issuccess, resultGetToken?.message);
@@ -173,7 +175,8 @@ const FormGetPass = ({
               ورود با کد یک‌بار مصرف
             </Button>
           </Box>
-          <Box sx={{ mt: 1, maxWidth: 400, minWidth: 300 }}>
+        
+          <Box sx={{ mt: 3, maxWidth: 400, minWidth: 300 }}>
             <Typography
               variant="body2"
               color="textSecondary"
@@ -183,33 +186,32 @@ const FormGetPass = ({
               }}
             >
               <Box sx={{}} className=" w-100">
+
+                <Typography variant="body1" >
+                  ورود و ثبت‌نام در شبینجا
+                </Typography>
+
                 <Typography
                   component="body2"
                   sx={{
                     textAlign: "center",
+                    display: "inline-block",
                   }}
                 >
-                  ورود و ثبت‌نام در شبینجا به منزله‌ پذیرفتن
+                  به منزله‌ پذیرفتن
                 </Typography>{" "}
-                <br />
+                
                 <Link
-                  href="#"
+                  href="https://shabinja.com/about"
                   color="primary.light"
                   underline="hover"
                   target="_blank"
                   rel="noopener"
+                  sx={{
+                    display: "inline-block",
+                  }}
                 >
                   قوانین و مقررات
-                </Link>{" "}
-                و{" "}
-                <Link
-                  href="#"
-                  color="primary.light"
-                  underline="hover"
-                  target="_blank"
-                  rel="noopener"
-                >
-                  قوانین حریم خصوصی
                 </Link>{" "}
                 می‌باشد.
               </Box>

@@ -1,17 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  Alert,
-  Box,
-  Card,
-  CardContent,
-  Grid,
-  Typography,
-  Button,
-  LinearProgress,
-  ImageList,
-  ImageListItem,
-  CardMedia,
-} from "@mui/material";
+import React, { useContext, useEffect, useMemo, useState } from "react";
+import { Box, Card, CardContent, Grid, Typography, Button } from "@mui/material";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import {
   HostTourSearchImagesApi,
@@ -32,6 +20,8 @@ import { convertImageToWebP } from "../../../api/PublicApis";
     const [images, setImages] = useState([]);
     const [uploadedImages, setUploadedImages] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [buttonName, setButtonName] = useState("بعدی");
+    const [originalUploadedIds, setOriginalUploadedIds] = useState(null);
     useEffect(() => {
       handleGetImageUploaded();
     }, [images]);
@@ -105,7 +95,12 @@ import { convertImageToWebP } from "../../../api/PublicApis";
     const result = await HostTourSearchImagesApi(
       manageStepsContext?.hostInfoUpdating?.id
     );
-    setUploadedImages(result?.data || []);
+    const fetched = result?.data || [];
+    setUploadedImages(fetched);
+    if (originalUploadedIds === null) {
+      const ids = fetched.map((img) => img.id);
+      setOriginalUploadedIds(ids);
+    }
   };
 
   // خارج کردن عکس از لیست عکسهای اپلود شده.
@@ -114,6 +109,34 @@ import { convertImageToWebP } from "../../../api/PublicApis";
       prevList.filter((img) => img.id !== idImage)
     );
   };
+  // Detect if user is editing a previously completed step
+  const wasCompletedInitially = useMemo(() => {
+    return Array.isArray(originalUploadedIds) && originalUploadedIds.length >= 6;
+  }, [originalUploadedIds]);
+
+  const hasImagesChanged = useMemo(() => {
+    if (!Array.isArray(originalUploadedIds)) return false;
+    const currentIds = uploadedImages.map((img) => img.id).sort();
+    const initialIds = [...originalUploadedIds].sort();
+    if (currentIds.length !== initialIds.length) return true;
+    for (let i = 0; i < currentIds.length; i++) {
+      if (currentIds[i] !== initialIds[i]) return true;
+    }
+    return false;
+  }, [uploadedImages, originalUploadedIds]);
+
+  const isEditing = useMemo(() => {
+    return wasCompletedInitially && hasImagesChanged;
+  }, [wasCompletedInitially, hasImagesChanged]);
+
+  useEffect(() => {
+    if (uploadedImages.length >= 6 && isEditing) {
+      setButtonName("ثبت");
+    } else {
+      setButtonName("بعدی");
+    }
+  }, [uploadedImages.length, isEditing]);
+
   return (
     <>
       <Grid container spacing={3}>
@@ -266,7 +289,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
 
           <Box sx={{ mt: 3 }}>
             <Grid container spacing={0}>
-              {uploadedImages.reverse()?.map((file, index) => (
+              {[...uploadedImages].reverse()?.map((file, index) => (
                 <Grid key={index} xs={6} md={4} sx={{ p: 1, height: 150 }}>
                   <CardUploadedImage
                     file={file}
@@ -328,6 +351,7 @@ import { convertImageToWebP } from "../../../api/PublicApis";
         prevDisable={false}
         loading={loading}
         nexDisable={uploadedImages?.length < 6}
+        buttonText={buttonName}
       />
     </>
   );

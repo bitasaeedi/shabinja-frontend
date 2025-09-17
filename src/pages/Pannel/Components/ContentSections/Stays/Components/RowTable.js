@@ -22,6 +22,7 @@ import EventIcon from "@mui/icons-material/Event";
 import { HostDeleteOneApi } from "../../../../../../api/toureApis";
 import { ContainerMainContext } from "../ContainerMain";
 import ListIcon from "@mui/icons-material/List";
+import { Tooltip } from "@mui/material";
 
 const RowTable = ({ stay, index }) => {
   const containerMainContext = useContext(ContainerMainContext);
@@ -32,7 +33,7 @@ const RowTable = ({ stay, index }) => {
 
   const handleDelete = async () => {
     setLoadingDelete(true);
-    const result = await HostDeleteOneApi(stay?.guid);
+    await HostDeleteOneApi(stay?.guid);
 
     await containerMainContext.handleGetMyTour(true);
     setOpenConfirm(false);
@@ -97,19 +98,38 @@ const RowTable = ({ stay, index }) => {
         {/* status */}
         <TableCell align="center">
           <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <Typography
-              variant="body2"
-              color={stay.statusTourTitle === "تایید" ? "green" : "error"}
-              sx={{
-                fontSize: { xs: "0.75rem", sm: "0.85rem" },
-                borderRadius: "4px",
-                padding: { xs: "2px 0px", sm: "4px 0px" },
-                textAlign: "center",
-                width: { xs: "70px", sm: "85px" },
-              }}
-            >
-              {stay.statusTourTitle || "نامشخص"}
-            </Typography>
+            {stay.statusTour === 2 ? (
+              <Tooltip title={stay?.dicsStatusTour} placement="top" arrow>
+                <Typography
+                  variant="body2"
+                  color={stay.statusTourTitle === "تایید" ? "green" : "error"}
+                  sx={{
+                    fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                    borderRadius: "4px",
+                    padding: { xs: "2px 0px", sm: "4px 0px" },
+                    textAlign: "center",
+                    width: { xs: "70px", sm: "85px" },
+                    cursor: "help",
+                  }}
+                >
+                  {stay?.statusTourTitle || "نامشخص"}
+                </Typography>
+              </Tooltip>
+            ) : (
+              <Typography
+                variant="body2"
+                color={stay.statusTourTitle === "تایید" ? "green" : "error"}
+                sx={{
+                  fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                  borderRadius: "4px",
+                  padding: { xs: "2px 0px", sm: "4px 0px" },
+                  textAlign: "center",
+                  width: { xs: "70px", sm: "85px" },
+                }}
+              >
+                {stay.statusTourTitle || "نامشخص"}
+              </Typography>
+            )}
           </Box>
         </TableCell>
 

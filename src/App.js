@@ -166,7 +166,7 @@ function App() {
         goftinoKey={GOFTINO_KEY}
         onReady={() => {
           window.Goftino.setWidget({
-            hasIcon: false,
+            hasIcon: isMobile ? false : true,
           });
         }}
         onClose={() => {

@@ -2,17 +2,14 @@ import React, { useContext, useEffect, useState, useCallback, useMemo } from "re
 import { useForm, Controller } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import {
-  Alert,
   Box,
   Card,
   CardContent,
   Grid,
-  InputAdornment,
   MenuItem,
   Typography,
 } from "@mui/material";
 import InfoOutlined from "@mui/icons-material/InfoOutlined";
-import MapOutlined from "@mui/icons-material/MapOutlined";
 import FixedButtonsSubmit from "./Componnets/FixedButtonsSubmit";
 import { ManageStepsContext } from "../ManageSteps";
 import InputeContainer from "./Componnets/InputeContainer";
@@ -33,7 +30,7 @@ const AboutStay = () => {
   const [buttonName, setButtonName] = useState("بعدی");
   const [goodForOld, setGoodForOld] = useState(true);
   const [countFloor, setCountFloor] = useState(0);
-  const { control, handleSubmit, watch, setValue, formState, getValues } =
+  const { control, handleSubmit, watch, setValue, getValues } =
     useForm({
       defaultValues: {
         title: manageStepsContext?.hostInfoUpdating?.title || "",
@@ -92,37 +89,20 @@ const AboutStay = () => {
     countFloor,
     originalValues,
   ]);
-
-  const hasOriginalData = useCallback(() => {
-    // اگر هیچ مقداری پر نشده باشد یعنی فرم جدید است
-    return (
-      originalValues.title ||
-      originalValues.description ||
-      originalValues.AllSizeOfTheInfrastructure ||
-      originalValues.SizeOfTheInfrastructure ||
-      originalValues.stair !== "0" ||
-      originalValues.disabled !== undefined ||
-      originalValues.floor !== undefined
-    );
-  }, [originalValues]);
+  // حذف شده: hasOriginalData استفاده نمی‌شد
 
   const isEditing = useMemo(() => {
-    // اگر هیچ داده اولیه‌ای نباشد => فرم جدید است
-    const hasData = !!(
-      originalValues.title ||
-      originalValues.description ||
-      originalValues.AllSizeOfTheInfrastructure ||
-      originalValues.SizeOfTheInfrastructure ||
-      originalValues.stair !== "0" ||
-      originalValues.disabled !== undefined ||
-      originalValues.floor !== undefined
+    // فقط اگر فرم در ابتدا «کامل» بوده باشد و الآن تغییری کرده باشد، حالت ویرایش است
+    const wasFormCompletedInitially = Boolean(
+      originalValues.title &&
+      originalValues.description &&
+      originalValues.AllSizeOfTheInfrastructure &&
+      originalValues.SizeOfTheInfrastructure &&
+      // stair باید یک گزینه معتبر از لیست باشد
+      listStairs.some((item) => item.id === Number(originalValues.stair))
     );
-  
-    // فرم جدید => همیشه false
-    if (!hasData) return false;
-  
-    // فرم ویرایش شده؟ فقط اگر چیزی تغییر کرده باشد
-    return hasFormChanged();
+
+    return wasFormCompletedInitially && hasFormChanged();
   }, [originalValues, hasFormChanged]);
 
   
@@ -187,7 +167,6 @@ const AboutStay = () => {
   };
 
   const isNextDisabled = () => {
-    const { errors } = formState;
     return (
       !titleWatch ||
       !description ||
@@ -333,7 +312,7 @@ const AboutStay = () => {
                 rules={{
                   required: "انتخاب تعداد پله‌ها الزامی است",
                   validate: (value) =>
-                    listStairs.some((item) => item.id == value) ||
+                    listStairs.some((item) => item.id === Number(value)) ||
                     "لطفاً یک گزینه معتبر انتخاب کنید",
                 }}
                 render={({ field, fieldState }) => (

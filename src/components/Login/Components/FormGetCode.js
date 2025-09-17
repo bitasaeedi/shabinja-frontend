@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import {
   Grid,
@@ -12,6 +12,7 @@ import {
 import ReplayIcon from "@mui/icons-material/Replay";
 import { ApiCheckAndSms, ApiGetTokenShabinja } from "../../../api/LoginApis";
 import MyAlertMui from "../../MyAlertMui/MyAlertMui";
+import { LoginFormContext } from "../LoginForm";
 
 const FormGetCode = ({
   callBack,
@@ -21,10 +22,12 @@ const FormGetCode = ({
   countdown,
   isResendEnabled = false,
 }) => {
+  const { phoneNumber, numberExist , handleSetCodeIsSend } = useContext(LoginFormContext);
   const { register, handleSubmit, setValue, setFocus, getValues } = useForm();
   const inputsRef = useRef([]);
 
   const [loading, setLoading] = useState(false);
+
 
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
@@ -46,8 +49,9 @@ const FormGetCode = ({
     var resultGetToken = {};
     // resultGetToken = await getProvinceList();
     resultGetToken = await ApiGetTokenShabinja({
-      username: mobileGettingSms,
+      username: mobileGettingSms||phoneNumber,
       password: parseFloat(code),
+      otp: true,
     });
     // console.log(resultGetToken, "resultGetToken");
     handleMangeAlert(true, resultGetToken?.issuccess, resultGetToken?.message);
@@ -98,6 +102,10 @@ const FormGetCode = ({
       }
     }
   };
+
+  useEffect(() => {
+    handleSetCodeIsSend(true);
+  }, []);
 
   useEffect(() => {
     setFocus("code1");
@@ -199,6 +207,7 @@ const FormGetCode = ({
             ))}
           </Grid>
           <Box sx={{ mt: 3 }}>
+            {numberExist === true && (
             <Button
               variant="text"
               color="primary"
@@ -207,7 +216,9 @@ const FormGetCode = ({
             >
               ورود با رمز عبور
             </Button>
+            )}
           </Box>
+
           <Box sx={{ mt: 2, maxWidth: 400, minWidth: 300 }}>
             <Typography
               variant="body2"

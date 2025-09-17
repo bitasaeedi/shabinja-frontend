@@ -1,45 +1,53 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Box, Fade, Grid, Slide, Typography } from "@mui/material";
 import FormGetMobileNumber from "./Components/FormGetMobileNumber";
 import FormGetCode from "./Components/FormGetCode";
 import FormGetPass from "./Components/FormGetPass";
 import { ApiCheckAndSms } from "../../api/LoginApis";
 import FormGetNameUser from "./Components/FormGetNameUser";
+import axios from "axios";
+import API_URL from "../../config/apiConfig";
+const baseUrl = API_URL;
 const starttimer = 120;
+export const LoginFormContext = createContext(null);
 const LoginForm = ({ handleCallBack, manageForms }) => {
-
   const [mobileGettingSms, setMobileGettingSms] = useState("");
   const [countdown, setCountdown] = useState(starttimer);
   const [isResendEnabled, setIsResendEnabled] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
+  const [numberExist, setNumberExist] = useState(false);
+  const [codeIsSend, setCodeIsSend] = useState(false);
   // Start countdown timer
+  const handleSetCodeIsSend = (value) => {
+    setCodeIsSend(value);
+  }
 
   useEffect(() => {
-    if(manageForms==="stepCode"){
+    if (codeIsSend) {
       if (countdown > 0) {
         const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
         return () => clearInterval(timer);
       } else {
-        setIsResendEnabled(true); // Enable the "Resend Code" button when countdown reaches zero
+        setIsResendEnabled(true);
       }
     }
-  }, [countdown,manageForms]);
+  }, [countdown, codeIsSend]);
 
   function getPhoneNumber(number) {
     setPhoneNumber(number);
   }
   // ارسال محدد کد پیامکی
   const handleResendCode = async () => {
-    setIsResendEnabled(false); // Disable the "Resend Code" button again
+    setIsResendEnabled(false);
     var resultCheckSms = await ApiCheckAndSms({
       UserName: mobileGettingSms,
     });
     console.log(resultCheckSms, "handleResendCode", mobileGettingSms);
-    setCountdown(starttimer); // Reset the countdown timer
+    setCountdown(starttimer);
   };
 
   // اجرا شدن در صورت ارسال موفق شماره موبایل حهت دریافت پیامک
-  const handleGetResponseSendMobile = async (response,step) => {
+  const handleGetResponseSendMobile = async (response, step) => {
     setMobileGettingSms(response?.data?.userName);
     handleSetManageFormsSteps(step); // نمایش فرم دریافت کد
   };
@@ -57,79 +65,114 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
     handleCallBack(stepName);
   };
 
-  return (
-    <div>
-      <Grid
-        container
-        justifyContent="center"
-        sx={{
-          px: {
-            xs: 5,
-            md: 1,
+  const checkMobileNumber = async (phone) => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await axios.post(
+        `${baseUrl}/user/exist/${phone}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        }}
-      >
-        {/* <Slide direction="left" in={manageForms === "stepMobile"} timeout={500}> */}
-        <div>
-          {manageForms === "stepMobile" && (
-            <FormGetMobileNumber
-              callBack={handleGetResponseSendMobile}
-              getPhoneNumber={getPhoneNumber}
-            /> // if code was send this will be true
-          )}
-        </div>
-        {/* </Slide> */}
+        }
+      );
 
-        <Slide direction="left" in={manageForms === "stepCode"} timeout={500}>
-          <div>
-            {manageForms === "stepCode" && (
-              <FormGetCode
-                callBack={handleGetResponseSendCode}
-                mobileGettingSms={mobileGettingSms}
-                handleSetManageFormsSteps={handleSetManageFormsSteps} //change step
-                handleResendCode={handleResendCode}
-                countdown={countdown}
-                isResendEnabled={isResendEnabled}
-                phoneNumber={phoneNumber}
-              />
-            )}
-          </div>
-        </Slide>
+      console.log("my number", response?.data);
+      let step =
+        response?.data?.issuccess === true ? "stepPassword" : "stepCode";
+      setNumberExist(response?.data?.issuccess);
+      return step; // Return the step value
+    } catch (error) {
+      // handleMangeAlert(true, "error", "مشکلی در سرور پیش آمده");
+      console.error("Error :", error?.response?.data || error.message);
+      return error?.response?.data;
+    }
+  };
 
-        <Slide
-          direction="left"
-          in={manageForms === "stepPassword"}
-          timeout={500}
+  return (
+    <LoginFormContext.Provider 
+    value={{
+     phoneNumber,
+     numberExist,
+     checkMobileNumber,
+     codeIsSend,
+     handleSetCodeIsSend
+,
+    }}
+    >
+      <div>
+        <Grid
+          container
+          justifyContent="center"
+          sx={{
+            px: {
+              xs: 5,
+              md: 1,
+            },
+          }}
         >
+          {/* <Slide direction="left" in={manageForms === "stepMobile"} timeout={500}> */}
           <div>
-            {manageForms === "stepPassword" && (
-              <FormGetPass
-                phoneNumber={phoneNumber}
+            {manageForms === "stepMobile" && (
+              <FormGetMobileNumber
                 callBack={handleGetResponseSendMobile}
-                mobileGettingSms={mobileGettingSms}
-                handleSetManageFormsSteps={handleSetManageFormsSteps}
-              />
+                getPhoneNumber={getPhoneNumber}
+              /> // if code was send this will be true
             )}
           </div>
-        </Slide>
+          {/* </Slide> */}
 
-        <Slide
-          direction="left"
-          in={manageForms === "getInfoUser"}
-          timeout={500}
-        >
-          <div>
-            {manageForms === "getInfoUser" && (
-              <FormGetNameUser
-                mobileGettingSms={mobileGettingSms}
-                handleSetManageFormsSteps={handleSetManageFormsSteps}
-              />
-            )}
-          </div>
-        </Slide>
+          <Slide direction="left" in={manageForms === "stepCode"} timeout={500}>
+            <div>
+              {manageForms === "stepCode" && (
+                <FormGetCode
+                  callBack={handleGetResponseSendCode}
+                  mobileGettingSms={mobileGettingSms}
+                  handleSetManageFormsSteps={handleSetManageFormsSteps} //change step
+                  handleResendCode={handleResendCode}
+                  countdown={countdown}
+                  isResendEnabled={isResendEnabled}
+                  phoneNumber={phoneNumber}
+                />
+              )}
+            </div>
+          </Slide>
 
-      </Grid>
-    </div>
+          <Slide
+            direction="left"
+            in={manageForms === "stepPassword"}
+            timeout={500}
+          >
+            <div>
+              {manageForms === "stepPassword" && (
+                <FormGetPass     
+                  callBack={handleGetResponseSendMobile}
+                  mobileGettingSms={mobileGettingSms}
+                  handleSetManageFormsSteps={handleSetManageFormsSteps}
+                />
+              )}
+            </div>
+          </Slide>
+
+          <Slide
+            direction="left"
+            in={manageForms === "getInfoUser"}
+            timeout={500}
+          >
+            <div>
+              {manageForms === "getInfoUser" && (
+                <FormGetNameUser
+                  mobileGettingSms={mobileGettingSms}
+                  handleSetManageFormsSteps={handleSetManageFormsSteps}
+                />
+              )}
+            </div>
+          </Slide>
+        </Grid>
+      </div>
+    </LoginFormContext.Provider>
   );
 };
 
