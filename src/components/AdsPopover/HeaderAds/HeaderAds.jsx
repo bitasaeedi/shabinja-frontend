@@ -28,7 +28,7 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
         }
       );
       const result = response?.data?.data?.find(item => item.order === 0);
-      setAdsData(result?.image?.url);
+      setAdsData(result);
     } catch (error) {
       console.log("error", error);
 
@@ -63,21 +63,24 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
 
   return (
     <>
-    {showAds?.myAdsHeaderState && (
+    {showAds?.myAdsHeaderState && location.pathname === "/"&& (
       <Box
         sx={{
           position: "relative",
-          width: 1,
+          width: "100%",
           height: "60px",
           cursor: "pointer",
+          border:"1 solid red",
+          zIndex:10000
         }}
+        
         onClick={() => {
-          navigte("/");
+           window.open(adsData?.myAdsUrl); 
         }}
       >
         <Box
           component="img"
-          src={DownloadImageApi(adsData)}
+          src={DownloadImageApi(adsData?.image?.url)}
           alt="Landing animation"
           sx={{
             width: 1,
@@ -85,7 +88,7 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
             objectFit: "cover",
             position: "relative",
             zIndex: 1,
-            pointerEvents: "none",
+            cursor:"pointer"
           }}
           loading="lazy"
         />
