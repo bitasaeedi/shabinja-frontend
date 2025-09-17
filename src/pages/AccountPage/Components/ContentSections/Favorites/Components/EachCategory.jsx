@@ -197,6 +197,8 @@ export default function EachCategory() {
                   isLiked: true,
                   id: item.hostTourId,
                   isFavorite: true,
+                  rate:item.rate,
+                  countRate:item.countRate,
                 };
 
                 return (
