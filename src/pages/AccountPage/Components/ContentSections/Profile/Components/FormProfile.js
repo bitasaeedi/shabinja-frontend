@@ -116,7 +116,7 @@ const FormProfile = () => {
       setShabaValue(profile?.shaba);
 
       if (profile) {
-        const shamsiObject = GetShamsiDateDetails(profile.birthDay);
+        const shamsiObject = GetShamsiDateDetails(profile?.birthDay);
         setValue("name", profile.firstName || "");
         setValue("lastName", profile.lastName || "");
         setValue("nation", profile.nationalCode || "");

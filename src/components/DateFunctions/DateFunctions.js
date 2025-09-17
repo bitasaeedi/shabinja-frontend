@@ -10,7 +10,15 @@ export const GetMiladiStdFunc = (dateMiladi) => {
 };
 
 export const GetShamsiDateDetails = (miladiDate) => {
-  const date = new Date(miladiDate); // Convert input to a Date object
+  if (!miladiDate) {
+    return null;
+  }
+
+  const date = new Date(miladiDate); 
+  if (isNaN(date.getTime())) {
+    return null;
+  }
+
   const jalaaliDate = jalaali.toJalaali(date); // Convert to Shamsi date
 
   const shamsiMonthNames = [
