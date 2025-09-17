@@ -140,6 +140,7 @@ const MenuSection = () => {
             // to={`/account/${item.path}`}
             to={item?.pannel ? `/account/${item.path}` : `/${item.path}`}
             sx={{
+              // border:"1px solid red",
               py: 1.5,
               px: 3,
               color: section === item.path ? "primary.main" : "text.primary",
@@ -166,9 +167,16 @@ const MenuSection = () => {
             >
               {item.icon}
             </ListItemIcon>
-            <ListItemText primary={item.label} />
+            <ListItemText primary={item.label} 
+             sx={{
+              color:
+                section ===  item.path.split("/")[0]? "primary.main" : "text.secondary",
+            }}
+            />
           </ListItem>
         ))}
+
+
 
         <ListItem
           button
