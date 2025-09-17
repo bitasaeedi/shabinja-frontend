@@ -4,13 +4,12 @@ import {
   TileLayer,
   useMap,
   useMapEvent,
-  Polygon,
 } from "react-leaflet";
 import MarkerShow from "./MarkerShow";
 import MarkerClusterGroup from "react-leaflet-cluster";
 import { Box, Button, CircularProgress, Typography, useMediaQuery } from "@mui/material";
 import SwitchMapButton from "./SwitchMapButton";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { useTheme } from "@emotion/react";
 
 const ChangeMapView = ({ center }) => {
@@ -20,7 +19,7 @@ const ChangeMapView = ({ center }) => {
     if (center.length === 2) {
       map.flyTo(center, map.getZoom());
     }
-  }, [center]);
+  }, [center, map]);
 
   return null;
 };
@@ -42,7 +41,7 @@ const SetMapRef = ({ mapRef }) => {
     if (map) {
       mapRef.current = map;
     }
-  }, [map]);
+  }, [map, mapRef]);
 
   return null;
 };
@@ -59,19 +58,22 @@ const MyMap = ({
   scrollWheelZoomBool = true,
   showPopup = true,
   onSearchAreaClick, // <-- add this prop
+  isLoading = false,
 }) => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [markers, setMarkers] = useState([]);
   const [standard, setStandard] = useState(true);
   const [activeMarkerId, setActiveMarkerId] = useState(null);
   const [center, setCenter] = useState([]);
   const mapRef = useRef(null);
   const [loadingFindPoint, setLoadingFindPoint] = useState(false);
-  const [polygonPoints, setPolygonPoints] = useState([]);
+  // const [polygonPoints, setPolygonPoints] = useState([]);
   const [showNoResultsMessage, setShowNoResultsMessage] = useState(false);
+  const [searchAttemptId, setSearchAttemptId] = useState(0);
+  const [searchInProgress, setSearchInProgress] = useState(false);
 
   // تغییر موقعیت نقشه هنگام تغییر مرکز
   useEffect(() => {
@@ -109,17 +111,25 @@ const MyMap = ({
 
   
   useEffect(() => {
-    if (points.length === 0) {
+    if (searchAttemptId === 0) return; // only after a search click
+    if (isLoading || searchInProgress) {
+      setShowNoResultsMessage(false);
+      return;
+    }
+    if (!isLoading && !searchInProgress && points.length === 0) {
       setShowNoResultsMessage(true);
       const timer = setTimeout(() => {
         setShowNoResultsMessage(false);
       }, 2000);
-      
       return () => clearTimeout(timer);
-    } else {
-      setShowNoResultsMessage(false);
     }
-  }, [points.length]);
+    setShowNoResultsMessage(false);
+  }, [points.length, searchAttemptId, isLoading, searchInProgress]);
+
+  useEffect(() => {
+    if (isLoading) return; // keep true while loading
+    setSearchInProgress(false);
+  }, [isLoading]);
 
   const handlReturnNewPositionOnDrag = (lat, lng, id) => {
     returnNewPositionOnDrag(lat, lng, id);
@@ -132,13 +142,15 @@ const MyMap = ({
 
    // navigate("/search/all");
     setLoadingFindPoint(true);
+    setSearchAttemptId((prev) => prev + 1);
+    setSearchInProgress(true);
 
     const map = mapRef.current;
-    const polygonPoints = getVisibleMapCorners(map); // 5 points for drawing
-    const apiPoints = polygonPoints.slice(0, 4); // 4 unique corners for API
+    const visiblePolygonPoints = getVisibleMapCorners(map); // 5 points for drawing
+    const apiPoints = visiblePolygonPoints.slice(0, 4); // 4 unique corners for API
 
     onPolygonDrawn(apiPoints); // Send only 4 points to API
-    setPolygonPoints(polygonPoints); // Draw 5-point polygon on map
+    // setPolygonPoints(visiblePolygonPoints); // Draw 5-point polygon on map
 
     setLoadingFindPoint(false);
     if (onSearchAreaClick) {

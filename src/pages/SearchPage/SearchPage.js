@@ -289,6 +289,7 @@ const SearchPage = () => {
               onClose={toggleMap}
               onPolygonDrawn={onPolygonDrawn}
               onSearchAreaClick={handleSearchAreaClick}
+              isLoading={loadingSearch}
             />
             // MAP_POINTS
           )}
@@ -317,6 +318,7 @@ const SearchPage = () => {
                 centerInitial={[2.2728759, 75.6305622]}
                 onPolygonDrawn={onPolygonDrawn}
                 onSearchAreaClick={handleSearchAreaClick}
+                isLoading={loadingSearch}
               />
               <IconButton
                 sx={{
