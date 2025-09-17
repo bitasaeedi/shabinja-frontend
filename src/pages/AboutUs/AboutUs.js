@@ -42,6 +42,7 @@ const AboutUs = () => {
                 variant="h3"
                 key={index}
                 sx={{
+                  textAlign:{xs: "center" , md:"left"},
                   fontWeight: 600,
                   fontSize: { xs: 20, md: 26 },
                   my: 1.5,
@@ -56,7 +57,12 @@ const AboutUs = () => {
               <Typography
                 variant="body1"
                 key={index}
-                sx={{ lineHeight: 1.8, textAlign: "justify" }}
+                sx={{
+                  px: { xs: ".8rem", md: 0 },
+                  lineHeight: 1.8,
+                  textAlign: "justify",
+                  fontSize: {xs:".9rem" , md:"1rem"},
+                }}
               >
                 {" "}
                 {renderContent(item.content)}{" "}
@@ -177,7 +183,7 @@ const AboutUs = () => {
           />
         </Box>
 
-        <Box sx={{ width: { xs: "100%", md: "75%" } , margin:"0 auto" }}>
+        <Box sx={{ width: { xs: "100%", md: "75%" }, margin: "0 auto" }}>
           {showText(firstText)}
 
           {showText(secondText)}
