@@ -116,7 +116,30 @@ function App() {
   const [favoritDestination, setFavoritDestination] = useState([]);
   const [openModalLogin, setOpenModalLogin] = useState(false);
   const [hideButton, setHideButton] = useState(false);
+  const [isResendEnabled, setIsResendEnabled] = useState(false);
 
+  const [countdown, setCountdown] = useState(120); //login timer
+  const handleSetTimerCountDown = (value) => {
+    setCountdown(value);
+  };
+  const [codeIsSend, setCodeIsSend] = useState(false);
+  // Start countdown timer
+  const handleSetCodeIsSend = (value) => {
+    setCodeIsSend(value);
+  };
+  const handleSetIsResendEnabled = (value) => {
+    setIsResendEnabled(value);
+  };
+  useEffect(() => {
+    if (codeIsSend) {
+      if (countdown > 0) {
+        const timer = setInterval(() => handleSetTimerCountDown((prev) => prev - 1), 1000);
+        return () => clearInterval(timer);
+      } else {
+        setIsResendEnabled(true);
+      }
+    }
+  }, [countdown, codeIsSend]);
   //  goftino
 
   function handleGofino() {
@@ -198,6 +221,12 @@ function App() {
                 handleShowModal,
                 handleModalClose,
                 handleGofino,
+                handleSetTimerCountDown,
+                countdown,
+                handleSetCodeIsSend,
+                codeIsSend,
+                isResendEnabled,
+                handleSetIsResendEnabled
               }}
             >
               <Router>

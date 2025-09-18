@@ -34,6 +34,10 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     setFavColor(myData.isFavorite ? "red" : "#ffffff96");
   }, [myData.isFavorite]);
 
+  const formatNumber = (num=0) => {
+    return num % 1 === 0 ? num : num.toFixed(1);
+  };
+
   const deleteFromFavorite = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -313,7 +317,8 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
                       }}
                       className="px-1"
                     >
-                      {myData?.rate}
+                      {/* {myData?.rate} */}
+                      {formatNumber(myData?.rate)}
                     </Typography>
                   </>
                 ) : (

@@ -64,6 +64,9 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   const handleClose = () => {
     setIsLiked(null);
   };
+  const formatNumber = (num=0) => {
+    return num % 1 === 0 ? num : num.toFixed(1);
+  };
 
   return (
     <Box className=" w-auto pb-0 mb-0">
@@ -301,7 +304,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                     fontSize: 12,
                   }}
                 >
-                  ({myData?.countRate || 0} نظر)
+                  ({formatNumber(myData?.countRate) || 0} نظر)
                 </Typography>
               </Box>
             </Box>

@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { Box, Fade, Grid, Slide, Typography } from "@mui/material";
 import FormGetMobileNumber from "./Components/FormGetMobileNumber";
 import FormGetCode from "./Components/FormGetCode";
@@ -7,43 +7,43 @@ import { ApiCheckAndSms } from "../../api/LoginApis";
 import FormGetNameUser from "./Components/FormGetNameUser";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
+import { AppContext } from "../../App";
 const baseUrl = API_URL;
 const starttimer = 120;
 export const LoginFormContext = createContext(null);
 const LoginForm = ({ handleCallBack, manageForms }) => {
+  const {handleSetTimerCountDown,countdown ,codeIsSend,handleSetCodeIsSend , handleSetIsResendEnabled,isResendEnabled}=useContext(AppContext)
   const [mobileGettingSms, setMobileGettingSms] = useState("");
-  const [countdown, setCountdown] = useState(starttimer);
-  const [isResendEnabled, setIsResendEnabled] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState();
   const [numberExist, setNumberExist] = useState(false);
-  const [codeIsSend, setCodeIsSend] = useState(false);
-  // Start countdown timer
-  const handleSetCodeIsSend = (value) => {
-    setCodeIsSend(value);
-  }
 
-  useEffect(() => {
-    if (codeIsSend) {
-      if (countdown > 0) {
-        const timer = setInterval(() => setCountdown((prev) => prev - 1), 1000);
-        return () => clearInterval(timer);
-      } else {
-        setIsResendEnabled(true);
-      }
-    }
-  }, [countdown, codeIsSend]);
+  const handleSetCountDown = (value) => {
+    handleSetIsResendEnabled(false)
+    handleSetTimerCountDown(value);
+  };
+
+  // useEffect(() => {
+  //   if (codeIsSend) {
+  //     if (countdown > 0) {
+  //       const timer = setInterval(() => handleSetTimerCountDown((prev) => prev - 1), 1000);
+  //       return () => clearInterval(timer);
+  //     } else {
+  //       setIsResendEnabled(true);
+  //     }
+  //   }
+  // }, [countdown, codeIsSend]);
 
   function getPhoneNumber(number) {
     setPhoneNumber(number);
   }
   // ارسال محدد کد پیامکی
   const handleResendCode = async () => {
-    setIsResendEnabled(false);
+    handleSetIsResendEnabled(false);
     var resultCheckSms = await ApiCheckAndSms({
       UserName: mobileGettingSms,
     });
     console.log(resultCheckSms, "handleResendCode", mobileGettingSms);
-    setCountdown(starttimer);
+    handleSetTimerCountDown(starttimer);
   };
 
   // اجرا شدن در صورت ارسال موفق شماره موبایل حهت دریافت پیامک
@@ -92,15 +92,15 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
   };
 
   return (
-    <LoginFormContext.Provider 
-    value={{
-     phoneNumber,
-     numberExist,
-     checkMobileNumber,
-     codeIsSend,
-     handleSetCodeIsSend
-,
-    }}
+    <LoginFormContext.Provider
+      value={{
+        phoneNumber,
+        numberExist,
+        checkMobileNumber,
+        codeIsSend,
+        handleSetCodeIsSend,
+        handleSetCountDown,
+      }}
     >
       <div>
         <Grid
@@ -147,7 +147,7 @@ const LoginForm = ({ handleCallBack, manageForms }) => {
           >
             <div>
               {manageForms === "stepPassword" && (
-                <FormGetPass     
+                <FormGetPass
                   callBack={handleGetResponseSendMobile}
                   mobileGettingSms={mobileGettingSms}
                   handleSetManageFormsSteps={handleSetManageFormsSteps}

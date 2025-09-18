@@ -83,7 +83,7 @@ const TableComponent = ({ stays, loading = true }) => {
           >
             <Tab label="همه" />
             <Tab label="تایید شده" />
-            <Tab label="درخواست" />
+            <Tab label="سایر" />
           </Tabs>
         </Box>
         {(!stays || stays.length === 0) && !loading ? (

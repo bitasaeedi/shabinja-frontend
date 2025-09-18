@@ -23,6 +23,7 @@ import { HostDeleteOneApi } from "../../../../../../api/toureApis";
 import { ContainerMainContext } from "../ContainerMain";
 import ListIcon from "@mui/icons-material/List";
 import { Tooltip } from "@mui/material";
+import LiveHelpIcon from '@mui/icons-material/LiveHelp';
 
 const RowTable = ({ stay, index }) => {
   const containerMainContext = useContext(ContainerMainContext);
@@ -104,7 +105,7 @@ const RowTable = ({ stay, index }) => {
                   variant="body2"
                   color={stay.statusTourTitle === "تایید" ? "green" : "error"}
                   sx={{
-                    fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                    fontSize: { xs: "0.75rem", sm: "1rem" },
                     borderRadius: "4px",
                     padding: { xs: "2px 0px", sm: "4px 0px" },
                     textAlign: "center",
@@ -113,6 +114,7 @@ const RowTable = ({ stay, index }) => {
                   }}
                 >
                   {stay?.statusTourTitle || "نامشخص"}
+                  <LiveHelpIcon sx={{fontSize:".9rem" , ml:".2rem"}}/>
                 </Typography>
               </Tooltip>
             ) : (
@@ -125,6 +127,7 @@ const RowTable = ({ stay, index }) => {
                   padding: { xs: "2px 0px", sm: "4px 0px" },
                   textAlign: "center",
                   width: { xs: "70px", sm: "85px" },
+                  color: stay.statusTour === 0 ?"black":"green"
                 }}
               >
                 {stay.statusTourTitle || "نامشخص"}

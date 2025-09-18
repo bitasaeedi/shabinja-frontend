@@ -26,6 +26,9 @@ export default function AverageRate({ rates }) {
       rate: rates?.optionall,
     },
   ];
+  const formatNumber = (num=0) => {
+    return num % 1 === 0 ? num : num.toFixed(1);
+  };
   return (
     <>
       <Box
@@ -55,7 +58,7 @@ export default function AverageRate({ rates }) {
           }}
         >
           <Typography variant="h6">
-            <span>{rates.rate}</span> از 5
+            <span>{formatNumber(rates?.rate)}</span> از 5
           </Typography>
           
           <Rating

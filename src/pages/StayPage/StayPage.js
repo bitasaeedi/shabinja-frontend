@@ -61,6 +61,10 @@ const StayPage = () => {
     // }
   };
 
+  const formatNumber = (num=0) => {
+    return num % 1 === 0 ? num : num.toFixed(1);
+  };
+
   // دریافت اطلاعات اقامتگاه
   const handleSearchStayInfo = async () => {
     setLoading(true);
@@ -172,7 +176,7 @@ const StayPage = () => {
                 sx={{ marginBottom: 2 }}
               >
                 <StarIcon sx={{ fontSize: 16, color: "#ffd700" }} />
-                {mobileInfo?.rate / 20 || 0}
+                {formatNumber(mobileInfo?.rate)||0}
                 <Typography
                   display="inline"
                   variant="body1"

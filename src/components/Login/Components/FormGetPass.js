@@ -23,9 +23,11 @@ const FormGetPass = ({
   handleSetManageFormsSteps,
   mobileGettingSms,
 }) => {
-  const { phoneNumber } = useContext(LoginFormContext);
+  const { phoneNumber, handleSetCountDown } = useContext(LoginFormContext);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [disableBtn, setDisableBtn] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -76,20 +78,27 @@ const FormGetPass = ({
     }
     setLoading(false);
   };
+
   const onSubmit2 = async (data) => {
+    setDisableBtn(true);
     var resultCheckSms = {};
     resultCheckSms = await ApiCheckAndSms({
       UserName: phoneNumber,
     });
-
+    setDisableBtn(false);
     console.log("resultCheckSms", resultCheckSms);
 
     if (resultCheckSms?.data?.isActive === false) {
       console.log("حساب کاربری غیر فغال");
       handleMangeAlert(true, "error", "حساب کاربری شما غیر فعال است ");
-    }
-    else if (resultCheckSms?.issuccess) {
+
+    } else if (resultCheckSms?.issuccess) {
+
+      if (resultCheckSms?.statuscode === 0) {
+        handleSetCountDown(120);
+      }
       callBack(resultCheckSms, "stepCode");
+      
     } else {
       handleMangeAlert(
         true,
@@ -171,11 +180,12 @@ const FormGetPass = ({
               color="primary"
               onClick={() => onSubmit2()}
               size="small"
+              disabled={disableBtn}
             >
               ورود با کد یک‌بار مصرف
             </Button>
           </Box>
-        
+
           <Box sx={{ mt: 3, maxWidth: 400, minWidth: 300 }}>
             <Typography
               variant="body2"
@@ -186,11 +196,9 @@ const FormGetPass = ({
               }}
             >
               <Box sx={{}} className=" w-100">
-
-                <Typography variant="body1" >
+                <Typography variant="body1">
                   ورود و ثبت‌نام در شبینجا
                 </Typography>
-
                 <Typography
                   component="body2"
                   sx={{
@@ -200,7 +208,6 @@ const FormGetPass = ({
                 >
                   به منزله‌ پذیرفتن
                 </Typography>{" "}
-                
                 <Link
                   href="https://shabinja.com/about"
                   color="primary.light"
