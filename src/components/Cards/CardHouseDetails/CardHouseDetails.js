@@ -288,7 +288,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                       }}
                       className="px-1"
                     >
-                      {myData?.rate}
+                      {formatNumber(myData?.rate)}
                     </Typography>
                   </>
                 ) : (
@@ -304,7 +304,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                     fontSize: 12,
                   }}
                 >
-                  ({formatNumber(myData?.countRate) || 0} نظر)
+                  ({myData?.countRate || 0} نظر)
                 </Typography>
               </Box>
             </Box>

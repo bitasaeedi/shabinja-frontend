@@ -46,11 +46,13 @@ const MyDatesPrice = () => {
     {
       date: "2025/06/07",
       price: 1900000,
+      offPrice: 1500000,
       is_instant: true,
     },
     {
       date: "2025/06/08",
       price: 1900000,
+      offPrice: 1600000,
       is_instant: true,
     },
     {
@@ -91,6 +93,7 @@ const MyDatesPrice = () => {
     {
       date: "2025/06/15",
       price: 1900000,
+      offPrice: 1700000,
       is_instant: true,
     },
     {

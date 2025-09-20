@@ -140,7 +140,7 @@ const Home = () => {
    
     const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data || [];
-    console.log("datafor fil", dataToFilter , "res" , list);
+    // console.log("datafor fil", dataToFilter , "res" , list);
     return list;
   };
 
@@ -196,7 +196,7 @@ const Home = () => {
       locations: [],
       // sort: filters?.sort,
     };
-    console.log("url : ", url, "pa", filtersParams);
+    // console.log("url : ", url, "pa", filtersParams);
 
     return filtersParams;
   };

@@ -20,13 +20,18 @@ const ContainerMain = () => {
     }
     var boolValue = null;
     if (tabValue === 0) {
-      var boolValue = true;
+       boolValue = true;
     } else {
-      var boolValue = false;
+       boolValue = false;
     }
     const result = await MyReservationsApi(boolValue);
-    const listReserve = result?.data || [];
-    console.log(listReserve, "listReserve", result);
+    let listReserve = result?.data || [];
+    
+    console.log(listReserve, "listReserve");
+    
+    if (tabValue === 2) {
+      listReserve = listReserve.filter((item) => item.state === 6);
+    }
     setStays(listReserve);
 
     setLoading(false);

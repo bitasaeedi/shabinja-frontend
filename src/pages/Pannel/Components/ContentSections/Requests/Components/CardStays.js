@@ -271,6 +271,7 @@ const CardStays = ({ stay }) => {
                   }
                   activeStep={(() => {
                     const s = stay?.state ?? 0;
+                    if (s === 6) return 3;
                     if (s === 5) return 3; // delivered/cancelled mapping previously
                     if (s === 4) return 1; // map 4 to step 1 as requested
                     const base = s + 1;
@@ -487,7 +488,7 @@ const CardStays = ({ stay }) => {
                     </Button>
                   </Box>
                 )}
-                {(stay?.state === 3 || stay?.state === 2) && (
+                {(stay?.state === 3 || stay?.state === 2 || stay?.expired) && (
                   <Button
                     onClick={() => {
                       setOpenConfirmDelete(true);

@@ -2,7 +2,7 @@ import { Box, LinearProgress, Rating, Typography } from "@mui/material";
 import React from "react";
 
 export default function AverageRate({ rates }) {
-  console.log("my rates", rates);
+  // console.log("my rates", rates);
 
   const itemRate = [
     {

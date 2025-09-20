@@ -10,6 +10,7 @@ import {
   GetShamsiDateDetails,
 } from "../DateFunctions/DateFunctions";
 import MyDatesPrice from "../../myDatas/MyDatesPrice";
+import BoltIcon from "@mui/icons-material/Bolt";
 
 // Constants
 const WEEK_DAYS = ["ش", "ی", "د", "س", "چ", "پ", "ج"]; // Persian week day abbreviations
@@ -304,7 +305,7 @@ const MyCalendarsWithPrice = ({
         const isWeekend = date.weekDay.index === 6;
         const isDisabled = handleCheckDisableDate(dateKey);
         const dateInfo = dateInfoLookup[dateKey];
-        const price = dateInfo?.price;
+        const price = dateInfo?.mainPrice?.firstPrice;
 
         const isSelected = checkIfDateIsSelected(dateKey, values);
 
@@ -395,8 +396,17 @@ const renderDateCell = (
 ) => {
   return (
     <div style={{ position: "relative", width: "100%" }}>
+      {dateInfo?.mainPrice?.charter ? (
+        <BoltIcon
+          sx={{ position: "absolute", color: "gold", fontSize: ".8rem" ,top:-6 , left:-4}}
+        />
+      ) : null}
       {renderUnavailablePattern(dateInfo, price, isDisabled, today, date)}
-      <div>{date.day}</div>
+      <div
+        style={{ lineHeight: dateInfo?.mainPrice?.charter ? ".6rem" : "unset" }}
+      >
+        {date.day}
+      </div>
       {renderDateMetaInfo(price, dateInfo, today, date, dontDisable)}
     </div>
   );
@@ -445,10 +455,43 @@ const renderUnavailablePattern = (dateInfo, price, isDisabled, today, date) => {
  */
 const renderDateMetaInfo = (price, dateInfo, today, date, dontDisable) => {
   if (price) {
+    // const offPrice = 100000;
+
     return (
-      <small style={{ fontSize: "10px" }}>
-        {Math.floor(price / 1).toLocaleString()}
-      </small>
+      <div style={{ fontSize: "10px", textAlign: "center" }}>
+        {dateInfo?.mainPrice?.charter ? (
+          <div>
+            {/* first price */}
+            <small
+              style={{
+                textDecoration: "line-through",
+                color: "#999",
+                fontSize: "8px",
+                lineHeight: ".4rem",
+              }}
+            >
+              {Math.floor(price / 1).toLocaleString()}
+            </small>
+
+            {/* main price */}
+            <small
+              style={{
+                color: "#e74c3c",
+                fontWeight: "bold",
+                fontSize: "10px",
+                display: "block",
+                lineHeight: ".5rem",
+              }}
+            >
+              {Math.floor(dateInfo?.mainPrice?.mainPrice / 1).toLocaleString()}
+            </small>
+          </div>
+        ) : (
+          <small style={{ fontSize: "10px" }}>
+            {Math.floor(price / 1).toLocaleString()}
+          </small>
+        )}
+      </div>
     );
   }
 

@@ -128,7 +128,7 @@ const FormReserve = () => {
     // getValues("entryDate") && getValues("exitDate") &&
     var start = getValues("entryDate");
     var end = getValues("exitDate");
-    console.log(start, end, "calculate ");
+    // console.log(start, end, "calculate ");
     if (count > 0 && start && end) {
       setCalculating(true);
       setCalculatedPrice(null);

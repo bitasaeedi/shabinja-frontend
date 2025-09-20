@@ -11,7 +11,7 @@ const UserStayInfo = () => {
     setBgImage(stayPageContext?.infoOfStay?.profileImage)
   }, [stayPageContext?.infoOfStay]);
 
-  console.log("my info",stayPageContext?.infoOfStay );
+  // console.log("my info",stayPageContext?.infoOfStay );
   
   return (
     <Box>

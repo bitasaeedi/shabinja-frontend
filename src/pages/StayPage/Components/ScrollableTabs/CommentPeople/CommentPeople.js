@@ -33,7 +33,7 @@ const CommentPeople = ({ id , newComment }) => {
   };
 
   useEffect(() => {
-    console.log("id: ",id);
+    // console.log("id: ",id);
     
     fetchData();
   

@@ -10,6 +10,10 @@ const baseUrl = API_URL;
 
 const MobileMainSlider = ({ MySliderList = [] }) => {
   const [sliderList, setSliderList] = useState([]);
+
+  const sliderRef = React.useRef(null);
+const [autoplaySpeed, setAutoplaySpeed] = useState(3000);
+
   const settings = {
     dots: true,
     // infinite: true,
@@ -20,8 +24,14 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
     rtl: true,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: autoplaySpeed,
     cssEase: "ease-in-out",
+    afterChange: (index) => {
+      const newTimer = sliderList[index]?.timer
+        ? sliderList[index].timer * 1000
+        : 3000; // اگر timer نبود، پیش‌فرض ۳ ثانیه
+      setAutoplaySpeed(newTimer);
+    },
     appendDots: (dots) => (
       <Box
         sx={{
@@ -39,7 +49,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
             p: 0,
             justifyContent: "start",
             m: 0,
-            maxWidth: MySliderList.length * 17,
+            maxWidth: sliderList?.length * 17,
             overflowX: "hidden",
             whiteSpace: "nowrap",
             // backgroundColor: "red",
@@ -72,10 +82,13 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      // console.log(response?.data?.data, "sliderList response");
-      const sliderUrls = response?.data?.data?.filter(item => item.order !== 1);
-      const sliderImages = sliderUrls.map(item => DownloadImageApi(item.image?.url));
-      // console.log(sliderImages, "sliderImages");
+       console.log(response?.data?.data, "sliderList response");
+      const sliderUrls = response?.data?.data?.filter(item => item.order !== 1)?.sort((a, b) => a.order - b.order);
+      const sliderImages = sliderUrls.map(item => ({
+        src: DownloadImageApi(item.image?.url),
+        timer: item.timer,
+      }));
+       console.log(sliderImages, "sliderImages");
       setSliderList(sliderImages);
     } catch (error) {
       console.log("show comments Error:", error?.response?.data);
@@ -91,7 +104,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
       className="p-0 mt-1 mb-1"
       style={{ width: "100%", overflow: "hidden", position: "relative" }}
     >
-      <Slider {...settings}>
+      <Slider ref={sliderRef}  {...settings}>
         {sliderList.map((city, index) => (
           <Container key={index} className="p-0 m-0">
             <Box
@@ -104,7 +117,7 @@ const MobileMainSlider = ({ MySliderList = [] }) => {
               }}
             >
               <img
-                src={city}
+                src={city?.src}
                 alt={"slider"}
                 style={{
                   position: "absolute",

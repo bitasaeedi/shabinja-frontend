@@ -481,6 +481,8 @@ const CardStays = ({ stay, onRemove }) => {
                   ? "لغو شده"
                   : stay?.state === 6
                   ? "عدم تحویل کلید"
+                  : stay?.state === 4
+                  ? "رد توسط میزبان"
                   : stay?.expired === true
                   ? " منقضی شده"
                   : stay?.state === 0
@@ -491,8 +493,6 @@ const CardStays = ({ stay, onRemove }) => {
                   ? "به اقامتگاه بروید"
                   : stay?.state === 3
                   ? "کلید تحویل داده شده"
-                  : stay?.state === 4
-                  ? "رد توسط میزبان"
                   : "نامشخص"}
               </Button>
             </Box>

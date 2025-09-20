@@ -170,7 +170,7 @@ const MenuSection = () => {
             <ListItemText primary={item.label} 
              sx={{
               color:
-                section ===  item.path.split("/")[0]? "primary.main" : "text.secondary",
+                section ===  item.path.split("/")[0]? "primary.main" : "text.primary",
             }}
             />
           </ListItem>

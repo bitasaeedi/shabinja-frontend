@@ -9,7 +9,7 @@ import {
   ListItemText,
   Collapse,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import GavelIcon from "@mui/icons-material/Gavel";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
@@ -22,6 +22,7 @@ import { Link } from "react-router-dom";
 import logo_with_name from "../../images/shabinja_logo_with_name.png";
 import { GetListTitleSlidersApi } from "../../api/PublicApis";
 import HomeIcon from "@mui/icons-material/Home";
+import { HostTourSearchApi } from "../../api/toureApis";
 
 // لیست منو موبایل
 
@@ -30,6 +31,7 @@ const drawerWidth = 240;
 const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
   const [listTitleSliders, setListTitleSliders] = useState();
   const [openMenus, setOpenMenus] = useState({});
+  const [subMenuDataExists, setSubMenuDataExists] = useState({});
 
   const handleToggleMenu = (index) => {
     setOpenMenus((prev) => ({
@@ -54,7 +56,7 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
       icon: <LocalAtmIcon />,
       path: "/loan",
     },
-    
+
     {
       title: "سوالات متداول",
       icon: <HelpOutlineIcon />,
@@ -77,7 +79,65 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
     },
   ];
 
-  const getListTitleSliders = async () => {
+  const setFilters = (url) => {
+    let filters = {};
+    if (url?.includes("?")) {
+      const queryString = url.split("?")[1];
+      const params = new URLSearchParams(queryString);
+
+      params.forEach((value, key) => {
+        filters[key] = isNaN(value) ? value : Number(value);
+      });
+    } else {
+      return { title: url }; //like kurdestan
+    }
+
+    const filtersParams = {
+      start: filters?.start,
+      end: filters?.end,
+      count: filters?.count,
+      room: filters?.room,
+      minprice: filters?.min,
+      maxprice: filters?.max,
+      skip: 0,
+      take: 20,
+      rolItemTour: filters?.rules?.split(",") || [],
+      typeHost: filters?.typeHost?.split(",") || [],
+      typeHostLoc: filters?.typeHostLoc?.split(",") || [],
+      otherItemTour: filters?.features?.split(",") || [],
+      rate: filters?.scores ? [filters?.scores] : [],
+      province: filters?.province?.split(",") || [],
+      city: filters?.cities?.split(",") || [],
+      locations: [],
+      // sort: filters?.sort,
+    };
+    // console.log("url : ", url, "pa", filtersParams);
+
+    return filtersParams;
+  };
+
+  const checkListExist = useCallback(async (dataToFilter) => {
+    const filterdData = setFilters(dataToFilter);
+    const resultGetTours = await HostTourSearchApi(filterdData);
+    var list = resultGetTours?.data?.items?.length ;
+    // console.log("datafor fil", dataToFilter, "res", list);
+    return list;
+  }, []);
+
+  const checkAllSubMenuItems = useCallback(async (subMenuItems) => {
+    if (!subMenuItems || subMenuItems.length === 0) return {};
+    
+    const dataExists = {};
+    const promises = subMenuItems.map(async (subItem, index) => {
+      const count = await checkListExist(subItem?.urlTour);
+      dataExists[`${subItem?.urlTour}`] = count > 0;
+    });
+    
+    await Promise.all(promises);
+    return dataExists;
+  }, [checkListExist]);
+
+  const getListTitleSliders = useCallback(async () => {
     const result = await GetListTitleSlidersApi();
     let list = result?.data || [];
 
@@ -88,12 +148,17 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
     }));
 
     setListTitleSliders(filteredList);
+    
+    // Check which submenu items have data
+    const dataExists = await checkAllSubMenuItems(filteredList);
+    setSubMenuDataExists(dataExists);
+    
     return filteredList;
-  };
+  }, [checkAllSubMenuItems]);
 
   useEffect(() => {
     getListTitleSliders();
-  }, []);
+  }, [getListTitleSliders]);
 
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
@@ -122,6 +187,15 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
           const hasSubMenu =
             Array.isArray(item.subMenu) && item.subMenu.length > 0;
           const isOpen = !!openMenus[index];
+
+          // Check if any submenu items have data
+          const hasSubMenuWithData = hasSubMenu && 
+            item.subMenu.some(subItem => subMenuDataExists[subItem?.urlTour]);
+
+          // Don't render the menu item if it has submenu but no submenu items have data
+          if (hasSubMenu && !hasSubMenuWithData) {
+            return null;
+          }
 
           return (
             <React.Fragment key={index}>
@@ -157,32 +231,37 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
               {hasSubMenu ? (
                 <Collapse in={isOpen} timeout="auto" unmountOnExit>
                   <List component="div" disablePadding>
-                    {item.subMenu.map((subItem, subIndex) => (
-                      <ListItem
-                        key={`${index}-${subIndex}`}
-                        disablePadding
-                        component={Link}
-                        to={`/search/${subItem?.urlTour}`}
-                        sx={{
-                          textDecoration: "none",
-                          color: "inherit",
-                          pl: 4,
-                        }}
-                      >
-                        <ListItemButton
-                          sx={{ textAlign: "start" , py:.5 }}
-                          onClick={() => {
-                            // Close the drawer when a submenu item is selected
-                            handleDrawerToggle();
+                    {item.subMenu.map((subItem, subIndex) =>
+                      subMenuDataExists[subItem?.urlTour] ? (
+                        <ListItem
+                          key={`${index}-${subIndex}`}
+                          disablePadding
+                          component={Link}
+                          to={`/search/${subItem?.urlTour}`}
+                          sx={{
+                            textDecoration: "none",
+                            color: "inherit",
+                            pl: 4,
                           }}
                         >
-                          <ListItemText
-                            primary={`- ${subItem?.title}`}
-                            primaryTypographyProps={{ fontSize: 14, color: "gray" }}
-                          />
-                        </ListItemButton>
-                      </ListItem>
-                    ))}
+                          <ListItemButton
+                            sx={{ textAlign: "start", py: 0.5 }}
+                            onClick={() => {
+                              // Close the drawer when a submenu item is selected
+                              handleDrawerToggle();
+                            }}
+                          >
+                            <ListItemText
+                              primary={`- ${subItem?.title}`}
+                              primaryTypographyProps={{
+                                fontSize: 14,
+                                color: "gray",
+                              }}
+                            />
+                          </ListItemButton>
+                        </ListItem>
+                      ) : null
+                    )}
                   </List>
                 </Collapse>
               ) : null}
