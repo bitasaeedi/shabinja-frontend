@@ -8,7 +8,7 @@ import { DownloadImageApi } from "../../../../api/DownloadImageApi";
 import { useTheme } from "@emotion/react";
 const baseUrl = API_URL;
 
-const truncateText = (text, maxLength ) => {
+const truncateText = (text, maxLength) => {
   if (!text) return "";
   return text.length > maxLength ? text.substring(0, maxLength) + "..." : text;
 };
@@ -50,17 +50,17 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          py: { xs: 0, md:0 },
-          height: {xs:"95px" , md :"88px"},
+          py: { xs: 0, md: 0 },
+          height: { xs: "95px", md: "88px" },
           maxHeight: "90px",
         }}
       >
-        <Box sx={{ padding: "1rem", width: "80%" }}>
+        <Box sx={{ padding: "1rem", width: {xs:"70%" , lg:"80%"} }}>
           <Typography
             variant="h5"
             sx={{
               fontWeight: "bold",
-              mb: { xs: 0.6, md: .5 },
+              mb: { xs: 0.6, md: 0.5 },
               fontSize: { xs: "1.1rem", md: "1.3rem" },
               textAlign: "left",
               color: "text.primary",
@@ -73,12 +73,20 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
             variant="body1"
             sx={{
               mb: 0,
-              fontSize: { xs: "0.95rem", md: ".95rem", textAlign: "left" },
+              fontSize: { xs: "0.95rem", md: ".95rem" },
+              //  textAlign: "left",
               color: "text.secondary",
               lineHeight: { xs: 1.3, md: 1.2 },
+              overflow: "hidden",
+              maxWidth: "100%",
+              width: "100%",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+              direction: "ltr", // Set to RTL for Farsi text
+              textAlign: "left",
             }}
           >
-            {truncateText(text, isMobile ? 55: 87)}
+            {text}
           </Typography>
         </Box>
 
@@ -87,7 +95,7 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
           to={btnLink}
           variant="contained"
           sx={{
-            width: "18%",
+            width: "20%",
             minWidth: "120px",
             background: btnColorCode,
             px: 1,

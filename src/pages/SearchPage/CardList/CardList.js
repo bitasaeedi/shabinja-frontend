@@ -30,13 +30,21 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
           (item, index) => (
             <Grid
               item
-              xs={showMap ? 12 : 12}
-              sm={showMap ? 12 : 12}
+              xs={12}
+              sm={12}
               md={showMap ? 12 : 6}
               lg={showMap ? 6 : 4}
               xl={showMap ? 6 : 3}
               key={index}
-              sx={{ display: "flex", justifyContent: "center", mb: 1 }}
+              sx={{ display: "flex", justifyContent: "center", mb: 1 ,
+                width: {
+                  xs: 320,
+                  sm: 360,
+                  md: 360,
+                  lg: showMap ? 270 : 340,
+                  xl: showMap ? 350 : 360,
+                },
+              }}
             >
               {loading ? (
                 <SkeletonCardHouseDetails />

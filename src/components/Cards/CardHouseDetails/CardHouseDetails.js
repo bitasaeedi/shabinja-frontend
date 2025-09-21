@@ -69,14 +69,14 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   };
 
   return (
-    <Box className=" w-auto pb-0 mb-0">
+    <Box className="w-auto pb-0 mb-0">
       <Card
         sx={{
           width: {
             xs: 320,
             sm: 360,
             md: 360,
-            lg: isMapOpen ? 270 : 340,
+            lg: isMapOpen ? 270 : 400,
             xl: isMapOpen ? 350 : 360,
           },
           borderRadius: 3,
