@@ -241,7 +241,7 @@ const ReservationStay = () => {
       const url = `/book/preorder/${result?.data?.orderNumber}`;
       navigate(url);
     } else {
-      SweetAlert(false, "درخواست رزرو با خطا مواجه شده است");
+      SweetAlert(false, "رزرو اقامتگاه لغو شد");
     }
   };
 
@@ -478,7 +478,7 @@ const ReservationStay = () => {
                       }}
                     >
                       <Typography sx={{ color: "red" }}>
-                        رزرو اقامتگاه با خطا مواجه شده است
+                       رزرو اقامتگاه لغو شد
                       </Typography>
                     </Box>
                   )}

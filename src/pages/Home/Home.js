@@ -397,6 +397,7 @@ const Home = () => {
               callApiForGetList({
                 LastMinuteDiscounts: true,
                 province: [selectedCity2],
+                IsOrderDiscountPercent:true
               })
             }
             stayList

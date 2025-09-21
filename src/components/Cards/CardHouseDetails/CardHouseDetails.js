@@ -64,7 +64,7 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   const handleClose = () => {
     setIsLiked(null);
   };
-  const formatNumber = (num=0) => {
+  const formatNumber = (num = 0) => {
     return num % 1 === 0 ? num : num.toFixed(1);
   };
 
@@ -180,40 +180,109 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
             </Box>
 
             {/* Price */}
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              gap={0.5}
-              mt={1}
-              className="mx-2"
-            >
-              <Typography
-                variant="body2"
-                sx={{
-                  background:
-                    "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  fontSize: { xs: "8px", sm: "10px", md: "10px" },
-                }}
+            {myData?.mainPrice?.charter ? (
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={0.5}
+                mt={1}
+                className="mx-2"
+                position="relative"
               >
-                تومان / هر شب
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: "bold",
-                  background:
-                    "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  fontSize: { xs: "12px", sm: "14px", md: "20px" },
-                }}
+                <Box
+                  sx={{
+                    //  position: "absolute",
+                    top: 0,
+                    right: 0,
+                    bgcolor: "#287DFA",
+                    color: "#fff",
+                    padding: "0rem .55rem",
+                    borderRadius: "10px",
+                    marginLeft: 0.5,
+                    fontSize: { xs: "10px", sm: "12px", md: "12px" },
+                  }}
+                >
+                  {myData?.mainPrice?.discountPercent}
+                  <span style={{ fontSize: "9px" }}>%</span>
+                </Box>
+
+                <Typography
+                  variant="body2"
+                  sx={{
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                  }}
+                >
+                  تومان / هر شب
+                </Typography>
+
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "14px", sm: "14px", md: "19px" },
+                  }}
+                >
+                  {ToRial(myData?.mainPrice?.mainPrice)}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textDecoration: "line-through",
+                    color: "#000000bd",
+                    // fontWeight: "bold",
+                    fontSize: { xs: "12px", sm: "12px", md: "14px" },
+                    marginRight: 0.5,
+                  }}
+                >
+                  {ToRial(myData?.mainPrice?.firstPrice)}
+                </Typography>
+              </Box>
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={0.5}
+                mt={1}
+                className="mx-2"
               >
-                {ToRial(myData?.minPrice)}
-              </Typography>
-            </Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                  }}
+                >
+                  تومان / هر شب
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "12px", sm: "14px", md: "20px" },
+                  }}
+                >
+                  {ToRial(myData?.mainPrice?.mainPrice)}
+                </Typography>
+              </Box>
+            )}
 
             {/* Rating */}
             <Box
@@ -263,7 +332,6 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
                     <Box>تخفیفات لحظه آخری</Box>
                   </Box>
                 )}
-                
               </Box>
 
               {/* rate */}

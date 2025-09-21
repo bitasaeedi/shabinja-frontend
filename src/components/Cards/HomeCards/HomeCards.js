@@ -199,7 +199,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
             </Box>
 
             {/* Price */}
-            {showOffer ? (
+            {myData?.mainPrice?.charter ? (
               <Box
                 display="flex"
                 justifyContent="flex-end"
@@ -211,10 +211,10 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
               >
                 <Box
                   sx={{
-                  //  position: "absolute",
+                    //  position: "absolute",
                     top: 0,
                     right: 0,
-                    backgroundColor: "red",
+                    bgcolor: "#287DFA",
                     color: "#fff",
                     padding: "0rem .55rem",
                     borderRadius: "10px",
@@ -222,13 +222,18 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
                     fontSize: { xs: "10px", sm: "12px", md: "12px" },
                   }}
                 >
-                  {myData?.mainPrice?.discountPercent}%
+                  {myData?.mainPrice?.discountPercent}
+                  <span style={{ fontSize: "9px" }}>%</span>
                 </Box>
 
                 <Typography
                   variant="body2"
                   sx={{
-                    color: "red", fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "8px", sm: "10px", md: "10px" },
                   }}
                 >
                   تومان / هر شب
@@ -238,7 +243,11 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
                   variant="h6"
                   sx={{
                     fontWeight: "bold",
-                   color: "red",  fontSize: { xs: "14px", sm: "14px", md: "19px" },
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "14px", sm: "14px", md: "19px" },
                   }}
                 >
                   {ToRial(myData?.mainPrice?.mainPrice)}
@@ -256,7 +265,6 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
                 >
                   {ToRial(myData?.mainPrice?.firstPrice)}
                 </Typography>
-                
               </Box>
             ) : (
               <Box

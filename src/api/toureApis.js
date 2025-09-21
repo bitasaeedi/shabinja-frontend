@@ -39,6 +39,7 @@ export const HostTourSearchApi = async (searchData) => {
         city: searchData?.city || [],
         LastMinuteDiscounts:searchData?.LastMinuteDiscounts || false,
         InstantBooking:searchData?.InstantBooking || false,
+        IsOrderDiscountPercent:searchData?.LastMinuteDiscounts ? true : false
       },
       {
         headers: {
