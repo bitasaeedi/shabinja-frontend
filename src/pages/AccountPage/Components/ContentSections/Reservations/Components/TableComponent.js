@@ -28,7 +28,7 @@ const TableComponent = ({ stays, loading = true }) => {
       valueFilter: 1,
     },
     {
-      name: "رد شده",
+      name: "ناموفق",
       valueFilter: 2,
     },
   ];
