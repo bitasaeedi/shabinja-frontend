@@ -376,7 +376,7 @@ const CardStays = ({ stay, onRemove }) => {
                     >
                       جزئیات رزرو
                     </MenuItem>
-                    {stay?.state === 2 && (
+                    {(stay?.state === 2 || stay?.state === 3) && (
                       <MenuItem onClick={() => setOpenCancel(true)}>
                         لغو
                       </MenuItem>

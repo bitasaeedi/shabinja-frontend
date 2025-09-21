@@ -18,11 +18,13 @@ const ContainerMain = () => {
     if (!dontShowLoading) {
       setLoading(true);
     }
-    var boolValue = null;
+    var boolValue = "current";
     if (tabValue === 0) {
-       boolValue = true;
-    } else {
-       boolValue = false;
+       boolValue = "current";
+    } else if (tabValue === 1) {
+       boolValue = "past";
+    } else if (tabValue === 2) {
+       boolValue = "failed";
     }
     const result = await MyReservationsApi(boolValue);
     let listReserve = result?.data || [];

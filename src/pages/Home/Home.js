@@ -411,7 +411,7 @@ const Home = () => {
               }}
               selectedCity={selectedCity2 || "تمامی شهرها"}
             >
-              <HomeCards />
+              <HomeCards showOffer={true}/>
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>

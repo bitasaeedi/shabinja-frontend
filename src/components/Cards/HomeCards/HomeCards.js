@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Box,
-  Rating,
-  Skeleton,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { Card, CardContent, Typography, Box, IconButton } from "@mui/material";
 import API_URL from "../../../config/apiConfig";
 import ToRial from "../../ToRial/ToRial";
-import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import ImageOfCard from "./ImageOfCard";
@@ -26,7 +14,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 const baseUrl = API_URL;
 
-const HomeCard = ({ myData = {}, changeFavoriteList }) => {
+const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [favColor, setFavColor] = useState("#ffffff96");
 
@@ -34,7 +22,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
     setFavColor(myData.isFavorite ? "red" : "#ffffff96");
   }, [myData.isFavorite]);
 
-  const formatNumber = (num=0) => {
+  const formatNumber = (num = 0) => {
     return num % 1 === 0 ? num : num.toFixed(1);
   };
 
@@ -211,40 +199,101 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
             </Box>
 
             {/* Price */}
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              gap={0.5}
-              mt={1}
-              className="mx-2"
-            >
-              <Typography
-                variant="body2"
-                sx={{
-                  background:
-                    "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  fontSize: { xs: "8px", sm: "10px", md: "10px" },
-                }}
+            {showOffer ? (
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={0.5}
+                mt={1}
+                className="mx-2"
+                position="relative"
               >
-                تومان / هر شب
-              </Typography>
-              <Typography
-                variant="h6"
-                sx={{
-                  fontWeight: "bold",
-                  background:
-                    "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
-                  WebkitBackgroundClip: "text",
-                  WebkitTextFillColor: "transparent",
-                  fontSize: { xs: "12px", sm: "14px", md: "20px" },
-                }}
+                <Box
+                  sx={{
+                  //  position: "absolute",
+                    top: 0,
+                    right: 0,
+                    backgroundColor: "red",
+                    color: "#fff",
+                    padding: "0rem .55rem",
+                    borderRadius: "10px",
+                    marginLeft: 0.5,
+                    fontSize: { xs: "10px", sm: "12px", md: "12px" },
+                  }}
+                >
+                  {myData?.mainPrice?.discountPercent}%
+                </Box>
+
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "red", fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                  }}
+                >
+                  تومان / هر شب
+                </Typography>
+
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                   color: "red",  fontSize: { xs: "14px", sm: "14px", md: "19px" },
+                  }}
+                >
+                  {ToRial(myData?.mainPrice?.mainPrice)}
+                </Typography>
+
+                <Typography
+                  variant="body2"
+                  sx={{
+                    textDecoration: "line-through",
+                    color: "#000000bd",
+                    // fontWeight: "bold",
+                    fontSize: { xs: "12px", sm: "12px", md: "14px" },
+                    marginRight: 0.5,
+                  }}
+                >
+                  {ToRial(myData?.mainPrice?.firstPrice)}
+                </Typography>
+                
+              </Box>
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                gap={0.5}
+                mt={1}
+                className="mx-2"
               >
-                {ToRial(myData?.minPrice)}
-              </Typography>
-            </Box>
+                <Typography
+                  variant="body2"
+                  sx={{
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                  }}
+                >
+                  تومان / هر شب
+                </Typography>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: "bold",
+                    background:
+                      "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    fontSize: { xs: "12px", sm: "14px", md: "20px" },
+                  }}
+                >
+                  {ToRial(myData?.mainPrice?.mainPrice)}
+                </Typography>
+              </Box>
+            )}
 
             {/* Rating */}
             <Box
@@ -275,24 +324,25 @@ const HomeCard = ({ myData = {}, changeFavoriteList }) => {
                 )}
 
                 {/* تخفیفات لحظه احری */}
-                {myData?.charter &&(
+                {myData?.charter && (
                   <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    fontSize: ".7rem",
-                    border: "1px solid #dcdcdc",
-                    padding: ".15rem .5rem",
-                    borderRadius: "10px",
-                    color: "#262626",
-                    gap: ".25rem",
-                  }}
-                >
-                  <AccessTimeIcon sx={{ color:"#e2bf03",fontSize: ".8rem", mb: ".1rem" }} />
-                  <Box>تخفیفات لحظه آخری</Box>
-                </Box>
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      fontSize: ".7rem",
+                      border: "1px solid #dcdcdc",
+                      padding: ".15rem .5rem",
+                      borderRadius: "10px",
+                      color: "#262626",
+                      gap: ".25rem",
+                    }}
+                  >
+                    <AccessTimeIcon
+                      sx={{ color: "#e2bf03", fontSize: ".8rem", mb: ".1rem" }}
+                    />
+                    <Box>تخفیفات لحظه آخری</Box>
+                  </Box>
                 )}
-                
               </Box>
 
               {/* rate */}
