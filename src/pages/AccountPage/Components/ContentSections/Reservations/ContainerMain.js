@@ -30,10 +30,6 @@ const ContainerMain = () => {
     let listReserve = result?.data || [];
     
     console.log(listReserve, "listReserve");
-    
-    if (tabValue === 2) {
-      listReserve = listReserve.filter((item) => item.state === 6);
-    }
     setStays(listReserve);
 
     setLoading(false);
