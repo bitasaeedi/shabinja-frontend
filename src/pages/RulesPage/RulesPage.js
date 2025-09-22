@@ -57,7 +57,7 @@ const RulesPage = () => {
           } else if (item.startsWith("-")) {
             return { type: "li", content: item.replace(/^-/, "").trim() };
           } else if (item.startsWith("@")) {
-            return { type: "text", content: item.replace(/^@/, "").trim() };
+            return { type: "text", content: item.replace(/^\s*@/, "").trim() };
           } else {
             return null;
           }

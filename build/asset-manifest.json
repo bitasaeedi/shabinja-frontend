@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.c80b957e.css",
-    "main.js": "/static/js/main.eecde3a4.js",
+    "main.css": "/static/css/main.4a7f3eb2.css",
+    "main.js": "/static/js/main.b5ce7b6f.js",
     "static/media/Lost in Travel Scenery 404.png": "/static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/summer-trip.gif": "/static/media/summer-trip.6da7ad20dfbeb759fad6.gif",
@@ -35,9 +35,12 @@
     "static/media/YekanBakhFaNum-Fat.eot": "/static/media/YekanBakhFaNum-Fat.b1ead96491b85672f192.eot",
     "static/media/YekanBakhFaNum-Regular.eot": "/static/media/YekanBakhFaNum-Regular.121fd041f719295bdec6.eot",
     "static/media/YekanBakhFaNum-Medium.eot": "/static/media/YekanBakhFaNum-Medium.205f2d712cb3cd168dba.eot",
+    "static/media/inter-latin-ext-500-normal.woff": "/static/media/inter-latin-ext-500-normal.2f93aaa35e870cec4704.woff",
     "static/media/YekanBakhFaNum-Heavy.eot": "/static/media/YekanBakhFaNum-Heavy.73349bfe93d9f0eba547.eot",
     "static/media/YekanBakhFaNum-Bold.eot": "/static/media/YekanBakhFaNum-Bold.e715d56548ed648cbcb8.eot",
     "static/media/همراه-بانک-صادرات-ایران-آیفون-removebg-preview.png": "/static/media/همراه-بانک-صادرات-ایران-آیفون-removebg-preview.a5ac7e3321844d7990c5.png",
+    "static/media/inter-latin-ext-500-normal.woff2": "/static/media/inter-latin-ext-500-normal.cdb4dd5dc508fe6e7398.woff2",
+    "static/media/inter-latin-500-normal.woff": "/static/media/inter-latin-500-normal.5014db633e71a7741bf5.woff",
     "static/media/color-bg2.png": "/static/media/color-bg2.0b067d25a0c179bab372.png",
     "static/media/img9.jpg": "/static/media/img9.089f4fc6d5c68da1cd77.jpg",
     "static/media/YekanBakhFaNum-Light.woff": "/static/media/YekanBakhFaNum-Light.df6bcca07e6de1dbc641.woff",
@@ -46,9 +49,20 @@
     "static/media/YekanBakhFaNum-Regular.woff": "/static/media/YekanBakhFaNum-Regular.8888764ceeea3b952d5f.woff",
     "static/media/YekanBakhFaNum-Bold.woff": "/static/media/YekanBakhFaNum-Bold.5ba75e6ccf9e229c13d6.woff",
     "static/media/YekanBakhFaNum-Heavy.woff": "/static/media/YekanBakhFaNum-Heavy.6a59d5b8ff10a9b09c6c.woff",
+    "static/media/inter-latin-500-normal.woff2": "/static/media/inter-latin-500-normal.b7c27c60f848f2083f45.woff2",
     "static/media/YekanBakhFaNum-Fat.woff": "/static/media/YekanBakhFaNum-Fat.b0bda919594e2b965b62.woff",
     "static/media/dot-shape.png": "/static/media/dot-shape.ff1e392c2eaba210063e.png",
+    "static/media/inter-cyrillic-ext-500-normal.woff": "/static/media/inter-cyrillic-ext-500-normal.e9974e820735012b025b.woff",
+    "static/media/inter-cyrillic-ext-500-normal.woff2": "/static/media/inter-cyrillic-ext-500-normal.b2740f247d3be4a05ca0.woff2",
+    "static/media/inter-greek-500-normal.woff": "/static/media/inter-greek-500-normal.6d34bacda2be54829b97.woff",
+    "static/media/inter-cyrillic-500-normal.woff": "/static/media/inter-cyrillic-500-normal.72f7a9db87626ca30c76.woff",
+    "static/media/inter-greek-500-normal.woff2": "/static/media/inter-greek-500-normal.e7cec4ef4f6780e90a52.woff2",
+    "static/media/inter-cyrillic-500-normal.woff2": "/static/media/inter-cyrillic-500-normal.33a76a7cbcfcb7076534.woff2",
+    "static/media/inter-greek-ext-500-normal.woff": "/static/media/inter-greek-ext-500-normal.47cc2391a7edf82cf4e1.woff",
+    "static/media/inter-vietnamese-500-normal.woff": "/static/media/inter-vietnamese-500-normal.296d66c0bba9086788b9.woff",
     "static/media/spritesheet.svg": "/static/media/spritesheet.a4e0eb7ad904a4858361.svg",
+    "static/media/inter-greek-ext-500-normal.woff2": "/static/media/inter-greek-ext-500-normal.4c6d520b97e3bb4ef613.woff2",
+    "static/media/inter-vietnamese-500-normal.woff2": "/static/media/inter-vietnamese-500-normal.63d02ea896a7406849b6.woff2",
     "static/media/slick.svg": "/static/media/slick.2630a3e3eab21c607e21.svg",
     "static/media/slick.eot": "/static/media/slick.a4e97f5a2a64f0ab1323.eot",
     "static/media/slick.ttf": "/static/media/slick.c94f7671dcc99dce43e2.ttf",
@@ -56,7 +70,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.c80b957e.css",
-    "static/js/main.eecde3a4.js"
+    "static/css/main.4a7f3eb2.css",
+    "static/js/main.b5ce7b6f.js"
   ]
 }
