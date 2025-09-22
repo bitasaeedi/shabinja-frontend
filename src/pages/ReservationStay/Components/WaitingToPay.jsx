@@ -22,17 +22,20 @@ const stepValues = {
 };
 
 const WaitingToPay = ({
-  activeStep = 1,
+  activeStep ,
   titmer = true,
   guid,
   trackingCode,
 }) => {
+  console.log("active" , activeStep);
+  
   const [timerSec, setTimerSec] = useState(0);
   const [isTimeOut, setIsTimeOut] = useState(false);
   const { handleGetInfoOfReserve } = useContext(ReservationStayContext);
   
   useEffect(() => {
     ExpirationTimeReserve();
+    console.log("active" , activeStep);
   }, [titmer]);
 
   useEffect(() => {
@@ -95,7 +98,7 @@ const WaitingToPay = ({
           {stepValues[activeStep]?.description}
         </Typography>
         <Typography variant="body2" sx={{ textAlign: "center", fontSize: 16 }}>
-          {stepValues[activeStep] === 3 ? `کد پیگیری رزرو : ${trackingCode}`:""}
+          {activeStep === 3 ? `کد پیگیری رزرو : ${trackingCode}`:""}
         </Typography>
       </Box>
       <Box>

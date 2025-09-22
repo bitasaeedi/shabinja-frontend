@@ -471,7 +471,7 @@ const MainSearchForm = () => {
                     top:
                       calendarAnchor.getBoundingClientRect().bottom +
                       window.scrollY +
-                      10,
+                      -40,
                     right: calendarAnchor.getBoundingClientRect().left,
                     backgroundColor: "#fff",
                     boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",

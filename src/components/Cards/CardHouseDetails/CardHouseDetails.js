@@ -71,25 +71,18 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
   return (
     <Box className="w-auto pb-0 mb-0">
       <Card
-        sx={{
-          width: {
-            xs: 320,
-            sm: 360,
-            md: 360,
-            lg: isMapOpen ? 270 : 400,
-            xl: isMapOpen ? 350 : 360,
-          },
-          borderRadius: 3,
-          mx: "1px",
-          // boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
-          boxShadow: "none !important",
-          overflow: "hidden",
-          direction: "rtl",
-          pb: 0,
-          mb: 1,
-          backgroundColor: "transparent",
-          position: "relative",
-        }}
+       sx={{
+        width: "100%",      // ستون Grid رو کامل پر کن
+        minWidth: 250,      // از این کوچیک‌تر نشه
+        maxWidth: 360,      // از این بزرگ‌تر هم نشه
+        borderRadius: 3,
+        mx: "auto",
+        boxShadow: "none !important",
+        overflow: "hidden",
+        direction: "rtl",
+        backgroundColor: "transparent",
+        position: "relative",
+      }}
         // className="border"
       >
         <SliderDetailsPage

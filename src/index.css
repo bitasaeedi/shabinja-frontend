@@ -13,7 +13,7 @@
   font-style: normal;
 }
 body {
-  font-family: 'YekanBakhFaNum';
+  font-family: 'YekanBakhFaNum', "Inter", sans-serif;
 }
 .font-brands {
   font-family: 'yakanBold';

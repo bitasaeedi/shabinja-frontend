@@ -85,8 +85,8 @@ const MenuSection = () => {
     >
       {/* User Section */}
       <Box
-        component={Link}
-        to="/account/profile"
+        // component={""}
+        // to="/account/profile"
         sx={{
           py: 3,
           backgroundColor: "eeeeee",
@@ -174,6 +174,7 @@ const MenuSection = () => {
             <ListItemText primary={item.label} />
           </ListItem>
         ))}
+
         <ListItem
           button
           component={Button}
@@ -198,6 +199,7 @@ const MenuSection = () => {
           </ListItemIcon>
           <ListItemText primary={" خروج از حساب کاربری"} />
         </ListItem>
+
       </List>
     </Box>
   );

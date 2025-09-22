@@ -405,7 +405,7 @@ const Home = () => {
             <SwipperSliderPublick
               showTimer={true}
               lists={cities}
-              title={"تخفیفات لحظه اخری"}
+              title={"تخفیفات لحظه آخری"}
               linkToSeeMore={`/search/all?lastMinuteDiscounts=true`}
               handleChangeProvince={(value) => {
                 setSelectedCity2(value);

@@ -17,7 +17,6 @@ const LocationFilterButton = ({}) => {
   const [valueOfFilter, setValueOfFilters] = useState(null);
 
   const isFilterActive = () => {
-   
     searchPageContext.isFilterActive();
     const params = new URLSearchParams(window.location.search);
     const valueOfFilter1 = params.get(filter);
@@ -47,12 +46,10 @@ const LocationFilterButton = ({}) => {
     setAnchorEl(null);
   };
 
-
-
   // change url
   const handleSetSearch = (value) => {
     const params = new URLSearchParams(window.location.search);
-    
+
     if (value) {
       params.set(filter, value);
     } else {
@@ -65,7 +62,9 @@ const LocationFilterButton = ({}) => {
     let path = window.location.pathname;
 
     if (!path.includes("/all")) {
-      navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, { replace: true });
+      navigate(`/search/all${newSearch ? `?${newSearch}` : ""}`, {
+        replace: true,
+      });
     } else {
       window.history.replaceState(null, "", `?${newSearch}`);
     }
@@ -73,7 +72,6 @@ const LocationFilterButton = ({}) => {
     handleClosePopover();
     searchPageContext.handleSearch();
   };
-  
 
   return (
     <>
@@ -83,8 +81,12 @@ const LocationFilterButton = ({}) => {
           backgroundColor: active ? "#eeeeee" : "white",
           color: active ? "black" : "black",
           borderColor: active ? "black" : "rgba(0, 0, 0, 0.12)",
-          minWidth: "fit-content",
+          minWidth: "100px",
           display: { xs: "none", md: "flex" },
+          maxWidth: "125px",
+          width: "100%",
+          direction: "ltr",
+          textAlign: "left",
         }}
         size="small"
         startIcon={startIcon}
@@ -102,7 +104,17 @@ const LocationFilterButton = ({}) => {
           )
         }
       >
-        {valueOfFilter ? `${valueOfFilter}` : label}
+        <Box
+          component="span"
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            flex: 1,
+          }}
+        >
+          {valueOfFilter ? `${valueOfFilter}` : label}
+        </Box>
       </Button>
 
       {/* Popover */}

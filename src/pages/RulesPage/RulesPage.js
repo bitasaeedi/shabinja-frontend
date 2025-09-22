@@ -56,6 +56,8 @@ const RulesPage = () => {
             return { type: "title", content: item.replace(/^\*/, "").trim() };
           } else if (item.startsWith("-")) {
             return { type: "li", content: item.replace(/^-/, "").trim() };
+          } else if (item.startsWith("@")) {
+            return { type: "text", content: item.replace(/^@/, "").trim() };
           } else {
             return null;
           }
@@ -74,7 +76,10 @@ const RulesPage = () => {
     return text.split(/\s+/).map((word, i) => {
       if (word.startsWith("+")) {
         return (
-          <span key={i} style={{ color: "blue", fontWeight: "bold" }}>
+          <span
+            key={i}
+            style={{ fontSize: "10px", color: "blue", fontWeight: "bold" }}
+          >
             {word.replace(/^\+/, "")}
           </span>
         );
@@ -108,6 +113,7 @@ const RulesPage = () => {
             color: "#2c3e50",
             display: "flex",
             justifyContent: "center",
+            fontSize: { xs: 25, md: 30 },
           }}
         >
           <Typography variant="inherit" sx={{}}>
@@ -124,7 +130,7 @@ const RulesPage = () => {
           </Typography>
         </Typography>
 
-        <Box sx={{ mt: 10 }}>
+        <Box sx={{ mt: { xs: 4, md: 7 } }}>
           <Typography
             variant="h5"
             // gutterBottom
@@ -135,24 +141,36 @@ const RulesPage = () => {
               rulesData[0]?.content}
           </Typography>
 
-          <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2.5, md: 0 } }}>
+          <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2, md: 0 } }}>
             {rulesData &&
               rulesData
-                .filter((item) => item.type === "li")
+                .filter((item) => item.type === "li" || item.type === "text")
                 .map((item, index) => (
-                  <ListItem
-                    sx={{ mx: 0, px: 0, py: 0.5, alignItems: "flex-start" }}
-                    key={index}
-                  >
-                    <ListItemIcon
-                      sx={{ minWidth: { xs: 26, md: 30 }, pt: ".55rem" }}
-                    >
-                      <RemoveIcon sx={{ color: "#4486FA", fontSize: 13 }} />
-                    </ListItemIcon>
-                    <ListItemText sx={{}}>
-                      {renderContent(item.content)}
-                    </ListItemText>
-                  </ListItem>
+                  <>
+                    {item.type === "li" ? (
+                      <ListItem
+                        sx={{ mx: 0, px: 0, py: 0.5, alignItems: "flex-start" }}
+                        key={index}
+                      >
+                        <ListItemIcon
+                          sx={{ minWidth: { xs: 26, md: 30 }, pt: ".55rem" }}
+                        >
+                          <RemoveIcon sx={{ color: "#4486FA", fontSize: 13 }} />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={item.content}
+                          primaryTypographyProps={{
+                            fontSize: "13px",
+                            color: "#000000a1",
+                          }}
+                        />
+                      </ListItem>
+                    ) : (
+                      <Box sx={{ fontSize: "16px" }}>
+                        {renderContent(item.content)}
+                      </Box>
+                    )}
+                  </>
                 ))}
           </List>
         </Box>

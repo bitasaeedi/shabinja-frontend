@@ -18,7 +18,6 @@ import SkeltonRowTables from "../../../../../../../../components/SkeletonCompone
 import { ContainerMainContext } from "../ContainerMain";
 import { SearchOff } from "@mui/icons-material";
 
-
 const NoValueComponent = () => {
   return (
     <Box
@@ -52,17 +51,19 @@ const TableComponent = ({ stays, loading = true }) => {
   const HeaderTable = () => {
     return (
       <TableRow sx={{}}>
-        {stays && stays.length > 0 && stays.some(stay => stay?.typeCostDisplay) && (
-          <TableCell
-            align="left"
-            sx={{
-              color: "#90a4ae",
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-            }}
-          >
-            عنوان
-          </TableCell>
-        )}
+        {stays &&
+          stays.length > 0 &&
+          stays.some((stay) => stay?.typeCostDisplay) && (
+            <TableCell
+              align="left"
+              sx={{
+                color: "#90a4ae",
+                fontSize: { xs: "0.75rem", sm: "0.85rem" },
+              }}
+            >
+              عنوان
+            </TableCell>
+          )}
 
         <TableCell
           align="left"
@@ -74,7 +75,7 @@ const TableComponent = ({ stays, loading = true }) => {
           مبلغ
         </TableCell>
 
-        {stays && stays.length > 0 && stays.some(stay => stay?.code) && (
+        {stays && stays.length > 0 && stays.some((stay) => stay?.code) && (
           <TableCell
             align="left"
             sx={{
@@ -82,7 +83,19 @@ const TableComponent = ({ stays, loading = true }) => {
               fontSize: { xs: "0.75rem", sm: "0.85rem" },
             }}
           >
-             کد تراکنش
+          نوع تراکنش
+          </TableCell>
+        )}
+
+        {stays && stays.length > 0 && stays.some((stay) => stay?.code) && (
+          <TableCell
+            align="left"
+            sx={{
+              color: "#90a4ae",
+              fontSize: { xs: "0.75rem", sm: "0.85rem" },
+            }}
+          >
+            کد تراکنش
           </TableCell>
         )}
 
@@ -95,7 +108,7 @@ const TableComponent = ({ stays, loading = true }) => {
         >
           تاریخ
         </TableCell>
-        
+
         <TableCell
           align="left"
           sx={{

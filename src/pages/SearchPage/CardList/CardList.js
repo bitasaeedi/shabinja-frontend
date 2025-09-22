@@ -22,29 +22,19 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
     <Box sx={{ mb: { xs: 5, md: 8 } }} className=" ">
       <Grid
         container
-        // spacing={3}
+        spacing={3} // فاصله همیشه ثابت
         justifyContent="flex-start"
-        className=" mx-0 px-0"
       >
         {(loading ? Array.from({ length: itemsPerPage }) : data).map(
           (item, index) => (
             <Grid
               item
-              xs={12}
-              sm={12}
-              md={showMap ? 12 : 6}
-              lg={showMap ? 6 : 4}
-              xl={showMap ? 6 : 3}
               key={index}
-              sx={{ display: "flex", justifyContent: "center", mb: 1 ,
-                width: {
-                  xs: 320,
-                  sm: 360,
-                  md: 360,
-                  lg: showMap ? 270 : 340,
-                  xl: showMap ? 350 : 360,
-                },
-              }}
+              xs={12} // موبایل 1 ستون
+              sm={6} // تبلت 2 ستون
+              md={4} // دسکتاپ 3 ستون
+              lg={showMap ? 4 : 3} // با نقشه 3 ستون، بدون نقشه 4 ستون
+              xl={showMap ? 3 : 3} // خیلی بزرگ → 4 یا 6 ستون
             >
               {loading ? (
                 <SkeletonCardHouseDetails />
@@ -63,7 +53,11 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
         onChange={handlePageChange}
         color="primary"
         shape="rounded"
-        sx={{ mt: {xs:4, md:15}, display: "flex", justifyContent: "center" }}
+        sx={{
+          mt: { xs: 4, md: 15 },
+          display: "flex",
+          justifyContent: "center",
+        }}
       />
 
       {/* Map Toggle Button */}

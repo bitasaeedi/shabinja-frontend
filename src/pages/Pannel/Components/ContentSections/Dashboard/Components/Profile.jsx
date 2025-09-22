@@ -1,4 +1,4 @@
-import { Box, Typography, Button } from "@mui/material";
+import { Box, Typography, Button, Avatar } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserSearchOneApi } from "../../../../../../api/Users.api";
@@ -53,17 +53,18 @@ export default function Profile({ isMobile, myWidth }) {
             overflow: "hidden",
           }}
         >
-          <Box
-            component="img"
-            src={DownloadImageApi(info?.image?.url)}
-            alt="profile"
+          <Avatar
             sx={{
               width: "100%",
               height: "100%",
               borderRadius: "50%",
               objectFit: "cover",
+              background: "linear-gradient(135deg, #287dfa, #6a11cb)",
             }}
-          />
+            src={info?.image?.url && DownloadImageApi(info?.image?.url)}
+          >
+            {info?.firstName[0]}
+          </Avatar>
         </Box>
         <Box sx={{ textAlign: "center" }}>
           <Typography variant="h6" sx={{ mb: 1 }}>

@@ -122,14 +122,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
                 >
                   مهمان
                 </TableCell>
-                <TableCell
-                  sx={{
-                    color: "#90a4ae",
-                  }}
-                  align="center"
-                >
-                  توضیحات رزرو
-                </TableCell>
+               
                 <TableCell
                   sx={{
                     color: "#90a4ae",
@@ -175,7 +168,6 @@ export default function FutureBooking({ isMobile, NoValue }) {
                     <TableCell align="center">
                       {stay.fullName ? stay.fullName : stay.userFullName}
                     </TableCell>
-                    <TableCell align="center">{stay.info}</TableCell>
                     <TableCell align="center">
                       {moment(stay.start).format("jYYYY/jMM/jDD")}
                     </TableCell>

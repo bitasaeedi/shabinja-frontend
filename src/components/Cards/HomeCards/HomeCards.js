@@ -219,7 +219,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
                     padding: "0rem .55rem",
                     borderRadius: "10px",
                     marginLeft: 0.5,
-                    fontSize: { xs: "10px", sm: "12px", md: "12px" },
+                    fontSize: { xs: "11px", sm: "12px", md: "12px" },
                   }}
                 >
                   {myData?.mainPrice?.discountPercent}
@@ -233,7 +233,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
                       "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                    fontSize: { xs: "9px", sm: "10px", md: "10px" },
                   }}
                 >
                   تومان / هر شب
@@ -282,7 +282,7 @@ const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
                       "linear-gradient(90deg, #287DFA 0%, #287DFA 60%, #FF8C00 100%)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    fontSize: { xs: "8px", sm: "10px", md: "10px" },
+                    fontSize: { xs: "9px", sm: "10px", md: "10px" },
                   }}
                 >
                   تومان / هر شب

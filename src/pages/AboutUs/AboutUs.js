@@ -139,7 +139,7 @@ const AboutUs = () => {
       sx={{ py: { xs: 1, md: 2 }, minHeight: "100vh", maxWidth: "950px" }}
     >
       <Box
-        sx={{ py: { xs: 0, md: 0 }, borderRadius: 2, pb: { xs: 12, md: 12 } }}
+        sx={{ py: { xs: 0, md: 0 }, borderRadius: 2, pb: { xs: 12, md: 12 } , mt:{xs:0 , md:10} }}
       >
         {/* درباره شبینجا */}
         {/* <Typography

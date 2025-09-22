@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./temp.css";
 import App from "./App";
-
+import "@fontsource/inter/500.css"; // وزن 400
 import "react-multi-date-picker/styles/colors/purple.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";

@@ -10,11 +10,12 @@ import InfoOfUser from "./InfoOfUser";
 import { ReservationStayContext } from "../ReservationStay";
 import moment from "moment-jalaali";
 import { PriceHostTourListApi } from "../../../api/toureApis";
+import { useNavigate } from "react-router-dom";
 const ShowInfoOfReserve = () => {
   moment.loadPersian({ dialect: "persian-modern", usePersianDigits: false });
 
   const { paramsValues, stepName } = useContext(ReservationStayContext);
-
+  const navigate = useNavigate();
   const handleShowDateLikeStr = (shamsidate) => {
     const mStartDate = moment(shamsidate, "jYYYY/jMM/jDD");
     const formattedStart = mStartDate.format("jD jMMMM");
@@ -22,78 +23,107 @@ const ShowInfoOfReserve = () => {
   };
 
   return (
-    <Box sx={{ mt: 4 }}>
-      {/* تاریخ */}
+    <>
       <Box
-        display="flex"
-        justifyContent={"space-between"}
-        alignItems="center"
-        sx={{ my: 2 }}
+        sx={{
+          mt: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "end",
+        }}
       >
+        {/* right part */}
         <Box>
-          <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
+          {/* تاریخ */}
+          <Box
+            display="flex"
+            justifyContent={"space-between"}
+            alignItems="center"
+            sx={{ my: 2 }}
+          >
             <Box>
-              <CalendarMonthOutlinedIcon />
+              <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
+                <Box>
+                  <CalendarMonthOutlinedIcon />
+                </Box>
+
+                <Box display="column" alignItems="center">
+                  <Typography variant="subtitle1" color={"grey"}>
+                    تاریخ سفر
+                  </Typography>
+
+                  <Typography variant="p" fontWeight="bold">
+                    {paramsValues?.start ? (
+                      `${handleShowDateLikeStr(
+                        paramsValues?.start
+                      )} - ${handleShowDateLikeStr(paramsValues?.end)}`
+                    ) : (
+                      <Skeleton width={100} />
+                    )}
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
-
-            <Box display="column" alignItems="center">
-              <Typography variant="subtitle1" color={"grey"}>
-                تاریخ سفر
-              </Typography>
-
-              <Typography variant="p" fontWeight="bold">
-                {paramsValues?.start ? (
-                  `${handleShowDateLikeStr(
-                    paramsValues?.start
-                  )} - ${handleShowDateLikeStr(paramsValues?.end)}`
-                ) : (
-                  <Skeleton width={100} />
-                )}
-              </Typography>
-            </Box>
-          </Box>
-        </Box>
-        <Box textAlign="end">
-          {stepName === "preview" && <ButtonForEditDates />}
-        </Box>
-      </Box>
-
-      {/* تعداد مسافران */}
-      <Box
-        display="flex"
-        justifyContent={"space-between"}
-        alignItems="center"
-        sx={{ my: 2 }}
-      >
-        <Box>
-          <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
-            <Box> <PeopleAltOutlinedIcon /></Box>
-
-            <Box display="column" alignItems="center">
-              <Typography variant="subtitle1" color={"grey"}>
-                تعداد مسافران
-              </Typography>
-
-              <Typography variant="p" fontWeight="bold">
-                {paramsValues?.count ? (
-                  <> {paramsValues?.count} نفر</>
-                ) : (
-                  <Skeleton width={100} />
-                )}
-              </Typography>
+            <Box textAlign="end">
+              {stepName === "preview" && <ButtonForEditDates />}
             </Box>
           </Box>
+
+          {/* تعداد مسافران */}
+          <Box
+            display="flex"
+            justifyContent={"space-between"}
+            alignItems="center"
+            sx={{ my: 2 }}
+          >
+            <Box>
+              <Box sx={{ display: "flex", alignItems: "center" }} gap={2}>
+                <Box>
+                  {" "}
+                  <PeopleAltOutlinedIcon />
+                </Box>
+
+                <Box display="column" alignItems="center">
+                  <Typography variant="subtitle1" color={"grey"}>
+                    تعداد مسافران
+                  </Typography>
+
+                  <Typography variant="p" fontWeight="bold">
+                    {paramsValues?.count ? (
+                      <> {paramsValues?.count} نفر</>
+                    ) : (
+                      <Skeleton width={100} />
+                    )}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+            <Box textAlign="end">
+              {stepName === "preview" && <ButtonEditCount />}
+            </Box>
+          </Box>
+          {/* اطلاعات مسافر */}
+
+          <InfoOfUser />
         </Box>
-        <Box textAlign="end">
-          {stepName === "preview" && <ButtonEditCount />}
-        </Box>
+
+        {/* left part */}
+
+        <Button
+          variant="contained"
+          sx={{
+            bgcolor: "black",
+            mb: 5,
+          }}
+          onClick={() => {
+            navigate("/account/reservations")
+          }}
+        >
+          پنل رزرو ها
+        </Button>
       </Box>
-      {/* اطلاعات مسافر */}
-
-      <InfoOfUser />
-
       <Divider />
-    </Box>
+    </>
   );
 };
 

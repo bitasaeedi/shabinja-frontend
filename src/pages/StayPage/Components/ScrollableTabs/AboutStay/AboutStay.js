@@ -19,7 +19,7 @@ export const AboutStay = () => {
   return (
     <Box>
       <Typography variant="h6">درباره اقامتگاه</Typography>
-      <Typography
+      {/* <Typography
         variant="h6"
         sx={{
           fontSize: 14,
@@ -27,7 +27,7 @@ export const AboutStay = () => {
         }}
       >
         {stayPageContext?.infoOfStay?.title}
-      </Typography>
+      </Typography> */}
       <Typography
         variant="body2"
         sx={{

@@ -157,7 +157,7 @@ const ReservationStay = () => {
     const result = await GetInfoReserveApi(code);
     var myData = result?.data;
     console.log(result, "result");
-    if(!result?.issuccess){
+    if (!result?.issuccess) {
       navigate("/404");
     }
 
@@ -167,7 +167,7 @@ const ReservationStay = () => {
       extraPersonPrice: myData?.extraPersonPrice,
       totalDiscountPrice: myData?.facktorDiscount,
       mainPrice: myData?.facktorPrice,
-      state: parseFloat(myData?.state)+1,
+      state: parseFloat(myData?.state) + 1,
       name: myData?.userFirstName,
       lastname: myData?.userLastName,
       sms: myData?.mobile,
@@ -235,13 +235,13 @@ const ReservationStay = () => {
       mobile: inputeValue?.sms,
     };
     const result = await RequestToReserveApi(dataToSend);
-     console.log(result, "RequestToReserveApi");
+    console.log(result, "RequestToReserveApi");
 
     if (result?.data?.orderNumber > 0) {
       const url = `/book/preorder/${result?.data?.orderNumber}`;
       navigate(url);
     } else {
-      SweetAlert(false, "رزرو اقامتگاه لغو شد");
+      SweetAlert(false, "رزرو اقامتگاه با خطا مواجه شد");
     }
   };
 
@@ -430,7 +430,7 @@ const ReservationStay = () => {
 
                       if (s === 6) return 3; // delivered/cancelled mapping previously
                       if (s === 5) return 1; // map 4 to step 1 as requested
-                      const base = s ;
+                      const base = s;
                       return Number(base) ? base : 0;
                     })()}
                     steps={[
@@ -441,7 +441,7 @@ const ReservationStay = () => {
                     ]}
                   />
                   {stepName === "preorder" &&
-                    infoOfReserve?.state === 1 &&
+                    [1, 2].includes(infoOfReserve?.state) &&
                     !infoOfReserve?.expired && (
                       <WaitingToPay
                         activeStep={infoOfReserve?.state}
@@ -451,17 +451,21 @@ const ReservationStay = () => {
                       />
                     )}
 
-                  {stepName === "order" && infoOfReserve?.state === 2 && (
+                  {stepName === "order" && infoOfReserve?.state === 3 && (
                     <Box
                       sx={{
-                        mt: 2,
+                        mt: {xs:.5 , md:2},
                         textAlign: "center",
                         position: "relative",
-                        top: "3.5rem",
+                        top:{xs: "2rem" , md:"3.5rem"},
                       }}
                     >
                       <Typography>
-                        <Typography variant="subtitle1" color={"grey"} sx={{display:"inline-block"}}>
+                        <Typography
+                          variant="subtitle1"
+                          color={"grey"}
+                          sx={{ display: "inline-block" }}
+                        >
                           کد پیگیری رزرو :
                         </Typography>
                         {code}
@@ -478,7 +482,7 @@ const ReservationStay = () => {
                       }}
                     >
                       <Typography sx={{ color: "red" }}>
-                       رزرو اقامتگاه لغو شد
+                        رزرو اقامتگاه لغو شد
                       </Typography>
                     </Box>
                   )}

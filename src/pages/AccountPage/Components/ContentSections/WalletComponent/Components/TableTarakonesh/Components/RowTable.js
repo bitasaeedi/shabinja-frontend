@@ -78,6 +78,18 @@ const RowTable = ({ stay, index }) => {
           </Typography>
         </TableCell>
 
+        {/* type */}
+        {stay?.typeWallet &&
+        <TableCell align="left">
+          <Typography
+            sx={{
+              fontSize: { xs: "0.75rem", sm: "0.85rem" },
+            }}
+          >
+          { stay?.typeWallet==="In" ? "واریز" :"برداشت" || ""}
+          </Typography>
+        </TableCell>}
+
         {/* code */}
         {stay?.code &&
         <TableCell align="left">

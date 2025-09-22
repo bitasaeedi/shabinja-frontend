@@ -54,29 +54,35 @@ const cacheRtl = createCache({
 const theme = createTheme({
   direction: "rtl",
   zIndex: {
-    drawer: 11000, 
+    drawer: 11000,
     menu: 20000,
     modal: 21000,
   },
   typography: {
-    fontFamily: "'YekanBakhFaNum',Tahoma,Arial !important",
+    fontFamily: "'YekanBakhFaNum', 'Inter',Tahoma,Arial !important",
     h6: {
-      fontFamily: "'yakanBold','YekanBakhFaNum', Tahoma, Arial, sans-serif",
+      fontFamily:
+        "'yakanBold','YekanBakhFaNum', 'Inter', Tahoma, Arial, sans-serif",
     },
     h5: {
-      fontFamily: "'yakanBold','YekanBakhFaNum', Tahoma, Arial, sans-serif",
+      fontFamily:
+        "'yakanBold','YekanBakhFaNum', 'Inter', Tahoma, Arial, sans-serif",
     },
     h4: {
-      fontFamily: "'yakanBold','YekanBakhFaNum', Tahoma, Arial, sans-serif",
+      fontFamily:
+        "'yakanBold','YekanBakhFaNum', 'Inter', Tahoma, Arial, sans-serif",
     },
     h3: {
-      fontFamily: "'yakanBold','YekanBakhFaNum', Tahoma, Arial, sans-serif",
+      fontFamily:
+        "'yakanBold','YekanBakhFaNum', 'Inter', Tahoma, Arial, sans-serif",
     },
     h2: {
-      fontFamily: "'yakanBold','YekanBakhFaNum', Tahoma, Arial, sans-serif",
+      fontFamily:
+        "'yakanBold','YekanBakhFaNum', 'Inter', Tahoma, Arial, sans-serif",
     },
     h1: {
-      fontFamily: "'yakanBold','YekanBakhFaNum', Tahoma, Arial, sans-serif",
+      fontFamily:
+        "'yakanBold','YekanBakhFaNum', 'Inter', Tahoma, Arial, sans-serif",
     },
   },
 
@@ -133,7 +139,10 @@ function App() {
   useEffect(() => {
     if (codeIsSend) {
       if (countdown > 0) {
-        const timer = setInterval(() => handleSetTimerCountDown((prev) => prev - 1), 1000);
+        const timer = setInterval(
+          () => handleSetTimerCountDown((prev) => prev - 1),
+          1000
+        );
         return () => clearInterval(timer);
       } else {
         setIsResendEnabled(true);
@@ -226,7 +235,7 @@ function App() {
                 handleSetCodeIsSend,
                 codeIsSend,
                 isResendEnabled,
-                handleSetIsResendEnabled
+                handleSetIsResendEnabled,
               }}
             >
               <Router>
@@ -243,9 +252,9 @@ function App() {
                   <Route path="/mag/:id?" element={<MagazinePage />} />
                   <Route path="/account/:section/*" element={<AccountPage />} />
                   <Route path="/pannel/:section" element={<PannelPage />} />
-                  <Route path="/survey/:code" element={<Survey/>}/>
+                  <Route path="/survey/:code" element={<Survey />} />
                   <Route path="/new-stay/:step" element={<NewStaysPage />} />
-                  <Route path="/loan" element={<Loan/>}/>
+                  <Route path="/loan" element={<Loan />} />
                   <Route
                     path="/book/:stepName/:code"
                     element={<ReservationStay />}
@@ -254,9 +263,8 @@ function App() {
                     path="/edit-calendar/:staycode"
                     element={<EditCalendarPage />}
                   />
-                   <Route path="/404" element={<NotFound/>}/>
-                  <Route path="*" element={<NotFound/>}/>
-                 
+                  <Route path="/404" element={<NotFound />} />
+                  <Route path="*" element={<NotFound />} />
                   {/* <Route path="*" element={<Home />} /> */}
                 </Routes>
                 <Footer />

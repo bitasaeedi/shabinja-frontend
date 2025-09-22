@@ -45,9 +45,9 @@ const Section1 = ({ listCategories = [] }) => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          height:"540px",
+          height: "540px",
           "&::after": {
-            backgroundColor: colorCode ,
+            backgroundColor: colorCode,
           },
         }}
       >

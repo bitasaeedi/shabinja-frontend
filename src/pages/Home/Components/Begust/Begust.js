@@ -51,16 +51,21 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
           display: "flex",
           justifyContent: "space-between",
           py: { xs: 0, md: 0 },
-          height: { xs: "95px", md: "88px" },
+          height: { xs: "unset", md: "88px" },
           maxHeight: "90px",
         }}
       >
-        <Box sx={{ padding: "1rem", width: {xs:"70%" , lg:"80%"} }}>
+        <Box
+          sx={{
+            padding: { xs: ".75rem .5rem", md: "1rem" },
+            width: { xs: "70%", lg: "80%" },
+          }}
+        >
           <Typography
             variant="h5"
             sx={{
               fontWeight: "bold",
-              mb: { xs: 0.6, md: 0.5 },
+              mb: { xs: 0.4, md: 0.6 },
               fontSize: { xs: "1.1rem", md: "1.3rem" },
               textAlign: "left",
               color: "text.primary",
@@ -95,18 +100,18 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
           to={btnLink}
           variant="contained"
           sx={{
-            width: "20%",
-            minWidth: "120px",
+            width: {xs:"19%" , md:"18%"},
+            minWidth: {xs:"105px" , md:"110px"},
             background: btnColorCode,
-            px: 1,
+             px: 0,
             py: 1.2,
             borderRadius: 0,
-            fontSize: "1.05rem",
+            fontSize: { xs: ".95rem", md: "1.05rem" },
             fontWeight: "bold",
             transition: "0.3s",
-            "&:hover": {
-              background: "linear-gradient(45deg, #e65100, #bf360c)",
-            },
+            // "&:hover": {
+            //   background: "linear-gradient(45deg, #e65100, #bf360c)",
+            // },
           }}
         >
           {btnTitle || ""}
