@@ -166,7 +166,7 @@ const RulesPage = () => {
                         />
                       </ListItem>
                     ) : (
-                      <Box sx={{ fontSize: "16px", mt: { xs: 2, md: 2 } }}>
+                      <Box sx={{ fontSize: "16px", mt: { xs: 2, md: 2 } , textAlign:"justify" }}>
                         {renderContent(item.content)}
                       </Box>
                     )}
