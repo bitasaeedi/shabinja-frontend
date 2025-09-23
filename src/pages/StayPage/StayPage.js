@@ -61,7 +61,7 @@ const StayPage = () => {
     // }
   };
 
-  const formatNumber = (num=0) => {
+  const formatNumber = (num = 0) => {
     return num % 1 === 0 ? num : num.toFixed(1);
   };
 
@@ -76,8 +76,8 @@ const StayPage = () => {
       setInfoOfStay(item);
       setLoading(false);
       return item;
-    }else{
-      navigte("/404")
+    } else {
+      navigte("/404");
     }
   };
 
@@ -176,7 +176,7 @@ const StayPage = () => {
                 sx={{ marginBottom: 2 }}
               >
                 <StarIcon sx={{ fontSize: 16, color: "#ffd700" }} />
-                {formatNumber(mobileInfo?.rate)||0}
+                {formatNumber(mobileInfo?.rate) || 0}
                 <Typography
                   display="inline"
                   variant="body1"
@@ -229,8 +229,9 @@ const StayPage = () => {
         <InViewComponents
           getListData={() =>
             callApiForGetList({
-              typeHost: [infoOfStay?.typeHostDbTitle],
-              city: [infoOfStay?.cityTitle],
+              isNeighbors: true,
+              hostId: staycode,
+              skip:25
             })
           }
           id={infoOfStay?.id}

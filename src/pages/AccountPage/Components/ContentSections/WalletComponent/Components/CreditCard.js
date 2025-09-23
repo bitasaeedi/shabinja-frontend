@@ -12,6 +12,7 @@ import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 import { AppContext } from "../../../../../../App";
 import { useNavigate } from "react-router-dom";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 const baseUrl = API_URL;
 
 const CreditCard = ({ isPayed }) => {
@@ -26,7 +27,7 @@ const CreditCard = ({ isPayed }) => {
 
   const [shaba, setShaba] = useState("");
   const [balance, setBalance] = useState(false);
-
+  const [showDetails, setShowDetails] = useState(false);
   // const handleInputChange = (e) => {
   //   const inputValue = e.target.value.replace(/,/g, ""); // Remove commas
   //   if (/^\d*$/.test(inputValue)) {
@@ -159,17 +160,43 @@ const CreditCard = ({ isPayed }) => {
               background: "linear-gradient(135deg, #287dfa, #6a11cb)",
               backgroundColor: "linear-gradient(135deg, #287dfa, #6a11cb)",
               boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+              position: "relative",
             }}
           >
-            <Typography
-              variant="h6"
-              fontWeight="bold"
-              sx={{ color: "rgba(255,255,255,0.2)" }}
-            >
-              shabinja.com
-            </Typography>
+            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                sx={{ color: "rgba(255,255,255,0.2)" }}
+              >
+                shabinja.com
+              </Typography>
+
+              {/* مشاهده جزییات */}
+              <Button
+                sx={{
+                  fontSize: ".71rem",
+                  border: 0,
+                  px: ".4rem",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setShowDetails(!showDetails);
+                }}
+              >
+                مشاهده جزئیات
+                <ArrowDropDownIcon
+                  sx={{
+                    mb: ".15rem",
+                    fontSize:"1.15rem",
+                    padding:"0rem !important"
+                  }}
+                />
+              </Button>
+            </Box>
 
             <Box>
+              {/* موجودی کیف پول */}
               <Box
                 sx={{
                   display: "flex",
@@ -188,42 +215,53 @@ const CreditCard = ({ isPayed }) => {
                 </Box>
               </Box>
 
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: ".4rem",
-                }}
-              >
-                <Typography variant="subtitle2">موجودی قابل برداشت</Typography>
-                <Box className="d-flex">
-                  <Typography variant="body1" fontWeight="bold">
-                    {balance?.withdrawableInventory?.toLocaleString()}
-                  </Typography>
-                  <Typography variant="subtitle2" sx={{ pl: "4px" }}>
-                    تومان
-                  </Typography>
+              {showDetails && (
+                <Box>
+                  {/* قابل برداشت */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: ".4rem",
+                    }}
+                  >
+                    <Typography variant="subtitle2">
+                      موجودی قابل برداشت
+                    </Typography>
+                    <Box className="d-flex">
+                      <Typography variant="body1" fontWeight="bold">
+                        {balance?.withdrawableInventory?.toLocaleString()}
+                      </Typography>
+                      <Typography variant="subtitle2" sx={{ pl: "4px" }}>
+                        تومان
+                      </Typography>
+                    </Box>
+                  </Box>
+
+                  {/* قابل استغاده */}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      marginTop: ".4rem",
+                    }}
+                  >
+                    <Typography variant="subtitle2">
+                      موجودی قابل استفاده
+                    </Typography>
+                    <Box className="d-flex">
+                      <Typography variant="body1" fontWeight="bold">
+                        {balance?.usableInventory?.toLocaleString()}
+                      </Typography>
+                      <Typography variant="subtitle2" sx={{ pl: "4px" }}>
+                        تومان
+                      </Typography>
+                    </Box>
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginTop: ".4rem",
-                }}
-              >
-                <Typography variant="subtitle2">موجودی قابل استفاده</Typography>
-                <Box className="d-flex">
-                  <Typography variant="body1" fontWeight="bold">
-                    {balance?.usableInventory?.toLocaleString()}
-                  </Typography>
-                  <Typography variant="subtitle2" sx={{ pl: "4px" }}>
-                    تومان
-                  </Typography>
-                </Box>
-              </Box>
+              )}
             </Box>
           </Box>
         </Grid>
