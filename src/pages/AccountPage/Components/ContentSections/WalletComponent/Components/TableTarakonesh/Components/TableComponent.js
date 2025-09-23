@@ -65,6 +65,42 @@ const TableComponent = ({ stays, loading = true }) => {
             </TableCell>
           )}
 
+        {stays && stays.length > 0 && stays.some((stay) => stay?.code) && (
+          <TableCell
+            align="left"
+            sx={{
+              color: "#90a4ae",
+              fontSize: { xs: "0.75rem", sm: "0.85rem" },
+            }}
+          >
+            نوع تراکنش
+          </TableCell>
+        )}
+
+        <TableCell
+          align="left"
+          sx={{
+            color: "#90a4ae",
+            fontSize: { xs: "0.75rem", sm: "0.85rem" },
+          }}
+        >
+          کد تراکنش
+        </TableCell>
+
+        {stays &&
+          stays.length > 0 &&
+          stays.some((stay) => stay?.stateTitle) && (
+            <TableCell
+              align="left"
+              sx={{
+                color: "#90a4ae",
+                fontSize: { xs: "0.75rem", sm: "0.85rem" },
+              }}
+            >
+              وضعیت
+            </TableCell>
+          )}
+          
         <TableCell
           align="left"
           sx={{
@@ -74,30 +110,6 @@ const TableComponent = ({ stays, loading = true }) => {
         >
           مبلغ
         </TableCell>
-
-        {stays && stays.length > 0 && stays.some((stay) => stay?.code) && (
-          <TableCell
-            align="left"
-            sx={{
-              color: "#90a4ae",
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-            }}
-          >
-          نوع تراکنش
-          </TableCell>
-        )}
-
-        {stays && stays.length > 0 && stays.some((stay) => stay?.code) && (
-          <TableCell
-            align="left"
-            sx={{
-              color: "#90a4ae",
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-            }}
-          >
-            کد تراکنش
-          </TableCell>
-        )}
 
         <TableCell
           align="left"

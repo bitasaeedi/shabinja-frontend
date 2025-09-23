@@ -112,7 +112,7 @@ const FormAddCredit = ({handleIsPayed}) => {
         }, 1000);
       }else{
         setTimeout(() => {
-          handleMangeAlert(true, "error", "پرداخت انجام نشد");
+          handleMangeAlert(true, "error", "مبلغ درخواستی شما از موجودی قابل برداشت بیشتر است!");
         }, 1000);
       }
     } catch (error) {

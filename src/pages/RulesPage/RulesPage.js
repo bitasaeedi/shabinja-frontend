@@ -48,7 +48,7 @@ const RulesPage = () => {
         },
       });
       const structuredArray = response?.data?.data[0]?.value
-        .split(/(?=[*-])/g) // جدا کردن قبل از هر * یا -
+        .split(/(?=[*@-])/g)
         .map((item) => item.trim()) // حذف فاصله‌های اضافه
         .filter((item) => item) // حذف موارد خالی
         .map((item) => {
@@ -57,7 +57,7 @@ const RulesPage = () => {
           } else if (item.startsWith("-")) {
             return { type: "li", content: item.replace(/^-/, "").trim() };
           } else if (item.startsWith("@")) {
-            return { type: "text", content: item.replace(/^\s*@/, "").trim() };
+            return { type: "text", content: item.replace(/^@/, "").trim() };
           } else {
             return null;
           }
@@ -101,9 +101,9 @@ const RulesPage = () => {
   return (
     <Container
       maxWidth="md"
-      sx={{ py: 4, mt: { xs: 0, md: 6 }, minHeight: "100vh" }}
+      sx={{ py: 4, mt: { xs: 0, md: 10 }, minHeight: "100vh" }}
     >
-      <Box sx={{ py: 4, borderRadius: 2 }}>
+      <Box sx={{ py: 0, borderRadius: 2 }}>
         <Typography
           variant="h4"
           align="center"
@@ -166,7 +166,7 @@ const RulesPage = () => {
                         />
                       </ListItem>
                     ) : (
-                      <Box sx={{ fontSize: "16px" }}>
+                      <Box sx={{ fontSize: "16px", mt: { xs: 2, md: 2 } }}>
                         {renderContent(item.content)}
                       </Box>
                     )}

@@ -1,9 +1,4 @@
-import {
-  Box,
-  TableCell,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, TableCell, TableRow, Typography } from "@mui/material";
 import React, { useContext, useState } from "react";
 import { ContainerMainContext } from "../ContainerMain";
 import moment from "moment-jalaali";
@@ -11,13 +6,12 @@ import moment from "moment-jalaali";
 const RowTable = ({ stay, index }) => {
   const containerMainContext = useContext(ContainerMainContext);
 
-
   function shamsiDate(date) {
-    return  moment(date).locale('fa').format('jYYYY/jMM/jDD');
+    return moment(date).locale("fa").format("jYYYY/jMM/jDD");
   }
 
   function getTime(time) {
-    return  moment(time).format('HH:mm');
+    return moment(time).format("HH:mm");
   }
 
   return (
@@ -33,17 +27,18 @@ const RowTable = ({ stay, index }) => {
         }}
       >
         {/* title */}
-        {stay?.typeCostDisplay &&
-        <TableCell align="left">
-          <Typography
-            sx={{
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-              // color: "#9e9e9e",
-            }}
-          >
-            {stay?.typeCostDisplay || ""}
-          </Typography>
-        </TableCell>}
+        {stay?.typeCostDisplay && (
+          <TableCell align="left">
+            <Typography
+              sx={{
+                fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                // color: "#9e9e9e",
+              }}
+            >
+              {stay?.typeCostDisplay || ""}
+            </Typography>
+          </TableCell>
+        )}
 
         {/* status */}
         {/* <TableCell align="center">
@@ -67,6 +62,46 @@ const RowTable = ({ stay, index }) => {
           </Box>
         </TableCell> */}
 
+        {/* type */}
+        {stay?.typeWallet && (
+          <TableCell align="left">
+            <Typography
+              sx={{
+                fontSize: { xs: "0.75rem", sm: "0.85rem" },
+              }}
+            >
+              {stay?.typeWallet === "In" ? "واریز" : "برداشت" || ""}
+            </Typography>
+          </TableCell>
+        )}
+
+        {/* code */}
+        {(stay?.code || stay?.id) && (
+          <TableCell align="left">
+            <Typography
+              sx={{
+                fontSize: { xs: "0.75rem", sm: "0.85rem" },
+              }}
+            >
+              {stay?.code || stay?.id || ""}
+            </Typography>
+          </TableCell>
+        )}
+
+          {/* state */}
+          {stay?.stateTitle && (
+          <TableCell align="left">
+            <Typography
+              sx={{
+                fontSize: { xs: "0.75rem", sm: "0.85rem" },
+              }}
+            >
+              {stay?.stateTitle|| ""}
+            </Typography>
+          </TableCell>
+        )}
+
+
         {/* price */}
         <TableCell align="left">
           <Typography
@@ -77,30 +112,6 @@ const RowTable = ({ stay, index }) => {
             {Math.abs(stay?.price)?.toLocaleString() || ""} تومان
           </Typography>
         </TableCell>
-
-        {/* type */}
-        {stay?.typeWallet &&
-        <TableCell align="left">
-          <Typography
-            sx={{
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-            }}
-          >
-          { stay?.typeWallet==="In" ? "واریز" :"برداشت" || ""}
-          </Typography>
-        </TableCell>}
-
-        {/* code */}
-        {stay?.code &&
-        <TableCell align="left">
-          <Typography
-            sx={{
-              fontSize: { xs: "0.75rem", sm: "0.85rem" },
-            }}
-          >
-          { stay?.code || ""}
-          </Typography>
-        </TableCell>}
 
         {/* date */}
         <TableCell align="left">
@@ -123,7 +134,6 @@ const RowTable = ({ stay, index }) => {
             {getTime(stay?.created) || ""}
           </Typography>
         </TableCell>
-
       </TableRow>
     </>
   );
