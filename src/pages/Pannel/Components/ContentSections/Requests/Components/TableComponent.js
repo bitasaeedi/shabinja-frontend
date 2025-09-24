@@ -18,21 +18,21 @@ const TableComponent = ({ stays, loading = true }) => {
 
   const listTabs = [
     {
-      name: "جدید",
-      valueFilter: 0,
+      name: "جاری",
+      valueFilter: "current",
     },
     {
-      name: "تایید میزبان",
-      valueFilter: 1,
+      name: "قبلی",
+      valueFilter: "past",
     },
     {
-      name: "پرداخت شده",
-      valueFilter: 2,
+      name: "ناموفق",
+      valueFilter: "failed",
     },
-    {
-      name: "منقضی شده",
-      valueFilter: 1001,
-    },
+    // {
+    //   name: "منقضی شده",
+    //   valueFilter: 1001,
+    // },
   ];
 
   const NoValueComponent = () => {

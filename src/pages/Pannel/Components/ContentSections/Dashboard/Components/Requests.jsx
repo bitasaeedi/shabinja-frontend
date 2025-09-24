@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import moment from "moment-jalaali";
 const baseUrl = API_URL;
 
 const RequestsSkeleton = ({ rows = 2 }) => (
@@ -110,7 +111,7 @@ export default function Requests({ isMobile, NoValue }) {
                     }}
                     align="left"
                   >
-                    نوع درخواست
+                     نام اقامتگاه
                   </TableCell>
                   <TableCell
                     sx={{
@@ -161,10 +162,10 @@ export default function Requests({ isMobile, NoValue }) {
                           index % 2 === 0 ? "#fafafa" : "inherit",
                       }}
                     >
-                      <TableCell>{req.hostTourTitle}</TableCell>
-                      <TableCell align="center">{req.hostTourId}</TableCell>
-                      <TableCell align="center">{req.orderNumber}</TableCell>
-                      <TableCell align="center">{req.time}</TableCell>
+                      <TableCell>{req?.hostTourTitle}</TableCell>
+                      <TableCell align="center">{req?.hostTourId}</TableCell>
+                      <TableCell align="center">{req?.orderNumber}</TableCell>
+                      <TableCell align="center">{moment(req.created).format("jYYYY/jMM/jDD")}</TableCell>
                     </TableRow>
                   ))
                 )}
