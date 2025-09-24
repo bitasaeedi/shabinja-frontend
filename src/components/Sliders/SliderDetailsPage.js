@@ -19,7 +19,7 @@ const NextArrow = ({ onClick, disabled }) => (
     sx={{
       position: "absolute",
       top: "55%",
-      right: "10px",
+      right: "15px",
       transform: "translateY(-50%)",
       zIndex: 10,
       backgroundColor: disabled
@@ -35,6 +35,8 @@ const NextArrow = ({ onClick, disabled }) => (
       sx={{
         fontSize: { xs: "16px", md: "20px" },
         color: disabled ? "#999" : "#000",
+        position:"relative",
+        right:4
       }}
     />
   </IconButton>
@@ -46,7 +48,7 @@ const PrevArrow = ({ onClick, disabled }) => (
     sx={{
       position: "absolute",
       top: "55%",
-      left: "10px",
+      left: "15px",
       transform: "translateY(-50%)",
       zIndex: 10,
       backgroundColor: disabled

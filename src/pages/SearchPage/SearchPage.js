@@ -228,11 +228,12 @@ const SearchPage = () => {
         {/* Main Content */}
         <Grid
           container
+         // spacing={3}
+          columnSpacing={showMap && !isMobile ? 1 : 0}
           sx={{
             flexDirection: "row",
             padding: "16px",
             marginTop: { xs: "9px", md: "75px" },
-           
           }}
           className=" "
         >
@@ -240,11 +241,9 @@ const SearchPage = () => {
           <Grid
             item
             xs={showMap && !isMobile ? 6 : 12}
-            sx={
-              {
-                // pr: 2,
-              }
-            }
+            sx={{
+              //pr:15
+            }}
             className=" p-0 m-0 "
           >
             <Box

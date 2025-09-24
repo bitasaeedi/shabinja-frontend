@@ -120,8 +120,8 @@ export default function ShowAllCategories() {
                     >
                       <Typography
                         variant="subtitle1"
-                        fontWeight="bold"
-                        sx={{ color: "text.primary", mb: 0 ,fontSize:"1.2rem"}}
+                        // fontWeight="bold"
+                        sx={{ color: "text.primary", mb: 0 ,fontSize:"1.2rem" }}
                       >
                         {list.title}
                       </Typography>

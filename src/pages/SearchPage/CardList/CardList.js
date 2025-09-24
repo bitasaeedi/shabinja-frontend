@@ -22,7 +22,7 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
     <Box sx={{ mb: { xs: 5, md: 8 } }} className=" ">
       <Grid
         container
-        spacing={3} // فاصله همیشه ثابت
+        spacing={showMap ? 1.5:3} // فاصله همیشه ثابت
         justifyContent="flex-start"
       >
         {(loading ? Array.from({ length: itemsPerPage }) : data).map(
@@ -32,9 +32,10 @@ const CardList = ({ data = [], showMap, toggleMap, loading }) => {
               key={index}
               xs={12} // موبایل 1 ستون
               sm={6} // تبلت 2 ستون
-              md={4} // دسکتاپ 3 ستون
-              lg={showMap ? 4 : 3} // با نقشه 3 ستون، بدون نقشه 4 ستون
-              xl={showMap ? 3 : 3} // خیلی بزرگ → 4 یا 6 ستون
+              md={showMap ? 12 : 4} // دسکتاپ 3 ستون
+              lg={showMap ? 6 : 3} // با نقشه 3 ستون، بدون نقشه 4 ستون
+              xl={showMap ? 6 : 3} // خیلی بزرگ → 4 یا 6 ستون
+              // sx={{ mr: 1 }}
             >
               {loading ? (
                 <SkeletonCardHouseDetails />

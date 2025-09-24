@@ -40,6 +40,8 @@ const NextArrow = ({ onClick, disabled, children }) => (
       sx={{
         fontSize: { xs: "16px", md: "16px" },
         color: disabled ? "#999" : "rgba(0, 0, 0, 0.6)",
+        position:"relative",
+        right:3
       }}
     />
   </IconButton>
