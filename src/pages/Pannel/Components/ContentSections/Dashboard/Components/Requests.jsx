@@ -9,6 +9,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import SkeltonRowTables from "../../../../../../components/SkeletonComponents/SkeltonRowTables";
@@ -111,7 +112,7 @@ export default function Requests({ isMobile, NoValue }) {
                     }}
                     align="left"
                   >
-                     نام اقامتگاه
+                    نام اقامتگاه
                   </TableCell>
                   <TableCell
                     sx={{
@@ -165,7 +166,15 @@ export default function Requests({ isMobile, NoValue }) {
                       <TableCell>{req?.hostTourTitle}</TableCell>
                       <TableCell align="center">{req?.hostTourId}</TableCell>
                       <TableCell align="center">{req?.orderNumber}</TableCell>
-                      <TableCell align="center">{moment(req.created).format("jYYYY/jMM/jDD")}</TableCell>
+                      <Tooltip
+                        title={` ساعت  ${moment(req.created).format("HH:mm")}`}
+                        placement="top"
+                        arrow
+                      >
+                        <TableCell align="center">
+                          {moment(req.created).format("jYYYY/jMM/jDD")}
+                        </TableCell>
+                      </Tooltip>
                     </TableRow>
                   ))
                 )}

@@ -16,7 +16,7 @@ const ContainerMain = () => {
 
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState("current");
 
   useEffect(() => {
     handleGetMyTour();

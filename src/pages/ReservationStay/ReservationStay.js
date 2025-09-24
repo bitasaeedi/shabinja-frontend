@@ -102,7 +102,7 @@ const ReservationStay = () => {
     const mystay = {
       title: item?.title,
       address: item?.address,
-      img: item?.hostImages[0],
+      img: item?.hostImages[item?.hostImages?.length - 1],
       minCount: item?.minCapacity,
       maxCount: item?.maxCapacity,
     };
