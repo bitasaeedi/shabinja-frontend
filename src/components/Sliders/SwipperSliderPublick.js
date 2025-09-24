@@ -9,7 +9,6 @@ import {
   Box,
   Button,
   IconButton,
-  Stack,
   Tabs,
   Typography,
 } from "@mui/material";
@@ -255,12 +254,17 @@ const SwipperSliderPublick = ({
             onChange={(e, value) => {
               handleChangeProvince(value)
             }}
+            variant="scrollable"
+            // scrollButtons="auto"
+            // allowScrollButtonsMobile
             sx={{
+              overflowX: "auto",
+              whiteSpace: "nowrap",
               "& .MuiTabs-indicator": {
                 display: "none",
               },
               "& .MuiTabs-flexContainer": {
-                gap: 0.5, 
+                gap: {xs:2 , md:2.3}, 
               },
             }}
           >
@@ -268,7 +272,7 @@ const SwipperSliderPublick = ({
             <Tab
               sx={{
                 paddingX: 0,
-                minWidth: "70px",
+                minWidth: "0px",
               }}
               disableRipple
               label="تمامی شهرها"
@@ -280,7 +284,7 @@ const SwipperSliderPublick = ({
                 key={index}
                 sx={{
                   paddingX: 0,
-                  minWidth: "70px",
+                  minWidth: "0px",
                 }}
                 disableRipple
                 label={item?.title}

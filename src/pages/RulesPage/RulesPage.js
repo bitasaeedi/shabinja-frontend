@@ -162,6 +162,7 @@ const RulesPage = () => {
                           primaryTypographyProps={{
                             fontSize: "13px",
                             color: "#000000a1",
+                            textAlign:"justify"
                           }}
                         />
                       </ListItem>
