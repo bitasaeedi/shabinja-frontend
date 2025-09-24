@@ -10,7 +10,7 @@ const MapSection = ({ points, onClose, onPolygonDrawn, onSearchAreaClick, isLoad
     xs={6}
     sx={{
       position: "sticky",
-      top: "150px",
+      top: "135px",
       height: "calc(90vh - 65px)",
       overflow: "hidden",
       borderRadius: 3,

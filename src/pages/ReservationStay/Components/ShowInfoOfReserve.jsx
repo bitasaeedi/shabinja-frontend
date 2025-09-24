@@ -29,7 +29,7 @@ const ShowInfoOfReserve = () => {
           mt: 4,
           display: "flex",
           justifyContent: "space-between",
-          alignItems: {xs:"center" , md:"end"},
+          alignItems: {xs:"start" , md:"end"},
           flexDirection:{xs:"column" , md:"row"}
         }}
       >
@@ -115,7 +115,8 @@ const ShowInfoOfReserve = () => {
           sx={{
             bgcolor: "black",
             mb: 5,
-            mt:{xs:2 , md:0}
+            mt:{xs:2 , md:0},
+            alignSelf:{xs:"end" , md:"unset"}
           }}
           onClick={() => {
             navigate("/account/reservations")
