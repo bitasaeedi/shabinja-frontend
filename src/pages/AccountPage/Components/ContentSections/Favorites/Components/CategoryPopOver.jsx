@@ -31,6 +31,7 @@ export default function CategoryPopOver({
   type,
   handleClose,
   categoryInfo,
+  categoryName
 }) {
   console.log( "mycategoryInfo",categoryInfo);
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ export default function CategoryPopOver({
   const location = useLocation();
   const [categoryId, setCategoryId] = useState();
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(categoryName);
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
     status: "error",

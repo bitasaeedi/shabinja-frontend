@@ -23,7 +23,7 @@ import logo_with_name from "../../images/shabinja_logo_with_name.png";
 import { GetListTitleSlidersApi } from "../../api/PublicApis";
 import HomeIcon from "@mui/icons-material/Home";
 import { HostTourSearchApi } from "../../api/toureApis";
-
+import FavoriteIcon from '@mui/icons-material/Favorite';
 // لیست منو موبایل
 
 const drawerWidth = 240;
@@ -45,6 +45,11 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
       title: "لیست اقامتگاه ها",
       icon: <HomeIcon />,
       subMenu: listTitleSliders,
+    },
+    {
+      title: "علاقه مندی ها",
+      icon: <FavoriteIcon />,
+      path: "/rules",
     },
     {
       title: "میزبان شو",
@@ -77,6 +82,7 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
       icon: <GavelIcon />,
       path: "/rules",
     },
+   
   ];
 
   const setFilters = (url) => {

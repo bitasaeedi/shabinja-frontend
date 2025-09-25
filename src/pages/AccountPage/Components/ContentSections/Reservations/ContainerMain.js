@@ -3,16 +3,31 @@ import { Box, Button, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import TableComponent from "./Components/TableComponent";
 import { MyReservationsApi } from "../../../../../api/toureApis";
+import { SignalRContext } from "../../../../../App";
 
 export const ContainerMainContext = createContext();
 const ContainerMain = () => {
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tabValue, setTabValue] = useState(0);
+  const [changedCode , setChangedCode] = useState()
 
   useEffect(() => {
     handleGetMyReserve();
   }, [tabValue]);
+
+  SignalRContext.useSignalREffect("OrderAccept", (message) => {
+    console.info(
+      message,
+      "SignalRContext message useSignalREffect",
+      // parseFloat(message?.orderNumber) === parseFloat(code)
+    );
+
+      handleGetMyReserve(true); //true
+  
+
+    // setMessage([...messages, message]);
+  });
 
   const handleGetMyReserve = async (dontShowLoading) => {
     if (!dontShowLoading) {

@@ -10,6 +10,7 @@ import {
   RejectRequestReserveApi,
 } from "../../../../../api/PannelApis";
 import SweetAlert from "../../../../../components/SweetAlert/SweetAlert";
+import { SignalRContext } from "../../../../../App";
 
 export const ContainerMainContext = createContext();
 const ContainerMain = () => {
@@ -21,6 +22,17 @@ const ContainerMain = () => {
   useEffect(() => {
     handleGetMyTour();
   }, [tabValue]);
+
+  SignalRContext.useSignalREffect("OrderAccept", (message) => {
+    console.info(
+      message,
+      "SignalRContext message useSignalREffect",
+      // parseFloat(message?.orderNumber) === parseFloat(code)
+    );
+
+    handleGetMyTour(true); //true
+
+  });
 
   const handleGetMyTour = async (dontShowLoading) => {
     if (!dontShowLoading) {

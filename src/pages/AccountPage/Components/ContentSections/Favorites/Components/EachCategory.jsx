@@ -231,6 +231,7 @@ export default function EachCategory() {
             type={type}
             handleClose={handleClosePopOver}
             categoryInfo={categoryItem[0]}
+            categoryName={categoryItem[0]?.userFavoriteCategoryTitle}
           />
         ) : null}
       </Box>
