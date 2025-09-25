@@ -31,7 +31,7 @@ export default function WalletPayment() {
   const [withdraw, setWithdraw] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [resultText, setResultText] = useState("");
-  console.log("balance", infoOfReserve);
+  // console.log("balance", infoOfReserve);
 
   // get balance
   const getDate = async () => {
@@ -43,7 +43,7 @@ export default function WalletPayment() {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log("balance data", response?.data?.data);
+      // console.log("balance data", response?.data?.data);
       setBalance(response?.data?.data);
     } catch (error) {
       console.error(

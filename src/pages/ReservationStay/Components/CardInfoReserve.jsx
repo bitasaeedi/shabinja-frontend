@@ -25,7 +25,7 @@ const CardInfoReserve = () => {
     handleGoToPayLink,
   } = useContext(ReservationStayContext);
 
-  console.log("h" , infoOfStay);
+  // console.log("h" , infoOfStay);
   
 
   const nights = CalculateNights(paramsValues?.start, paramsValues?.end);

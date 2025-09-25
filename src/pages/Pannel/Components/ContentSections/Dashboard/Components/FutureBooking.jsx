@@ -48,7 +48,7 @@ export default function FutureBooking({ isMobile, NoValue }) {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `${baseUrl}/HostTourOrder/DashboardList/3`,
+        `${baseUrl}/HostTourOrder/DashboardList/2`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

@@ -426,7 +426,7 @@ const ReservationStay = () => {
                     }
                     activeStep={(() => {
                       const s = infoOfReserve?.state ?? 0;
-                      console.log("st", s, ":", infoOfReserve?.state);
+                      // console.log("st", s, ":", infoOfReserve?.state);
 
                       if (s === 6) return 3; // delivered/cancelled mapping previously
                       if (s === 5) return 1; // map 4 to step 1 as requested

@@ -22,10 +22,7 @@ const ContainerMain = () => {
       "SignalRContext message useSignalREffect",
       // parseFloat(message?.orderNumber) === parseFloat(code)
     );
-
       handleGetMyReserve(true); //true
-  
-
     // setMessage([...messages, message]);
   });
 

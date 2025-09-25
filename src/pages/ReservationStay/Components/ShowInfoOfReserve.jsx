@@ -116,7 +116,8 @@ const ShowInfoOfReserve = () => {
             bgcolor: "black",
             mb: 5,
             mt:{xs:2 , md:0},
-            alignSelf:{xs:"end" , md:"unset"}
+            alignSelf:{xs:"end" , md:"unset"},
+            minWidth:"115px"
           }}
           onClick={() => {
             navigate("/account/reservations")
