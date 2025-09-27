@@ -15,6 +15,16 @@ import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import "leaflet-draw/dist/leaflet.draw.css";
 
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('../public/service-worker.js')
+      .then(reg => console.log('Service Worker registered: ', reg))
+      .catch(err => console.log('SW registration failed: ', err));
+  });
+}
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

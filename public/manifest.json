@@ -18,8 +18,37 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "screenshots": [
+    {
+      "src": "./screenshots/screen1.jpg",
+      "sizes": "1080x2255",
+      "type": "image/jpg"
+    },
+    {
+      "src": "./screenshots/screen2.jpg",
+      "sizes": "1080x2251",
+      "type": "image/jpg"
+    },
+    {
+      "src": "./screenshots/screen3.jpg",
+      "sizes": "1080x2100",
+      "type": "image/jpg"
+    },
+    {
+      "src": "./screenshots/screen4.jpg",
+      "sizes": "1080x2251",
+      "type": "image/jpg"
+    }
+  ],
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "orientation": "portrait",
+  "theme_color": "#287dfa",
+  "background_color": "#ffffff",
+  "lang": "fa",
+  "dir": "rtl",
+  "categories": ["travel", "booking", "lifestyle"],
+  "description": "اجاره ویلا و اقامتگاه با نظافت عالی و رزرو آنی در سراسر ایران"
 }
