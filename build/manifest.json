@@ -1,6 +1,6 @@
 {
-  "short_name": "shabinja",
-  "name": "shabinja",
+  "short_name": "Shabinja",
+  "name": "Shabinja",
   "icons": [
     {
       "src": "./favicon-32x32.png",
@@ -43,12 +43,12 @@
   "id": "/",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
+  "display": "fullscreen",
   "orientation": "portrait",
-  "theme_color": "#287dfa",
+   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "lang": "fa",
   "dir": "rtl",
-  "categories": ["travel", "booking", "lifestyle"],
-  "description": "اجاره ویلا و اقامتگاه با نظافت عالی و رزرو آنی در سراسر ایران"
+  "categories": ["travel", "booking", "lifestyle" , "Travel & Local" , "Accommodation"],
+  "description": "رزرو آنلاین ویلا، سوئیت و اقامتگاه، سریع، ارزان و مطمئن"
 }

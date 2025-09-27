@@ -1,4 +1,4 @@
-const CACHE_NAME = "shabinja-cache-v1";
+const CACHE_NAME = "shabinja-cache-v4";
 const urlsToCache = [
   "/",
   "./index.html",
