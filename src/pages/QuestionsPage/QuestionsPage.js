@@ -50,7 +50,7 @@ const QuestionsPage = () => {
       dontShowMobileHeader: true,
       removeShadow: false,
     });
-    window.scroll(0, 0);
+    // Remove automatic scroll to top to prevent scroll conflicts
   }, [appContext]);
 
   return (
@@ -114,7 +114,7 @@ const QuestionsPage = () => {
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ py: 1 }}>
-                  <Typography variant="h6" sx={{ fontSize: { xs: 14, md: 18 } ,   maxWidth:"308px"}}>
+                  <Typography variant="h6" sx={{ fontSize: { xs: 14, md: 18 } ,   maxWidth:{xs:"300px" , md:"unset"}}}>
                     {item.title}
                   </Typography>
                 </AccordionSummary>
