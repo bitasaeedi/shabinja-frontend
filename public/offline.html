@@ -2,14 +2,53 @@
 <html lang="fa" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>آفلاین</title>
   <style>
-    body { font-family: sans-serif; text-align: center; padding: 2rem; background: #f2f2f2; }
-    h1 { color: #287dfa; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: "Vazirmatn", sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    h3 {
+      font-size: clamp(1.5rem, 5vw, 2.2rem);
+      color: #287dfa;
+      margin-bottom: 1rem;
+    }
+
+    p {
+      font-size: clamp(1rem, 4vw, 1.2rem);
+      margin-bottom: 2rem;
+    }
+
+    button {
+      background: #287dfa;
+      color: white;
+      border: none;
+      padding: 0.8rem 1.6rem;
+      border-radius: 12px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #1b5ec9;
+    }
   </style>
 </head>
 <body>
-  <h1>شما آفلاین هستید!</h1>
+  <h3>شما آفلاین هستید!</h3>
   <p>لطفاً بعداً دوباره تلاش کنید.</p>
+  <button onclick="location.reload()">تلاش مجدد</button>
 </body>
 </html>
