@@ -101,7 +101,7 @@ const StayPage = () => {
     var month3 = result3?.data?.prices || [];
 
     const myList = [...month1, ...month2, ...month3];
-    console.log(myList, "prices");
+    // console.log(myList, "prices");
     setListPrices(myList);
   };
 

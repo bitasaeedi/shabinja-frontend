@@ -6,27 +6,10 @@ import {
   Grid,
   Toolbar,
   InputBase,
-  Avatar,
-  Container,
-  Divider,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Typography,
-  Button,
 } from "@mui/material";
 import { styled, useTheme, alpha } from "@mui/system";
 import { Link, useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
-import LogoutIcon from "@mui/icons-material/Logout";
-import SettingsIcon from "@mui/icons-material/Settings";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import QuestionMarkIcon from "@mui/icons-material/QuestionMark";
-import GridViewIcon from "@mui/icons-material/GridView";
-import LoginIcon from "@mui/icons-material/Login";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-
 import logo_with_name from "../../../images/shabinja_logo_with_name.png";
 import logo_with_name_white from "../../../images/shabinja_logo_with_name_white.png";
 import CheckTokenExpiration from "../../../components/checkTokenExpiration/CheckTokenExpiration";
@@ -86,7 +69,6 @@ const MobileHeader = () => {
   const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
   const [calendarAnchor, setCalendarAnchor] = useState(null);
   const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
-  const [cityError, setCityError] = useState(false);
 
   const location = useLocation();
   const theme = useTheme();
@@ -162,7 +144,7 @@ const MobileHeader = () => {
             }}
             component="nav"
           >
-            <Toolbar>
+            <Toolbar sx={{ px: { xs: 1, md: "unset" } }}>
               <Grid container spacing={0} className="pb-3 w-100">
                 {/* Top Bar: Logo and User Section */}
                 <Grid
@@ -179,8 +161,11 @@ const MobileHeader = () => {
                   {/* Logo Section */}
                   <Grid
                     item
-                    // xs="auto"
-                    sx={{ display: isSticky ? "none" : "inline", maxWidth: 215 }}
+                    xs={4}
+                    sx={{
+                      display: isSticky ? "none" : "inline",
+                      maxWidth: 215,
+                    }}
                   >
                     <Link
                       to="/"
@@ -254,17 +239,18 @@ const MobileHeader = () => {
                     </Search>
                     {calendarAnchor && (
                       <Box
-                      sx={{
-                        position: "absolute",
-                        top: calendarAnchor.getBoundingClientRect().bottom + 30,
-                        left: "50%",
-                        transform: "translateX(-50%)",
-                        width: "100%",
-                        boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
-                        borderRadius: "8px",
-                        zIndex: 1000,
-                        px: 3,
-                      }}
+                        sx={{
+                          position: "absolute",
+                          top:
+                            calendarAnchor.getBoundingClientRect().bottom + 30,
+                          left: "50%",
+                          transform: "translateX(-50%)",
+                          width: "100%",
+                          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+                          borderRadius: "8px",
+                          zIndex: 1000,
+                          px: 3,
+                        }}
                       >
                         <SelectCity
                           closePopup={() => setCalendarAnchor(null)}

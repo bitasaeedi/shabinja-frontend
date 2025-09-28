@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Box, IconButton, Paper } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
@@ -17,8 +18,7 @@ const getPaperStyle = {
   pointerEvents: "auto",
 };  
 
-const SwiperImageOverlay = ({ onLike }) => {
-
+const SwiperImageOverlay = ({ onLike, isFavorite }) => {
     const stayPageContext = useContext(StayPageContext);
 
     const handleShare = async () => {
@@ -70,7 +70,11 @@ const SwiperImageOverlay = ({ onLike }) => {
 
         <Paper sx={getPaperStyle} elevation={3}>
           <IconButton onClick={onLike}>
-            <FavoriteBorderIcon sx={{ fontSize: 22 }} />
+            {isFavorite ? (
+              <FavoriteIcon sx={{ fontSize: 22, color: "red" }} />
+            ) : (
+              <FavoriteBorderIcon sx={{ fontSize: 22 }} />
+            )}
           </IconButton>
         </Paper>
       </Box>

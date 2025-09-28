@@ -22,6 +22,7 @@ const TitleStay = () => {
 
   useEffect(() => {
     setIsFavorite(stayPageContext?.infoOfStay?.isFavorite ? "red" : "black");
+    
   }, [stayPageContext]);
 
   const handleLikeClick = () => {

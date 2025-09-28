@@ -135,6 +135,7 @@ const MobileFooter = () => {
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   fontSize: "0.7rem",
+                  display: item?.isElevated?"none":"unset"
                 },
                 "& .MuiSvgIcon-root": {
                   fontSize: "1.9rem",
