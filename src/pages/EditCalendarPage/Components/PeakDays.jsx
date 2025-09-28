@@ -5,8 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
 import { sendChangeRequest } from "./SendChangeRequest";
 
-export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
-
+export default function PeakDays({ miladiDate, staycode, handleClosePopover }) {
   const [loading, setLoading] = useState(false);
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
@@ -23,7 +22,7 @@ export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
       message,
     });
   };
- 
+
   // api
   const handleChange = async () => {
     if (
@@ -31,31 +30,30 @@ export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
       miladiDate.length < 2 ||
       !miladiDate[0] ||
       !miladiDate[1]
-    )  {
+    ) {
       return setValidText("بازه تاریخی انتخاب نشده است");
     }
 
     setValidText("");
     setLoading(true);
-//post api
-    const result= await sendChangeRequest({
+    //post api
+    const result = await sendChangeRequest({
       HostTourGuid: staycode,
       State: 6,
       Start: miladiDate[0],
       End: miladiDate[1],
     });
 
-    if(result){
+    if (result) {
       setLoading(false);
-      
+
       setTimeout(() => {
         handleMangeAlert(true, "success", "عملیات با موفقیت انجام شد");
         setTimeout(() => {
           handleClosePopover();
         }, 3000);
       }, 1000);
-    }
-    else{
+    } else {
       setLoading(false);
       setTimeout(
         () => handleMangeAlert(true, "error", "عملیات با خطا مواجه شد"),
@@ -113,11 +111,26 @@ export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
             )}
           </Button>
 
-          <Button onClick={()=>{handleClosePopover()}} variant="contained" color="error" startIcon={<CloseIcon />}>
+          <Button
+            onClick={() => {
+              handleClosePopover();
+            }}
+            variant="contained"
+            color="error"
+            startIcon={<CloseIcon />}
+          >
             لغو
           </Button>
-
         </Box>
+
+        <Typography
+          sx={{
+            fontSize: 13,
+            mt: 1,
+          }}
+        >
+          برای حذف تغییرات داده شده به مشاهده مقادیر رجوع کنید
+        </Typography>
 
         {/* show error */}
         <Typography
@@ -142,6 +155,6 @@ export default function PeakDays({miladiDate,staycode,handleClosePopover}) {
           />
         )}
       </Box>
-      </>
+    </>
   );
 }

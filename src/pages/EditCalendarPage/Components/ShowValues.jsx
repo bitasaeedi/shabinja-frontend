@@ -15,7 +15,7 @@ const listButtons = [
     state: 0,
   },
   {
-    title: "پر و خالی ",
+    title: "غیر قابل رزرو",
     state: 1,
   },
   {
@@ -27,7 +27,7 @@ const listButtons = [
     state: 3,
   },
   {
-    title: "رزرو آنی",
+    title:  "غیر قابل رزرو",
     state: 4,
   },
   {
@@ -51,7 +51,7 @@ const titlesList = [
   [
     //state 1
     {
-      title: "پر و خالی",
+      title: "غیر قابل رزرو",
       apiKey: "",
     },
   ],

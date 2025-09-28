@@ -1,12 +1,14 @@
-import { Box,  TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import React, { useState } from "react";
 import CustomButton from "./CustomButton";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
 import { sendChangeRequest } from "./SendChangeRequest";
 
-
-export default function ChangePrice({miladiDate,staycode,handleClosePopover}) {
-
+export default function ChangePrice({
+  miladiDate,
+  staycode,
+  handleClosePopover,
+}) {
   const [loading, setLoading] = useState(false);
   const [basePrice, setBasePrice] = useState("");
   const [showAlertSetting, setShowAlertSetting] = useState({
@@ -25,8 +27,7 @@ export default function ChangePrice({miladiDate,staycode,handleClosePopover}) {
       message,
     });
   };
- 
-  
+
   // api
   const handleChangePrice = async () => {
     //valid
@@ -45,33 +46,31 @@ export default function ChangePrice({miladiDate,staycode,handleClosePopover}) {
 
     setValidText("");
     setLoading(true);
-//post api
-    const result= await sendChangeRequest({
+    //post api
+    const result = await sendChangeRequest({
       HostTourGuid: staycode,
       State: 0,
-      PriceBase:basePrice,
+      PriceBase: basePrice,
       Start: miladiDate[0],
       End: miladiDate[1],
     });
 
-    if(result){
+    if (result) {
       setLoading(false);
-      
+
       setTimeout(() => {
         handleMangeAlert(true, "success", "عملیات با موفقیت انجام شد");
         setTimeout(() => {
           handleClosePopover();
         }, 3000);
       }, 1000);
-    }
-    else{
+    } else {
       setLoading(false);
       setTimeout(
         () => handleMangeAlert(true, "error", "عملیات با خطا مواجه شد"),
         1000
       );
     }
-
   };
 
   return (
@@ -81,7 +80,7 @@ export default function ChangePrice({miladiDate,staycode,handleClosePopover}) {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: "1rem",
+          gap: ".7rem",
           width: "100%",
           mt: 3,
           px: 1,
@@ -105,9 +104,10 @@ export default function ChangePrice({miladiDate,staycode,handleClosePopover}) {
           {validText}
         </Typography>
 
-        <CustomButton loading={loading} handleChange={handleChangePrice}/>
+        <CustomButton loading={loading} handleChange={handleChangePrice} />
+        
 
-{/* show alert */}
+        {/* show alert */}
         {showAlertSetting?.show && (
           <MyAlertMui
             message={showAlertSetting?.message || ""}
@@ -121,7 +121,6 @@ export default function ChangePrice({miladiDate,staycode,handleClosePopover}) {
             status={showAlertSetting?.status}
           />
         )}
-
       </Box>
     </>
   );

@@ -25,43 +25,49 @@ export const EditCalendarPageContext = createContext();
 const listButtons = [
   {
     title: "تغییر قیمت",
-    component: <h1>تغییر قیمت</h1>,
+    component: <Typography sx={{ fontSize: 24, mt: 1 }}>تغییر قیمت</Typography>,
     icon: <PriceChangeIcon />,
     element: (props) => <ChangePrice {...props} />,
   },
   {
-    title: "پر و خالی ",
-    component: <h1>پر و خالی</h1>,
+    title: "غیر قابل رزرو",
+    component: (
+      <Typography sx={{ fontSize: 24, mt: 1 }}>غیر قابل رزرو</Typography>
+    ),
     icon: <PriceChangeIcon />,
     element: (props) => <Accessibility {...props} />,
   },
   {
     title: "تخفیف عادی",
-    component: <h1>تخفیف</h1>,
+    component: <Typography sx={{ fontSize: 24, mt: 1 }}>تخفیف</Typography>,
     icon: <PriceChangeIcon />,
     element: (props) => <Discount {...props} />,
   },
   {
     title: "لحظه آخری",
-    component: <h1>لحظه آخری </h1>,
+    component: <Typography sx={{ fontSize: 24, mt: 1 }}>لحظه آخری </Typography>,
     icon: <PriceChangeIcon />,
     element: (props) => <LastMin {...props} />,
   },
   {
     title: "رزرو آنی",
-    component: <h1>رزرو آنی</h1>,
+    component: <Typography sx={{ fontSize: 24, mt: 1 }}>رزرو آنی</Typography>,
     icon: <PriceChangeIcon />,
     element: (props) => <InstantBooking {...props} />,
   },
   {
     title: "حداقل و حداکثر روز رزرو",
-    component: <h1>حداقل و حداکثر روز رزرو</h1>,
+    component: (
+      <Typography sx={{ fontSize: 24, mt: 1 }}>
+        حداقل و حداکثر روز رزرو
+      </Typography>
+    ),
     icon: <PriceChangeIcon />,
     element: (props) => <MinMaxDay {...props} />,
   },
   {
     title: "ایام پیک",
-    component: <h1>ایام پیک</h1>,
+    component: <Typography sx={{ fontSize: 24, mt: 1 }}>ایام پیک</Typography>,
     icon: <PriceChangeIcon />,
     element: (props) => <PeakDays {...props} />,
   },
@@ -116,7 +122,7 @@ const EditCalendarPage = () => {
     ];
 
     const result = await PriceHostTourListApi(staycode, months[0]);
-    if(!result?.issuccess){
+    if (!result?.issuccess) {
       navigate("/404");
     }
     const result2 = await PriceHostTourListApi(staycode, months[1]);

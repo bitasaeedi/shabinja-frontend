@@ -1,8 +1,6 @@
-import React, { useState, useEffect, createContext } from "react";
-import { Box, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, createContext, useCallback } from "react";
+import { Box, Typography } from "@mui/material";
 import TableComponent from "./Components/TableComponent";
-import { MyHostTourSearchApi } from "../../../../../api/toureApis";
 import {
   AcceptRequestReserveApi,
   DeleteRequestReserveApi,
@@ -13,15 +11,28 @@ import SweetAlert from "../../../../../components/SweetAlert/SweetAlert";
 import { SignalRContext } from "../../../../../App";
 
 export const ContainerMainContext = createContext();
+
 const ContainerMain = () => {
 
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [tabValue, setTabValue] = useState("current");
+  const [tabValue, setTabValue] = useState([0, 1, 2, 3, 4, 5, 6, 1001, 1002]); // Default to "همه" tab
+
+  const handleGetMyTour = useCallback(async (dontShowLoading) => {
+    if (!dontShowLoading) {
+      setLoading(true);
+    }
+
+    const result = await GetListRequestToReserveApi(tabValue);
+
+    setStays(result?.data || []);
+
+    setLoading(false);
+  }, [tabValue]);
 
   useEffect(() => {
     handleGetMyTour();
-  }, [tabValue]);
+  }, [tabValue, handleGetMyTour]);
 
   SignalRContext.useSignalREffect("OrderAccept", (message) => {
     console.info(
@@ -33,18 +44,6 @@ const ContainerMain = () => {
     handleGetMyTour(true); //true
 
   });
-
-  const handleGetMyTour = async (dontShowLoading) => {
-    if (!dontShowLoading) {
-      setLoading(true);
-    }
-
-    const result = await GetListRequestToReserveApi(tabValue);
-
-    setStays(result?.data || []);
-
-    setLoading(false);
-  };
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);

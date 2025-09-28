@@ -18,22 +18,39 @@ const TableComponent = ({ stays, loading = true }) => {
 
   const listTabs = [
     {
+      name: "همه",
+      valueFilter: [0, 1, 2, 3, 4, 5, 6, 1001, 1002],
+      tabValue: 0, // Single value for MUI Tabs
+    },
+    {
+      name: "در انتظار",
+      valueFilter: [0, 1],
+      tabValue: 1,
+    },
+    {
       name: "جاری",
-      valueFilter: "current",
+      valueFilter: [2, 3],
+      tabValue: 2,
     },
     {
-      name: "قبلی",
-      valueFilter: "past",
+      name: "تکمیل شده",
+      valueFilter: [1002],
+      tabValue: 3,
     },
     {
-      name: "ناموفق",
-      valueFilter: "failed",
+      name: "لغو شده / ناموفق",
+      valueFilter: [4, 5, 6, 1001],
+      tabValue: 4,
     },
-    // {
-    //   name: "منقضی شده",
-    //   valueFilter: 1001,
-    // },
   ];
+
+  // Find the current selected tab based on the tabValue array
+  const getCurrentTabValue = () => {
+    const currentTab = listTabs.find(tab => 
+      JSON.stringify(tab.valueFilter) === JSON.stringify(containerMainContext?.tabValue)
+    );
+    return currentTab ? currentTab.tabValue : 0; // Default to first tab
+  };
 
   const NoValueComponent = () => {
     return (
@@ -76,8 +93,14 @@ const TableComponent = ({ stays, loading = true }) => {
       >
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <Tabs
-            value={containerMainContext?.tabValue}
-            onChange={containerMainContext?.handleChangeTab}
+            value={getCurrentTabValue()}
+            onChange={(event, newValue) => {
+              // Find the tab that matches the selected tabValue
+              const selectedTab = listTabs.find(tab => tab.tabValue === newValue);
+              if (selectedTab) {
+                containerMainContext?.handleChangeTab(event, selectedTab.valueFilter);
+              }
+            }}
             aria-label=" tabs "
             TabIndicatorProps={{
               sx: { backgroundColor: "#424242", height: "1px" },
@@ -95,7 +118,7 @@ const TableComponent = ({ stays, loading = true }) => {
             }}
           >
             {listTabs?.map((item, index) => (
-              <Tab label={item?.name} key={index} value={item?.valueFilter} />
+              <Tab label={item?.name} key={index} value={item?.tabValue} />
             ))}
           </Tabs>
         </Box>
@@ -105,7 +128,7 @@ const TableComponent = ({ stays, loading = true }) => {
           <>
             <Box sx={{ width: "100%", p: 2 }}>
               {" "}
-              {loading  ? (
+              {loading ? (
                 <Box sx={{ width: "100%" }}>
                   {[1, 2, 3, 4].map((item, index) => (
                     <Box key={index} sx={{ height: 100 }}>

@@ -5,8 +5,11 @@ import CloseIcon from "@mui/icons-material/Close";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
 import { sendChangeRequest } from "./SendChangeRequest";
 
-export default function Accessibility({miladiDate,staycode,handleClosePopover}) {
-
+export default function Accessibility({
+  miladiDate,
+  staycode,
+  handleClosePopover,
+}) {
   const [loading, setLoading] = useState(false);
   const [showAlertSetting, setShowAlertSetting] = useState({
     show: false,
@@ -23,7 +26,7 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
       message,
     });
   };
-  
+
   // api
   const handleChange = async () => {
     if (
@@ -37,8 +40,8 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
 
     setValidText("");
     setLoading(true);
-//post api
-    const result= await sendChangeRequest({
+    //post api
+    const result = await sendChangeRequest({
       HostTourGuid: staycode,
       State: 1,
       NotAvailable: true,
@@ -46,17 +49,16 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
       End: miladiDate[1],
     });
 
-    if(result){
+    if (result) {
       setLoading(false);
-      
+
       setTimeout(() => {
         handleMangeAlert(true, "success", "عملیات با موفقیت انجام شد");
         setTimeout(() => {
           handleClosePopover();
         }, 3000);
       }, 1000);
-    }
-    else{
+    } else {
       setLoading(false);
       setTimeout(
         () => handleMangeAlert(true, "error", "عملیات با خطا مواجه شد"),
@@ -65,7 +67,6 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
     }
   };
 
-  
   return (
     <>
       <Box
@@ -79,8 +80,9 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
           px: 1,
         }}
       >
-        <Typography variant="h6">
-          آیا مطمئنید که می خواهید پر وو خالی را انجام دهید؟
+        <Typography variant="h6"
+        >
+          آیا مطمئنید که می خواهید اقامتگاه را غیر قابل رزرو کنید؟
         </Typography>
 
         <Box
@@ -115,10 +117,27 @@ export default function Accessibility({miladiDate,staycode,handleClosePopover}) 
             )}
           </Button>
 
-          <Button onClick={()=>{handleClosePopover()}} variant="contained" color="error" startIcon={<CloseIcon />}>
+          <Button
+            onClick={() => {
+              handleClosePopover();
+            }}
+            variant="contained"
+            color="error"
+            startIcon={<CloseIcon />}
+          >
             لغو
           </Button>
         </Box>
+
+        <Typography
+          sx={{
+            fontSize: 13,
+            mt: 1,
+          }}
+        >
+          برای حذف تغییرات داده شده به مشاهده مقادیر رجوع کنید
+        </Typography>
+
         <Typography
           color="error"
           sx={{ width: "100%", direction: "ltr" }}

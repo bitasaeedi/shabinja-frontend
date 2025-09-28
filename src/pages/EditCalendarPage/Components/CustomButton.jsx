@@ -2,7 +2,7 @@ import { styled } from "@mui/material/styles";
 import Button from "@mui/material/Button";
 
 import React from "react";
-import { CircularProgress } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 
 const Button1 = styled(Button)(({ theme }) => ({
   backgroundColor: "#287dfa",
@@ -18,7 +18,7 @@ const Button1 = styled(Button)(({ theme }) => ({
 export default function CustomButton({ loading, handleChange }) {
   return (
     <>
-      <Button1 variant="contained" onClick={() => handleChange()}>
+      <Button1 sx={{ fontSize:14 , }} variant="contained" onClick={() => handleChange()}>
         {loading ? (
           <>
             <CircularProgress
@@ -33,6 +33,13 @@ export default function CustomButton({ loading, handleChange }) {
           "ثبت تغییرات"
         )}
       </Button1>
+      <Typography sx={{
+        fontSize:13,
+        mt:1
+
+      }}>
+        برای حذف تغییرات داده شده به مشاهده مقادیر رجوع کنید
+      </Typography>
     </>
   );
 }
