@@ -56,7 +56,7 @@ const listButtons = [
     element: (props) => <InstantBooking {...props} />,
   },
   {
-    title: "حداقل و حداکثر روز رزرو",
+    title: "حداقل و حداکثر روز ",
     component: (
       <Typography sx={{ fontSize: 24, mt: 1 }}>
         حداقل و حداکثر روز رزرو
@@ -220,6 +220,7 @@ const EditCalendarPage = () => {
                     display: "flex",
                     justifyContent: "center",
                     my: 1,
+                    mt:2.5
                   }}
                 >
                   <ChangePriceButton item={buttonDetails} />

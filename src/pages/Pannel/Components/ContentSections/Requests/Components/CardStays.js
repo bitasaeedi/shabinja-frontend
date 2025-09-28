@@ -29,7 +29,7 @@ import axios from "axios";
 import API_URL from "../../../../../../config/apiConfig";
 const baseUrl = API_URL;
 
-function CancelDialog({handleClose,handleCancel , loadingCancel ,open}) {
+function CancelDialog({ handleClose, handleCancel, loadingCancel, open }) {
   return (
     <>
       <div>
@@ -43,8 +43,18 @@ function CancelDialog({handleClose,handleCancel , loadingCancel ,open}) {
           </DialogContent>
 
           <DialogActions>
-            <Button onClick={()=>{handleClose(false)}}>انصراف</Button>
-            <Button onClick={()=>{handleCancel()}}>
+            <Button
+              onClick={() => {
+                handleClose(false);
+              }}
+            >
+              انصراف
+            </Button>
+            <Button
+              onClick={() => {
+                handleCancel();
+              }}
+            >
               {loadingCancel ? (
                 <CircularProgress size={20} color="primary" />
               ) : (
@@ -52,7 +62,6 @@ function CancelDialog({handleClose,handleCancel , loadingCancel ,open}) {
               )}
             </Button>
           </DialogActions>
-
         </Dialog>
       </div>
     </>
@@ -77,8 +86,8 @@ const CardStays = ({ stay }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  function handleDialog(value){
-    setOpenDialog(value)
+  function handleDialog(value) {
+    setOpenDialog(value);
   }
 
   const handleClose = () => {
@@ -103,7 +112,7 @@ const CardStays = ({ stay }) => {
   };
 
   const handleCancel = async () => {
-    setLoadingCancel(true)
+    setLoadingCancel(true);
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
@@ -122,8 +131,8 @@ const CardStays = ({ stay }) => {
     } catch (error) {
       console.log("cancel :", error?.response?.data);
       return error?.response?.data;
-    }finally{
-      setLoadingCancel(false)
+    } finally {
+      setLoadingCancel(false);
     }
   };
 
@@ -369,7 +378,7 @@ const CardStays = ({ stay }) => {
                         }
                         onClick={() => {
                           handleClose();
-                          handleDialog(true)
+                          handleDialog(true);
                           // handleCancel();
                         }}
                         sx={{ minWidth: "100px", textAlign: "center" }}
@@ -388,8 +397,13 @@ const CardStays = ({ stay }) => {
                       </MenuItem> */}
                     </Menu>
                   </Box>
-                  <CancelDialog handleClose={handleDialog} handleCancel={handleCancel}  open={openDialog} loadingCancel={loadingCancel}/>
                 </Box>
+                <CancelDialog
+                  handleClose={handleDialog}
+                  handleCancel={handleCancel}
+                  open={openDialog}
+                  loadingCancel={loadingCancel}
+                />
               </Box>
 
               {/* code */}

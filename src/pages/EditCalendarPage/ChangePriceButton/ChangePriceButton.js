@@ -39,7 +39,7 @@ const ChangePriceButton = ({ item }) => {
           backgroundColor: "white",
           color: "#757575",
           borderColor: "#9e9e9e",
-          minWidth: 200,
+          minWidth: {xs:175 , md:200},
         }}
         size="small"
         // startIcon={<PriceChangeIcon />}
@@ -59,11 +59,11 @@ const ChangePriceButton = ({ item }) => {
               display: "flex",
             }}
           >
-            <PriceChangeIcon sx={{ mr: 1, color: "primary.light" }} />
+            <PriceChangeIcon sx={{ mr: {xs:.5,md:1}, color: "primary.light" , fontSize:{xs:"1.2rem" , md:"1.5rem"} }} />
             <Typography
               variant="h6"
               sx={{
-                fontSize: 16,
+                fontSize: {xs:15 , md:16},
               }}
             >
               {item?.title}

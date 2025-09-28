@@ -9,9 +9,7 @@ import React, { useContext, useState } from "react";
 import { EditCalendarPageContext } from "../EditCalendarPage";
 import API_URL from "../../../config/apiConfig";
 import { sendChangeRequest } from "./SendChangeRequest";
-import moment from "moment-jalaali";
 import MyAlertMui from "../../../components/MyAlertMui/MyAlertMui";
-const baseUrl = API_URL;
 
 export default function MinMaxDay({miladiDate,staycode,handleClosePopover}) {
   const [loading, setLoading] = useState(false);

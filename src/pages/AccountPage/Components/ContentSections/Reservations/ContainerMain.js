@@ -1,6 +1,5 @@
-import React, { useState, useEffect, createContext } from "react";
-import { Box, Button, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect, createContext, useCallback } from "react";
+import { Box, Typography } from "@mui/material";
 import TableComponent from "./Components/TableComponent";
 import { MyReservationsApi } from "../../../../../api/toureApis";
 import { SignalRContext } from "../../../../../App";
@@ -9,12 +8,23 @@ export const ContainerMainContext = createContext();
 const ContainerMain = () => {
   const [stays, setStays] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [tabValue, setTabValue] = useState(0);
-  const [changedCode , setChangedCode] = useState()
+  const [tabValue, setTabValue] = useState([0, 1, 2, 3, 4, 5, 6, 1001, 1002]); // Default to "همه" tab
+
+  const handleGetMyReserve = useCallback(async (dontShowLoading) => {
+    if (!dontShowLoading) {
+      setLoading(true);
+    }
+
+    const result = await MyReservationsApi(tabValue);
+
+    setStays(result?.data || []);
+
+    setLoading(false);
+  }, [tabValue]);
 
   useEffect(() => {
     handleGetMyReserve();
-  }, [tabValue]);
+  }, [tabValue, handleGetMyReserve]);
 
   SignalRContext.useSignalREffect("OrderAccept", (message) => {
     console.info(
@@ -25,27 +35,6 @@ const ContainerMain = () => {
       handleGetMyReserve(true); //true
     // setMessage([...messages, message]);
   });
-
-  const handleGetMyReserve = async (dontShowLoading) => {
-    if (!dontShowLoading) {
-      setLoading(true);
-    }
-    var boolValue = "current";
-    if (tabValue === 0) {
-       boolValue = "current";
-    } else if (tabValue === 1) {
-       boolValue = "past";
-    } else if (tabValue === 2) {
-       boolValue = "failed";
-    }
-    const result = await MyReservationsApi(boolValue);
-    let listReserve = result?.data || [];
-    
-    console.log(listReserve, "listReserve");
-    setStays(listReserve);
-
-    setLoading(false);
-  };
 
   const handleChangeTab = (event, newValue) => {
     setTabValue(newValue);
