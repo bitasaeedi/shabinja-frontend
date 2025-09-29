@@ -50,7 +50,6 @@ const QuestionsPage = () => {
       dontShowMobileHeader: true,
       removeShadow: false,
     });
-    // Remove automatic scroll to top to prevent scroll conflicts
   }, [appContext]);
 
   return (

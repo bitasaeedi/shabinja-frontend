@@ -106,16 +106,18 @@ const MobileFooter = () => {
             justifyContent: "space-around",
             padding: "0",
             position: "relative",
+            // bgcolor:"black"
           }}
         >
           {menuItems.map((item, index) => (
             <BottomNavigationAction
               key={index}
-              label={item.isElevated ? "" : item.label}
-              icon={item.icon}
+              label={item.isElevated || item.isElevated ? "" : item.label}
+              icon={item.unvisibilie ? null : item.icon}
               onClick={item.action}
               disabled={item.disabled}
               sx={{
+              
                 color:
                   item.unvisibilie || item.isElevated
                     ? "white"
