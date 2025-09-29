@@ -51,7 +51,7 @@ const ContactPage = () => {
   return (
     <Container
       maxWidth="xl"
-      sx={{ py: 4, mt: { xs: 0, md: 8 }, minHeight: "100vh" }}
+      sx={{ py: {xs:4,md:5}, mt: { xs: 0, md: 9 }, minHeight: "100vh" }}
     >
       <Box sx={{ py: { xs: 2, md: 8 }, px: { xs: 2, md: 5 } }}>
         <Grid container spacing={0} justifyContent={"center"}>

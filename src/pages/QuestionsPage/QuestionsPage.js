@@ -114,7 +114,7 @@ const QuestionsPage = () => {
                 }}
               >
                 <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ py: 1 }}>
-                  <Typography variant="h6" sx={{ fontSize: { xs: 14, md: 18 } ,   maxWidth:{xs:"300px" , md:"unset"}}}>
+                  <Typography variant="h6" sx={{ fontSize: { xs: 14, md: 17 } ,   maxWidth:{xs:"300px" , md:"unset"}}}>
                     {item.title}
                   </Typography>
                 </AccordionSummary>
@@ -122,7 +122,7 @@ const QuestionsPage = () => {
                   <Typography
                     variant="body2"
                     sx={{
-                      fontSize: { xs: 14, md: 16 },
+                      fontSize: { xs: 14, md: 15 },
                       textAlign: "justify",
                     }}
                   >
