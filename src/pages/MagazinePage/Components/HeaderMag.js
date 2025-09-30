@@ -60,19 +60,19 @@ const PrevArrow = ({ onClick, disabled }) => (
 // ];
 const slides = [
   {
-    src:"https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
-    title:"کوهسار مقصد ییلاقی محبوب نزدیک تهران",
-    text:"قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است."
+    src: "https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+    title: "کوهسار مقصد ییلاقی محبوب نزدیک تهران",
+    text: "قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است.",
   },
   {
-    src:"https://storage.jajiga.com/mag/2025/03/%D8%A7%D9%86%D8%B2%D9%84%DB%8C-%D8%AF%D8%B1-%D8%B4%D8%A8-1200x500.jpg",
-    title:"کوهسار مقصد ییلاقی محبوب نزدیک تهران",
-    text:"قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است."
+    src: "https://storage.jajiga.com/mag/2025/03/%D8%A7%D9%86%D8%B2%D9%84%DB%8C-%D8%AF%D8%B1-%D8%B4%D8%A8-1200x500.jpg",
+    title: "کوهسار مقصد ییلاقی محبوب نزدیک تهران",
+    text: "قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است.",
   },
   {
-    src:"https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
-    title:"کوهسار مقصد ییلاقی محبوب نزدیک تهران",
-    text:"قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است."
+    src: "https://storage.jajiga.com/mag/2025/03/%D8%B3%D9%81%D8%B1-1200x500.jpg",
+    title: "کوهسار مقصد ییلاقی محبوب نزدیک تهران",
+    text: "قلعه رودخان قصه هزار ساله پناه گرفتن ایران و ایرانی در میان قلعه‌های سنگی از هجوم دشمن است.",
   },
 ];
 
@@ -102,7 +102,10 @@ const HeaderMag = () => {
   };
 
   return (
-    <div className=" position-relative">
+    <div
+      className=" position-relative"
+      style={{ width: "80%", margin: "6.5rem  auto 0" }}
+    >
       <Swiper ref={swiperRef} onSlideChange={handleSlideChange}>
         {/* arrow buttons */}
         <Box

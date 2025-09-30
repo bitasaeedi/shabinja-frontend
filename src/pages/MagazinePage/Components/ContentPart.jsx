@@ -32,7 +32,7 @@ export default function ContentPart({ myWidth }) {
     <>
       <Grid container spacing={3} sx={{ width: myWidth }}>
         {list.map((item, i) => (
-          <Grid item xs={12} sm={12} md={6} lg={4} xl={4} key={i}>
+          <Grid item xs={12} sm={12} md={6} lg={6} xl={6} key={i}>
             <ContentCard item={item} index={i} />
           </Grid>
         ))}

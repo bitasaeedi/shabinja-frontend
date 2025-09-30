@@ -13,18 +13,18 @@ export default function MainPart() {
       <Box
         sx={{
           display: "flex",
-          height: "50vh",
-          margin: "3.5rem 2.3rem 40rem",
+          margin: "3.5rem 3rem",
+          paddingBottom: "3rem",
           gap: "1rem",
           justifyContent: "space-between",
         }}
       >
+        {/* side bar */}
+        {id ? null : <SidebarPart myWidth={"24%"} />}
+
         {/* content part */}
         {id ? <MagPosts /> : <ContentPart myWidth={"74%"} />}
         {/* <ContentPart myWidth={"72%"} /> */}
-
-        {/* side bar */}
-        <SidebarPart myWidth={"24%"} />
       </Box>
     </>
   );

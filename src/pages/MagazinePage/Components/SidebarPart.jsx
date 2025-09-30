@@ -4,28 +4,28 @@ import SideBarCard from "../CardSectins/SideBarCard";
 
 const sideItems = [
   {
-    title: "P&O Ferries: Short Break Offer for Dover to Calais",
-    date: "Jul 7, 2025",
+    title: "جنوبگردی",
+    count: 10,
   },
   {
-    title: "P&O Ferries: Short Break Offer for Dover to Calais",
-    date: "Jul 7, 2025",
+    title: "گردشگرانه",
+    count: 14,
   },
   {
-    title: "P&O Ferries: Short Break Offer for Dover to Calais",
-    date: "Jul 7, 2025",
+    title: "شمال‌گردی",
+    count: 20,
   },
   {
-    title: "P&O Ferries: Short Break Offer for Dover to Calais",
-    date: "Jul 7, 2025",
+    title: "ایرانگردی",
+    count: 19,
   },
   {
-    title: "P&O Ferries: Short Break Offer for Dover to Calais",
-    date: "Jul 7, 2025",
+    title: "مزه‌گردی",
+    count: 5,
   },
   {
-    title: "P&O Ferries: Short Break Offer for Dover to Calais",
-    date: "Jul 7, 2025",
+    title: "راه‌بلد",
+    count: 22,
   },
 ];
 export default function SidebarPart({ myWidth }) {
@@ -48,13 +48,23 @@ export default function SidebarPart({ myWidth }) {
             fontSize: "1.1rem",
           }}
         >
-          تبلیغات
+          دسته بندی ها
         </Typography>
 
         {/* items */}
-        {sideItems.map((item, index) => (
-          <SideBarCard key={index} title={item.title} date={item.date} />
-        ))}
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: 2,
+            mx:2,
+            mt:2
+          }}
+        >
+          {sideItems.map((item, index) => (
+            <SideBarCard key={index} title={item.title} count={item.count} />
+          ))}
+        </Box>
       </Box>
     </>
   );

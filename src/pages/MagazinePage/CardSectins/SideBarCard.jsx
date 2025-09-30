@@ -1,56 +1,29 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
 
-export default function SideBarCard({title,date}) {
+export default function SideBarCard({ title, count }) {
   return (
     <>
       <Box
-
-      className="border round shadow"
         sx={{
           display: "flex",
-          width: "100%",
-          height: "115px",
-          gap: ".8rem",
-          margin:"1.4rem 0",
-          padding:".5rem"
+          justifyContent: "space-between",
         }}
       >
-        {/* text part */}
-        <Box
+        <Typography
           sx={{
-            width: "90%",
-            textAlign: "right",
-            display:"flex",
-            flexDirection:"column",
-            justifyContent:"space-between"
+            bgcolor: "#287dfa",
+            color:"white",
+            borderRadius: 13,
+            padding: ".2rem .5rem",
+            minWidth:"100px" ,
+            textAlign:"center",
           }}
         >
-          <Typography
-            variant="h6"
-            sx={{
-              fontSize: "1rem",
-            }}
-          >
-            {title}
-          </Typography>
-          <Typography variant="body2"
-          sx={{
-            color:"#555",
-            fontSize:".8rem"
-          }}> {date}</Typography>
-        </Box>
+          {title}
+        </Typography>
 
-        {/* image part */}
-        <Box
-          component="img"
-          sx={{
-            width: "150px",
-            objectFit: "cover",
-          
-          }}
-          src={require("../../../assest/images/sidebar/1.webp")}
-        />
+        <Typography>{count}</Typography>
       </Box>
     </>
   );
