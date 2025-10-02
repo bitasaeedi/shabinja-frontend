@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.b5bc4762.css",
-    "main.js": "/static/js/main.85a0dc78.js",
+    "main.js": "/static/js/main.f7e49a2d.js",
     "static/media/Lost in Travel Scenery 404.png": "/static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/summer-trip.gif": "/static/media/summer-trip.6da7ad20dfbeb759fad6.gif",
@@ -30,7 +30,6 @@
     "static/media/hero-bg6.jpg": "/static/media/hero-bg6.6966ccfd44b36bb8db32.jpg",
     "static/media/bread-bg5.jpg": "/static/media/bread-bg5.8f909b34105802284994.jpg",
     "static/media/color-bg3.png": "/static/media/color-bg3.990d834521b4940bbf0a.png",
-    "static/media/4.jpg": "/static/media/4.1b95fb022e40a827f840.jpg",
     "static/media/YekanBakhFaNum-Thin.eot": "/static/media/YekanBakhFaNum-Thin.1c8c9f4da67e55982398.eot",
     "static/media/YekanBakhFaNum-Light.eot": "/static/media/YekanBakhFaNum-Light.47a90f01353a8253edc8.eot",
     "static/media/YekanBakhFaNum-Fat.eot": "/static/media/YekanBakhFaNum-Fat.b1ead96491b85672f192.eot",
@@ -39,7 +38,6 @@
     "static/media/inter-latin-ext-500-normal.woff": "/static/media/inter-latin-ext-500-normal.2f93aaa35e870cec4704.woff",
     "static/media/YekanBakhFaNum-Heavy.eot": "/static/media/YekanBakhFaNum-Heavy.73349bfe93d9f0eba547.eot",
     "static/media/YekanBakhFaNum-Bold.eot": "/static/media/YekanBakhFaNum-Bold.e715d56548ed648cbcb8.eot",
-    "static/media/5.jpg": "/static/media/5.42d0f84cd7c6233e7159.jpg",
     "static/media/همراه-بانک-صادرات-ایران-آیفون-removebg-preview.png": "/static/media/همراه-بانک-صادرات-ایران-آیفون-removebg-preview.a5ac7e3321844d7990c5.png",
     "static/media/inter-latin-ext-500-normal.woff2": "/static/media/inter-latin-ext-500-normal.cdb4dd5dc508fe6e7398.woff2",
     "static/media/inter-latin-500-normal.woff": "/static/media/inter-latin-500-normal.5014db633e71a7741bf5.woff",
@@ -73,6 +71,6 @@
   },
   "entrypoints": [
     "static/css/main.b5bc4762.css",
-    "static/js/main.85a0dc78.js"
+    "static/js/main.f7e49a2d.js"
   ]
 }
