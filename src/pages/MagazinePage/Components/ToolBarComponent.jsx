@@ -1,36 +1,16 @@
-import {
-  Avatar,
-  Box,
-  Divider,
-  IconButton,
-  Menu,
-  MenuItem,
-  Tooltip,
-} from "@mui/material";
-import LogoutIcon from "@mui/icons-material/Logout";
-import GridViewIcon from "@mui/icons-material/GridView";
-import logo_with_name from "../../../images/shabinja_logo_with_name.png";
-import logo_with_name_white from "../../../images/shabinja_logo_with_name_white.png";
+import { Box } from "@mui/material";
 import React, { useContext, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LoginIcon from "@mui/icons-material/Login";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import { AppContext } from "../../../App";
-
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/system";
-import RemoveStorageLogin from "../../../components/RemoveStorageLogin/RemoveStorageLogin";
 import CheckTokenExpiration from "../../../components/checkTokenExpiration/CheckTokenExpiration";
-import { HostTourSearchTitleApi } from "../../../api/toureApis";
 import { useState } from "react";
-//   import SelectCity from "../../../../components/popups/SelectCity/SelectCity";
-import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import { MagPageContext } from "../MagazinePage";
 
 // Styled components for the search bar
 const Search = styled("div")(({ theme }) => ({
@@ -81,17 +61,17 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   cursor: "pointer", // Ensures the cursor changes to a pointer
 }));
 
-const ToolBarComponent = ({ isSticky, isVisible }) => {
+const ToolBarComponent = ({ isSticky, isVisible, isMobile }) => {
   const appContext = useContext(AppContext);
 
-  const [userName, setUserName] = useState("");
   const [anchorEl, setAnchorEl] = useState(null);
   const navigate = useNavigate();
-  const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
+  const location = useLocation();
   const [calendarAnchor, setCalendarAnchor] = useState(null);
-  const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
   const [isPast65, setIsPast65] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
+  const { handleTitleFilter, handleCategoryFilter, handleTagsFilter } =useContext(MagPageContext);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -105,9 +85,6 @@ const ToolBarComponent = ({ isSticky, isVisible }) => {
     // پاک کردن لیسنر وقتی کامپوننت آن‌مونت شد
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const open = Boolean(anchorEl);
-  const theme = useTheme();
 
   React.useEffect(() => {
     const checkLoginStatus = () => {
@@ -127,31 +104,42 @@ const ToolBarComponent = ({ isSticky, isVisible }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const handleLogout = () => {
-    appContext.setIsLoginMain(false);
-    setUserName("");
-    RemoveStorageLogin();
-    // localStorage.clear();
-  };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleSearchCities = async (textToSearch) => {
-    if (textToSearch.length >= 3 || textToSearch.length == 0) {
-      setLoadingSearchCitis(true);
-      const resultGetTours = await HostTourSearchTitleApi({
-        title: textToSearch,
-      });
-      var objectList = resultGetTours?.data;
-      setObjectOfLisDatas(objectList);
-      setLoadingSearchCitis(false);
+  const handleDateClick = (event, field) => {
+    setCalendarAnchor(event.currentTarget);
+  };
+
+  const handleSearch = () => {
+    if (searchValue.trim()) {
+      // Check if we're on a specific blog post page (/mag/id)
+      const isOnBlogPost =
+        location.pathname.startsWith("/mag/") && location.pathname !== "/mag";
+
+      if (isOnBlogPost) {
+        // Navigate to main magazine page first, then perform search
+        navigate("/mag");
+        // Use setTimeout to ensure navigation completes before setting the filter
+        setTimeout(() => {
+          handleTitleFilter(searchValue.trim());
+        }, 100);
+      } else {
+        // We're already on the main magazine page, just perform search
+        handleTitleFilter(searchValue.trim());
+      }
     }
   };
 
-  const handleDateClick = (event, field) => {
-    setCalendarAnchor(event.currentTarget);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setSearchValue(event.target.value);
   };
 
   // const handleSelectCity = (selected) => {
@@ -171,16 +159,20 @@ const ToolBarComponent = ({ isSticky, isVisible }) => {
               ? "10px"
               : "70px"
             : "10px",
+          px: { xs: 1.1, md: 2 },
         }}
       >
         <Typography
           variant="h1"
           sx={{
-            fontSize: 23,
+            fontSize: isMobile ? 20 : 23,
             mt: 1.5,
             cursor: "pointer",
           }}
           onClick={() => {
+            handleCategoryFilter(null);
+            handleTagsFilter(null);
+            handleTitleFilter(null);
             navigate("/mag");
           }}
         >
@@ -202,20 +194,22 @@ const ToolBarComponent = ({ isSticky, isVisible }) => {
               </SearchIconWrapper>
               <StyledInputBase
                 placeholder="جستجو مقاله و ... "
+                value={searchValue}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
                 inputProps={{
                   "aria-label": "search",
-                  onChange: (e) => handleSearchCities(e.target.value),
                 }}
               />
             </Search>
           </Box>
         </Box>
 
-        <Box>
+        <Box sx={{ display: { xs: "none", md: "unset" } }}>
           <Button
             variant="contained"
             onClick={() => {
-              navigate("/mag");
+              navigate("/");
             }}
           >
             صحفه اصلی

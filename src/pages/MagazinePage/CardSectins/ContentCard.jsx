@@ -1,8 +1,9 @@
 import { Box, Typography } from "@mui/material";
+import moment from "moment-jalaali";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ContentCard({ index, item }) {
+export default function ContentCard({ index, item, isMobile }) {
   const navigate = useNavigate();
   const handleClick = (itemId) => {
     navigate(`/mag/${itemId}`);
@@ -16,10 +17,10 @@ export default function ContentCard({ index, item }) {
           borderRadius: 2,
           // overflow: "hidden",
           position: "relative",
-          marginBottom: "5.5rem",
+          marginBottom: isMobile ? "7.5rem" : "5.5rem",
           cursor: "pointer",
         }}
-        onClick={() => handleClick(1)}
+        onClick={() => handleClick(item?.id)}
       >
         <Box
           component="img"
@@ -54,20 +55,30 @@ export default function ContentCard({ index, item }) {
             width: "95%",
           }}
         >
-          <Typography variant="h6">{item.title}</Typography>
+          {/* title */}
+          <Typography
+            variant="h6"
+            sx={{
+              fontSize: isMobile ? "1.15rem" : "unset",
+            }}
+          >
+            {item.title}
+          </Typography>
+
+          {/* info */}
           <Typography
             variant="body1"
             sx={{
               lineHeight: "1.4rem",
               fontSize: ".9rem",
               display: "-webkit-box",
-              WebkitLineClamp: 2,          // تعداد خطوط
+              WebkitLineClamp: 2, // تعداد خطوط
               WebkitBoxOrient: "vertical", // عمودی کردن
               overflow: "hidden",
               textOverflow: "ellipsis",
             }}
           >
-            {item.info}
+            {item.desc}
           </Typography>
 
           <Box
@@ -75,57 +86,33 @@ export default function ContentCard({ index, item }) {
               display: "flex",
               justifyContent: "space-between",
               m: ".8rem 0 .7rem",
-              alignItems:"end"
+              alignItems: "end",
             }}
           >
             {/* tags */}
-            <Box sx={{ display: "flex", gap:.4 }}>
-              <Typography
-                sx={{
-                  bgcolor:"#287dfa",
-                  color:"#fff",
-                  minWidth: "70px",
-                  textAlign: "center",
-                  padding: " .2rem .5rem ",
-                  borderRadius: 10,
-                  fontSize:13,
-                }}
-              >
-                شمال
-              </Typography>
-
-              <Typography
-                sx={{
-                  bgcolor:"#287dfa",
-                  color:"#fff",
-                  minWidth: "70px",
-                  textAlign: "center",
-                  padding: " .2rem .5rem ",
-                  borderRadius: 10,
-                  fontSize:13,
-                }}
-              >
-                جنگل
-              </Typography>
-
-              <Typography
-                sx={{
-                  bgcolor:"#287dfa",
-                  color:"#fff",
-                  minWidth: "70px",
-                  textAlign: "center",
-                  padding: " .2rem .5rem ",
-                  borderRadius: 10,
-                  fontSize:13,
-                }}
-              >
-                دریا
-              </Typography>
+            <Box sx={{ display: "flex", gap: 0.4 }}>
+              {item?.tags?.map((tag , index) => {
+                return (
+                  <Typography key={index}
+                    sx={{
+                      bgcolor: "#287dfa",
+                      color: "#fff",
+                      minWidth: "70px",
+                      textAlign: "center",
+                      padding: " .2rem .5rem ",
+                      borderRadius: 10,
+                      fontSize: 13,
+                    }}
+                  >
+                    {tag?.myTagTitle}
+                  </Typography>
+                );
+              })}
             </Box>
 
             {/* date */}
             <Typography variant="subtitle2" color="gray" sx={{ fontSize: 12 }}>
-              1403/12/5
+              {moment(item?.created).format("jYYYY/jMM/jDD") || "1403/12/5"}
             </Typography>
           </Box>
         </Box>

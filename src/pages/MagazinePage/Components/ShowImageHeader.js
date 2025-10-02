@@ -1,24 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Box, Typography } from "@mui/material";
+import { MagPageContext } from "../MagazinePage";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
-const ShowImageHeader = ({ index, slide }) => {
+const ShowImageHeader = ({ index , slide, isMobile }) => {
+
+  
   return (
-    <Box sx={{
-      display:"flex",
-      justifyContent:"space-between"
-    }}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "space-between",
+      }}
+    >
       <Box
         sx={{
           position: "relative",
           width: "100%",
-          aspectRatio: "16 / 8", // نسبت ابعاد (مثلاً ویدیو یا بنر)
-          borderRadius: 2,
+          aspectRatio: isMobile ? "16 / 9" : "16 / 8", // نسبت ابعاد (مثلاً ویدیو یا بنر)
+          borderRadius: isMobile ? 0 : 2,
           overflow: "hidden",
         }}
       >
         <Box
           component="img"
-          src={require("../../../assest/images/sidebar/4.jpg")}
+          src={DownloadImageApi(isMobile ? slide?.secondImage?.url : slide?.firstImage?.url)}
           alt={`Slide ${index + 1}`}
           sx={{
             width: "100%",
@@ -27,33 +33,48 @@ const ShowImageHeader = ({ index, slide }) => {
             objectFit: "cover",
           }}
         />
-       
       </Box>
-       <Box
+
+      <Box
+        sx={{
+          width: isMobile ? "38%" : "40%",
+          position: "absolute",
+          bottom: isMobile ? 10 : 16,
+          left: isMobile ? 10 : 16,
+          color: "white",
+          backgroundColor: "rgba(0, 0, 0, 0.5)",
+          px: isMobile ? 1 : 2,
+          py: 1,
+          borderRadius: 1,
+          fontSize: { xs: "14px", md: "18px" },
+        }}
+      >
+        <Typography
+          variant="h5"
           sx={{
-            width: "40%",
-            position: "absolute",
-            bottom: 16,
-            left: 16,
-            color: "white",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            px: 2,
-            py: 1,
-            borderRadius: 1,
-            fontSize: { xs: "14px", md: "18px" },
+            fontSize: { xs: "15px", md: "22px" },
+            textAlign: "justify",
+            mb:{xs:.4 , md:.7}
           }}
         >
-          <Typography variant="h5">{slide.title}</Typography>
+          {slide?.title}
+        </Typography>
 
-          <Typography
-            variant="body1"
-            sx={{
-              fontSize: { xs: "14px", md: "18px" },
-            }}
-          >
-            {slide.text}
-          </Typography>
-        </Box>
+        <Typography
+          variant="body1"
+          sx={{
+            fontSize: { xs: "13px", md: "18px" },
+            textAlign: "justify",
+            display: "-webkit-box",
+            WebkitLineClamp: 3, // تعداد خطوط
+            WebkitBoxOrient: "vertical", // عمودی کردن
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {slide?.desc}
+        </Typography>
+      </Box>
     </Box>
   );
 };

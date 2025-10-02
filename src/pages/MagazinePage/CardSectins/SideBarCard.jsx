@@ -1,7 +1,10 @@
 import { Box, Typography } from "@mui/material";
 import React from "react";
+import { useContext } from "react";
+import { MagPageContext } from "../MagazinePage";
 
-export default function SideBarCard({ title, count }) {
+export default function SideBarCard({ title, count , isMobile , id }) {
+  const {handleCategoryFilter}=useContext(MagPageContext);
   return (
     <>
       <Box
@@ -15,10 +18,13 @@ export default function SideBarCard({ title, count }) {
             bgcolor: "#287dfa",
             color:"white",
             borderRadius: 13,
-            padding: ".2rem .5rem",
-            minWidth:"100px" ,
+            padding: isMobile ? ".15rem .2rem" : ".2rem .5rem",
+            minWidth:isMobile ? "85px" : "100px" ,
             textAlign:"center",
+            fontSize: isMobile ? ".9rem" : "1rem",
+            cursor:"pointer"
           }}
+          onClick={()=>{handleCategoryFilter(id)}}
         >
           {title}
         </Typography>

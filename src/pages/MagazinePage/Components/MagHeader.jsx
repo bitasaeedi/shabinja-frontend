@@ -2,14 +2,14 @@ import * as React from "react";
 import AppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import ToolBarComponent from "../Components/ToolBarComponent";
-import { Link, useLocation } from "react-router-dom";
-import { styled, useTheme, alpha } from "@mui/system";
-import { Box ,useMediaQuery} from "@mui/material";
+import {  useLocation } from "react-router-dom";
+import { useTheme } from "@mui/system";
+import { useMediaQuery} from "@mui/material";
 import { AppContext } from "../../../App";
 import { useContext } from "react";
 
 
-const MagHeader = ({  }) => {
+const MagHeader = () => {
 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
@@ -46,10 +46,6 @@ const MagHeader = ({  }) => {
     }
   }, [location.pathname]);
 
-  function handleIsVisible (value) {
-    setIsVisible(value)
-  }
-
   return (
     <>
       <CssBaseline />
@@ -70,7 +66,7 @@ const MagHeader = ({  }) => {
         }}
         component="nav"
       >
-        <ToolBarComponent isSticky={isSticky} isVisible={isVisible} />
+        <ToolBarComponent isMobile={isMobile} isSticky={isSticky} isVisible={isVisible} />
       </AppBar>
     </>
   );

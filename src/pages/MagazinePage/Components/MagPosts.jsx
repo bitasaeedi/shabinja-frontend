@@ -1,8 +1,18 @@
-import { Box, Typography } from "@mui/material";
-import React from "react";
-import HomeIcon from "@mui/icons-material/Home";
+import { Box, Typography, Button } from "@mui/material";
+import React, { useCallback, useEffect, useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination } from "swiper/modules";
+import axios from "axios";
+import API_URL from "../../../config/apiConfig";
+import {  useParams } from "react-router-dom";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
+import moment from "moment-jalaali";
 
-export default function MagPosts() {
+export default function MagPosts({ isMobile }) {
+  const { id } = useParams();
   let contents = [
     {
       title: "معرفی آبشار لونک",
@@ -26,27 +36,48 @@ export default function MagPosts() {
       src: "../../../assest/images/sidebar/1.webp",
     },
   ];
+
+  const [blog, setBlog] = useState();
+
+  const getBlog = useCallback(async () => {
+    try {
+      const token = localStorage.getItem("access_token");
+      const response = await axios.get(`${API_URL}/Mag/Get/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log(response?.data?.data, "get Selected Blog");
+      setBlog(response?.data?.data);
+    } catch (error) {
+      console.log(error, "getSelectedBlog Error");
+      return error?.response?.data;
+    }
+  }, []);
+
+  useEffect(() => {
+    getBlog();
+  }, []);
+
   return (
     <>
       <Box
         sx={{
-          width: "90%",
+          width: isMobile ? "100%" : "90%",
           margin: "2rem auto",
         }}
       >
         {/* image */}
         <Box
           sx={{
-            width: "78%",
+            width: isMobile ? "100%" : "78%",
             aspectRatio: "16 / 9", // نسبت ابعاد (مثلاً ویدیو یا بنر)
-            borderRadius: 2,
+            borderRadius: isMobile ? 0 : 2,
             overflow: "hidden",
             margin: "0 auto",
           }}
         >
           <Box
             component="img"
-            src={require("../../../assest/images/sidebar/4.jpg")}
+            src={DownloadImageApi(blog?.firstImage?.url)}
             alt="img"
             sx={{
               width: "100%",
@@ -60,102 +91,229 @@ export default function MagPosts() {
             color: "white",
             textAlign: "center",
             py: 1.5,
-            px: 2,
-            m: "1.5rem auto 2rem",
+            px: isMobile ? 1 : 2,
+            m: isMobile ? ".8rem auto 1.5rem" : "1.5rem auto 2rem",
             borderRadius: 1.5,
             bgcolor: "black",
             display: "flex",
             gap: 1.5,
             justifyContent: "space-between",
             alignItems: "center",
-            width: "78%",
+            width: isMobile ? "96%" : "78%",
           }}
         >
           <Box
             sx={{
               display: "flex",
               gap: 1.5,
-              alignItems:"center"
+              alignItems: "center",
+              fontSize: isMobile ? ".8rem" : "unset",
             }}
           >
-            <Box>نام نویسنده : بیتا سعیدی</Box>
-            <Box sx={{ color: "#aaaaaa", fontSize: ".8rem" }}>1404/10/8</Box>
+            <Box>نام نویسنده : {blog?.author} </Box>
+            <Box
+              sx={{ color: "#aaaaaa", fontSize: isMobile ? ".7rem" : ".8rem" }}
+            >
+              {moment(blog?.created).format("jYYYY/jMM/jDD")}
+            </Box>
           </Box>
 
           <Box
             sx={{
               display: "flex",
-              gap: 1,
+              gap: isMobile ? 0.5 : 1,
             }}
           >
-            <Typography
-              sx={{
-                bgcolor: "#287dfa",
-                borderRadius: 13,
-                padding: ".2rem .5rem",
-                minWidth: "100px",
-                textAlign: "center",
-                fontSize: 14,
-              }}
-            >
-              جنگل
-            </Typography>
-            <Typography
-              sx={{
-                bgcolor: "#287dfa",
-                borderRadius: 13,
-                padding: ".2rem .5rem",
-                minWidth: "100px",
-                textAlign: "center",
-                fontSize: 14,
-              }}
-            >
-              شمال گردی
-            </Typography>
+            {blog?.tags?.map((tag, index) => {
+              return (
+                <Typography
+                  key={index}
+                  sx={{
+                    bgcolor: "#287dfa",
+                    borderRadius: 13,
+                    padding: ".22rem .5rem",
+                    minWidth: isMobile ? "65px" : "100px",
+                    textAlign: "center",
+                    fontSize: isMobile ? 10 : 14,
+                  }}
+                >
+                  {tag?.myTagTitle}
+                </Typography>
+              );
+            })}
           </Box>
         </Box>
 
         {/* content */}
 
-        <Box sx={{ mt: 5 }}>
-          <Typography variant="h4" textAlign="center">
-            آبشار لونک
+        <Box sx={{ mt: isMobile ? 3 : 5 }}>
+          <Typography
+            variant="h1"
+            textAlign="center"
+            sx={{ fontSize: isMobile ? "1.5rem" : "2rem" }}
+          >
+            {blog?.title}
           </Typography>
 
-          {contents?.map((content, index) => {
+          {blog?.items?.map((content, index) => {
             return (
               <>
-                <Box key={index} sx={{ mt: 6 }}>
+                <Box
+                  key={index}
+                  sx={{ mt: isMobile ? 4 : 6, mx: { xs: 1.5, md: 0 } }}
+                >
                   {/* title */}
-                  <Typography variant="h6">{content?.title}</Typography>
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: isMobile ? "1.05rem" : "1.2rem",
+                    }}
+                  >
+                    {content?.title}
+                  </Typography>
 
                   {/* text */}
-                  <Typography variant="body1" sx={{ my: 2 }}>
-                    {content?.text}
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      my: { xs: 1, md: 1.5 },
+                      fontSize: isMobile ? ".9rem" : "1rem",
+                      textAlign: "justify",
+                    }}
+                  >
+                    {content?.desc}
                   </Typography>
 
                   {/* images */}
+                  {isMobile ? (
+                    <>
+                      <Swiper
+                        pagination={{ clickable: true }}
+                        modules={[Pagination]}
+                        spaceBetween={15}
+                        slidesPerView={1.2}
+                      >
+                        <SwiperSlide>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              aspectRatio: "16 / 9", // نسبت ابعاد (مثلاً ویدیو یا بنر)
+                              borderRadius: 2,
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Box
+                              component="img"
+                              src={DownloadImageApi(content?.firstImage?.url)}
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </Box>
+                        </SwiperSlide>
+
+                        <SwiperSlide>
+                          <Box
+                            sx={{
+                              width: "100%",
+                              aspectRatio: "16 / 9", // نسبت ابعاد (مثلاً ویدیو یا بنر)
+                              borderRadius: 2,
+                              overflow: "hidden",
+                            }}
+                          >
+                            <Box
+                              component="img"
+                              src={DownloadImageApi(content?.secondImage?.url)}
+                              sx={{
+                                width: "100%",
+                                height: "100%",
+                                objectFit: "cover",
+                              }}
+                            />
+                          </Box>
+                        </SwiperSlide>
+                      </Swiper>
+                    </>
+                  ) : (
+                    <>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          gap: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: "100%",
+                            aspectRatio: "16 / 9", // نسبت ابعاد (مثلاً ویدیو یا بنر)
+                            borderRadius: 2,
+                            overflow: "hidden",
+                          }}
+                        >
+                          <Box
+                            component="img"
+                            src={DownloadImageApi(content?.firstImage?.url)}
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </Box>
+
+                        <Box
+                          sx={{
+                            width: "100%",
+                            aspectRatio: "16 / 9", // نسبت ابعاد (مثلاً ویدیو یا بنر)
+                            borderRadius: 2,
+                            overflow: "hidden",
+                          }}
+                        >
+                          <Box
+                            component="img"
+                            src={DownloadImageApi(content?.secondImage?.url)}
+                            sx={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </Box>
+                      </Box>
+                    </>
+                  )}
+
+                  {/* buttons */}
+
                   <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      mx: 4,
-                    }}
+                    display="flex"
+                    justifyContent={"center"}
+                    sx={{ gap: 2, mt: 2 }}
                   >
-                    <Box
-                      component="img"
-                      sx={{
-                        borderRadius: 5,
-                      }}
-                      src={require("../../../assest/images/sidebar/5.jpg")}
-                    />
-                    <Box
-                      component="img"
-                      sx={{
-                        borderRadius: 5,
-                      }}
-                      src={require("../../../assest/images/sidebar/4.jpg")}
-                    />
+                    {content?.firstButtonLink ? (
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          window.location.href = content?.firstButtonTitle;
+                        }}
+                      >
+                        {content?.firstButtonTitle}
+                      </Button>
+                    ) : null}
+
+                    {content?.secondButtonLink ? (
+                      <Button
+                        variant="contained"
+                        onClick={() => {
+                          window.location.href = content?.secondButtonLink;
+                        }}
+                      >
+                        {content?.secondButtonTitle}
+                      </Button>
+                    ) : null}
                   </Box>
                 </Box>
               </>

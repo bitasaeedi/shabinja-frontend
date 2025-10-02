@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -7,6 +7,7 @@ import { Box, IconButton } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ShowImageHeader from "./ShowImageHeader";
+import { MagPageContext } from "../MagazinePage";
 
 const NextArrow = ({ onClick, disabled }) => (
   <IconButton
@@ -76,7 +77,10 @@ const slides = [
   },
 ];
 
-const HeaderMag = () => {
+const HeaderMag = ({ isMobile }) => {
+
+  const {selectedBlog} =useContext(MagPageContext);
+
   const swiperRef = useRef(null);
   const [isPrevDisabled, setIsPrevDisabled] = useState(true);
   const [isNextDisabled, setIsNextDisabled] = useState(false);
@@ -104,7 +108,7 @@ const HeaderMag = () => {
   return (
     <div
       className=" position-relative"
-      style={{ width: "80%", margin: "6.5rem  auto 0" }}
+      style={{ width: isMobile ? "100%" : "80%", margin: isMobile ? "65px  auto 0" : "6.5rem  auto 0" }}
     >
       <Swiper ref={swiperRef} onSlideChange={handleSlideChange}>
         {/* arrow buttons */}
@@ -140,9 +144,9 @@ const HeaderMag = () => {
           </Box>
         </Box>
 
-        {slides.map((slide, index) => (
+        {selectedBlog.map((slide, index) => (
           <SwiperSlide key={index}>
-            <ShowImageHeader index={index} slide={slide} />
+            <ShowImageHeader index={index} slide={slide} isMobile={isMobile} />
           </SwiperSlide>
         ))}
       </Swiper>

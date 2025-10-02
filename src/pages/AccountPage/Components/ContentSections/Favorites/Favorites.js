@@ -32,7 +32,7 @@ const Favorites = ({ anchor }) => {
   useEffect(() => {
     const segments = location.pathname.split("/");
     setId(segments[segments.length - 1]);
-    console.log("id", segments[segments.length - 1]);
+    // console.log("id", segments[segments.length - 1]);
   }, [location]);
 
   return isMobile ? (
