@@ -40,9 +40,8 @@
       "type": "image/jpg"
     }
   ],
-  "id": "/",
-  "start_url": "/",
-  "scope": "/",
+  
+ 
   "display": "standalone",
   "orientation": "portrait",
    "theme_color": "#ffffff",

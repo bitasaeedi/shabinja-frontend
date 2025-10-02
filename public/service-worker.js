@@ -1,7 +1,6 @@
-const CACHE_NAME = "shabinja-cache-v4";
+const CACHE_NAME = "shabinja-cache-v5";
 const urlsToCache = [
-  "/",
-  "./index.html",
+
   "./manifest.json",
   "./favicon.ico",
   "./android-chrome-192x192.png",
