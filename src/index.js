@@ -18,11 +18,18 @@ import "leaflet-draw/dist/leaflet.draw.css";
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js')
-      .then(reg => console.log('Service Worker registered: ', reg))
-      .catch(err => console.log('SW registration failed: ', err));
+    navigator.serviceWorker.getRegistrations()
+      .then(registrations => {
+        registrations.forEach(reg => {
+          reg.unregister().then(success => {
+            console.log('Service Worker unregistered:', success);
+          });
+        });
+      })
+      .catch(err => console.error('Error unregistering service workers:', err));
   });
 }
+
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
