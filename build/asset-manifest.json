@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "./static/css/main.2ff733ce.css",
-    "main.js": "./static/js/main.58f565c7.js",
+    "main.js": "./static/js/main.265be119.js",
     "static/media/Lost in Travel Scenery 404.png": "./static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "./static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/summer-trip.gif": "./static/media/summer-trip.6da7ad20dfbeb759fad6.gif",
@@ -16,17 +16,13 @@
     "static/media/bread-bg.jpg": "./static/media/bread-bg.c152a3a3930c810c2abc.jpg",
     "static/media/bread-bg2.jpg": "./static/media/bread-bg2.dbf74c2cc88612692fbb.jpg",
     "static/media/hero-bg5.jpg": "./static/media/hero-bg5.330cf3f16e7ad6a2d232.jpg",
-    "static/media/0.webp": "./static/media/0.4a267df789d182931342.webp",
     "static/media/bread-bg7.jpg": "./static/media/bread-bg7.b64923ec6a43515d2f85.jpg",
     "static/media/bread-bg8.jpg": "./static/media/bread-bg8.9aba25c17029a6e9916b.jpg",
-    "static/media/1.webp": "./static/media/1.7dcfed39286d1519b2f5.webp",
-    "static/media/2.webp": "./static/media/2.20691780b9e7c4e30710.webp",
     "static/media/لوگو-بانک-سامان-removebg-preview.png": "./static/media/لوگو-بانک-سامان-removebg-preview.f29cf58681ad18ca933b.png",
     "static/media/team-cta-bg.jpg": "./static/media/team-cta-bg.8060774dfe3643dfa3c1.jpg",
     "static/media/hero-bg4.jpg": "./static/media/hero-bg4.2c2d7e6889b741782dbb.jpg",
     "static/media/nody-آرم-بانک-ملت-png-1677068111-removebg-preview.png": "./static/media/nody-آرم-بانک-ملت-png-1677068111-removebg-preview.5170a73bc40ba9bad58b.png",
     "static/media/bread-bg9.jpg": "./static/media/bread-bg9.3f9d79fa925eae40ee53.jpg",
-    "static/media/3.webp": "./static/media/3.103dc2dd42d07f1ad2fe.webp",
     "static/media/hero-bg6.jpg": "./static/media/hero-bg6.6966ccfd44b36bb8db32.jpg",
     "static/media/bread-bg5.jpg": "./static/media/bread-bg5.8f909b34105802284994.jpg",
     "static/media/color-bg3.png": "./static/media/color-bg3.990d834521b4940bbf0a.png",
@@ -71,6 +67,6 @@
   },
   "entrypoints": [
     "static/css/main.2ff733ce.css",
-    "static/js/main.58f565c7.js"
+    "static/js/main.265be119.js"
   ]
 }
