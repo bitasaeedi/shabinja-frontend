@@ -2,6 +2,7 @@ import { Box, Typography } from "@mui/material";
 import moment from "moment-jalaali";
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { DownloadImageApi } from "../../../api/DownloadImageApi";
 
 export default function ContentCard({ index, item, isMobile }) {
   const navigate = useNavigate();
@@ -24,9 +25,7 @@ export default function ContentCard({ index, item, isMobile }) {
       >
         <Box
           component="img"
-          src={require(`../../../assest/images/sidebar/${
-            (index + 1) % 4
-          }.webp`)}
+          src={DownloadImageApi(item?.secondImage?.url) }
           alt="post-img"
           sx={{
             borderRadius: 2,
