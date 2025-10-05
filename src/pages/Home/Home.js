@@ -1,5 +1,5 @@
 import { Box, useMediaQuery } from "@mui/material";
-import React, { useContext, useEffect, useState, useCallback } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import FavoritCitiesCard from "../../components/Cards/FavoritCitiesCard/FavoritCitiesCard";
 import HomeCards from "../../components/Cards/HomeCards/HomeCards";
 import ResponsiveFeatures from "../../components/Cards/ResponsiveFeatures";
@@ -10,6 +10,7 @@ import InViewComponents from "../../components/InViewComponents/InViewComponents
 import {
   CategoryHostApi,
   FavoritDestinationApi,
+  getBlogList,
   HostTourSearchApi,
 } from "../../api/toureApis";
 import SwipperSliderPublick from "../../components/Sliders/SwipperSliderPublick";
@@ -24,6 +25,7 @@ import {
 import SubSliderHeader from "./Components/SubSliderHeader";
 import { useTheme } from "@emotion/react";
 import AdsSection from "./Components/AdsSection/AdsSection";
+import MagHomeCard from "../../components/Cards/HomeCards/MagHomeCard";
 
 const cities = [
   {
@@ -137,10 +139,16 @@ const Home = () => {
   };
 
   const callApiForGetList = async (dataToFilter) => {
-   
     const resultGetTours = await HostTourSearchApi(dataToFilter);
     var list = resultGetTours?.data || [];
     // console.log("datafor fil", dataToFilter , "res" , list);
+    return list;
+  };
+  //get mag info
+  const callApiForGetBlogList = async () => {
+    const resultGetTours = await getBlogList();
+    var list = resultGetTours?.data || [];
+   console.log("datafor mag", list);
     return list;
   };
 
@@ -239,23 +247,21 @@ const Home = () => {
             <SwipperSliderPublick
               deafultSkeleton={"favorit"}
               title={"مقاصد محبوب"}
-              breakpoints={
-                {
-                  0: { slidesPerView: 2.3, spaceBetween: 8 },
-                  340: { slidesPerView: 2.4, spaceBetween: 5 },
-                  370: { slidesPerView: 2.6, spaceBetween: 5 },
-                  400: { slidesPerView: 2.8, spaceBetween: 5 },
-                  440: { slidesPerView: 3.2, spaceBetween: 5 },
-                  520: { slidesPerView: 3.6, spaceBetween: 5 },
-                  600: { slidesPerView: 3.9, spaceBetween: 10 },
-                  700: { slidesPerView: 4.4, spaceBetween: 10 },
-                  810: { slidesPerView: 5.1, spaceBetween: 10 },
-                  900: { slidesPerView: 4.9, spaceBetween: 10 },
-                  1024: { slidesPerView: 5.45, spaceBetween: 10 },
-                  1300: { slidesPerView: 5.6, spaceBetween: 10 },
-                  1450: { slidesPerView: 5.8, spaceBetween: 20 },
-                }
-              }
+              breakpoints={{
+                0: { slidesPerView: 2.3, spaceBetween: 8 },
+                340: { slidesPerView: 2.4, spaceBetween: 5 },
+                370: { slidesPerView: 2.6, spaceBetween: 5 },
+                400: { slidesPerView: 2.8, spaceBetween: 5 },
+                440: { slidesPerView: 3.2, spaceBetween: 5 },
+                520: { slidesPerView: 3.6, spaceBetween: 5 },
+                600: { slidesPerView: 3.9, spaceBetween: 10 },
+                700: { slidesPerView: 4.4, spaceBetween: 10 },
+                810: { slidesPerView: 5.1, spaceBetween: 10 },
+                900: { slidesPerView: 4.9, spaceBetween: 10 },
+                1024: { slidesPerView: 5.45, spaceBetween: 10 },
+                1300: { slidesPerView: 5.6, spaceBetween: 10 },
+                1450: { slidesPerView: 5.8, spaceBetween: 20 },
+              }}
             >
               <FavoritCitiesCard />
             </SwipperSliderPublick>
@@ -397,7 +403,7 @@ const Home = () => {
               callApiForGetList({
                 LastMinuteDiscounts: true,
                 province: [selectedCity2],
-                IsOrderDiscountPercent:true
+                IsOrderDiscountPercent: true,
               })
             }
             stayList
@@ -412,7 +418,7 @@ const Home = () => {
               }}
               selectedCity={selectedCity2 || "تمامی شهرها"}
             >
-              <HomeCards showOffer={true}/>
+              <HomeCards showOffer={true} />
             </SwipperSliderPublick>
           </InViewComponents>
         </Box>
@@ -475,6 +481,33 @@ const Home = () => {
         {/* میزبان شوید */}
         <Begust />
         {/* ========= */}
+        {/* مجله  */}
+
+        <Box
+          className=""
+          sx={{
+            // py: { xs: 0, md: 2 },
+            marginBottom: { xs: 0, md: 0 },
+            marginTop: { xs: 3, md: 5 },
+            background: "linear-gradient(180deg, #f0f3fd 0%, #f0f3fd 100%)", // Light yellow gradient
+          }}
+        >
+          <InViewComponents
+            key={'mag'}
+            getListData={() =>
+              callApiForGetBlogList()
+            }
+          >
+            <SwipperSliderPublick
+              showTimer={false}
+              title={"مجله شبینجا"}
+              linkToSeeMore={`/mag`}
+            >
+              <MagHomeCard />
+            </SwipperSliderPublick>
+          </InViewComponents>
+        </Box>
+
       </Box>
     </Box>
   );

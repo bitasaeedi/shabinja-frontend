@@ -4,6 +4,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 import { AppContext } from "../../App";
@@ -35,6 +36,8 @@ const MagazinePage = () => {
   const [categoryFilter, setCategoryFilter] = useState();
   const [tagsFilter, setTagsFilter] = useState();
   const [titleFilter, setTitleFilter] = useState();
+  const sectionRef = useRef(null);
+
   useEffect(() => {
     appContext.setShowfooter();
     appContext.setSettingHeader({
@@ -100,6 +103,13 @@ const MagazinePage = () => {
   function handleTitleFilter(filter) {
     setTitleFilter(filter);
   }
+  const handleScroll = () => {
+    const yOffset = -100; // مثلا 100px بالاتر
+    const element = sectionRef.current;
+    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+  
+    window.scrollTo({ top: y, behavior: "smooth" });
+  };
 
   // get Blog List
   const getBlogList = useCallback(async () => {
@@ -126,6 +136,9 @@ const MagazinePage = () => {
       return error?.response?.data;
     } finally {
       setBlogsLoading(false);
+      if(titleFilter){
+        handleScroll()
+      }
     }
   }, [categoryFilter, isMobile , titleFilter,tagsFilter]);
 
@@ -151,7 +164,8 @@ const MagazinePage = () => {
           blogsLoading,
           handleCategoryFilter,
           handleTagsFilter,
-          handleTitleFilter
+          handleTitleFilter,
+          sectionRef
         }}
       >
         <MagHeader />
@@ -165,7 +179,7 @@ const MagazinePage = () => {
           {!id ? <HeaderMag isMobile={isMobile} /> : null}
 
           {/* title */}
-          {!id && !isMobile ? (
+          {/* {!id && !isMobile ? (
             <Typography
               variant="h5"
               sx={{
@@ -182,12 +196,13 @@ const MagazinePage = () => {
             </Typography>
           ) : (
             ""
-          )}
+          )} */}
 
           {/*small swiper */}
           {/* <SwiperMag /> */}
 
           {/* sidebar , ... */}
+          
           <MainPart isMobile={isMobile} />
         </Box>
         {/* footer */}

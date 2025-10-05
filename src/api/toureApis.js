@@ -37,11 +37,11 @@ export const HostTourSearchApi = async (searchData) => {
         OtherItemTour: searchData?.otherItemTour || [],
         province: searchData?.province || [],
         city: searchData?.city || [],
-        LastMinuteDiscounts:searchData?.LastMinuteDiscounts || false,
-        InstantBooking:searchData?.InstantBooking || false,
-        IsOrderDiscountPercent:searchData?.LastMinuteDiscounts ? true : false,
-        isNeighbors:searchData?.isNeighbors ||false,
-        hostId:searchData?.hostId || null
+        LastMinuteDiscounts: searchData?.LastMinuteDiscounts || false,
+        InstantBooking: searchData?.InstantBooking || false,
+        IsOrderDiscountPercent: searchData?.LastMinuteDiscounts ? true : false,
+        isNeighbors: searchData?.isNeighbors || false,
+        hostId: searchData?.hostId || null,
       },
       {
         headers: {
@@ -53,6 +53,30 @@ export const HostTourSearchApi = async (searchData) => {
     return response.data; // Assuming your API returns data in the response
   } catch (error) {
     console.log("type Error:", error?.response);
+    return error?.response?.data;
+  }
+};
+
+export const getBlogList = async () => {
+  try {
+    const token = localStorage.getItem("access_token");
+    const response = await axios.post(
+      `${API_URL}/Mag/List`,
+      {
+        take: 10,
+        skip: 0,
+        myTagId: null,
+        categoryId: null,
+        title: null,
+      },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+    console.log(response?.data, "get  Blogs");
+    return response.data;
+  } catch (error) {
+    console.log(error, "getSelectedBlog Error");
     return error?.response?.data;
   }
 };
@@ -120,15 +144,15 @@ export const CategoryHostApi = async (searchData) => {
 //     const token = localStorage.getItem("access_token");
 //     const response = await axios.get(`${baseUrl}/HostTour/LastMinuteDiscounts`, {
 //       headers: {
-//         token: token, 
+//         token: token,
 //       },
 //     });
 
-//     return response?.data; 
+//     return response?.data;
 //   } catch (error) {
 //     console.log("Error:", error?.response?.data);
 //     return error?.response?.data;
-//   } 
+//   }
 // };
 
 // // رزرو فوری
@@ -138,15 +162,15 @@ export const CategoryHostApi = async (searchData) => {
 //     const token = localStorage.getItem("access_token");
 //     const response = await axios.get(`${baseUrl}/HostTour/InstantBooking`, {
 //       headers: {
-//         token: token, 
+//         token: token,
 //       },
 //     });
 
-//     return response?.data; 
+//     return response?.data;
 //   } catch (error) {
 //     console.log("Error:", error?.response?.data);
 //     return error?.response?.data;
-//   } 
+//   }
 // };
 
 //  سرچ نوع اقامتگاه
@@ -243,7 +267,7 @@ export const HostTourSearchOneApiForEdit = async (guid) => {
 //  ایجاد یک اقامتگاه جدید
 export const HostTourCreateApi = async (createData) => {
   console.log("createData", createData);
-  
+
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
@@ -290,8 +314,8 @@ export const HostTourCreateApi = async (createData) => {
 
 // به روز رسانی اقامتگاه
 export const HostTourUpdateApi = async (updateData, guid) => {
-  console.log("myDaa",updateData);
-  
+  console.log("myDaa", updateData);
+
   try {
     const token = localStorage.getItem("access_token");
     const response = await axios.post(
@@ -324,7 +348,7 @@ export const HostTourUpdateApi = async (updateData, guid) => {
         Floor: updateData?.floor, //"طلبقه ",
         Disabled: updateData?.disabled, //"مناسب سالمندان",
         cancelPercentageFirst: updateData?.cancelPercentageFirst, //آسان=0 ,متعادل=1, سختگیرانه=2
-        CancelPercentageSecond : updateData?.cancelPercentageSecond,
+        CancelPercentageSecond: updateData?.cancelPercentageSecond,
         CancelPercentageThird: updateData?.cancelPercentageThird,
         DiscountToday: updateData?.discountToday, //"تخفیف امروز ",
         DiscountSecond: updateData?.discountSecond, //"تخفیف فردا ",
@@ -565,7 +589,7 @@ export const MyReservationsApi = async (state) => {
     const response = await axios.post(
       `${baseUrl}/HostTourOrder/ListForUser`,
       {
-        states:state
+        states: state,
       },
       {
         headers: {

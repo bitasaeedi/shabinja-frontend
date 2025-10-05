@@ -108,7 +108,7 @@ const HeaderMag = ({ isMobile }) => {
   return (
     <div
       className=" position-relative"
-      style={{ width: isMobile ? "100%" : "80%", margin: isMobile ? "65px  auto 0" : "6.5rem  auto 0" }}
+      style={{ width: isMobile ? "100%" : "100%", margin: isMobile ? "67px  auto 0" : "65px auto 0" }}
     >
       <Swiper ref={swiperRef} onSlideChange={handleSlideChange}>
         {/* arrow buttons */}

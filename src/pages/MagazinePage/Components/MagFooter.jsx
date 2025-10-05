@@ -11,6 +11,7 @@ export default function MagFooter() {
     categoryList = [],
     tagsList,
     handleCategoryFilter,
+    handleTagsFilter
   } = useContext(MagPageContext) || {};
 
   const [socialMedia, setSocialMedia] = useState([]);
@@ -153,7 +154,8 @@ export default function MagFooter() {
                         variant="body2"
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
-                          handleCategoryFilter(tag?.title);
+                          handleCategoryFilter(tag?.id);
+                          handleTagsFilter(null);
                         }}
                       >
                         {tag?.title || tag}
@@ -169,7 +171,8 @@ export default function MagFooter() {
                         variant="body2"
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
-                          handleCategoryFilter(tag?.title);
+                          handleCategoryFilter(tag?.id);
+                          handleTagsFilter(null);
                         }}
                       >
                         {tag?.title || tag}
@@ -205,7 +208,8 @@ export default function MagFooter() {
                         variant="body2"
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
-                          handleCategoryFilter(tag?.title);
+                          handleTagsFilter(tag?.id);
+                          handleCategoryFilter(null);
                         }}
                       >
                         {tag?.title || tag}
@@ -221,7 +225,8 @@ export default function MagFooter() {
                         variant="body2"
                         sx={{ cursor: "pointer" }}
                         onClick={() => {
-                          handleCategoryFilter(tag?.title);
+                          handleTagsFilter(tag?.id);
+                          handleCategoryFilter(null);
                         }}
                       >
                         {tag?.title || tag}

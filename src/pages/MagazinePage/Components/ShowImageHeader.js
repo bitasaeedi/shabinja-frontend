@@ -17,7 +17,7 @@ const ShowImageHeader = ({ index , slide, isMobile }) => {
         sx={{
           position: "relative",
           width: "100%",
-          aspectRatio: isMobile ? "16 / 9" : "16 / 8", // نسبت ابعاد (مثلاً ویدیو یا بنر)
+          aspectRatio: isMobile ? "16 / 9" : "16 / 6", // نسبت ابعاد (مثلاً ویدیو یا بنر)
           borderRadius: isMobile ? 0 : 2,
           overflow: "hidden",
         }}

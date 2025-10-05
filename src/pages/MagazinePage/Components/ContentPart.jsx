@@ -29,10 +29,11 @@ const list = [
   },
 ];
 export default function ContentPart({ myWidth, isMobile }) {
-  const { blogList, blogsLoading } = useContext(MagPageContext);
+  const { blogList, blogsLoading, sectionRef } = useContext(MagPageContext);
   return (
     <>
       <Grid
+        ref={sectionRef}
         container
         spacing={isMobile ? 0 : 3}
         sx={{
@@ -60,7 +61,7 @@ export default function ContentPart({ myWidth, isMobile }) {
             sx={{
               margin: " 0 auto",
               textAlign: "center",
-              mt: 2,
+              mt: 5,
               border: "1px solid #000",
               p: 2,
               borderRadius: 2,

@@ -14,7 +14,7 @@ const ImageOfCard = ({ url, title, myData }) => {
   return (
     <>
       <Link
-        to={`/stay/${myData?.id}`}
+        to={`/mag/${myData?.id}`}
         style={{
           textDecoration: "none",
           display: "block",

@@ -24,6 +24,8 @@ import { GetListTitleSlidersApi } from "../../api/PublicApis";
 import HomeIcon from "@mui/icons-material/Home";
 import { HostTourSearchApi } from "../../api/toureApis";
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import MenuBookIcon from '@mui/icons-material/MenuBook'
+
 // لیست منو موبایل
 
 const drawerWidth = 240;
@@ -61,7 +63,11 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
       icon: <LocalAtmIcon />,
       path: "/loan",
     },
-
+    {
+      title: "مجله",
+      icon: <MenuBookIcon />,
+      path: "/mag",
+    },
     {
       title: "سوالات متداول",
       icon: <HelpOutlineIcon />,
