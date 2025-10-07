@@ -7,12 +7,13 @@ import "swiper/css/navigation";
 import { Pagination } from "swiper/modules";
 import axios from "axios";
 import API_URL from "../../../config/apiConfig";
-import {  useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import moment from "moment-jalaali";
 
 export default function MagPosts({ isMobile }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   let contents = [
     {
       title: "معرفی آبشار لونک",
@@ -297,7 +298,7 @@ export default function MagPosts({ isMobile }) {
                       <Button
                         variant="contained"
                         onClick={() => {
-                          window.location.href = content?.firstButtonLink;
+                          navigate(content?.firstButtonLink);
                         }}
                       >
                         {content?.firstButtonTitle}
@@ -308,7 +309,7 @@ export default function MagPosts({ isMobile }) {
                       <Button
                         variant="contained"
                         onClick={() => {
-                          window.location.href = content?.secondButtonLink;
+                          navigate(content?.secondButtonLink);
                         }}
                       >
                         {content?.secondButtonTitle}

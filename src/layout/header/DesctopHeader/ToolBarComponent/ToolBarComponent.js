@@ -10,20 +10,18 @@ import {
 import LogoutIcon from "@mui/icons-material/Logout";
 import GridViewIcon from "@mui/icons-material/GridView";
 import logo_with_name from "../../../../images/shabinja_logo_with_name.png";
-import logo_with_name_white from "../../.././../images/shabinja_logo_with_name_white.png";
+import logo_with_name_white from "../../../../images/shabinja_logo_with_name_white.png";
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import HeadsetMicIcon from "@mui/icons-material/HeadsetMic";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginIcon from "@mui/icons-material/Login";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import { AppContext } from "../../../../App";
-
 import InputBase from "@mui/material/InputBase";
 import { styled, useTheme, alpha } from "@mui/system";
 import RemoveStorageLogin from "../../../../components/RemoveStorageLogin/RemoveStorageLogin";
