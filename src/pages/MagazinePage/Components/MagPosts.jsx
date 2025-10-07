@@ -297,7 +297,7 @@ export default function MagPosts({ isMobile }) {
                       <Button
                         variant="contained"
                         onClick={() => {
-                          window.location.href = content?.firstButtonTitle;
+                          window.location.href = content?.firstButtonLink;
                         }}
                       >
                         {content?.firstButtonTitle}

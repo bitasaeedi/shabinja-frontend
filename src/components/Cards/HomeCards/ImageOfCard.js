@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import { InView } from "react-intersection-observer";
-const ImageOfCard = ({ url, title, myData }) => {
+const ImageOfCard = ({ url, title, myData ,type="stay"}) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   const handleImageLoad = () => {
@@ -14,7 +14,7 @@ const ImageOfCard = ({ url, title, myData }) => {
   return (
     <>
       <Link
-        to={`/mag/${myData?.id}`}
+        to={`/${type}/${myData?.id}`}
         style={{
           textDecoration: "none",
           display: "block",

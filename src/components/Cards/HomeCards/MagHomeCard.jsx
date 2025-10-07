@@ -29,7 +29,7 @@ const MagHomeCard = ({ myData = {} }) => {
         }}
         // className="border"
       >
-        <ImageOfCard myData={myData} url={myData?.firstImage?.url} />
+        <ImageOfCard myData={myData} url={myData?.firstImage?.url} type={"mag"} />
 
         {/* Card Content */}
         <Link

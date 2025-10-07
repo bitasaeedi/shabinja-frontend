@@ -18,15 +18,14 @@ import "leaflet-draw/dist/leaflet.draw.css";
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.getRegistrations()
-      .then(registrations => {
-        registrations.forEach(reg => {
-          reg.unregister().then(success => {
-            console.log('Service Worker unregistered:', success);
-          });
-        });
+    navigator.serviceWorker
+      .register('/service-worker.js')
+      .then(reg => {
+        console.log('Service Worker registered: ', reg);
       })
-      .catch(err => console.error('Error unregistering service workers:', err));
+      .catch(err => {
+        console.log('Service Worker registration failed: ', err);
+      });
   });
 }
 
