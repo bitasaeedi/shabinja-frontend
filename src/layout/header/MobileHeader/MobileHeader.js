@@ -69,7 +69,7 @@ const MobileHeader = () => {
   const [objectOfLisDatas, setObjectOfLisDatas] = useState([]);
   const [calendarAnchor, setCalendarAnchor] = useState(null);
   const [loadingSearchCitis, setLoadingSearchCitis] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+
   const location = useLocation();
   const theme = useTheme();
 
@@ -124,20 +124,7 @@ const MobileHeader = () => {
     navigate(url);
   };
 
-  // for dark mode
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
 
-    setIsDarkMode(mediaQuery.matches);
-    const handleChange = (e) => {
-      setIsDarkMode(e.matches);
-    };
-    mediaQuery.addEventListener("change", handleChange);
-
-    return () => {
-      mediaQuery.removeEventListener("change", handleChange);
-    };
-  }, []);
 
   return (
     <>
@@ -189,7 +176,7 @@ const MobileHeader = () => {
                     >
                       <Box
                         component="img"
-                        src={isDarkMode ? logo_with_name_white : logo_with_name}
+                        src={logo_with_name}
                         alt="Shabinja Logo"
                         className="my-0 py-0 mt-3"
                         sx={{
