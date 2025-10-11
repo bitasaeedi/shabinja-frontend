@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.b5bc4762.css",
-    "main.js": "/static/js/main.f79b1e76.js",
+    "main.css": "/static/css/main.2ddeac54.css",
+    "main.js": "/static/js/main.a6e9036c.js",
     "static/media/Lost in Travel Scenery 404.png": "/static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/summer-trip.gif": "/static/media/summer-trip.6da7ad20dfbeb759fad6.gif",
@@ -66,7 +66,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.b5bc4762.css",
-    "static/js/main.f79b1e76.js"
+    "static/css/main.2ddeac54.css",
+    "static/js/main.a6e9036c.js"
   ]
 }
