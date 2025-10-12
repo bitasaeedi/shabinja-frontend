@@ -21,6 +21,20 @@ html {
   scroll-behavior: smooth;
   color-scheme: light; 
 }
+
+html, body {
+  background-color: #ffffff !important; 
+  color: #000000;                     
+  forced-color-adjust: none;   
+}
+
+@media (prefers-color-scheme: dark) {
+  html, body {
+    background-color: #ffffff !important;
+    color: #000000;
+  }
+}
+
 .font-brands {
   font-family: 'yakanBold';
 }

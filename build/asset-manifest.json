@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.2ddeac54.css",
+    "main.css": "/static/css/main.05cc9d8b.css",
     "main.js": "/static/js/main.a6e9036c.js",
     "static/media/Lost in Travel Scenery 404.png": "/static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
@@ -66,7 +66,7 @@
     "index.html": "/index.html"
   },
   "entrypoints": [
-    "static/css/main.2ddeac54.css",
+    "static/css/main.05cc9d8b.css",
     "static/js/main.a6e9036c.js"
   ]
 }
