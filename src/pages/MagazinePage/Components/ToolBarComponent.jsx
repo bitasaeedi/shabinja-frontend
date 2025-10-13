@@ -162,22 +162,8 @@ const ToolBarComponent = ({ isSticky, isVisible, isMobile }) => {
           px: { xs: 1.1, md: 2 },
         }}
       >
-        <Typography
-          variant="h1"
-          sx={{
-            fontSize: isMobile ? 20 : 23,
-            mt: 1.5,
-            cursor: "pointer",
-          }}
-          onClick={() => {
-            handleCategoryFilter(null);
-            handleTagsFilter(null);
-            handleTitleFilter(null);
-            navigate("/mag");
-          }}
-        >
-          مجله شبینجا
-        </Typography>
+
+        <Box sx={{width:'120px'}} component={'img'} src={require('../../../assest/images/mag-logo.png')} alt="logo"/>
 
         <Box
           sx={{

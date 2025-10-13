@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.05cc9d8b.css",
-    "main.js": "/static/js/main.a6e9036c.js",
+    "main.js": "/static/js/main.8e30bbaa.js",
     "static/media/Lost in Travel Scenery 404.png": "/static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/summer-trip.gif": "/static/media/summer-trip.6da7ad20dfbeb759fad6.gif",
@@ -18,6 +18,7 @@
     "static/media/hero-bg5.jpg": "/static/media/hero-bg5.330cf3f16e7ad6a2d232.jpg",
     "static/media/bread-bg7.jpg": "/static/media/bread-bg7.b64923ec6a43515d2f85.jpg",
     "static/media/bread-bg8.jpg": "/static/media/bread-bg8.9aba25c17029a6e9916b.jpg",
+    "static/media/mag-logo.png": "/static/media/mag-logo.a48eae6373e8ca8231ac.png",
     "static/media/لوگو-بانک-سامان-removebg-preview.png": "/static/media/لوگو-بانک-سامان-removebg-preview.f29cf58681ad18ca933b.png",
     "static/media/team-cta-bg.jpg": "/static/media/team-cta-bg.8060774dfe3643dfa3c1.jpg",
     "static/media/hero-bg4.jpg": "/static/media/hero-bg4.2c2d7e6889b741782dbb.jpg",
@@ -67,6 +68,6 @@
   },
   "entrypoints": [
     "static/css/main.05cc9d8b.css",
-    "static/js/main.a6e9036c.js"
+    "static/js/main.8e30bbaa.js"
   ]
 }
