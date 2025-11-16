@@ -13,6 +13,7 @@ import CircleIcon from "@mui/icons-material/FiberManualRecord";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
+import { Helmet } from "react-helmet-async";
 const baseUrl = API_URL;
 
 const listRules = [
@@ -99,84 +100,112 @@ const RulesPage = () => {
   }, []);
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{ py: 4, mt: { xs: 0, md: 10 }, minHeight: "100vh" }}
-    >
-      <Box sx={{ py: 0, borderRadius: 2 }}>
-        <Typography
-          variant="h4"
-          align="center"
-          gutterBottom
-          sx={{
-            fontWeight: 600,
-            color: "#2c3e50",
-            display: "flex",
-            justifyContent: "center",
-            fontSize: { xs: 25, md: 30 },
-          }}
-        >
-          <Typography variant="inherit" sx={{}}>
-            قوانین و مقررات
-          </Typography>
+    <>
+      <Helmet>
+        <title>قوانین و مقررات | شبینجا</title>
+        <meta
+          name="description"
+          content="قوانین و شرایط استفاده از سامانه شبینجا شامل رزرو، لغو، مسئولیت میزبان و حقوق مسافر را در این صفحه مطالعه کنید."
+        />
+        <meta name="keywords" content="قوانین, مقررات, شرایط استفاده, شبینجا" />
+      </Helmet>
+
+      <Container
+        maxWidth="md"
+        sx={{ py: 4, mt: { xs: 0, md: 10 }, minHeight: "100vh" }}
+      >
+        <Box sx={{ py: 0, borderRadius: 2 }}>
           <Typography
-            variant="inherit"
+            variant="h4"
+            align="center"
+            gutterBottom
             sx={{
-              color: "primary.main",
-              px: 1,
+              fontWeight: 600,
+              color: "#2c3e50",
+              display: "flex",
+              justifyContent: "center",
+              fontSize: { xs: 25, md: 30 },
             }}
           >
-            شبینجا{" "}
+            <Typography variant="inherit" sx={{}}>
+              قوانین و مقررات
+            </Typography>
+            <Typography
+              variant="inherit"
+              sx={{
+                color: "primary.main",
+                px: 1,
+              }}
+            >
+              شبینجا{" "}
+            </Typography>
           </Typography>
-        </Typography>
 
-        <Box sx={{ mt: { xs: 4, md: 7 } }}>
-          <Typography
-            variant="h5"
-            // gutterBottom
-            sx={{ fontWeight: 600, fontSize: { xs: 20, md: 25 }, mb: ".2rem" }}
-          >
-            {rulesData &&
-              rulesData[0]?.type === "title" &&
-              rulesData[0]?.content}
-          </Typography>
+          <Box sx={{ mt: { xs: 4, md: 7 } }}>
+            <Typography
+              variant="h5"
+              // gutterBottom
+              sx={{
+                fontWeight: 600,
+                fontSize: { xs: 20, md: 25 },
+                mb: ".2rem",
+              }}
+            >
+              {rulesData &&
+                rulesData[0]?.type === "title" &&
+                rulesData[0]?.content}
+            </Typography>
 
-          <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2, md: 0 } }}>
-            {rulesData &&
-              rulesData
-                .filter((item) => item.type === "li" || item.type === "text")
-                .map((item, index) => (
-                  <>
-                    {item.type === "li" ? (
-                      <ListItem
-                        sx={{ mx: 0, px: 0, py: 0.5, alignItems: "flex-start" }}
-                        key={index}
-                      >
-                        <ListItemIcon
-                          sx={{ minWidth: { xs: 26, md: 30 }, pt: ".55rem" }}
-                        >
-                          <RemoveIcon sx={{ color: "#4486FA", fontSize: 13 }} />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={item.content}
-                          primaryTypographyProps={{
-                            fontSize: "13px",
-                            color: "#000000a1",
-                            textAlign:"justify"
+            <List sx={{ paddingLeft: 0, mx: 0, px: { xs: 2, md: 0 } }}>
+              {rulesData &&
+                rulesData
+                  .filter((item) => item.type === "li" || item.type === "text")
+                  .map((item, index) => (
+                    <>
+                      {item.type === "li" ? (
+                        <ListItem
+                          sx={{
+                            mx: 0,
+                            px: 0,
+                            py: 0.5,
+                            alignItems: "flex-start",
                           }}
-                        />
-                      </ListItem>
-                    ) : (
-                      <Box sx={{ fontSize: "16px", mt: { xs: 2, md: 2 } , textAlign:"justify" }}>
-                        {renderContent(item.content)}
-                      </Box>
-                    )}
-                  </>
-                ))}
-          </List>
+                          key={index}
+                        >
+                          <ListItemIcon
+                            sx={{ minWidth: { xs: 26, md: 30 }, pt: ".55rem" }}
+                          >
+                            <RemoveIcon
+                              sx={{ color: "#4486FA", fontSize: 13 }}
+                            />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={item.content}
+                            primaryTypographyProps={{
+                              fontSize: "13px",
+                              color: "#000000a1",
+                              textAlign: "justify",
+                            }}
+                          />
+                        </ListItem>
+                      ) : (
+                        <Box
+                          sx={{
+                            fontSize: "16px",
+                            mt: { xs: 2, md: 2 },
+                            textAlign: "justify",
+                          }}
+                        >
+                          {renderContent(item.content)}
+                        </Box>
+                      )}
+                    </>
+                  ))}
+            </List>
+          </Box>
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </>
   );
 };
 

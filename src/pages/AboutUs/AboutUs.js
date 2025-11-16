@@ -6,6 +6,7 @@ import axios from "axios";
 import API_URL from "../../config/apiConfig";
 import AboutImage from "./AboutUsImage/aboutUs.jpg";
 import { DownloadImageApi } from "../../api/DownloadImageApi";
+import { Helmet } from "react-helmet-async";
 const baseUrl = API_URL;
 const AboutUs = () => {
   const appContext = useContext(AppContext);
@@ -34,45 +35,59 @@ const AboutUs = () => {
 
   function showText(value) {
     return (
-      <Box>
-        {value?.map((item, index) => {
-          if (item.type === "title") {
-            return (
-              <Typography
-                variant="h3"
-                key={index}
-                sx={{
-                  textAlign:{xs: "center" , md:"left"},
-                  fontWeight: 600,
-                  fontSize: { xs: 20, md: 26 },
-                  my: 1.5,
-                }}
-              >
-                {" "}
-                {renderContent(item.content)}{" "}
-              </Typography>
-            );
-          } else if (item.type === "text") {
-            return (
-              <Typography
-                variant="body1"
-                key={index}
-                sx={{
-                  px: { xs: ".8rem", md: 0 },
-                  lineHeight: 1.8,
-                  textAlign: "justify",
-                  fontSize: {xs:".9rem" , md:"1rem"},
-                }}
-              >
-                {" "}
-                {renderContent(item.content)}{" "}
-              </Typography>
-            );
-          } else {
-            return null;
-          }
-        })}{" "}
-      </Box>
+      <>
+        <Helmet>
+          <title>درباره شبینجا | سامانه رزرو اقامتگاه آنلاین</title>
+          <meta
+            name="description"
+            content="شبینجا پلتفرمی برای رزرو آنلاین اقامتگاه‌ها در سراسر ایران است. هدف ما ارائه تجربه‌ای مطمئن و آسان برای مسافران و میزبان‌هاست."
+          />
+          <meta
+            name="keywords"
+            content="درباره ما, شبینجا, رزرو اقامتگاه, معرفی سایت"
+          />
+        </Helmet>
+        
+        <Box>
+          {value?.map((item, index) => {
+            if (item.type === "title") {
+              return (
+                <Typography
+                  variant="h3"
+                  key={index}
+                  sx={{
+                    textAlign: { xs: "center", md: "left" },
+                    fontWeight: 600,
+                    fontSize: { xs: 20, md: 26 },
+                    my: 1.5,
+                  }}
+                >
+                  {" "}
+                  {renderContent(item.content)}{" "}
+                </Typography>
+              );
+            } else if (item.type === "text") {
+              return (
+                <Typography
+                  variant="body1"
+                  key={index}
+                  sx={{
+                    px: { xs: ".8rem", md: 0 },
+                    lineHeight: 1.8,
+                    textAlign: "justify",
+                    fontSize: { xs: ".9rem", md: "1rem" },
+                  }}
+                >
+                  {" "}
+                  {renderContent(item.content)}{" "}
+                </Typography>
+              );
+            } else {
+              return null;
+            }
+          })}{" "}
+        </Box>
+      </>
     );
   }
 
@@ -139,7 +154,12 @@ const AboutUs = () => {
       sx={{ py: { xs: 1, md: 2 }, minHeight: "100vh", maxWidth: "950px" }}
     >
       <Box
-        sx={{ py: { xs: 0, md: 0 }, borderRadius: 2, pb: { xs: 12, md: 12 } , mt:{xs:0 , md:10} }}
+        sx={{
+          py: { xs: 0, md: 0 },
+          borderRadius: 2,
+          pb: { xs: 12, md: 12 },
+          mt: { xs: 0, md: 10 },
+        }}
       >
         {/* درباره شبینجا */}
         {/* <Typography

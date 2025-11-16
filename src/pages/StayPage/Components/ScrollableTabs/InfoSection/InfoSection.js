@@ -1,11 +1,10 @@
 import {
   Avatar,
   Box,
-  Button,
-  Divider,
   Typography,
   Skeleton,
   useMediaQuery,
+  Rating,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -111,20 +110,49 @@ const InfoSection = () => {
             ) : (
               <>
                 <div>{`${stayPageContext?.infoOfStay?.typeHostDbTitle} ${stayPageContext?.infoOfStay?.title} در ${stayPageContext?.infoOfStay?.address}`}</div>
-                 به میزبانی {stayPageContext?.infoOfStay?.fullName}
+                به میزبانی {stayPageContext?.infoOfStay?.fullName}
               </>
             )}
           </Typography>
         </Box>
 
-        <Avatar
+        <Box
           sx={{
-            width: isMobile?52:45,
-            height: isMobile?52:45,
-            mr: 0.5,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: 1,
           }}
-          src={DownloadImageApi(bgImage)}
-        ></Avatar>
+        >
+          <Avatar
+            sx={{
+              width: isMobile ? 52 : 45,
+              height: isMobile ? 52 : 45,
+              mr: 0.5,
+            }}
+            src={DownloadImageApi(bgImage)}
+          ></Avatar>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box sx={{ fontSize: ".75rem" }}>تعداد میزبانی موفق :2</Box>
+
+            <Rating
+              value={3}
+              precision={0.5}
+              readOnly
+              size="small"
+              sx={{
+                fontSize: { xs: "1rem", sm: "1rem" },
+                color: "#faaf00",
+              }}
+            />
+          </Box>
+        </Box>
       </Box>
 
       <Box sx={{ mt: 4 }}>

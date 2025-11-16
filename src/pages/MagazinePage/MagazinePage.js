@@ -18,6 +18,7 @@ import { useTheme } from "@mui/material/styles";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
 import MagFooter from "./Components/MagFooter";
+import { Helmet } from "react-helmet-async";
 
 export const MagPageContext = createContext();
 
@@ -70,7 +71,9 @@ const MagazinePage = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       // console.log(response?.data?.data, "get Tags List");
-    let sorted=  response?.data?.data?.sort((a, b) => a?.title.length - b.title.length)
+      let sorted = response?.data?.data?.sort(
+        (a, b) => a?.title.length - b.title.length
+      );
       setTagsList(sorted);
     } catch (error) {
       console.log(error, "getTagsList Error");
@@ -106,8 +109,9 @@ const MagazinePage = () => {
   const handleScroll = () => {
     const yOffset = -100; // مثلا 100px بالاتر
     const element = sectionRef.current;
-    const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-  
+    const y =
+      element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+
     window.scrollTo({ top: y, behavior: "smooth" });
   };
 
@@ -123,7 +127,7 @@ const MagazinePage = () => {
           skip: 0,
           myTagId: tagsFilter,
           categoryId: categoryFilter,
-          title:titleFilter
+          title: titleFilter,
         },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -136,11 +140,11 @@ const MagazinePage = () => {
       return error?.response?.data;
     } finally {
       setBlogsLoading(false);
-      if(titleFilter){
-        handleScroll()
+      if (titleFilter) {
+        handleScroll();
       }
     }
-  }, [categoryFilter, isMobile , titleFilter,tagsFilter]);
+  }, [categoryFilter, isMobile, titleFilter, tagsFilter]);
 
   useEffect(() => {
     getCategoryList();
@@ -151,10 +155,22 @@ const MagazinePage = () => {
   useEffect(() => {
     console.log("fil", categoryFilter);
     getBlogList();
-  }, [categoryFilter, getBlogList ,tagsFilter ,titleFilter]);
+  }, [categoryFilter, getBlogList, tagsFilter, titleFilter]);
 
   return (
     <>
+      <Helmet>
+        <title>مجله شبینجا | نکات سفر و گردشگری</title>
+        <meta
+          name="description"
+          content="در مجله شبینجا مقالات و نکات مفیدی درباره سفر، گردشگری، رزرو اقامتگاه و مقصدهای محبوب ایران بخوانید."
+        />
+        <meta
+          name="keywords"
+          content="مجله گردشگری, سفر, ایران, اقامتگاه, شبینجا"
+        />
+      </Helmet>
+
       <MagPageContext.Provider
         value={{
           categoryList,
@@ -165,7 +181,7 @@ const MagazinePage = () => {
           handleCategoryFilter,
           handleTagsFilter,
           handleTitleFilter,
-          sectionRef
+          sectionRef,
         }}
       >
         <MagHeader />
@@ -202,7 +218,7 @@ const MagazinePage = () => {
           {/* <SwiperMag /> */}
 
           {/* sidebar , ... */}
-          
+
           <MainPart isMobile={isMobile} />
         </Box>
         {/* footer */}

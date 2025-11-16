@@ -23,6 +23,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { HostTourSearchApi } from "../../api/toureApis";
 import { AppContext } from "../../App";
 import NotFoundComponent from "./components/NotFoundComponent";
+import { Helmet } from "react-helmet-async";
 
 const filterList = [
   {
@@ -207,138 +208,154 @@ const SearchPage = () => {
   };
 
   return (
-    <SearchPageContext.Provider
-      value={{
-        handleSearch: handleSearch,
-        isFilterActive: isFilterActive, //  مربوط به گزینه فیلترهمه یکجا
-        active: active, //  مربوط به گزینه فیلترهمه یکجا
-        setActive: setActive, //  مربوط به گزینه فیلترهمه یکجا
-        filterList: filterList, //  مربوط به گزینه فیلترهمه یکجا
-        listFiltersInUrl: listFiltersInUrl, // لیست مقادیری که در url هستند
-        resutSearchTours, // نتیجه جستجو
-        currentPage,
-        setCurrentPage,
-      }}
-    >
-      <Box sx={{ position: "relative"  , minHeight: "100vh" }} className=" ">
-        {/* Filter Section */}
-        {/* <Header shadow={false} /> */}
-        <FilterSection />
+    <>
+      <Helmet>
+        <title>جستجوی اقامتگاه‌ها | شبینجا</title>
+        <meta
+          name="description"
+          content="نتایج جستجوی شما در شبینجا بر اساس شهر، فیلتر و قیمت نمایش داده می‌شود. اقامتگاه دلخواه خود را پیدا کنید."
+        />
+        <meta
+          name="keywords"
+          content="جستجوی اقامتگاه, رزرو سریع, فیلتر قیمت, شهرها, شبینجا"
+        />
+      </Helmet>
 
-        {/* Main Content */}
-        <Grid
-          container
-         // spacing={3}
-          columnSpacing={showMap && !isMobile ? 1 : 0}
-          sx={{
-            flexDirection: "row",
-            padding: "16px",
-            marginTop: { xs: "9px", md: "75px" },
-          }}
-          className=" "
-        >
-          {/* Card List Section */}
+      <SearchPageContext.Provider
+        value={{
+          handleSearch: handleSearch,
+          isFilterActive: isFilterActive, //  مربوط به گزینه فیلترهمه یکجا
+          active: active, //  مربوط به گزینه فیلترهمه یکجا
+          setActive: setActive, //  مربوط به گزینه فیلترهمه یکجا
+          filterList: filterList, //  مربوط به گزینه فیلترهمه یکجا
+          listFiltersInUrl: listFiltersInUrl, // لیست مقادیری که در url هستند
+          resutSearchTours, // نتیجه جستجو
+          currentPage,
+          setCurrentPage,
+        }}
+      >
+        <Box sx={{ position: "relative", minHeight: "100vh" }} className=" ">
+          {/* Filter Section */}
+          {/* <Header shadow={false} /> */}
+          <FilterSection />
+
+          {/* Main Content */}
           <Grid
-            item
-            xs={showMap && !isMobile ? 6 : 12}
+            container
+            // spacing={3}
+            columnSpacing={showMap && !isMobile ? 1 : 0}
             sx={{
-              //pr:15
+              flexDirection: "row",
+              padding: "16px",
+              marginTop: { xs: "9px", md: "75px" },
             }}
-            className=" p-0 m-0 "
+            className=" "
           >
-            <Box
-              ref={cardListRef}
-              sx={{
-                overflowY: "auto",
-                // paddingRight: "16px",
-                scrollbarWidth: "none",
-                "&::-webkit-scrollbar": { display: "none" },
-              }}
-              className=" "
+            {/* Card List Section */}
+            <Grid
+              item
+              xs={showMap && !isMobile ? 6 : 12}
+              sx={
+                {
+                  //pr:15
+                }
+              }
+              className=" p-0 m-0 "
             >
-              <Typography variant="h5">
-                {typeHome?.label}
-                {/* {searchtype} */}
-              </Typography>
+              <Box
+                ref={cardListRef}
+                sx={{
+                  overflowY: "auto",
+                  // paddingRight: "16px",
+                  scrollbarWidth: "none",
+                  "&::-webkit-scrollbar": { display: "none" },
+                }}
+                className=" "
+              >
+                <Typography variant="h5">
+                  {typeHome?.label}
+                  {/* {searchtype} */}
+                </Typography>
 
-              {loadingSearch || listCards?.length > 0 ? (
-                <CardList
-                  data={listCards}
-                  showMap={showMap}
-                  toggleMap={toggleMap}
-                  loading={loadingSearch}
-                />
-              ) : (
-                <NotFoundComponent />
-              )}
+                {loadingSearch || listCards?.length > 0 ? (
+                  <CardList
+                    data={listCards}
+                    showMap={showMap}
+                    toggleMap={toggleMap}
+                    loading={loadingSearch}
+                  />
+                ) : (
+                  <NotFoundComponent />
+                )}
 
-              {/* <CardList
+                {/* <CardList
                 data={listCards || []}
                 showMap={showMap}
                 toggleMap={toggleMap}
                 loading={loadingSearch}
               /> */}
-            </Box>
-          </Grid>
+              </Box>
+            </Grid>
 
-          {/* Map Section */}
-          {!isMobile && showMap && (
-            <MapSection
-              points={listCards || []}
-              onClose={toggleMap}
-              onPolygonDrawn={onPolygonDrawn}
-              onSearchAreaClick={handleSearchAreaClick}
-              isLoading={loadingSearch}
-            />
-            // MAP_POINTS
-          )}
-        </Grid>
-
-        {/* Map Modal for Mobile */}
-        {isMobile && showMap && (
-          <Modal open={showMap} onClose={toggleMap} fullScreen={true}>
-            <Box
-              sx={{
-                // position: "absolute",
-                // top: "50%",
-                // left: "50%",
-                // transform: "translate(-50%, -50%)",
-                width: "100%",
-                height: "100%",
-                bgcolor: "background.paper",
-                boxShadow: 24,
-                borderRadius: 2,
-                overflow: "hidden",
-              }}
-            >
-              <MyMap
+            {/* Map Section */}
+            {!isMobile && showMap && (
+              <MapSection
                 points={listCards || []}
-                // points={MAP_POINTS}
-                centerInitial={[2.2728759, 75.6305622]}
+                onClose={toggleMap}
                 onPolygonDrawn={onPolygonDrawn}
                 onSearchAreaClick={handleSearchAreaClick}
                 isLoading={loadingSearch}
               />
-              <IconButton
+              // MAP_POINTS
+            )}
+          </Grid>
+
+          {/* Map Modal for Mobile */}
+          {isMobile && showMap && (
+            <Modal open={showMap} onClose={toggleMap} fullScreen={true}>
+              <Box
                 sx={{
-                  position: "absolute",
-                  top: "10px",
-                  left: "20px",
-                  backgroundColor: "white",
-                  zIndex: 1000,
-                  "&:hover": {
-                    backgroundColor: "white",
-                  },
+                  // position: "absolute",
+                  // top: "50%",
+                  // left: "50%",
+                  // transform: "translate(-50%, -50%)",
+                  width: "100%",
+                  height: "100%",
+                  bgcolor: "background.paper",
+                  boxShadow: 24,
+                  borderRadius: 2,
+                  overflow: "hidden",
                 }}
-                onClick={toggleMap}
               >
-                <CloseIcon />
-              </IconButton>
-            </Box>
-          </Modal>
-        )}
-      </Box>
-    </SearchPageContext.Provider>
+                <MyMap
+                  points={listCards || []}
+                  // points={MAP_POINTS}
+                  centerInitial={[2.2728759, 75.6305622]}
+                  onPolygonDrawn={onPolygonDrawn}
+                  onSearchAreaClick={handleSearchAreaClick}
+                  isLoading={loadingSearch}
+                />
+                <IconButton
+                  sx={{
+                    position: "absolute",
+                    top: "10px",
+                    left: "20px",
+                    backgroundColor: "white",
+                    zIndex: 1000,
+                    "&:hover": {
+                      backgroundColor: "white",
+                    },
+                  }}
+                  onClick={toggleMap}
+                >
+                  <CloseIcon />
+                </IconButton>
+              </Box>
+            </Modal>
+          )}
+        </Box>
+      </SearchPageContext.Provider>
+    </>
   );
 };
 

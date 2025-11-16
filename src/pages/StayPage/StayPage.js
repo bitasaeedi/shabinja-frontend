@@ -18,6 +18,7 @@ import TitleStay from "./Components/TitleStay/TitleStay";
 import { AppContext } from "../../App";
 import moment from "moment-jalaali";
 import StarIcon from "@mui/icons-material/Star";
+import { Helmet } from "react-helmet-async";
 
 export const StayPageContext = createContext();
 
@@ -110,161 +111,175 @@ const StayPage = () => {
   };
 
   return (
-    <StayPageContext.Provider
-      value={{
-        handleChangeDate: handleChangeDate,
-        listDateSelected: listDateSelected,
-        setListDateSelected: setListDateSelected,
-        infoOfStay,
-        loading,
-        listPrices,
-        getMobileInfo,
-      }}
-    >
-      {/* <Header showMobileHeader={false} /> */}
-      <Box
-        sx={{
-          width: { xs: "100%", md: "80%" },
-          margin: "0 auto",
-          padding: 0,
+    <>
+      <Helmet>
+        <title>اقامتگاه | مشاهده جزئیات اقامت در شبینجا</title>
+        <meta
+          name="description"
+          content="جزئیات کامل اقامتگاه شامل قیمت، امکانات، موقعیت، نظرات کاربران و امکان رزرو آنلاین از طریق شبینجا."
+        />
+        <meta
+          name="keywords"
+          content="اقامتگاه, جزئیات, امکانات, نظرات, رزرو اقامت, شبینجا"
+        />
+      </Helmet>
+      
+      <StayPageContext.Provider
+        value={{
+          handleChangeDate: handleChangeDate,
+          listDateSelected: listDateSelected,
+          setListDateSelected: setListDateSelected,
+          infoOfStay,
+          loading,
+          listPrices,
+          getMobileInfo,
         }}
       >
+        {/* <Header showMobileHeader={false} /> */}
         <Box
           sx={{
-            minHeight: 600,
+            width: { xs: "100%", md: "80%" },
+            margin: "0 auto",
+            padding: 0,
           }}
         >
-          {/* Empty space as header spacer */}
           <Box
             sx={{
-              height: { xs: 0, md: 100 },
-            }}
-          ></Box>
-
-          {/* Image Section */}
-          <Box
-            sx={{
-              width: "100%",
+              minHeight: 600,
             }}
           >
-            <TitleStay />
-            <ImageSection />
-
-            {/* mobile info under slider */}
+            {/* Empty space as header spacer */}
             <Box
               sx={{
-                display: { xs: "flex", md: "none" },
-                flexDirection: "column",
-                // justifyContent: "space-between",
-                alignItems: "center",
-                // marginBottom: 2,
-                mt: 2,
-                px: { xs: 2, md: 0 },
+                height: { xs: 0, md: 100 },
+              }}
+            ></Box>
+
+            {/* Image Section */}
+            <Box
+              sx={{
+                width: "100%",
               }}
             >
-              <Typography
-                sx={{ width: "100%", textAlign: "center" }}
-                variant="h6"
-                fontWeight="bold"
-              >
-                {infoOfStay?.title || ""}
-              </Typography>
+              <TitleStay />
+              <ImageSection />
 
-              <Typography
-                variant="body1"
-                color="text.secondary"
-                sx={{ marginBottom: 2 }}
-              >
-                <StarIcon sx={{ fontSize: 16, color: "#ffd700" }} />
-                {formatNumber(mobileInfo?.rate) || 0}
-                <Typography
-                  display="inline"
-                  variant="body1"
-                  color="text.secondary"
-                  px={1}
-                >
-                  ({mobileInfo?.countcomment || 0} نظر ثبت شده)
-                </Typography>
-              </Typography>
-            </Box>
-          </Box>
-
-          {/* Content Section */}
-          <Box sx={{ mt: 2, px: { xs: 2, md: 0 } }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} md={7} lg={8} sx={{}}>
-                <ScrollableTabs />
-              </Grid>
-
-              <Grid
-                item
-                xs={12}
-                md={5}
-                lg={4}
+              {/* mobile info under slider */}
+              <Box
                 sx={{
-                  position: "relative",
-                  display: { xs: "none", md: "block" },
-                  // zIndex: "9000 !important",
+                  display: { xs: "flex", md: "none" },
+                  flexDirection: "column",
+                  // justifyContent: "space-between",
+                  alignItems: "center",
+                  // marginBottom: 2,
+                  mt: 2,
+                  px: { xs: 2, md: 0 },
                 }}
               >
-                <Box
+                <Typography
+                  sx={{ width: "100%", textAlign: "center" }}
+                  variant="h6"
+                  fontWeight="bold"
+                >
+                  {infoOfStay?.title || ""}
+                </Typography>
+
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ marginBottom: 2 }}
+                >
+                  <StarIcon sx={{ fontSize: 16, color: "#ffd700" }} />
+                  {formatNumber(mobileInfo?.rate) || 0}
+                  <Typography
+                    display="inline"
+                    variant="body1"
+                    color="text.secondary"
+                    px={1}
+                  >
+                    ({mobileInfo?.countcomment || 0} نظر ثبت شده)
+                  </Typography>
+                </Typography>
+              </Box>
+            </Box>
+
+            {/* Content Section */}
+            <Box sx={{ mt: 2, px: { xs: 2, md: 0 } }}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} md={7} lg={8} sx={{}}>
+                  <ScrollableTabs />
+                </Grid>
+
+                <Grid
+                  item
+                  xs={12}
+                  md={5}
+                  lg={4}
                   sx={{
-                    position: "sticky",
-                    top: 70,
-                    height: 500,
-                    width: "100%",
-                    zIndex: "200 !important",
+                    position: "relative",
+                    display: { xs: "none", md: "block" },
+                    // zIndex: "9000 !important",
                   }}
                 >
-                  <FormReserve />
-                </Box>
+                  <Box
+                    sx={{
+                      position: "sticky",
+                      top: 70,
+                      height: 500,
+                      width: "100%",
+                      zIndex: "200 !important",
+                    }}
+                  >
+                    <FormReserve />
+                  </Box>
+                </Grid>
               </Grid>
-            </Grid>
+            </Box>
           </Box>
         </Box>
-      </Box>
 
-      {/* اقامتگاه های مشابه */}
-      <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>
-        <InViewComponents
-          getListData={() =>
-            callApiForGetList({
-              isNeighbors: true,
-              hostId: staycode,
-              skip:25
-            })
-          }
-          id={infoOfStay?.id}
-        >
-          <SwipperSliderPublick
-            // lists={cities}
-            title={"اقامتگاه‌های مشابه"}
-            slidesPerView={4}
+        {/* اقامتگاه های مشابه */}
+        <Box className="px-0 mx-0" sx={{ marginTop: { xs: 4, md: 5 } }}>
+          <InViewComponents
+            getListData={() =>
+              callApiForGetList({
+                isNeighbors: true,
+                hostId: staycode,
+                skip: 25,
+              })
+            }
+            id={infoOfStay?.id}
           >
-            <HomeCards />
-          </SwipperSliderPublick>
-        </InViewComponents>
-      </Box>
+            <SwipperSliderPublick
+              // lists={cities}
+              title={"اقامتگاه‌های مشابه"}
+              slidesPerView={4}
+            >
+              <HomeCards />
+            </SwipperSliderPublick>
+          </InViewComponents>
+        </Box>
 
-      <Box
-        sx={{
-          position: "sticky",
-          bottom: 65,
-          backgroundColor: "rgba(0, 0, 0, 0.6)",
-          backdropFilter: "blur(5px)",
-          color: "white",
-          alignItems: "center",
-          zIndex: "100 !important",
-          borderRadius: "5px",
-          display: { md: "none" },
-          mx: 1,
-          height: "70px",
-          marginBottom: "2rem",
-        }}
-      >
-        <MobileForm staycode={staycode} />
-      </Box>
-    </StayPageContext.Provider>
+        <Box
+          sx={{
+            position: "sticky",
+            bottom: 65,
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            backdropFilter: "blur(5px)",
+            color: "white",
+            alignItems: "center",
+            zIndex: "100 !important",
+            borderRadius: "5px",
+            display: { md: "none" },
+            mx: 1,
+            height: "70px",
+            marginBottom: "2rem",
+          }}
+        >
+          <MobileForm staycode={staycode} />
+        </Box>
+      </StayPageContext.Provider>
+    </>
   );
 };
 

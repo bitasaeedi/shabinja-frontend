@@ -8,6 +8,7 @@ import ManageSteps from "./ManageSteps";
 import PointsBeforStart from "./PointsBeforStart/PointsBeforStart";
 import AskToLogin from "../../components/Login/AskToLogin/AskToLogin";
 import { AppContext } from "../../App";
+import { Helmet } from "react-helmet-async";
 
 const NewStaysPage = () => {
   const appContext = useContext(AppContext);
@@ -19,7 +20,7 @@ const NewStaysPage = () => {
   useEffect(() => {
     // Show footer only for the "start" step, hide for wizard and stay code steps
     if (wichComponent === "start") {
-      appContext.setShowfooter(appContext?.isLoginMain ? true :false);
+      appContext.setShowfooter(appContext?.isLoginMain ? true : false);
     } else {
       appContext.setShowfooter(false);
     }
@@ -32,6 +33,18 @@ const NewStaysPage = () => {
     <>
       {/* Header */}
       {/* <Header showMobileHeader={false} /> */}
+      <Helmet>
+        <title>ثبت اقامتگاه جدید | پنل میزبان شبینجا</title>
+        <meta
+          name="description"
+          content="در این بخش می‌توانید اقامتگاه جدید خود را به صورت کامل ثبت و اطلاعات آن را در شبینجا وارد کنید."
+        />
+        <meta
+          name="keywords"
+          content="ثبت اقامتگاه, میزبان, افزودن اقامتگاه, شبینجا"
+        />
+      </Helmet>
+
       {appContext?.isLoginMain ? (
         <Box
           sx={{

@@ -21,6 +21,7 @@ import PaymentPopover from "../../components/PaymentPopover/PaymentPopover";
 import MyAlertMui from "../../components/MyAlertMui/MyAlertMui";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
+import { Helmet } from "react-helmet-async";
 const baseUrl = API_URL;
 
 const moment = require("moment");
@@ -68,7 +69,7 @@ const ReservationStay = () => {
       parseFloat(message?.orderNumber) === parseFloat(code)
     );
     // refresh api if guid was current guid of reserve
-    if (parseFloat(message?.orderNumber) === parseFloat(code))  {
+    if (parseFloat(message?.orderNumber) === parseFloat(code)) {
       console.info("refreshing ...", message?.orderNumber);
       handleGetInfoOfReserve(true); //true
     }
@@ -354,6 +355,15 @@ const ReservationStay = () => {
   };
   return (
     <>
+      <Helmet>
+        <title>بررسی و تأیید رزرو | شبینجا</title>
+        <meta
+          name="description"
+          content="جزئیات رزرو اقامتگاه خود را مرور کنید، تاریخ ورود و خروج را بررسی و پرداخت خود را نهایی نمایید."
+        />
+        <meta name="keywords" content="تأیید رزرو, پرداخت, اقامتگاه, شبینجا" />
+      </Helmet>
+
       {appContext?.isLoginMain ? (
         <ReservationStayContext.Provider
           value={{
@@ -454,10 +464,10 @@ const ReservationStay = () => {
                   {stepName === "order" && infoOfReserve?.state === 3 && (
                     <Box
                       sx={{
-                        mt: {xs:.5 , md:2},
+                        mt: { xs: 0.5, md: 2 },
                         textAlign: "center",
                         position: "relative",
-                        top:{xs: "2rem" , md:"3.5rem"},
+                        top: { xs: "2rem", md: "3.5rem" },
                       }}
                     >
                       <Typography>

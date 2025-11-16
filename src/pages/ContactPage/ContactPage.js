@@ -13,6 +13,7 @@ import FormContact from "./Components/FormContact";
 import { InfoContact } from "./Components/InfoContact";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
+import { Helmet } from "react-helmet-async";
 const baseUrl = API_URL;
 
 const ContactPage = () => {
@@ -49,22 +50,87 @@ const ContactPage = () => {
   }, []);
 
   return (
-    <Container
-      maxWidth="xl"
-      sx={{ py: {xs:4,md:5}, mt: { xs: 0, md: 9 }, minHeight: "100vh" }}
-    >
-      <Box sx={{ py: { xs: 2, md: 8 }, px: { xs: 2, md: 5 } }}>
-        <Grid container spacing={0} justifyContent={"center"}>
-          {contactData ? (
-            <Grid
-              xs="12"
-              md="8"
-              sx={{
-                px: { xs: 0, md: 4 },
-                order: { xs: 0, md: 1 },
-              }}
-            >
-              <Box>
+    <>
+      <Helmet>
+        <title>تماس با ما | شبینجا</title>
+        <meta
+          name="description"
+          content="برای ارتباط با تیم پشتیبانی شبینجا، از فرم تماس یا اطلاعات تماس در این صفحه استفاده کنید."
+        />
+        <meta
+          name="keywords"
+          content="تماس با ما, پشتیبانی, ارتباط با شبینجا"
+        />
+      </Helmet>
+      
+      <Container
+        maxWidth="xl"
+        sx={{ py: { xs: 4, md: 5 }, mt: { xs: 0, md: 9 }, minHeight: "100vh" }}
+      >
+        <Box sx={{ py: { xs: 2, md: 8 }, px: { xs: 2, md: 5 } }}>
+          <Grid container spacing={0} justifyContent={"center"}>
+            {contactData ? (
+              <Grid
+                xs="12"
+                md="8"
+                sx={{
+                  px: { xs: 0, md: 4 },
+                  order: { xs: 0, md: 1 },
+                }}
+              >
+                <Box>
+                  <Typography
+                    variant="h4"
+                    gutterBottom
+                    sx={{
+                      fontWeight: 600,
+                      color: "#2c3e50",
+                      display: "flex",
+                    }}
+                  >
+                    <Typography variant="inherit" sx={{}}>
+                      تماس با
+                    </Typography>
+                    <Typography
+                      variant="inherit"
+                      sx={{
+                        color: "primary.main",
+                        px: 1,
+                      }}
+                    >
+                      {` شبینجا `}
+                    </Typography>
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{ fontSize: 14, textAlign: "justify" }}
+                  >
+                    {contactData[0]?.value}
+                  </Typography>
+                </Box>
+                <Typography
+                  variant="h5"
+                  align="right"
+                  gutterBottom
+                  sx={{
+                    fontSize: 24,
+                    mb: 2,
+                    mt: { xs: 6, md: 8 },
+                  }}
+                >
+                  ارتباط با ما
+                </Typography>
+                <InfoContact contactData={contactData} />
+              </Grid>
+            ) : (
+              <Grid
+                xs="12"
+                md="8"
+                sx={{
+                  px: { xs: 0, md: 4 },
+                  order: { xs: 0, md: 1 },
+                }}
+              >
                 <Typography
                   variant="h4"
                   gutterBottom
@@ -87,87 +153,36 @@ const ContactPage = () => {
                     {` شبینجا `}
                   </Typography>
                 </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{ fontSize: 14, textAlign: "justify" }}
-                >
-                  {contactData[0]?.value}
-                </Typography>
-              </Box>
-              <Typography
-                variant="h5"
-                align="right"
-                gutterBottom
-                sx={{
-                  fontSize: 24,
-                  mb: 2,
-                  mt: { xs: 6, md: 8 },
-                }}
-              >
-                ارتباط با ما
-              </Typography>
-              <InfoContact contactData={contactData} />
-            </Grid>
-          ) : (
-            <Grid
-              xs="12"
-              md="8"
-              sx={{
-                px: { xs: 0, md: 4 },
-                order: { xs: 0, md: 1 },
-              }}
-            >
-              <Typography
-                variant="h4"
-                gutterBottom
-                sx={{
-                  fontWeight: 600,
-                  color: "#2c3e50",
-                  display: "flex",
-                }}
-              >
-                <Typography variant="inherit" sx={{}}>
-                  تماس با
-                </Typography>
-                <Typography
-                  variant="inherit"
-                  sx={{
-                    color: "primary.main",
-                    px: 1,
-                  }}
-                >
-                  {` شبینجا `}
-                </Typography>
-              </Typography>
-              <Skeleton
-                variant="rectangular"
-                width="50%"
-                height={30}
-                sx={{ mb: 2 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                width="50%"
-                height={30}
-                sx={{ mb: 2 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                width="50%"
-                height={30}
-                sx={{ mb: 2 }}
-              />
-              <Skeleton
-                variant="rectangular"
-                width="50%"
-                height={30}
-                sx={{ mb: 2 }}
-              />
-            </Grid>
-          )}
-        </Grid>
-      </Box>
-    </Container>
+                <Skeleton
+                  variant="rectangular"
+                  width="50%"
+                  height={30}
+                  sx={{ mb: 2 }}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="50%"
+                  height={30}
+                  sx={{ mb: 2 }}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="50%"
+                  height={30}
+                  sx={{ mb: 2 }}
+                />
+                <Skeleton
+                  variant="rectangular"
+                  width="50%"
+                  height={30}
+                  sx={{ mb: 2 }}
+                />
+              </Grid>
+            )}
+          </Grid>
+        </Box>
+      </Container>
+    </>
   );
 };
 

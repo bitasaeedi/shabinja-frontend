@@ -123,8 +123,11 @@ export default function MagPosts({ isMobile }) {
             sx={{
               display: "flex",
               gap: isMobile ? 0.5 : 1,
+              alignItems:"center"
             }}
           >
+          <Typography color="white" fontSize='.75rem'>زمان مطالعه : 2دقیقه</Typography>
+
             {blog?.tags?.map((tag, index) => {
               return (
                 <Typography

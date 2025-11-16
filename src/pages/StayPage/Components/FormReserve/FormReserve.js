@@ -173,7 +173,6 @@ const FormReserve = () => {
   return (
     <>
       <Box className="border" sx={{ minHeight: 200, py: 2, px: 3 }}>
-      
         {/* فرم */}
         <Box sx={{ mt: 2, position: "relative" }}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -263,14 +262,14 @@ const FormReserve = () => {
                     <TextField
                       onClick={(e) => {
                         if (!watch("entryDate")) {
-                          setIsExitDateClicked(true); 
+                          setIsExitDateClicked(true);
                           const enterDateInput = document.querySelector(
                             'input[name="entryDate"]'
                           );
                           console.log(enterDateInput.value, "enterDateInput");
                           enterDateInput.click();
                         } else {
-                          setIsExitDateClicked(false); 
+                          setIsExitDateClicked(false);
                           handleDateClick(e, "exitDate");
                         }
                       }}
@@ -284,7 +283,7 @@ const FormReserve = () => {
                       error={!!errors.exitDate}
                       InputProps={{
                         readOnly: true, // Prevent typing
-                        endAdornment: field.value && ( 
+                        endAdornment: field.value && (
                           <InputAdornment position="end">
                             <IconButton
                               onClick={(e) => {
@@ -390,8 +389,12 @@ const FormReserve = () => {
                       value={count}
                       onChange={(e) => {
                         const value = parseInt(e.target.value) || 0;
-                        const maxCapacity = stayPageContext.infoOfStay?.maxCapacity || 999;
-                        const newCount = Math.max(0, Math.min(value, maxCapacity));
+                        const maxCapacity =
+                          stayPageContext.infoOfStay?.maxCapacity || 999;
+                        const newCount = Math.max(
+                          0,
+                          Math.min(value, maxCapacity)
+                        );
                         setCount(newCount);
                       }}
                       inputProps={{
@@ -466,6 +469,7 @@ const FormReserve = () => {
                       color: "rgba(255, 255, 255, 0.5)", // Semi-transparent white text
                       cursor: "not-allowed", // Show not-allowed cursor
                     },
+                    bgcolor: "#287dfa",
                   }}
                   disabled={!(calculatedPrice?.mainPrice > 0)}
                 >
