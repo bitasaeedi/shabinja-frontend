@@ -14,7 +14,6 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import ClearIcon from "@mui/icons-material/Clear"; // Clear icon
 import SelectDatePopOver from "./SelectDatePopOver";
-import { useRef } from "react";
 import { StayPageContext } from "../../StayPage";
 import { useTheme } from "@mui/material/styles";
 import MobilePopOverDateSelect from "../MobileForm/components/MobilePopOverDateSelect";
@@ -36,7 +35,6 @@ const FormReserve = () => {
   const [count, setCount] = useState(0);
   const [calculatedPrice, setCalculatedPrice] = useState(null);
   const [calculating, setCalculating] = useState(false);
-  const counterRef = useRef();
   const navigate = useNavigate();
 
   const increment = () => {

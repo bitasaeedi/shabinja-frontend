@@ -1,8 +1,6 @@
-import { Box, Button, Container, Grid, Typography } from "@mui/material";
+import { Box, Button, Grid, Typography } from "@mui/material";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-
-import Header from "../../layout/header/Header";
 
 import { AppContext } from "../../App";
 import MyCalendarsWithPrice from "../../components/MyCalendars/MyCalendarsWithprice";

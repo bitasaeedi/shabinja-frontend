@@ -1,9 +1,6 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
-import { useParams, Link } from "react-router-dom";
+import React, { useState,useEffect, useContext } from "react";
+import { useParams} from "react-router-dom";
 import Box from "@mui/material/Box";
-import Header from "../../layout/header/Header";
-import { useTheme } from "@mui/material/styles";
-import { Typography } from "@mui/material";
 import ManageSteps from "./ManageSteps";
 import PointsBeforStart from "./PointsBeforStart/PointsBeforStart";
 import AskToLogin from "../../components/Login/AskToLogin/AskToLogin";

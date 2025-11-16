@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Grid } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
@@ -6,12 +6,9 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import MenuSection from "./Components/MenuSection/MenuSection";
 import Profile from "./Components/ContentSections/Profile/Profile";
 import Favorites from "./Components/ContentSections/Favorites/Favorites";
-import Header from "../../layout/header/Header";
 import AskToLogin from "../../components/Login/AskToLogin/AskToLogin";
-import CheckTokenExpiration from "../../components/checkTokenExpiration/CheckTokenExpiration";
 import { AppContext } from "../../App";
 import Reservations from "./Components/ContentSections/Reservations/Reservations";
-import { Wallet } from "@mui/icons-material";
 import WalletComponent from "./Components/ContentSections/WalletComponent/WalletComponent";
 import BackUpSection from "./Components/ContentSections/BackUpSection/BackUpSection";
 

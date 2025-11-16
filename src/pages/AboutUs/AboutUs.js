@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Container, Typography, Box } from "@mui/material";
 import { AppContext } from "../../App";
-import CircleIcon from "@mui/icons-material/FiberManualRecord";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
-import AboutImage from "./AboutUsImage/aboutUs.jpg";
 import { DownloadImageApi } from "../../api/DownloadImageApi";
 import { Helmet } from "react-helmet-async";
 const baseUrl = API_URL;
 const AboutUs = () => {
   const appContext = useContext(AppContext);
-
-  const [aboutData, setAboutData] = useState([]);
   const [firstText, setFirstText] = useState([]);
   const [image, setImage] = useState([]);
   const [secondText, setSecondText] = useState([]);

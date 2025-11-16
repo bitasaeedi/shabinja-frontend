@@ -1,15 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
-  TextField,
-  Button,
   Typography,
   Container,
   Grid,
   Skeleton,
 } from "@mui/material";
 import { AppContext } from "../../App";
-import FormContact from "./Components/FormContact";
 import { InfoContact } from "./Components/InfoContact";
 import axios from "axios";
 import API_URL from "../../config/apiConfig";
