@@ -194,31 +194,6 @@ const MagazinePage = () => {
           {/* slider */}
           {!id ? <HeaderMag isMobile={isMobile} /> : null}
 
-          {/* title */}
-          {/* {!id && !isMobile ? (
-            <Typography
-              variant="h5"
-              sx={{
-                color: "white",
-                textAlign: "center",
-                py: 1.5,
-                m: "2rem 3rem 2rem",
-                borderRadius: 1.5,
-                bgcolor: "black",
-                fontSize: "23px",
-              }}
-            >
-              مجله شبینجا
-            </Typography>
-          ) : (
-            ""
-          )} */}
-
-          {/*small swiper */}
-          {/* <SwiperMag /> */}
-
-          {/* sidebar , ... */}
-
           <MainPart isMobile={isMobile} />
         </Box>
         {/* footer */}
