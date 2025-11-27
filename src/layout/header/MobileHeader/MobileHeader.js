@@ -177,7 +177,7 @@ const MobileHeader = () => {
                       <Box
                         component="img"
                         src={logo_with_name}
-                        alt="Shabinja Logo"
+                        alt="شبینجا: اجاره ویلا - اجاره سوئیت"
                         className="my-0 py-0 mt-3"
                         sx={{
                           maxWidth: 115,

@@ -187,7 +187,7 @@ const ToolBarComponent = ({ isSticky, isVisible }) => {
               <Box
                 component="img"
                 src={isSticky ? logo_with_name : logo_with_name_white}
-                alt="Shabinja Logo"
+                alt="شبینجا: اجاره ویلا - اجاره سوئیت"
                 sx={{
                   maxWidth: 120, // Controls the max width of the image
                   width: "auto", // Ensures the width scales proportionally

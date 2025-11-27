@@ -84,7 +84,7 @@ const CardInfoReserve = () => {
             <Box
               component="img"
               src={DownloadImageApi(infoOfStay?.img?.file?.url)}
-              alt="Apartment"
+              alt={infoOfStay?.img?.fileImgAlt || infoOfStay?.img?.file?.imgAlt|| "Stay Image"}
               sx={{
                 width: 100,
                 height: 120,

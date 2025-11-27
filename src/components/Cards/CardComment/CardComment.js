@@ -71,7 +71,7 @@ const CardComment = ({ centerItem, comment }) => {
           <Avatar
             // src="https://via.placeholder.com/100"
             src={DownloadImageApi(comment?.image?.url)}
-            alt="User Avatar"
+            alt={comment?.image?.imgAlt || "User Avatar"}
             sx={{
               width: { xs: 40, md: 50 },
               height: { xs: 40, md: 50 },

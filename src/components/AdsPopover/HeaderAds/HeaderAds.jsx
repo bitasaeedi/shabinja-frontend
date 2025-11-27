@@ -81,7 +81,7 @@ export default function HeaderAds({ handleIsVisible, isVisible }) {
         <Box
           component="img"
           src={DownloadImageApi(adsData?.image?.url)}
-          alt="Landing animation"
+          alt={adsData?.image?.imgAlt || ""}
           sx={{
             width: 1,
             height: 1,

@@ -25,7 +25,7 @@ const ShowImageHeader = ({ index , slide, isMobile }) => {
         <Box
           component="img"
           src={DownloadImageApi(isMobile ? slide?.secondImage?.url : slide?.firstImage?.url)}
-          alt={`Slide ${index + 1}`}
+          alt={isMobile ? slide?.secondImage?.imgAlt : slide?.firstImage?.imgAlt ||`Slide ${index + 1}`}
           sx={{
             width: "100%",
             height: "100%",

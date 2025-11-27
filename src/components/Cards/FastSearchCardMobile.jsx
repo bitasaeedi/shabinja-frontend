@@ -54,7 +54,7 @@ export default function FastSearchCardMobile({ myData = {} }) {
               }}
               // `${baseUrl}${myData?.image}`
               image={DownloadImageApi(myData?.imageMobile?.url)} // Use the randomly selected image
-              // alt={myData?.title}
+              alt={myData?.imageMobile?.imgAlt || myData.title || " fastSearch Mobile"}
               // onLoad={handleImageLoad}
               loading="lazy"
               // style={{ display: isImageLoaded ? "block" : "none" }}

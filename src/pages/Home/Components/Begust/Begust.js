@@ -1,7 +1,7 @@
 import { Button, Grid, Typography, useMediaQuery } from "@mui/material";
 import { Box } from "@mui/system";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import API_URL from "../../../../config/apiConfig";
 import { DownloadImageApi } from "../../../../api/DownloadImageApi";
@@ -21,6 +21,7 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
   const btnColorCode = loan
     ? bannerInfo?.btnColorCodeTwo
     : bannerInfo?.btnColorCode;
+  const alt = loan ? bannerInfo?.image?.imgAlt : bannerInfo?.imageTwo?.imgAlt;
 
   return (
     <Box
@@ -36,7 +37,7 @@ const EachBanner = ({ bannerInfo, bgImage, loan, isMobile }) => {
       <Box
         component="img"
         src={bgImage}
-        alt={title}
+        alt={alt}
         sx={{
           width: "100%",
           height: { xs: 180, md: 300 },

@@ -62,7 +62,7 @@ const FavoritCitiesCard = ({ myData = {} }) => {
               borderRadius: 3,
             }}
             image={DownloadImageApi(myData?.image?.url)} // Use the randomly selected image
-            alt={myData?.title}
+            alt={myData?.image?.imgAlt}
             onLoad={handleImageLoad}
             // loading="lazy"
             style={{ display: isImageLoaded ? "block" : "none" }}

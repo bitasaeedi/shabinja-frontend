@@ -87,8 +87,8 @@ const CardHouseDetails = ({ myData = {}, isMapOpen }) => {
       >
         <SliderDetailsPage
           lists={myData?.images?.map((item) => ({
-            url: item,
-            title: item,
+            url: item?.url,
+            title: item?.imgAlt,
           }))}
           myData={myData}
         >

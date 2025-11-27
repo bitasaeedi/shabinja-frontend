@@ -49,7 +49,7 @@ const CardUploadedImage = ({ file, removeImageFromUploadedList }) => {
         }}
         image={DownloadImageApi(file?.file?.url)} // Use the randomly selected image
         onLoad={() => setLoading(false)} // Hide skeleton after loading
-        alt={file?.file?.fileName || "Uploaded Image"}
+        alt={file?.fileImgAlt || file?.file?.imgAlt|| "Uploaded Image"}
       />
 
       <IconButton

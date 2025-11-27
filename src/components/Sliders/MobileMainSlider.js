@@ -87,6 +87,7 @@ const [autoplaySpeed, setAutoplaySpeed] = useState(3000);
       const sliderImages = sliderUrls.map(item => ({
         src: DownloadImageApi(item.image?.url),
         timer: item.timer,
+        alt: item?.image?.imgAlt || "mobile slider"
       }));
        console.log(sliderImages, "sliderImages");
       setSliderList(sliderImages);
@@ -118,7 +119,7 @@ const [autoplaySpeed, setAutoplaySpeed] = useState(3000);
             >
               <img
                 src={city?.src}
-                alt={"slider"}
+                alt={city?.alt}
                 style={{
                   position: "absolute",
                   top: 0,

@@ -27,9 +27,9 @@ const ImageSection = () => {
 
   useEffect(() => {
     setLoadedImages([]);
-    const images = stayPageContext.infoOfStay?.hostImages || [];
+    const images = stayPageContext?.infoOfStay?.hostImages || [];
     setListImages(images);
-  }, [stayPageContext.infoOfStay]);
+  }, [stayPageContext?.infoOfStay]);
 
   useEffect(() => {
     setIsFavorite(stayPageContext?.infoOfStay?.isFavorite ? "red" : "black");
@@ -110,7 +110,7 @@ const ImageSection = () => {
         >
           <Grid
             container
-            spacing={1} // حذف فاصله بین Grid itemها
+            spacing={1} 
             sx={{ height: "100%" }}
           >
             {listImages.slice(1, 5).map((item, index) => (

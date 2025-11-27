@@ -265,7 +265,7 @@ const DesctopFooter = () => {
               <Box
                 component="img"
                 src={logo_with_name_white}
-                alt="Shabinja Logo"
+                alt="شبینجا: اجاره ویلا - اجاره سوئیت"
                 sx={{
                   maxWidth: { xs: 100, md: 120 },
                   width: "auto",
@@ -320,7 +320,7 @@ const DesctopFooter = () => {
                     <Box
                       component="img"
                       src={DownloadImageApi(item?.image?.url)}
-                      alt={item?.title || "Social Media"}
+                      alt={item?.image?.imgAlt || item?.title || "Social Media"}
                       sx={{
                         width: "24px",
                         height: "24px",

@@ -26,7 +26,7 @@ export default function ContentCard({ index, item, isMobile }) {
         <Box
           component="img"
           src={DownloadImageApi(item?.secondImage?.url) }
-          alt="post-img"
+          alt={ item?.secondImage?.imgAlt|| "post-img"}
           sx={{
             borderRadius: 2,
             width: "100%",

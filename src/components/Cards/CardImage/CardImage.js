@@ -10,6 +10,7 @@ import { DownloadImageApi } from "../../../api/DownloadImageApi";
 const CardImage = ({ myData = {} }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+console.log('image alt' , myData);
 
   const handleImageLoad = () => {
     setIsImageLoaded(true);
@@ -59,6 +60,7 @@ const CardImage = ({ myData = {} }) => {
           onLoad={handleImageLoad}
           onError={handleImageError}
           loading="lazy"
+          alt={myData?.fileImgAlt || myData?.file?.imgAlt|| "Image"}
         />
       )}
 

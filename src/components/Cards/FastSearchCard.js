@@ -38,7 +38,7 @@ const FastSearchCard = ({ myData = {} }) => {
             }}
             // `${baseUrl}${myData?.image}`
             image={DownloadImageApi(myData?.image?.url)} // Use the randomly selected image
-            // alt={myData?.title}
+            alt={myData?.image?.imgAlt || myData?.title || 'fast search'}
             // onLoad={handleImageLoad}
             loading="lazy"
             // style={{ display: isImageLoaded ? "block" : "none" }}

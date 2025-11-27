@@ -95,6 +95,7 @@ export default function AdsSection() {
               height="124px"
               className="rounded border shadow"
               src={DownloadImageApi(item?.image?.url)}
+              alt= {item?.image?.imgAlt || "ads"}
               onClick={() => {
                 window.location.href=item?.myAdsUrl
               }}
@@ -121,9 +122,10 @@ export default function AdsSection() {
               <SwiperSlide key={index} >
                 <Box
                   component="img"
-                   width="100%"
+                  width="100%"
                   height="150px"
                   className="rounded border shadow"
+                  alt= {item?.image?.imgAlt || "ads"}
                   src={DownloadImageApi(item?.image?.url)}
                   onClick={() => {
                     window.location.href=item?.myAdsUrl

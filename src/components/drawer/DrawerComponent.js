@@ -155,8 +155,8 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
 
     list = list?.sort((a, b) => a.order - b.order);
     const filteredList = list.map((item) => ({
-      title: item.title,
-      urlTour: item.urlTour,
+      title: item?.title,
+      urlTour: item?.urlTour,
     }));
 
     setListTitleSliders(filteredList);
@@ -179,7 +179,7 @@ const DrawerComponent = ({ mobileOpen, handleDrawerToggle }) => {
           <Box
             component="img"
             src={logo_with_name}
-            alt="Shabinja Logo"
+            alt="شبینجا: اجاره ویلا - اجاره سوئیت"
             sx={{
               maxWidth: 95,
               width: "auto",

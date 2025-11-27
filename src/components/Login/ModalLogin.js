@@ -80,7 +80,7 @@ const ModalLogin = ({ open, handleClose }) => {
           <Box
             component="img"
             src={logo_with_name}
-            alt="Shabinja Logo"
+            alt="شبینجا: اجاره ویلا - اجاره سوئیت"
             sx={{
               maxWidth: 100, // Controls the max width of the image
               width: "auto", // Ensures the width scales proportionally

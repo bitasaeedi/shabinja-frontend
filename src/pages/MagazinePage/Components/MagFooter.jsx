@@ -78,6 +78,7 @@ export default function MagFooter() {
                 <Box
                   component="img"
                   src={logo_with_name}
+                  alt="شبینجا: اجاره ویلا - اجاره سوئیت"
                   sx={{ width: { xs: 150, md: 250 } }}
                 />
 
@@ -110,7 +111,7 @@ export default function MagFooter() {
                         <Box
                           component="img"
                           src={DownloadImageApi(item?.image?.url)}
-                          alt={item?.title || "social"}
+                          alt={item?.image?.imgAlt || item?.title || "social"}
                           sx={{ width: 20, height: 20, objectFit: "contain" }}
                         />
                       </Link>
