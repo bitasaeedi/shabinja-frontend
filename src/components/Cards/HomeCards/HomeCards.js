@@ -17,7 +17,6 @@ const baseUrl = API_URL;
 const HomeCard = ({ myData = {}, changeFavoriteList, showOffer = false }) => {
   const [isLiked, setIsLiked] = useState(false);
   const [favColor, setFavColor] = useState("#ffffff96");
-console.log("my ddd" , myData);
 
   useEffect(() => {
     setFavColor(myData.isFavorite ? "red" : "#ffffff96");

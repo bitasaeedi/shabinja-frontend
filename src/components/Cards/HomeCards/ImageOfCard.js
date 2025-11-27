@@ -6,7 +6,8 @@ import { DownloadImageApi } from "../../../api/DownloadImageApi";
 import { InView } from "react-intersection-observer";
 const ImageOfCard = ({ url, title, myData ,type="stay"}) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
-
+  console.log('t' , type , "myData" , myData);
+  
   const handleImageLoad = () => {
     setIsImageLoaded(true);
   };
@@ -47,7 +48,7 @@ const ImageOfCard = ({ url, title, myData ,type="stay"}) => {
               },
             }}
             image={DownloadImageApi(url)} // Use the randomly selected image
-            alt={myData?.firstImage?.imgAlt || title}
+            alt={ type ==="mag"?myData?.firstImage?.imgAlt :myData?.images?.imgAlt|| title}
             // loading="lazy"
             onLoad={handleImageLoad}
             style={{ display: isImageLoaded ? "block" : "none" }}
