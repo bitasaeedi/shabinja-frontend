@@ -4,13 +4,9 @@ import { Box, Card, CardContent, Skeleton } from "@mui/material";
 const SkeletonCardHouseDetails = (isMapOpen = false) => (
   <Card
     sx={{
-      width: {
-        xs: 320,
-        sm: 360,
-        md: 360,
-        lg: 340,
-        xl: 370,
-      },
+     width:"100%",
+      minWidth: 250, // از این کوچیک‌تر نشه
+      maxWidth: isMapOpen ? {xs:340 , xl:345} : 360, // از این بزرگ‌تر هم نشه
       borderRadius: 3,
       overflow: "hidden",
       direction: "rtl",
