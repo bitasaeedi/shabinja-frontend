@@ -1,7 +1,38 @@
 {
   "files": {
-    "main.css": "/static/css/main.05cc9d8b.css",
-    "main.js": "/static/js/main.440ea8d1.js",
+    "main.css": "/static/css/main.0ad090ea.css",
+    "main.js": "/static/js/main.f06a4fe6.js",
+    "static/css/472.4862fd0b.chunk.css": "/static/css/472.4862fd0b.chunk.css",
+    "static/js/472.68054770.chunk.js": "/static/js/472.68054770.chunk.js",
+    "static/css/847.58e4b8ab.chunk.css": "/static/css/847.58e4b8ab.chunk.css",
+    "static/js/847.0c3ba397.chunk.js": "/static/js/847.0c3ba397.chunk.js",
+    "static/js/577.d4f31e6a.chunk.js": "/static/js/577.d4f31e6a.chunk.js",
+    "static/js/370.07dcd3c3.chunk.js": "/static/js/370.07dcd3c3.chunk.js",
+    "static/css/432.4862fd0b.chunk.css": "/static/css/432.4862fd0b.chunk.css",
+    "static/js/432.bd52a022.chunk.js": "/static/js/432.bd52a022.chunk.js",
+    "static/js/801.0076ce66.chunk.js": "/static/js/801.0076ce66.chunk.js",
+    "static/js/77.3d98e0c7.chunk.js": "/static/js/77.3d98e0c7.chunk.js",
+    "static/js/916.34c92d97.chunk.js": "/static/js/916.34c92d97.chunk.js",
+    "static/js/873.f37fa119.chunk.js": "/static/js/873.f37fa119.chunk.js",
+    "static/js/233.d19220b9.chunk.js": "/static/js/233.d19220b9.chunk.js",
+    "static/js/601.54b7da28.chunk.js": "/static/js/601.54b7da28.chunk.js",
+    "static/css/826.a85b9f3f.chunk.css": "/static/css/826.a85b9f3f.chunk.css",
+    "static/js/826.7617e001.chunk.js": "/static/js/826.7617e001.chunk.js",
+    "static/js/185.f5f52902.chunk.js": "/static/js/185.f5f52902.chunk.js",
+    "static/js/726.e8347388.chunk.js": "/static/js/726.e8347388.chunk.js",
+    "static/js/619.a157b6a8.chunk.js": "/static/js/619.a157b6a8.chunk.js",
+    "static/js/177.dc43637d.chunk.js": "/static/js/177.dc43637d.chunk.js",
+    "static/js/730.c290f9a2.chunk.js": "/static/js/730.c290f9a2.chunk.js",
+    "static/js/333.47688ee5.chunk.js": "/static/js/333.47688ee5.chunk.js",
+    "static/js/632.34813cb1.chunk.js": "/static/js/632.34813cb1.chunk.js",
+    "static/js/182.3fe2101a.chunk.js": "/static/js/182.3fe2101a.chunk.js",
+    "static/js/695.ea79c9f0.chunk.js": "/static/js/695.ea79c9f0.chunk.js",
+    "static/js/50.85c84898.chunk.js": "/static/js/50.85c84898.chunk.js",
+    "static/js/989.5e2a19e5.chunk.js": "/static/js/989.5e2a19e5.chunk.js",
+    "static/js/957.c20340fb.chunk.js": "/static/js/957.c20340fb.chunk.js",
+    "static/js/277.43404ae0.chunk.js": "/static/js/277.43404ae0.chunk.js",
+    "static/js/451.fd7a1557.chunk.js": "/static/js/451.fd7a1557.chunk.js",
+    "static/js/325.7dcc650c.chunk.js": "/static/js/325.7dcc650c.chunk.js",
     "static/media/Lost in Travel Scenery 404.png": "/static/media/Lost in Travel Scenery 404.71326363002c66f2c477.png",
     "static/media/hero-bg.jpg": "/static/media/hero-bg.64748224ff3f7bd08b67.jpg",
     "static/media/summer-trip.gif": "/static/media/summer-trip.6da7ad20dfbeb759fad6.gif",
@@ -66,7 +97,7 @@
     "static/media/slick.woff": "/static/media/slick.295183786cd8a1389865.woff"
   },
   "entrypoints": [
-    "static/css/main.05cc9d8b.css",
-    "static/js/main.440ea8d1.js"
+    "static/css/main.0ad090ea.css",
+    "static/js/main.f06a4fe6.js"
   ]
 }

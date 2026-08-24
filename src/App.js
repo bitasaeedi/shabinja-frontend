@@ -3,7 +3,7 @@ import rtlPlugin from "stylis-plugin-rtl";
 import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
 import Home from "./pages/Home/Home";
-import { createContext, useEffect, useState } from "react";
+import { createContext, lazy, Suspense, useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Route,
@@ -13,30 +13,59 @@ import {
 import Header from "./layout/header/Header";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layout/footer/Footer";
-import SearchPage from "./pages/SearchPage/SearchPage";
-import StayPage from "./pages/StayPage/StayPage";
-import AccountPage from "./pages/AccountPage/AccountPage";
-import PannelPage from "./pages/Pannel/PannelPage";
-import NewStaysPage from "./pages/NewStaysPage/NewStaysPage";
-import EditCalendarPage from "./pages/EditCalendarPage/EditCalendarPage";
 import { UserSearchOneApi } from "./api/Users.api";
-import AboutUs from "./pages/AboutUs/AboutUs";
-import QuestionsPage from "./pages/QuestionsPage/QuestionsPage";
-import ContactPage from "./pages/ContactPage/ContactPage";
-import RulesPage from "./pages/RulesPage/RulesPage";
-import MagazinePage from "./pages/MagazinePage/MagazinePage";
 import { FavoritDestinationApi } from "./api/toureApis";
 import ModalLogin from "./components/Login/ModalLogin";
 import { GoftinoSnippet } from "@mohsen007/react-goftino";
-import { useMediaQuery } from "@mui/material";
-import ReservationStay from "./pages/ReservationStay/ReservationStay";
+import { useMediaQuery, Box, CircularProgress } from "@mui/material";
 
 import { createSignalRContext } from "react-signalr/signalr";
 import axios from "axios";
 import API_URL from "./config/apiConfig";
-import Survey from "./pages/Survey/Survey";
-import Loan from "./pages/Loan/Loan";
-import NotFound from "./pages/NotFound/NotFound";
+
+// PERF: only Home (the landing page) is imported eagerly, since it's what
+// almost every visitor sees first. Every other route used to be a static
+// import at the top of this file — meaning a visitor landing on "/" was
+// downloading the JS for the host dashboard (Pannel), the map-based
+// calendar editor (EditCalendarPage, pulls in all of Leaflet), the new-stay
+// wizard, and every other page before they could even see the homepage.
+// React.lazy() + <Suspense> below means each route's code (and its heavy
+// dependencies - Leaflet, Swiper, SweetAlert2, the date picker, etc.) is
+// only fetched when someone actually navigates to that route.
+const SearchPage = lazy(() => import("./pages/SearchPage/SearchPage"));
+const StayPage = lazy(() => import("./pages/StayPage/StayPage"));
+const AccountPage = lazy(() => import("./pages/AccountPage/AccountPage"));
+const PannelPage = lazy(() => import("./pages/Pannel/PannelPage"));
+const NewStaysPage = lazy(() => import("./pages/NewStaysPage/NewStaysPage"));
+const EditCalendarPage = lazy(() =>
+  import("./pages/EditCalendarPage/EditCalendarPage")
+);
+const AboutUs = lazy(() => import("./pages/AboutUs/AboutUs"));
+const QuestionsPage = lazy(() => import("./pages/QuestionsPage/QuestionsPage"));
+const ContactPage = lazy(() => import("./pages/ContactPage/ContactPage"));
+const RulesPage = lazy(() => import("./pages/RulesPage/RulesPage"));
+const MagazinePage = lazy(() => import("./pages/MagazinePage/MagazinePage"));
+const ReservationStay = lazy(() =>
+  import("./pages/ReservationStay/ReservationStay")
+);
+const Survey = lazy(() => import("./pages/Survey/Survey"));
+const Loan = lazy(() => import("./pages/Loan/Loan"));
+const NotFound = lazy(() => import("./pages/NotFound/NotFound"));
+
+// Small, dependency-free fallback so the Suspense boundary itself doesn't
+// pull in anything extra while a lazy chunk is loading.
+const RouteFallback = () => (
+  <Box
+    sx={{
+      minHeight: "60vh",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+    }}
+  >
+    <CircularProgress />
+  </Box>
+);
 
 const GOFTINO_KEY = "FnQe1u";
 
@@ -247,32 +276,34 @@ function App() {
               <Router>
                 <ScrollToTop />
                 <Header />
-                <Routes>
-                  <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
-                  <Route path="/stay/:staycode" element={<StayPage />} />
-                  <Route path="/about" element={<AboutUs />} />
-                  <Route path="/help" element={<QuestionsPage />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/rules" element={<RulesPage />} />
-                  <Route path="/search/:searchtype" element={<SearchPage />} />
-                  <Route path="/mag/:id?" element={<MagazinePage />} />
-                  <Route path="/account/:section/*" element={<AccountPage />} />
-                  <Route path="/pannel/:section" element={<PannelPage />} />
-                  <Route path="/survey/:code" element={<Survey />} />
-                  <Route path="/new-stay/:step" element={<NewStaysPage />} />
-                  <Route path="/loan" element={<Loan />} />
-                  <Route
-                    path="/book/:stepName/:code"
-                    element={<ReservationStay />}
-                  />
-                  <Route
-                    path="/edit-calendar/:staycode"
-                    element={<EditCalendarPage />}
-                  />
-                  <Route path="/404" element={<NotFound />} />
-                  <Route path="*" element={<NotFound />} />
-                  {/* <Route path="*" element={<Home />} /> */}
-                </Routes>
+                <Suspense fallback={<RouteFallback />}>
+                  <Routes>
+                    <Route path="/" element={<Home />} /> {/* صفحه اصلی */}
+                    <Route path="/stay/:staycode" element={<StayPage />} />
+                    <Route path="/about" element={<AboutUs />} />
+                    <Route path="/help" element={<QuestionsPage />} />
+                    <Route path="/contact" element={<ContactPage />} />
+                    <Route path="/rules" element={<RulesPage />} />
+                    <Route path="/search/:searchtype" element={<SearchPage />} />
+                    <Route path="/mag/:id?" element={<MagazinePage />} />
+                    <Route path="/account/:section/*" element={<AccountPage />} />
+                    <Route path="/pannel/:section" element={<PannelPage />} />
+                    <Route path="/survey/:code" element={<Survey />} />
+                    <Route path="/new-stay/:step" element={<NewStaysPage />} />
+                    <Route path="/loan" element={<Loan />} />
+                    <Route
+                      path="/book/:stepName/:code"
+                      element={<ReservationStay />}
+                    />
+                    <Route
+                      path="/edit-calendar/:staycode"
+                      element={<EditCalendarPage />}
+                    />
+                    <Route path="/404" element={<NotFound />} />
+                    <Route path="*" element={<NotFound />} />
+                    {/* <Route path="*" element={<Home />} /> */}
+                  </Routes>
+                </Suspense>
                 <Footer />
                 {openModalLogin && (
                   <ModalLogin

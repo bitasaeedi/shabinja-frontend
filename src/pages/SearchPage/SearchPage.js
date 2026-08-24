@@ -99,6 +99,10 @@ const SearchPage = () => {
   const [currentPage, setCurrentPage] = useState(0); // شماره pagination
   const appContext = useContext(AppContext);
   const [listLocation, setListLocation] = useState([]);
+  // PERF FIX: guards against a slow, older request resolving *after* a
+  // newer one and overwriting fresher results on screen (a real race
+  // condition risk once several filter changes fire in quick succession).
+  const latestRequestId = useRef(0);
 
   useEffect(() => {
     appContext.setShowfooter(true);
@@ -109,7 +113,17 @@ const SearchPage = () => {
   }, []);
 
   useEffect(() => {
-    handleSearch();
+    // PERF FIX: this effect re-runs on every filter change, page change, or
+    // map polygon edit — and used to call handleSearch() immediately every
+    // time. If someone toggles 2-3 filters quickly (price, rooms, rating),
+    // that fired 2-3 full API requests instead of one. A short debounce
+    // collapses rapid successive changes into a single request; the cleanup
+    // function cancels the pending call if another change arrives first.
+    const timeoutId = setTimeout(() => {
+      handleSearch();
+    }, 400);
+    return () => clearTimeout(timeoutId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchtype, searchParams.toString(), currentPage, listLocation]);
 
   //     window.scroll(0, 0);
@@ -121,6 +135,7 @@ const SearchPage = () => {
 
   // Function to perform the search
   const handleSearch = async () => {
+    const thisRequestId = ++latestRequestId.current;
     setLoadingSearch(true);
 
     const filters = handleFindeParams(); // Get the parsed params
@@ -150,6 +165,13 @@ const SearchPage = () => {
     };
     console.log("filter: ", filtersParams);
     const result = await HostTourSearchApi(filtersParams);
+
+    // If a newer search started while this one was in flight, drop this
+    // (now-stale) response instead of letting it overwrite fresher results.
+    if (thisRequestId !== latestRequestId.current) {
+      return;
+    }
+
     setListCards(result?.data?.items);
 
     setResultSearchTours(result?.data);

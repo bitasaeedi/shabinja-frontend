@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkshabinja_front=self.webpackChunkshabinja_front||[]).push([[847],{1227:(s,a,e)=>{e.d(a,{A:()=>c});var h=e(5471),n=e(4414);const c=(0,h.A)((0,n.jsx)("path",{d:"M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m-2 15-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8z"}),"CheckCircle")}}]);

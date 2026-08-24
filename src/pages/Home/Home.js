@@ -9,7 +9,6 @@ import { InView } from "react-intersection-observer";
 import InViewComponents from "../../components/InViewComponents/InViewComponents";
 import {
   CategoryHostApi,
-  FavoritDestinationApi,
   getBlogList,
   HostTourSearchApi,
 } from "../../api/toureApis";
@@ -124,12 +123,10 @@ const Home = () => {
     setLastMinuteKey((prev) => prev + 1);
   }, [selectedCity2]);
 
-  // مقاصد محبوب
-  const getListData = async (dataToFilter) => {
-    const resultGetFavorit = await FavoritDestinationApi(dataToFilter);
-    var list = resultGetFavorit?.data;
-    return list;
-  };
+  // مقاصد محبوب: قبلاً اینجا با FavoritDestinationApi جدا fetch می‌شد؛ الان
+  // مستقیم از appContext.favoritDestination خونده می‌شه (که App.js همین
+  // لیست رو یک‌بار در سطح ریشه fetch می‌کنه) تا درخواست تکراری به API
+  // حذف بشه — به کامنت بالای بخش «مقاصد محبوب» در JSX زیر نگاه کنید.
 
   const getListFastSearch = async () => {
     const resultGetFavorit = await CategoryHostApi();
@@ -257,29 +254,40 @@ const Home = () => {
         <Box className="px-0 mx-0">
           {/* title={"مقاصد محبوب"} */}
           <Box className=" " sx={{ marginTop: { xs: 2, md: 12 } }}>
-            <InViewComponents getListData={() => getListData({})}>
-              <SwipperSliderPublick
-                deafultSkeleton={"favorit"}
-                title={"مقاصد محبوب"}
-                breakpoints={{
-                  0: { slidesPerView: 2.3, spaceBetween: 8 },
-                  340: { slidesPerView: 2.4, spaceBetween: 5 },
-                  370: { slidesPerView: 2.6, spaceBetween: 5 },
-                  400: { slidesPerView: 2.8, spaceBetween: 5 },
-                  440: { slidesPerView: 3.2, spaceBetween: 5 },
-                  520: { slidesPerView: 3.6, spaceBetween: 5 },
-                  600: { slidesPerView: 3.9, spaceBetween: 10 },
-                  700: { slidesPerView: 4.4, spaceBetween: 10 },
-                  810: { slidesPerView: 5.1, spaceBetween: 10 },
-                  900: { slidesPerView: 4.9, spaceBetween: 10 },
-                  1024: { slidesPerView: 5.45, spaceBetween: 10 },
-                  1300: { slidesPerView: 5.6, spaceBetween: 10 },
-                  1450: { slidesPerView: 5.8, spaceBetween: 20 },
-                }}
-              >
-                <FavoritCitiesCard />
-              </SwipperSliderPublick>
-            </InViewComponents>
+            {/*
+              PERF FIX: this used to be wrapped in <InViewComponents
+              getListData={() => getListData({})}>, which called
+              FavoritDestinationApi({}) itself. The AppContext provider in
+              App.js *already* fetches this exact same unfiltered
+              destination list on every app load (it's used by the header's
+              city picker) — so every homepage visit was firing that request
+              twice. Reading it straight from context removes the duplicate
+              call entirely; SwipperSliderPublick already knows how to show
+              its skeleton while `loading` is true.
+            */}
+            <SwipperSliderPublick
+              deafultSkeleton={"favorit"}
+              title={"مقاصد محبوب"}
+              loading={!appContext?.favoritDestination?.length}
+              lists={appContext?.favoritDestination || []}
+              breakpoints={{
+                0: { slidesPerView: 2.3, spaceBetween: 8 },
+                340: { slidesPerView: 2.4, spaceBetween: 5 },
+                370: { slidesPerView: 2.6, spaceBetween: 5 },
+                400: { slidesPerView: 2.8, spaceBetween: 5 },
+                440: { slidesPerView: 3.2, spaceBetween: 5 },
+                520: { slidesPerView: 3.6, spaceBetween: 5 },
+                600: { slidesPerView: 3.9, spaceBetween: 10 },
+                700: { slidesPerView: 4.4, spaceBetween: 10 },
+                810: { slidesPerView: 5.1, spaceBetween: 10 },
+                900: { slidesPerView: 4.9, spaceBetween: 10 },
+                1024: { slidesPerView: 5.45, spaceBetween: 10 },
+                1300: { slidesPerView: 5.6, spaceBetween: 10 },
+                1450: { slidesPerView: 5.8, spaceBetween: 20 },
+              }}
+            >
+              <FavoritCitiesCard />
+            </SwipperSliderPublick>
           </Box>
           {/* ================================================== */}
 
